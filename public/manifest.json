@@ -8,6 +8,7 @@
       "sizes": "200x200"
     }
   ],
+  "iconPath": "sablier.png",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
