@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Sablier from "./apps/Sablier";
+import App from "./App";
 import GlobalStyles from "./global";
 
 import * as serviceWorker from "./serviceWorker";
@@ -9,7 +9,7 @@ import * as serviceWorker from "./serviceWorker";
 ReactDOM.render(
   <>
     <GlobalStyles />
-    <Sablier />
+    <App />
   </>,
   document.getElementById("root"),
 );

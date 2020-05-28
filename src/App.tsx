@@ -7,12 +7,12 @@ import styled, { ThemeProvider } from "styled-components";
 import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import initSdk, { SafeInfo } from "@gnosis.pm/safe-apps-sdk";
 
-import WidgetWrapper from "./WidgetWrapper";
-import { web3Provider, getTokenList, TokenItem } from "./config";
-import { SelectContainer, ButtonContainer } from "./components";
-import theme from "./customTheme";
+import WidgetWrapper from "./components/WidgetWrapper";
+import { web3Provider, getTokenList, TokenItem } from "./config/config";
+import { SelectContainer, ButtonContainer } from "./components/components";
+import theme from "./theme/customTheme";
 
-import getStreams from "./streams";
+import getStreams from "./utils/streams";
 
 import ERC20Abi from "./abis/erc20";
 import sablierAbi from "./abis/sablier";
