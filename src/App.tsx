@@ -107,7 +107,7 @@ const SablierWidget = () => {
         return;
       }
 
-      const streams = await getStreams(safeInfo.network, "0x7ee114c3628ca90119fc699f03665bf9db8f5faf");
+      const streams = await getStreams(safeInfo.network, safeInfo.safeAddress);
       setOutgoingStreams(streams);
     };
 
