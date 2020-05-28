@@ -7,6 +7,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import initSdk, { SafeInfo } from "@gnosis.pm/safe-apps-sdk";
 
+import { Stream } from "./typings/types";
 import WidgetWrapper from "./components/WidgetWrapper";
 import { web3Provider, getTokenList, TokenItem } from "./config/config";
 import { SelectContainer, ButtonContainer } from "./components/components";
@@ -321,7 +322,7 @@ const SablierWidget = () => {
           </Button>
         </ButtonContainer>
 
-        {outgoingStreams.map((stream: any) => (
+        {outgoingStreams.map((stream: Stream) => (
           <StreamDisplay key={stream.id} stream={stream} />
         ))}
       </WidgetWrapper>
@@ -329,7 +330,7 @@ const SablierWidget = () => {
   );
 };
 
-const StreamDisplay = ({ stream }: { stream: any }) => {
+const StreamDisplay = ({ stream }: { stream: Stream }) => {
   const humanStartTime = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
   const humanStopTime = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
   return (
