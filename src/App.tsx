@@ -13,9 +13,9 @@ import { SelectContainer, ButtonContainer } from "./components/components";
 import theme from "./theme/customTheme";
 
 import getStreams from "./utils/streams";
+import createStreamTxs from "./transactions/createStream";
 
 import ERC20Abi from "./abis/erc20";
-import sablierAbi from "./abis/sablier";
 
 const web3: any = new Web3(web3Provider);
 
@@ -31,43 +31,6 @@ const integerOptions = (max: number) =>
 const daysOption = integerOptions(366);
 const hoursOption = integerOptions(24);
 const minutesOption = integerOptions(60);
-
-const createStreamTxs = (
-  recipient: string,
-  deposit: string,
-  tokenInstance: any,
-  startTime: string,
-  stopTime: string,
-): Array<object> => {
-  const sablierContract = new web3.eth.Contract(sablierAbi, "SABLIER ADDRESS");
-  const txs = [
-    {
-      to: tokenInstance.options.address,
-      value: 0,
-      data: tokenInstance.methods.approve(sablierContract.address, deposit).encodeABI(),
-    },
-    {
-      to: sablierContract.options.address,
-      value: 0,
-      data: sablierContract.methods.createStream(recipient, deposit, tokenInstance, startTime, stopTime).encodeABI(),
-    },
-  ];
-
-  return txs;
-};
-
-// const cancelStreamTxs = (streamId: string): Array<object> => {
-//   const sablierContract = new web3.eth.Contract(sablierAbi, "SABLIER ADDRESS");
-//   const txs = [
-//     {
-//       to: sablierContract.options.address,
-//       value: 0,
-//       data: sablierContract.methods.cancelStream(streamId).encodeABI(),
-//     },
-//   ];
-
-//   return txs;
-// };
 
 const SablierWidget = () => {
   const [safeInfo, setSafeInfo] = useState<SafeInfo>();
@@ -219,7 +182,7 @@ const SablierWidget = () => {
   };
 
   const createStream = (): void => {
-    if (!selectedToken || !validateAmountValue() || !validateStreamLength()) {
+    if (!safeInfo || !selectedToken || !validateAmountValue() || !validateStreamLength()) {
       return;
     }
 
@@ -233,7 +196,14 @@ const SablierWidget = () => {
       minutes: parseInt(minutes, 10),
     });
 
-    const txs = createStreamTxs(recipient, streamAmount, tokenInstance, startTime.format("X"), stopTime.format("X"));
+    const txs = createStreamTxs(
+      safeInfo.network,
+      recipient,
+      streamAmount,
+      tokenInstance,
+      startTime.format("X"),
+      stopTime.format("X"),
+    );
     appsSdk.sendTransactions(txs);
 
     setStreamAmount("");
