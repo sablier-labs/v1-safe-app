@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Big from "big.js";
-// import { BigNumberInput } from "big-number-input";
+import { BigNumberInput } from "big-number-input";
 import Web3 from "web3";
 import styled, { ThemeProvider } from "styled-components";
 import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
@@ -259,10 +259,10 @@ const SablierWidget = () => {
     setSelectedToken(newSelectedToken);
   };
 
-  // const onAmountChange = (value: string) => {
-  //   setAmountError(undefined);
-  //   setStreamAmount(value);
-  // };
+  const onAmountChange = (value: string) => {
+    setAmountError(undefined);
+    setStreamAmount(value);
+  };
 
   const onStreamLengthChange = (value: string, unit: "days" | "hours" | "minutes") => {
     setStreamLengthError(undefined);
@@ -297,12 +297,14 @@ const SablierWidget = () => {
 
         <Title size="xs">How much do you want to stream in total?</Title>
 
-        {/* <BigNumberInput
+        <BigNumberInput
           decimals={selectedToken.decimals}
           onChange={onAmountChange}
           value={streamAmount}
-          renderInput={(props: any) => <TextField label="Amount" meta={{ error: amountError }} {...props} />}
-        /> */}
+          renderInput={(props: any) => (
+            <TextField label="Amount" value={props.value} onChange={props.onChange} meta={{ error: amountError }} />
+          )}
+        />
 
         <Title size="xs">Who would you like to stream to?</Title>
 
