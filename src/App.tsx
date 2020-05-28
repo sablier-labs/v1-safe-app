@@ -191,7 +191,7 @@ const SablierWidget = () => {
     const startTime = moment()
       .startOf("second")
       .add({ hours: 1 });
-    const stopTime = startTime.add({
+    const stopTime = startTime.clone().add({
       days: parseInt(days, 10),
       hours: parseInt(hours, 10),
       minutes: parseInt(minutes, 10),
