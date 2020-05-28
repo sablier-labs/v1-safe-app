@@ -15,7 +15,6 @@ export type TokenItem = {
   iconUrl: string;
   decimals: number;
   tokenAddr: string;
-  cTokenAddr: string;
 };
 
 export const web3Provider = process.env.REACT_APP_WEB3_PROVIDER_URL || "";
@@ -33,7 +32,6 @@ export const getTokenList = (network: Networks): Array<TokenItem> => {
       iconUrl: daiIcon,
       decimals: 18,
       tokenAddr: tokensByNetwork.DAI,
-      cTokenAddr: tokensByNetwork.cDAI,
     },
     {
       id: "BAT",
@@ -41,7 +39,6 @@ export const getTokenList = (network: Networks): Array<TokenItem> => {
       iconUrl: batIcon,
       decimals: 18,
       tokenAddr: tokensByNetwork.BAT,
-      cTokenAddr: tokensByNetwork.cBAT,
     },
     {
       id: "ETH",
@@ -49,7 +46,6 @@ export const getTokenList = (network: Networks): Array<TokenItem> => {
       iconUrl: ethIcon,
       decimals: 18,
       tokenAddr: tokensByNetwork.ETH,
-      cTokenAddr: tokensByNetwork.cETH,
     },
     {
       id: "REP",
@@ -57,7 +53,6 @@ export const getTokenList = (network: Networks): Array<TokenItem> => {
       iconUrl: repIcon,
       decimals: 18,
       tokenAddr: tokensByNetwork.REP,
-      cTokenAddr: tokensByNetwork.cREP,
     },
     {
       id: "USDC",
@@ -65,7 +60,6 @@ export const getTokenList = (network: Networks): Array<TokenItem> => {
       iconUrl: usdcIcon,
       decimals: 6,
       tokenAddr: tokensByNetwork.USDC,
-      cTokenAddr: tokensByNetwork.cUSDC,
     },
     {
       id: "WBTC",
@@ -73,7 +67,6 @@ export const getTokenList = (network: Networks): Array<TokenItem> => {
       iconUrl: wbtcIcon,
       decimals: 8,
       tokenAddr: tokensByNetwork.WBTC,
-      cTokenAddr: tokensByNetwork.cWBTC,
     },
     {
       id: "ZRX",
@@ -81,7 +74,6 @@ export const getTokenList = (network: Networks): Array<TokenItem> => {
       iconUrl: zrxIcon,
       decimals: 18,
       tokenAddr: tokensByNetwork.ZRX,
-      cTokenAddr: tokensByNetwork.cZRX,
     },
   ];
 };
