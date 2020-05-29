@@ -71,6 +71,7 @@
   },
   "license": "MIT",
   "scripts": {
+    "commit": "git-cz",
     "build": "react-scripts build",
     "clean": "shx rm -rf ./build",
     "eject": "react-scripts eject",
@@ -79,5 +80,10 @@
     "prettier": "prettier --config .prettierrc --write '**/*.{js,json,jsx,md,ts,tsx}'",
     "prettier:list-different": "prettier --config .prettierrc --list-different '**/*.{js,json,jsx,md,ts,tsx}'",
     "start": "react-scripts start"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

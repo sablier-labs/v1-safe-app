@@ -108,7 +108,7 @@ const SablierWidget = () => {
 
   useEffect(() => {
     const loadOutgoingStreams = async () => {
-      if (!safeInfo || !safeInfo.network || !safeInfo?.safeAddress) {
+      if (!safeInfo || !safeInfo.network || !safeInfo.safeAddress) {
         return;
       }
 
@@ -172,7 +172,9 @@ const SablierWidget = () => {
     const comparisonValueBN = new Big(tokenBalance);
 
     if (currentValueBN.gt(comparisonValueBN)) {
-      setAmountError(`Max value is ${bNumberToHumanFormat(tokenBalance)}`);
+      setAmountError(
+        `You only have ${bNumberToHumanFormat(tokenBalance)} ${selectedToken && selectedToken.label} in your Safe`,
+      );
       return false;
     }
 
@@ -180,7 +182,7 @@ const SablierWidget = () => {
   };
 
   const validateStreamLength = (): boolean => {
-    if (days !== "0" && hours !== "0" && minutes !== "0") {
+    if (days === "0" && hours === "0" && minutes === "0") {
       setStreamLengthError("Please set a stream length");
       return false;
     }
