@@ -32,6 +32,7 @@
     "@types/big.js": "^4.0.5",
     "@types/styled-components": "^5.1.0",
     "apollo-boost": "^0.4.9",
+    "apollo-client": "^2.6.10",
     "big-number-input": "^1.0.2",
     "big.js": "^5.2.2",
     "graphql": "^15.0.0",
@@ -39,7 +40,8 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "styled-components": "^5.1.1",
-    "web3": "^1.2.8"
+    "web3": "^1.2.8",
+    "web3-eth-contract": "^1.2.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",

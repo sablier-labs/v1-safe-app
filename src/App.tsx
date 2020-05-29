@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Big from "big.js";
-import moment from "moment";
-import initSdk, { SafeInfo } from "@gnosis.pm/safe-apps-sdk";
+import moment, { Moment } from "moment";
+import initSdk, { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import styled, { ThemeProvider } from "styled-components";
 import Web3 from "web3";
 
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
+import { Contract } from "web3-eth-contract";
 import { SelectContainer, ButtonContainer } from "./components";
 import { Stream } from "./typings/types";
 import { web3Provider, getTokenList, TokenItem } from "./config/config";
@@ -23,14 +24,19 @@ const StyledTitle = styled(Title)`
   margin-top: 0px;
 `;
 
-const integerOptions = (max: number) =>
-  Array.from(Array(max).keys()).map((index: number) => {
+type IntegerOption = {
+  id: string;
+  label: string;
+};
+const integerOptions = (max: number): IntegerOption[] => {
+  return Array.from(Array(max).keys()).map((index: number) => {
     return { id: index.toString(), label: index.toString() };
   });
+};
 
-const daysOption = integerOptions(366);
-const hoursOption = integerOptions(24);
-const minutesOption = integerOptions(60);
+const daysOption: IntegerOption[] = integerOptions(366);
+const hoursOption: IntegerOption[] = integerOptions(24);
+const minutesOption: IntegerOption[] = integerOptions(60);
 
 const SablierWidget = () => {
   const [safeInfo, setSafeInfo] = useState<SafeInfo>();
@@ -39,7 +45,7 @@ const SablierWidget = () => {
   const [recipient, setRecipient] = useState<string>("");
 
   const [selectedToken, setSelectedToken] = useState<TokenItem>();
-  const [tokenInstance, setTokenInstance] = useState<any>();
+  const [tokenInstance, setTokenInstance] = useState<Contract>();
 
   const [tokenBalance, setTokenBalance] = useState<string>("0");
 
@@ -51,14 +57,14 @@ const SablierWidget = () => {
   const [streamAmount, setStreamAmount] = useState<string>("");
   const [amountError, setAmountError] = useState<string | undefined>();
 
-  const [outgoingStreams, setOutgoingStreams] = useState<Array<any>>([]);
+  const [outgoingStreams, setOutgoingStreams] = useState<Array<Stream>>([]);
 
-  const safeMultisigUrl = [];
+  const safeMultisigUrl: RegExp[] = [];
   if (process.env.REACT_APP_LOCAL_SAFE_APP_URL) {
     safeMultisigUrl.push(/http:\/\/localhost:3000/);
   }
 
-  const [appsSdk] = useState(initSdk(safeMultisigUrl));
+  const [appsSdk] = useState<SdkInstance>(initSdk(safeMultisigUrl));
 
   /* For development purposes with local provider */
   useEffect(() => {
@@ -92,11 +98,11 @@ const SablierWidget = () => {
       return;
     }
 
-    const tokenListRes = getTokenList(safeInfo.network);
+    const tokenListRes: Array<TokenItem> = getTokenList(safeInfo.network);
 
     setTokenList(tokenListRes);
 
-    const findDaiRes = tokenListRes.find(t => t.id === "DAI");
+    const findDaiRes: TokenItem | undefined = tokenListRes.find(t => t.id === "DAI");
     setSelectedToken(findDaiRes);
   }, [safeInfo]);
 
@@ -106,7 +112,7 @@ const SablierWidget = () => {
         return;
       }
 
-      const streams = await getStreams(safeInfo.network, safeInfo.safeAddress);
+      const streams: Stream[] = await getStreams(safeInfo.network, safeInfo.safeAddress);
       setOutgoingStreams(streams);
     };
 
@@ -133,12 +139,12 @@ const SablierWidget = () => {
       }
 
       /* Wait until token is correctly updated */
-      if (selectedToken.tokenAddr.toLocaleLowerCase() !== tokenInstance?._address.toLocaleLowerCase()) {
+      if (selectedToken.tokenAddr.toLocaleLowerCase() !== tokenInstance?.options.address.toLocaleLowerCase()) {
         return;
       }
 
-      // get token Balance
-      let newTokenBalance;
+      /* Get token Balance */
+      let newTokenBalance: string;
       if (selectedToken.id === "ETH") {
         newTokenBalance = new Big(safeInfo.ethBalance).times(10 ** 18).toString();
       } else {
@@ -187,16 +193,16 @@ const SablierWidget = () => {
     }
 
     /* TODO: Stream initiation must be approved by other owners within an hour */
-    const startTime = moment()
+    const startTime: Moment = moment()
       .startOf("second")
       .add({ hours: 1 });
-    const stopTime = startTime.clone().add({
+    const stopTime: Moment = startTime.clone().add({
       days: parseInt(days, 10),
       hours: parseInt(hours, 10),
       minutes: parseInt(minutes, 10),
     });
 
-    const txs = createStreamTxs(
+    const txs: Array<object> = createStreamTxs(
       safeInfo.network,
       recipient,
       streamAmount,
@@ -330,8 +336,8 @@ const SablierWidget = () => {
 };
 
 const StreamDisplay = ({ stream }: { stream: Stream }) => {
-  const humanStartTime = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
-  const humanStopTime = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
+  const humanStartTime: string = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
+  const humanStopTime: string = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
   return (
     <Text strong size="lg">
       {" "}

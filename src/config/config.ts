@@ -17,10 +17,10 @@ export type TokenItem = {
   tokenAddr: string;
 };
 
-export const web3Provider = process.env.REACT_APP_WEB3_PROVIDER_URL || "";
+export const web3Provider: string = process.env.REACT_APP_WEB3_PROVIDER_URL || "";
 
 export const getTokenList = (network: Networks): Array<TokenItem> => {
-  const tokensByNetwork = tokens[network];
+  const tokensByNetwork: { [name: string]: string } = tokens[network];
   if (!tokensByNetwork) {
     throw Error(`No token configuration for ${network}`);
   }
