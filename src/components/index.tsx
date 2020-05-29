@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
 export const SelectContainer = styled.div`
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: left;
-
   margin-bottom: 15px;
 
   *:first-child {
