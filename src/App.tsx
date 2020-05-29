@@ -167,7 +167,9 @@ const SablierWidget = () => {
     const comparisonValueBN = new Big(tokenBalance);
 
     if (currentValueBN.gt(comparisonValueBN)) {
-      setAmountError(`Max value is ${bNumberToHumanFormat(tokenBalance)}`);
+      setAmountError(
+        `You only have ${bNumberToHumanFormat(tokenBalance)} ${selectedToken && selectedToken.label} in your Safe`,
+      );
       return false;
     }
 
