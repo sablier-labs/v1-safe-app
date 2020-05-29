@@ -177,7 +177,7 @@ const SablierWidget = () => {
   };
 
   const validateStreamLength = (): boolean => {
-    if (days !== "0" && hours !== "0" && minutes !== "0") {
+    if (days === "0" && hours === "0" && minutes === "0") {
       setStreamLengthError("Please set a stream length");
       return false;
     }
