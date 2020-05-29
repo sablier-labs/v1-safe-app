@@ -269,7 +269,11 @@ const SablierWidget = () => {
 
         <Title size="xs">For how long should the money be streamed?</Title>
 
-        <StreamLengthInput streamLength={streamLength} onStreamLengthChange={onStreamLengthChange} />
+        <StreamLengthInput
+          streamLength={streamLength}
+          onStreamLengthChange={onStreamLengthChange}
+          error={streamLengthError}
+        />
 
         <ButtonContainer>
           <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>

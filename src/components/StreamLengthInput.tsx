@@ -27,12 +27,17 @@ export type StreamLength = {
 const StreamLengthInput = ({
   streamLength,
   onStreamLengthChange,
+  error,
 }: {
   streamLength: StreamLength;
   onStreamLengthChange: Function;
+  error?: string;
 }) => {
   return (
     <>
+      <Text size="md" color="error">
+        {error}
+      </Text>
       <SelectContainer>
         <Select
           items={daysOption}
