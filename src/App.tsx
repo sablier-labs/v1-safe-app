@@ -103,7 +103,7 @@ const SablierWidget = () => {
 
   useEffect(() => {
     const loadOutgoingStreams = async () => {
-      if (!safeInfo || !safeInfo.network || !safeInfo?.safeAddress) {
+      if (!safeInfo || !safeInfo.network || !safeInfo.safeAddress) {
         return;
       }
 
