@@ -15,7 +15,7 @@ import ERC20Abi from "./abis/erc20";
 import WidgetWrapper from "./components/WidgetWrapper";
 import createStreamTxs from "./transactions/createStream";
 import getStreams from "./utils/streams";
-import theme from "./theme/customTheme";
+import theme from "./theme";
 
 const web3: any = new Web3(web3Provider);
 
@@ -188,7 +188,7 @@ const SablierWidget = () => {
       return;
     }
 
-    //*TODO: Stream initiation must be approved by other owners within an hour */
+    /* TODO: Stream initiation must be approved by other owners within an hour */
     const startTime = moment()
       .startOf("second")
       .add({ hours: 1 });
