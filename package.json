@@ -21,13 +21,25 @@
     },
     {
       "name": "Tom French",
-      "url": "https://github.com/paulrberg"
+      "url": "https://github.com/tomafrench"
     }
   ],
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
     "@gnosis.pm/safe-apps-sdk": "^0.1.1",
+    "@gnosis.pm/safe-react-components": "https://github.com/gnosis/safe-react-components.git#71e6fed",
+    "@material-ui/core": "^4.10.0",
+    "@types/big.js": "^4.0.5",
+    "@types/styled-components": "^5.1.0",
+    "apollo-boost": "^0.4.9",
+    "big-number-input": "^1.0.2",
+    "big.js": "^5.2.2",
+    "graphql": "^15.0.0",
+    "moment": "^2.26.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.1",
+    "web3": "^1.2.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -47,7 +59,7 @@
     "shx": "^0.3.2",
     "typescript": "3.7.3"
   },
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "build": "react-scripts build",
     "clean": "shx rm -rf ./build",
