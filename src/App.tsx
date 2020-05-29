@@ -177,7 +177,10 @@ const SablierWidget = () => {
   };
 
   const createStream = (): void => {
-    if (!safeInfo || !selectedToken || !validateAmountValue() || !validateStreamLength()) {
+    // We call in this way to ensure all errors are displayed to user
+    const amountValid = validateAmountValue();
+    const lengthValid = validateStreamLength();
+    if (!safeInfo || !selectedToken || !amountValid || !lengthValid) {
       return;
     }
 
