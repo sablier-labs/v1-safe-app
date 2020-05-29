@@ -59,7 +59,7 @@
     "shx": "^0.3.2",
     "typescript": "3.7.3"
   },
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "build": "react-scripts build",
     "clean": "shx rm -rf ./build",
