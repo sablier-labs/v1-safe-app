@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 import Big from "big.js";
-import { BigNumberInput } from "big-number-input";
-import Web3 from "web3";
-import styled, { ThemeProvider } from "styled-components";
-import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
+import moment from "moment";
 import initSdk, { SafeInfo } from "@gnosis.pm/safe-apps-sdk";
+import styled, { ThemeProvider } from "styled-components";
+import Web3 from "web3";
 
-import { Stream } from "./typings/types";
-import WidgetWrapper from "./components/WidgetWrapper";
-import { web3Provider, getTokenList, TokenItem } from "./config/config";
+import { BigNumberInput } from "big-number-input";
+import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import { SelectContainer, ButtonContainer } from "./components";
-import theme from "./theme/customTheme";
-
-import getStreams from "./utils/streams";
-import createStreamTxs from "./transactions/createStream";
+import { Stream } from "./typings/types";
+import { web3Provider, getTokenList, TokenItem } from "./config/config";
 
 import ERC20Abi from "./abis/erc20";
+import WidgetWrapper from "./components/WidgetWrapper";
+import createStreamTxs from "./transactions/createStream";
+import getStreams from "./utils/streams";
+import theme from "./theme/customTheme";
 
 const web3: any = new Web3(web3Provider);
 
@@ -61,7 +60,7 @@ const SablierWidget = () => {
 
   const [appsSdk] = useState(initSdk(safeMultisigUrl));
 
-  // -- for development purposes with local provider
+  /* For development purposes with local provider */
   useEffect(() => {
     if (process.env.REACT_APP_LOCAL_WEB3_PROVIDER) {
       console.warn("SABLIER APP: you are using a local web3 provider");
@@ -78,7 +77,7 @@ const SablierWidget = () => {
     }
   }, []);
 
-  // config safe connector
+  /* Config safe connector */
   useEffect(() => {
     appsSdk.addListeners({
       onSafeInfo: setSafeInfo,
@@ -87,7 +86,7 @@ const SablierWidget = () => {
     return () => appsSdk.removeListeners();
   }, [appsSdk]);
 
-  // load tokens list and initialize with DAI
+  /* Load tokens list and initialize with DAI */
   useEffect(() => {
     if (!safeInfo) {
       return;
@@ -114,7 +113,7 @@ const SablierWidget = () => {
     loadOutgoingStreams();
   }, [safeInfo]);
 
-  // on selectedToken
+  /* On selectedToken */
   useEffect(() => {
     if (!selectedToken) {
       return;
@@ -133,7 +132,7 @@ const SablierWidget = () => {
         return;
       }
 
-      // wait until token is correctly updated
+      /* Wait until token is correctly updated */
       if (selectedToken.tokenAddr.toLocaleLowerCase() !== tokenInstance?._address.toLocaleLowerCase()) {
         return;
       }
@@ -146,7 +145,7 @@ const SablierWidget = () => {
         newTokenBalance = await tokenInstance.methods.balanceOf(safeInfo.safeAddress).call();
       }
 
-      // update all the values in a row to avoid UI flickers
+      /* Update all the values in a row to avoid UI flickers */
       setTokenBalance(newTokenBalance);
     };
 
@@ -187,7 +186,7 @@ const SablierWidget = () => {
       return;
     }
 
-    // TODO: Stream initiation must be approved by other owners within an hour
+    //*TODO: Stream initiation must be approved by other owners within an hour */
     const startTime = moment()
       .startOf("second")
       .add({ hours: 1 });
