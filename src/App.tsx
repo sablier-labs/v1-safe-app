@@ -10,7 +10,7 @@ import initSdk, { SafeInfo } from "@gnosis.pm/safe-apps-sdk";
 import { Stream } from "./typings/types";
 import WidgetWrapper from "./components/WidgetWrapper";
 import { web3Provider, getTokenList, TokenItem } from "./config/config";
-import { SelectContainer, ButtonContainer } from "./components/components";
+import { SelectContainer, ButtonContainer } from "./components/theme";
 import theme from "./theme/customTheme";
 
 import getStreams from "./utils/streams";
