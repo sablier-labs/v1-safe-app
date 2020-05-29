@@ -1,5 +1,6 @@
 import Web3 from "web3";
 
+import { Contract } from "web3-eth-contract";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 import { web3Provider } from "../config/config";
 
@@ -16,9 +17,9 @@ const createStreamTxs = (
   startTime: string,
   stopTime: string,
 ): Array<object> => {
-  const sablierAddress = getSablierAddress(network);
-  const sablierContract = new web3.eth.Contract(sablierAbi, sablierAddress);
-  const txs = [
+  const sablierAddress: string = getSablierAddress(network);
+  const sablierContract: Contract = new web3.eth.Contract(sablierAbi, sablierAddress);
+  const txs: { [key: string]: string | number }[] = [
     {
       to: tokenInstance.options.address,
       value: 0,

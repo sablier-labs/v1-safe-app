@@ -1,7 +1,16 @@
 // reference
 // https://github.com/compound-finance/compound-protocol/tree/f33865017e15bd3e5b49d5cb34affcc572eebea3/networks
 
-export default {
+export type TokenList = {
+  rinkeby: {
+    [name: string]: string;
+  };
+  mainnet: {
+    [name: string]: string;
+  };
+};
+
+const tokens: TokenList = {
   rinkeby: {
     DAI: "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa",
     cDAI: "0x6D7F0754FFeb405d23C51CE938289d4835bE3b14",
@@ -47,3 +56,5 @@ export default {
     cZRX: "0xB3319f5D18Bc0D84dD1b4825Dcde5d5f7266d407",
   },
 };
+
+export default tokens;
