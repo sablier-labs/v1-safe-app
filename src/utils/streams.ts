@@ -1,13 +1,23 @@
 import ApolloClient, { gql } from "apollo-boost";
-
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
+
+import { Stream } from "../typings/types";
+
+type PaginatedStreamsResponse = {
+  data: { streams: Stream[] };
+};
 
 const subgraphUri: { [key in Networks]: string } = {
   rinkeby: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
   mainnet: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
 };
 
-async function getPaginatedStreams(client: any, first: number, skip: number, safeAddress: string) {
+async function getPaginatedStreams(
+  client: ApolloClient<any>,
+  first: number,
+  skip: number,
+  safeAddress: string,
+): Promise<PaginatedStreamsResponse> {
   return client.query({
     query: gql`
       query streams($first: Int!, $skip: Int!, $sender: String!) {
@@ -31,20 +41,20 @@ async function getPaginatedStreams(client: any, first: number, skip: number, saf
   });
 }
 
-export default async function getStreams(network: Networks, safeAddress: string) {
-  const client = new ApolloClient({
+export default async function getStreams(network: Networks, safeAddress: string): Promise<Stream[]> {
+  const client: ApolloClient<any> = new ApolloClient({
     uri: subgraphUri[network],
   });
 
-  let ended = false;
-  const first = 1000;
-  let skip = 0;
-  let streams: any = [];
+  let ended: boolean = false;
+  const first: number = 1000;
+  let skip: number = 0;
+  let streams: Stream[] = [];
 
   while (!ended) {
     try {
       // eslint-disable-next-line no-await-in-loop
-      const res: any = await getPaginatedStreams(client, first, skip, safeAddress);
+      const res: PaginatedStreamsResponse = await getPaginatedStreams(client, first, skip, safeAddress);
       skip += first;
 
       streams = [...streams, ...res.data.streams];
