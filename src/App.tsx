@@ -188,7 +188,7 @@ const SablierWidget = () => {
       return;
     }
 
-    //*TODO: Stream initiation must be approved by other owners within an hour */
+    /* TODO: Stream initiation must be approved by other owners within an hour */
     const startTime = moment()
       .startOf("second")
       .add({ hours: 1 });
