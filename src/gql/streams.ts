@@ -24,12 +24,15 @@ async function getPaginatedStreams(
       query streams($first: Int!, $skip: Int!, $sender: String!) {
         streams(first: $first, skip: $skip, where: { sender: $sender, cancellation: null }) {
           id
+          deposit
           startTime
           stopTime
           recipient
           sender
           token {
             id
+            decimals
+            symbol
           }
         }
       }
