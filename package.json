@@ -64,7 +64,7 @@
     "build": "react-scripts build",
     "clean": "shx rm -rf ./build",
     "eject": "react-scripts eject",
-    "lint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore src/**/*.{js,jsx,ts,tsx}",
+    "lint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore src/**/*.{ts,tsx}",
     "prettier": "prettier --config .prettierrc --write '**/*.{js,json,jsx,md,ts,tsx}'",
     "prettier:list-different": "prettier --config .prettierrc --list-different '**/*.{js,json,jsx,md,ts,tsx}'",
     "start": "react-scripts start"
