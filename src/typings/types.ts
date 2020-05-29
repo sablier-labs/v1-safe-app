@@ -1,5 +1,6 @@
 export type Stream = {
   id: string;
+  deposit: string;
   recipient: string;
   sender: string;
   startTime: number;
