@@ -8,12 +8,14 @@ import Web3 from "web3";
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import { Contract } from "web3-eth-contract";
-import { SelectContainer, ButtonContainer } from "./components";
 import { Stream } from "./typings/types";
-import { web3Provider, getTokenList, TokenItem } from "./config/config";
+
+import { SelectContainer, ButtonContainer } from "./components";
+import StreamLengthInput, { StreamLength } from "./components/StreamLengthInput";
+import WidgetWrapper from "./components/WidgetWrapper";
 
 import ERC20Abi from "./abis/erc20";
-import WidgetWrapper from "./components/WidgetWrapper";
+import { web3Provider, getTokenList, TokenItem } from "./config/config";
 import createStreamTxs from "./transactions/createStream";
 import getStreams from "./utils/streams";
 import theme from "./theme";
@@ -23,20 +25,6 @@ const web3: any = new Web3(web3Provider);
 const StyledTitle = styled(Title)`
   margin-top: 0px;
 `;
-
-type IntegerOption = {
-  id: string;
-  label: string;
-};
-const integerOptions = (max: number): IntegerOption[] => {
-  return Array.from(Array(max).keys()).map((index: number) => {
-    return { id: index.toString(), label: index.toString() };
-  });
-};
-
-const daysOption: IntegerOption[] = integerOptions(366);
-const hoursOption: IntegerOption[] = integerOptions(24);
-const minutesOption: IntegerOption[] = integerOptions(60);
 
 const SablierWidget = () => {
   const [safeInfo, setSafeInfo] = useState<SafeInfo>();
@@ -49,9 +37,7 @@ const SablierWidget = () => {
 
   const [tokenBalance, setTokenBalance] = useState<string>("0");
 
-  const [days, setDays] = useState<string>("0");
-  const [hours, setHours] = useState<string>("0");
-  const [minutes, setMinutes] = useState<string>("0");
+  const [streamLength, setStreamLength] = useState<StreamLength>({ days: "0", hours: "0", minutes: "0" });
   const [streamLengthError, setStreamLengthError] = useState<string | undefined>();
 
   const [streamAmount, setStreamAmount] = useState<string>("");
@@ -182,6 +168,7 @@ const SablierWidget = () => {
   };
 
   const validateStreamLength = (): boolean => {
+    const { days, hours, minutes } = streamLength;
     if (days === "0" && hours === "0" && minutes === "0") {
       setStreamLengthError("Please set a stream length");
       return false;
@@ -190,7 +177,10 @@ const SablierWidget = () => {
   };
 
   const createStream = (): void => {
-    if (!safeInfo || !selectedToken || !validateAmountValue() || !validateStreamLength()) {
+    // We call in this way to ensure all errors are displayed to user
+    const amountValid = validateAmountValue();
+    const lengthValid = validateStreamLength();
+    if (!safeInfo || !selectedToken || !amountValid || !lengthValid) {
       return;
     }
 
@@ -199,9 +189,9 @@ const SablierWidget = () => {
       .startOf("second")
       .add({ hours: 1 });
     const stopTime: Moment = startTime.clone().add({
-      days: parseInt(days, 10),
-      hours: parseInt(hours, 10),
-      minutes: parseInt(minutes, 10),
+      days: parseInt(streamLength.days, 10),
+      hours: parseInt(streamLength.hours, 10),
+      minutes: parseInt(streamLength.minutes, 10),
     });
 
     const txs: Array<object> = createStreamTxs(
@@ -244,15 +234,7 @@ const SablierWidget = () => {
 
   const onStreamLengthChange = (value: string, unit: "days" | "hours" | "minutes") => {
     setStreamLengthError(undefined);
-    if (unit === "days") {
-      setDays(value);
-    } else if (unit === "hours") {
-      setHours(value);
-    } else if (unit === "minutes") {
-      setMinutes(value);
-    } else {
-      throw new Error("unknown unit");
-    }
+    setStreamLength(state => ({ ...state, [unit]: value }));
   };
 
   if (!selectedToken) {
@@ -290,38 +272,11 @@ const SablierWidget = () => {
 
         <Title size="xs">For how long should the money be streamed?</Title>
 
-        <SelectContainer>
-          <Select
-            items={daysOption}
-            activeItemId={days}
-            onItemClick={(id: string): void => onStreamLengthChange(id, "days")}
-          />
-          <Text strong size="lg">
-            Days
-          </Text>
-        </SelectContainer>
-
-        <SelectContainer>
-          <Select
-            items={hoursOption}
-            activeItemId={hours}
-            onItemClick={(id: string): void => onStreamLengthChange(id, "hours")}
-          />
-          <Text strong size="lg">
-            Hours
-          </Text>
-        </SelectContainer>
-
-        <SelectContainer>
-          <Select
-            items={minutesOption}
-            activeItemId={minutes}
-            onItemClick={(id: string): void => onStreamLengthChange(id, "minutes")}
-          />
-          <Text strong size="lg">
-            Minutes
-          </Text>
-        </SelectContainer>
+        <StreamLengthInput
+          streamLength={streamLength}
+          onStreamLengthChange={onStreamLengthChange}
+          error={streamLengthError}
+        />
 
         <ButtonContainer>
           <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
