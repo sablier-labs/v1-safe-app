@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Big from "big.js";
 import moment, { Moment } from "moment";
 import styled, { ThemeProvider } from "styled-components";
 
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
-import { Contract, ethers } from "ethers";
+import { BigNumber, Contract, ethers, utils } from "ethers";
 
 import StreamLengthInput, { StreamLength } from "./components/StreamLengthInput";
 import WidgetWrapper from "./components/WidgetWrapper";
@@ -46,7 +45,13 @@ function SablierWidget() {
       if (!selectedToken) {
         return "";
       }
-      return new Big(value).div(10 ** selectedToken.decimals).toFixed(4);
+      let scaledNumber = utils.formatUnits(value, selectedToken.decimals);
+
+      // Pad with zeros for 4 decimal places
+      // Note: `formatUnits` always returns a decimal point
+      scaledNumber = scaledNumber.padEnd(scaledNumber.indexOf(".") + 5, "0");
+      // Trim any excess decimal places
+      return scaledNumber.slice(0, scaledNumber.indexOf(".") + 5);
     },
     [selectedToken],
   );
@@ -54,8 +59,8 @@ function SablierWidget() {
   const validateAmountValue = useCallback((): boolean => {
     setAmountError(undefined);
 
-    const currentValueBN = new Big(streamAmount);
-    const comparisonValueBN = new Big(tokenBalance);
+    const currentValueBN = BigNumber.from(streamAmount);
+    const comparisonValueBN = BigNumber.from(tokenBalance);
 
     if (currentValueBN.gt(comparisonValueBN)) {
       setAmountError(
@@ -212,7 +217,7 @@ function SablierWidget() {
       /* Get token Balance */
       let newTokenBalance: string;
       if (selectedToken.id === "ETH") {
-        newTokenBalance = new Big(safeInfo.ethBalance).times(10 ** 18).toString();
+        newTokenBalance = utils.parseEther(safeInfo.ethBalance).toString();
       } else {
         newTokenBalance = await tokenInstance.balanceOf(safeInfo.safeAddress);
       }
