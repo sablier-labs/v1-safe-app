@@ -1,82 +1,162 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Big from "big.js";
 import moment, { Moment } from "moment";
-import initSdk, { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import styled, { ThemeProvider } from "styled-components";
-import Web3 from "web3";
 
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
-import { Contract } from "web3-eth-contract";
-import { Stream } from "./typings/types";
+import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
+import { Contract, ethers } from "ethers";
 
-import { SelectContainer, ButtonContainer } from "./components";
 import StreamLengthInput, { StreamLength } from "./components/StreamLengthInput";
 import WidgetWrapper from "./components/WidgetWrapper";
-
-import ERC20Abi from "./abis/erc20";
-import { web3Provider, getTokenList, TokenItem } from "./config/config";
+import erc20Abi from "./abis/erc20";
 import createStreamTxs from "./transactions/createStream";
-import getStreams from "./utils/streams";
+import getStreams from "./gql/streams";
+import provider from "./config/provider";
 import theme from "./theme";
 
-const web3: any = new Web3(web3Provider);
+import { SelectContainer, ButtonContainer } from "./components";
+import { Stream, TransactionList } from "./typings/types";
+import { getTokenList, TokenItem } from "./config/tokens";
+import { useAppsSdk } from "./hooks";
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
 `;
 
-const SablierWidget = () => {
-  const [safeInfo, setSafeInfo] = useState<SafeInfo>();
-  const [tokenList, setTokenList] = useState<Array<TokenItem>>();
-
+function SablierWidget() {
+  /*** State Variables ***/
+  const [appsSdk, safeInfo]: [SdkInstance, SafeInfo | undefined] = useAppsSdk();
+  const [amountError, setAmountError] = useState<string | undefined>();
+  const [outgoingStreams, setOutgoingStreams] = useState<Stream[]>([]);
   const [recipient, setRecipient] = useState<string>("");
-
   const [selectedToken, setSelectedToken] = useState<TokenItem>();
-  const [tokenInstance, setTokenInstance] = useState<Contract>();
-
-  const [tokenBalance, setTokenBalance] = useState<string>("0");
-
+  const [streamAmount, setStreamAmount] = useState<string>("");
   const [streamLength, setStreamLength] = useState<StreamLength>({ days: "0", hours: "0", minutes: "0" });
   const [streamLengthError, setStreamLengthError] = useState<string | undefined>();
+  const [tokenBalance, setTokenBalance] = useState<string>("0");
+  const [tokenInstance, setTokenInstance] = useState<Contract>();
+  const [tokenList, setTokenList] = useState<TokenItem[]>();
 
-  const [streamAmount, setStreamAmount] = useState<string>("");
-  const [amountError, setAmountError] = useState<string | undefined>();
+  /*** Callbacks ***/
 
-  const [outgoingStreams, setOutgoingStreams] = useState<Array<Stream>>([]);
+  const bigNumberToHumanFormat = useCallback(
+    (value: string): string => {
+      if (!selectedToken) {
+        return "";
+      }
+      return new Big(value).div(10 ** selectedToken.decimals).toFixed(4);
+    },
+    [selectedToken],
+  );
 
-  const safeMultisigUrl: RegExp[] = [];
-  if (process.env.REACT_APP_LOCAL_SAFE_APP_URL) {
-    safeMultisigUrl.push(/http:\/\/localhost:3000/);
-  }
+  const validateAmountValue = useCallback((): boolean => {
+    setAmountError(undefined);
 
-  const [appsSdk] = useState<SdkInstance>(initSdk(safeMultisigUrl));
+    const currentValueBN = new Big(streamAmount);
+    const comparisonValueBN = new Big(tokenBalance);
 
-  /* For development purposes with local provider */
-  useEffect(() => {
-    if (process.env.REACT_APP_LOCAL_WEB3_PROVIDER) {
-      console.warn("SABLIER APP: you are using a local web3 provider");
-      const w: any = window;
-      w.web3 = new Web3(w.ethereum);
-      w.ethereum.enable();
-      w.web3.eth.getAccounts().then((addresses: Array<string>) => {
-        setSafeInfo({
-          safeAddress: addresses[0],
-          network: "rinkeby",
-          ethBalance: "0.99",
-        });
-      });
+    if (currentValueBN.gt(comparisonValueBN)) {
+      setAmountError(
+        `You only have ${bigNumberToHumanFormat(tokenBalance)} ${selectedToken && selectedToken.label} in your Safe`,
+      );
+      return false;
     }
-  }, []);
 
-  /* Config safe connector */
-  useEffect(() => {
-    appsSdk.addListeners({
-      onSafeInfo: setSafeInfo,
+    return true;
+  }, [bigNumberToHumanFormat, selectedToken, streamAmount, tokenBalance]);
+
+  const validateStreamLength = useCallback((): boolean => {
+    const { days, hours, minutes } = streamLength;
+    if (days === "0" && hours === "0" && minutes === "0") {
+      setStreamLengthError("Please set a stream length");
+      return false;
+    }
+    return true;
+  }, [streamLength]);
+
+  const createStream = useCallback((): void => {
+    /* We call in this way to ensure all errors are displayed to user */
+    const amountValid = validateAmountValue();
+    const lengthValid = validateStreamLength();
+    if (!safeInfo || !selectedToken || !amountValid || !lengthValid) {
+      return;
+    }
+
+    /* TODO: Stream initiation must be approved by other owners within an hour */
+    const startTime: Moment = moment()
+      .startOf("second")
+      .add({ hours: 1 });
+    const stopTime: Moment = startTime.clone().add({
+      days: parseInt(streamLength.days, 10),
+      hours: parseInt(streamLength.hours, 10),
+      minutes: parseInt(streamLength.minutes, 10),
     });
 
-    return () => appsSdk.removeListeners();
-  }, [appsSdk]);
+    const txs: TransactionList = createStreamTxs(
+      safeInfo.network,
+      recipient,
+      streamAmount,
+      tokenInstance?.address || "",
+      startTime.format("X"),
+      stopTime.format("X"),
+    );
+    appsSdk.sendTransactions(txs);
+
+    setStreamAmount("");
+    setRecipient("");
+  }, [
+    appsSdk,
+    recipient,
+    safeInfo,
+    selectedToken,
+    streamAmount,
+    streamLength,
+    tokenInstance,
+    validateAmountValue,
+    validateStreamLength,
+  ]);
+
+  // const cancelStream = (streamId: string): void => {
+  //   const txs = cancelStreamTxs(streamId);
+  //   appsSdk.sendTransactions(txs);
+  // };
+
+  const isButtonDisabled = useCallback((): boolean => {
+    return streamAmount.length === 0 || streamAmount === "0" || Boolean(amountError) || Boolean(streamLengthError);
+  }, [amountError, streamAmount, streamLengthError]);
+
+  const onSelectItem = useCallback(
+    (id: string): void => {
+      if (!tokenList) {
+        return;
+      }
+      const newSelectedToken = tokenList.find(t => {
+        return t.id === id;
+      });
+      if (!newSelectedToken) {
+        return;
+      }
+      setSelectedToken(newSelectedToken);
+    },
+    [setSelectedToken, tokenList],
+  );
+
+  const onAmountChange = useCallback((value: string): void => {
+    setAmountError(undefined);
+    setStreamAmount(value);
+  }, []);
+
+  const onStreamLengthChange = useCallback(
+    (value: string, unit: "days" | "hours" | "minutes"): void => {
+      setStreamLengthError(undefined);
+      setStreamLength(state => ({ ...state, [unit]: value }));
+    },
+    [setStreamLength, setStreamLengthError],
+  );
+
+  /*** Side Effects ***/
 
   /* Load tokens list and initialize with DAI */
   useEffect(() => {
@@ -84,7 +164,7 @@ const SablierWidget = () => {
       return;
     }
 
-    const tokenListRes: Array<TokenItem> = getTokenList(safeInfo.network);
+    const tokenListRes: TokenItem[] = getTokenList(safeInfo.network);
 
     setTokenList(tokenListRes);
 
@@ -105,7 +185,7 @@ const SablierWidget = () => {
     loadOutgoingStreams();
   }, [safeInfo]);
 
-  /* On selectedToken */
+  /* Clear the form every time the user changes the token */
   useEffect(() => {
     if (!selectedToken) {
       return;
@@ -115,7 +195,7 @@ const SablierWidget = () => {
     setStreamAmount("");
     setAmountError(undefined);
 
-    setTokenInstance(new web3.eth.Contract(ERC20Abi, selectedToken.tokenAddr));
+    setTokenInstance(new ethers.Contract(selectedToken.address, erc20Abi, provider));
   }, [selectedToken]);
 
   useEffect(() => {
@@ -125,7 +205,7 @@ const SablierWidget = () => {
       }
 
       /* Wait until token is correctly updated */
-      if (selectedToken.tokenAddr.toLocaleLowerCase() !== tokenInstance?.options.address.toLocaleLowerCase()) {
+      if (selectedToken?.address.toLocaleLowerCase() !== tokenInstance?.address.toLocaleLowerCase()) {
         return;
       }
 
@@ -134,7 +214,7 @@ const SablierWidget = () => {
       if (selectedToken.id === "ETH") {
         newTokenBalance = new Big(safeInfo.ethBalance).times(10 ** 18).toString();
       } else {
-        newTokenBalance = await tokenInstance.methods.balanceOf(safeInfo.safeAddress).call();
+        newTokenBalance = await tokenInstance.balanceOf(safeInfo.safeAddress);
       }
 
       /* Update all the values in a row to avoid UI flickers */
@@ -143,99 +223,6 @@ const SablierWidget = () => {
 
     getData();
   }, [safeInfo, selectedToken, tokenInstance]);
-
-  const bNumberToHumanFormat = (value: string) => {
-    if (!selectedToken) {
-      return "";
-    }
-    return new Big(value).div(10 ** selectedToken.decimals).toFixed(4);
-  };
-
-  const validateAmountValue = (): boolean => {
-    setAmountError(undefined);
-
-    const currentValueBN = new Big(streamAmount);
-    const comparisonValueBN = new Big(tokenBalance);
-
-    if (currentValueBN.gt(comparisonValueBN)) {
-      setAmountError(
-        `You only have ${bNumberToHumanFormat(tokenBalance)} ${selectedToken && selectedToken.label} in your Safe`,
-      );
-      return false;
-    }
-
-    return true;
-  };
-
-  const validateStreamLength = (): boolean => {
-    const { days, hours, minutes } = streamLength;
-    if (days === "0" && hours === "0" && minutes === "0") {
-      setStreamLengthError("Please set a stream length");
-      return false;
-    }
-    return true;
-  };
-
-  const createStream = (): void => {
-    // We call in this way to ensure all errors are displayed to user
-    const amountValid = validateAmountValue();
-    const lengthValid = validateStreamLength();
-    if (!safeInfo || !selectedToken || !amountValid || !lengthValid) {
-      return;
-    }
-
-    /* TODO: Stream initiation must be approved by other owners within an hour */
-    const startTime: Moment = moment()
-      .startOf("second")
-      .add({ hours: 1 });
-    const stopTime: Moment = startTime.clone().add({
-      days: parseInt(streamLength.days, 10),
-      hours: parseInt(streamLength.hours, 10),
-      minutes: parseInt(streamLength.minutes, 10),
-    });
-
-    const txs: Array<object> = createStreamTxs(
-      safeInfo.network,
-      recipient,
-      streamAmount,
-      tokenInstance,
-      startTime.format("X"),
-      stopTime.format("X"),
-    );
-    appsSdk.sendTransactions(txs);
-
-    setStreamAmount("");
-  };
-
-  // const cancelStream = (streamId: string): void => {
-  //   const txs = cancelStreamTxs(streamId);
-  //   appsSdk.sendTransactions(txs);
-  // };
-
-  const isButtonDisabled = () => {
-    return !!(!streamAmount.length || streamAmount === "0" || amountError || streamLengthError);
-  };
-
-  const onSelectItem = (id: string) => {
-    if (!tokenList) {
-      return;
-    }
-    const newSelectedToken = tokenList.find(t => t.id === id);
-    if (!newSelectedToken) {
-      return;
-    }
-    setSelectedToken(newSelectedToken);
-  };
-
-  const onAmountChange = (value: string) => {
-    setAmountError(undefined);
-    setStreamAmount(value);
-  };
-
-  const onStreamLengthChange = (value: string, unit: "days" | "hours" | "minutes") => {
-    setStreamLengthError(undefined);
-    setStreamLength(state => ({ ...state, [unit]: value }));
-  };
 
   if (!selectedToken) {
     return <Loader size="md" />;
@@ -251,7 +238,7 @@ const SablierWidget = () => {
         <SelectContainer>
           <Select items={tokenList || []} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
           <Text strong size="lg">
-            {bNumberToHumanFormat(tokenBalance)}
+            {bigNumberToHumanFormat(tokenBalance)}
           </Text>
         </SelectContainer>
 
@@ -290,9 +277,9 @@ const SablierWidget = () => {
       </WidgetWrapper>
     </ThemeProvider>
   );
-};
+}
 
-const StreamDisplay = ({ stream }: { stream: Stream }) => {
+function StreamDisplay({ stream }: { stream: Stream }) {
   const humanStartTime: string = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
   const humanStopTime: string = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
   return (
@@ -301,6 +288,6 @@ const StreamDisplay = ({ stream }: { stream: Stream }) => {
       {`Stream ID: ${stream.id} Recipient: ${stream.recipient}  Start Time: ${humanStartTime} Stop Time: ${humanStopTime}`}
     </Text>
   );
-};
+}
 
 export default SablierWidget;

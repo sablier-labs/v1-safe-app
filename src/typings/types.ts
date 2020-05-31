@@ -13,3 +13,5 @@ export type Token = {
   name: string;
   symbol: string;
 };
+
+export type TransactionList = { [key: string]: string | number }[];

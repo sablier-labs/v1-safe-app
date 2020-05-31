@@ -8,11 +8,12 @@ type PaginatedStreamsResponse = {
 };
 
 const subgraphUri: { [key in Networks]: string } = {
-  rinkeby: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
   mainnet: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
+  rinkeby: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
 };
 
 async function getPaginatedStreams(
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   client: ApolloClient<any>,
   first: number,
   skip: number,
@@ -42,7 +43,7 @@ async function getPaginatedStreams(
 }
 
 export default async function getStreams(network: Networks, safeAddress: string): Promise<Stream[]> {
-  const client: ApolloClient<any> = new ApolloClient({
+  const client = new ApolloClient({
     uri: subgraphUri[network],
   });
 
