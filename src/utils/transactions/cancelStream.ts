@@ -7,7 +7,7 @@ import payrollAbi from "../../abis/payroll";
 import { TransactionList } from "../../typings";
 import { getSablierAddress } from "../../config/sablier";
 
-const cancelStreamTxs = (network: Networks, streamId: string): {}[] => {
+const cancelStreamTxs = (network: Networks, streamId: number): {}[] => {
   const sablierProxyAddress: string = getSablierAddress(network);
   const sablierProxyInterface: AbiInterface = new ethers.utils.Interface(payrollAbi);
   const txs: TransactionList = [

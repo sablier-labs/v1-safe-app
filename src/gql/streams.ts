@@ -1,10 +1,10 @@
 import ApolloClient, { gql } from "apollo-boost";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import { Stream } from "../typings";
+import { ProxyStream } from "../typings";
 
 type Response = {
-  data: { streams: Stream[] };
+  data: { proxyStreams: ProxyStream[] };
 };
 
 const subgraphUri: { [key in Networks]: string } = {
@@ -21,18 +21,25 @@ async function getPaginatedStreams(
 ): Promise<Response> {
   return client.query({
     query: gql`
-      query streams($first: Int!, $skip: Int!, $sender: String!) {
-        streams(first: $first, skip: $skip, where: { sender: $sender, cancellation: null }) {
+      query proxyStreams($first: Int!, $skip: Int!, $sender: String!) {
+        proxyStreams(first: $first, skip: $skip, where: { sender: $sender }) {
           id
-          deposit
-          startTime
-          stopTime
           recipient
           sender
-          token {
-            id
-            decimals
-            symbol
+          stream {
+            cancellation {
+              id
+            }
+            deposit
+            startTime
+            stopTime
+            recipient
+            sender
+            token {
+              id
+              decimals
+              symbol
+            }
           }
         }
       }
@@ -45,7 +52,7 @@ async function getPaginatedStreams(
   });
 }
 
-export default async function getStreams(network: Networks, safeAddress: string): Promise<Stream[]> {
+export default async function getStreams(network: Networks, safeAddress: string): Promise<ProxyStream[]> {
   const client = new ApolloClient({
     uri: subgraphUri[network],
   });
@@ -53,7 +60,7 @@ export default async function getStreams(network: Networks, safeAddress: string)
   let ended: boolean = false;
   const first: number = 1000;
   let skip: number = 0;
-  let streams: Stream[] = [];
+  let streams: ProxyStream[] = [];
 
   while (!ended) {
     try {
@@ -61,8 +68,8 @@ export default async function getStreams(network: Networks, safeAddress: string)
       const res: Response = await getPaginatedStreams(client, first, safeAddress, skip);
       skip += first;
 
-      streams = [...streams, ...res.data.streams];
-      if (res.data.streams.length < first) {
+      streams = [...streams, ...res.data.proxyStreams];
+      if (res.data.proxyStreams.length < first) {
         ended = true;
       }
     } catch (error) {

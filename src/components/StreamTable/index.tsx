@@ -1,44 +1,32 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import moment from "moment";
 
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
+import moment from "moment";
+
 import { Button } from "@gnosis.pm/safe-react-components";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
 
-import cancelStreamTxs from "../../utils/transactions/cancelStream";
 import getStreams from "../../gql/streams";
+import cancelStreamTxs from "../../utils/transactions/cancelStream";
+import { generateColumns, TX_TABLE_ID } from "../Table/columns";
+import { cellWidth } from "../Table/TableHead";
+import Table from "../Table";
 
-import { Stream } from "../../typings";
+import { ProxyStream } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils/format";
 
-function StreamRow({ stream, cancelStream }: { stream: Stream; cancelStream: Function }): ReactElement {
-  const humanStartTime: string = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
-  const humanStopTime: string = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
-  const humanDeposit: string = bigNumberToHumanFormat(stream.deposit, stream.token.decimals);
-  return (
-    <TableRow key={stream.id}>
-      <TableCell component="th" scope="row">
-        {stream.id}
-      </TableCell>
-      <TableCell align="right">{stream.recipient.slice(0, 6)}...</TableCell>
-      <TableCell align="right">{`${humanDeposit} ${stream.token.symbol}`}</TableCell>
-      <TableCell align="right">{humanStartTime}</TableCell>
-      <TableCell align="right">{humanStopTime}</TableCell>
-      <TableCell align="right">
-        <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(stream.id)}>
-          Cancel
-        </Button>
-      </TableCell>
-    </TableRow>
-  );
-}
+const humanReadableStream = (stream: ProxyStream) => {
+  const { id, recipient, sender } = stream;
+  const { deposit, startTime, stopTime, token } = stream.stream;
+  const humanStartTime: string = moment.unix(startTime).format("DD-MM-YYYY HH:mm");
+  const humanStopTime: string = moment.unix(stopTime).format("DD-MM-YYYY HH:mm");
+  const humanDeposit: string = `${bigNumberToHumanFormat(deposit, token.decimals)} ${token.symbol}`;
+  return { id, recipient, sender, humanDeposit, humanStartTime, humanStopTime, token };
+};
 
-function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
-  const [outgoingStreams, setOutgoingStreams] = useState<Array<Stream>>([]);
+const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement => {
+  const [outgoingStreams, setOutgoingStreams] = useState<ProxyStream[]>([]);
 
   useEffect(() => {
     const loadOutgoingStreams = async () => {
@@ -46,38 +34,70 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
         return;
       }
 
-      const streams: Stream[] = await getStreams(safeInfo.network, safeInfo.safeAddress);
+      const streams: ProxyStream[] = await getStreams(safeInfo.network, safeInfo.safeAddress);
       setOutgoingStreams(streams);
     };
 
     loadOutgoingStreams();
   }, [safeInfo]);
 
-  const cancelStream = (streamId: string): void => {
+  const cancelStream = (streamId: number): void => {
     if (!safeInfo?.network) return;
     const txs = cancelStreamTxs(safeInfo.network, streamId);
     appsSdk.sendTransactions(txs);
   };
 
-  /* TODO: Add pagination to handle more than 7 streams */
-  const tableContents = outgoingStreams
-    .slice(0, 7)
-    .map((stream: Stream) => <StreamRow stream={stream} cancelStream={cancelStream} />);
+  const columns = generateColumns();
+  const autoColumns = columns.filter(c => !c.custom);
+
+  const tableContents = outgoingStreams.map(proxyStream => ({
+    ...humanReadableStream(proxyStream),
+    humanStartTimeOrder: proxyStream.stream.startTime,
+    humanStopTimeOrder: proxyStream.stream.stopTime,
+    cancelStream: () => cancelStream(proxyStream.id),
+  }));
   return (
-    <Table size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell>Stream ID</TableCell>
-          <TableCell align="right">Recipient</TableCell>
-          <TableCell align="right">Value</TableCell>
-          <TableCell align="right">Start time</TableCell>
-          <TableCell align="right">End time</TableCell>
-          <TableCell align="right">Cancel</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>{tableContents}</TableBody>
-    </Table>
+    <>
+      <Table
+        columns={columns}
+        data={tableContents}
+        defaultFixed
+        defaultOrder="desc"
+        defaultOrderBy={TX_TABLE_ID}
+        defaultRowsPerPage={25}
+        label="Transactions"
+        size={tableContents.length}
+      >
+        {(sortedData: ProxyStream[]) =>
+          sortedData.map((row: ProxyStream, index: number) => (
+            <TableRow
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+              // className={cn(classes.row, expandedTx === row.tx.safeTxHash && classes.expandedRow)}
+              tabIndex={-1}
+            >
+              {autoColumns.map((column: any) => (
+                <TableCell
+                  align={column.align}
+                  // className={cn(classes.cell, ["cancelled", "failed"].includes(row.status) && classes.cancelledRow)}
+                  component="td"
+                  key={column.id}
+                  style={cellWidth(column.width)}
+                >
+                  {(row as { [key: string]: any })[column.id]}
+                </TableCell>
+              ))}
+              <TableCell component="td">
+                <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(row.id)}>
+                  Cancel
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))
+        }
+      </Table>
+    </>
   );
-}
+};
 
 export default StreamTable;

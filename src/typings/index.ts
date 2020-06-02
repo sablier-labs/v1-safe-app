@@ -1,5 +1,13 @@
+export type ProxyStream = {
+  id: number;
+  recipient: string;
+  sender: string;
+  stream: Stream;
+  timestamp: number;
+};
+
 export type Stream = {
-  id: string;
+  id: number;
   deposit: string;
   recipient: string;
   sender: string;
