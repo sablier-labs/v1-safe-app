@@ -41,12 +41,9 @@ function SablierWidget() {
 
   /*** Callbacks ***/
 
-  const humanTokenBalance = useCallback(
-    (value: string): string => {
-      return selectedToken ? bigNumberToHumanFormat(value, selectedToken.decimals) : "";
-    },
-    [selectedToken],
-  );
+  const humanTokenBalance = useCallback((): string => {
+    return selectedToken ? bigNumberToHumanFormat(tokenBalance, selectedToken.decimals) : "";
+  }, [selectedToken, tokenBalance]);
 
   const validateAmountValue = useCallback((): boolean => {
     setAmountError(undefined);
@@ -55,9 +52,7 @@ function SablierWidget() {
     const comparisonValueBN = BigNumber.from(tokenBalance);
 
     if (currentValueBN.gt(comparisonValueBN)) {
-      setAmountError(
-        `You only have ${humanTokenBalance(tokenBalance)} ${selectedToken && selectedToken.label} in your Safe`,
-      );
+      setAmountError(`You only have ${humanTokenBalance()} ${selectedToken && selectedToken.label} in your Safe`);
       return false;
     }
 
@@ -235,7 +230,7 @@ function SablierWidget() {
         <SelectContainer>
           <Select items={tokenList || []} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
           <Text strong size="lg">
-            {humanTokenBalance(tokenBalance)}
+            {humanTokenBalance()}
           </Text>
         </SelectContainer>
 
