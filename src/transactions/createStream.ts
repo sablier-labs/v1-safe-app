@@ -1,38 +1,44 @@
-import Web3 from "web3";
-
-import { Contract } from "web3-eth-contract";
+import { Interface as AbiInterface } from "@ethersproject/abi/lib";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { web3Provider } from "../config/config";
+import { ethers } from "ethers";
 
-import getSablierAddress from "../config/sablier";
-import sablierAbi from "../abis/sablier";
+import erc20Abi from "../abis/erc20";
+import payrollAbi from "../abis/payroll";
 
-const web3: any = new Web3(web3Provider);
+import { TransactionList } from "../typings/types";
+import { getSablierAddress } from "../config/sablier";
 
 const createStreamTxs = (
   network: Networks,
   recipient: string,
   deposit: string,
-  tokenInstance: any,
+  tokenAddress: string,
   startTime: string,
   stopTime: string,
-): Array<object> => {
-  const sablierAddress: string = getSablierAddress(network);
-  const sablierContract: Contract = new web3.eth.Contract(sablierAbi, sablierAddress);
-  const txs: { [key: string]: string | number }[] = [
-    {
-      to: tokenInstance.options.address,
-      value: 0,
-      data: tokenInstance.methods.approve(sablierContract.options.address, deposit).encodeABI(),
-    },
-    {
-      to: sablierContract.options.address,
-      value: 0,
-      data: sablierContract.methods
-        .createStream(recipient, deposit, tokenInstance.options.address, startTime, stopTime)
-        .encodeABI(),
-    },
-  ];
+): TransactionList => {
+  const sablierProxyAddress: string = getSablierAddress(network);
+  const erc20Interface: AbiInterface = new ethers.utils.Interface(erc20Abi);
+  const sablierProxyInterface: AbiInterface = new ethers.utils.Interface(payrollAbi);
+
+  const txs: TransactionList = [];
+
+  txs.push({
+    data: erc20Interface.encodeFunctionData("approve", [sablierProxyAddress, deposit]),
+    to: tokenAddress,
+    value: 0,
+  });
+
+  txs.push({
+    data: sablierProxyInterface.encodeFunctionData("createSalary", [
+      recipient,
+      deposit,
+      tokenAddress,
+      startTime,
+      stopTime,
+    ]),
+    to: sablierProxyAddress,
+    value: 0,
+  });
 
   return txs;
 };

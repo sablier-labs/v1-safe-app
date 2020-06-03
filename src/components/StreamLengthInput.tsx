@@ -3,9 +3,21 @@ import { Select, Text } from "@gnosis.pm/safe-react-components";
 
 import { SelectContainer } from "./index";
 
-type IntegerOption = {
+export type IntegerOption = {
   id: string;
   label: string;
+};
+
+export type StreamLength = {
+  days: string;
+  hours: string;
+  minutes: string;
+};
+
+export type StreamLengthInputProps = {
+  streamLength: StreamLength;
+  onStreamLengthChange: Function;
+  error?: string;
 };
 
 const integerOptions = (max: number): IntegerOption[] => {
@@ -18,21 +30,7 @@ const daysOption: IntegerOption[] = integerOptions(366);
 const hoursOption: IntegerOption[] = integerOptions(24);
 const minutesOption: IntegerOption[] = integerOptions(60);
 
-export type StreamLength = {
-  days: string;
-  hours: string;
-  minutes: string;
-};
-
-const StreamLengthInput = ({
-  streamLength,
-  onStreamLengthChange,
-  error,
-}: {
-  streamLength: StreamLength;
-  onStreamLengthChange: Function;
-  error?: string;
-}) => {
+function StreamLengthInput({ error, onStreamLengthChange, streamLength }: StreamLengthInputProps) {
   return (
     <>
       <Text size="md" color="error">
@@ -72,6 +70,6 @@ const StreamLengthInput = ({
       </SelectContainer>
     </>
   );
-};
+}
 
 export default StreamLengthInput;

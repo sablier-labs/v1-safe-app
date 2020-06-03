@@ -1,25 +1,22 @@
-import Web3 from "web3";
-
-import { Contract } from "web3-eth-contract";
+import { Interface as AbiInterface } from "@ethersproject/abi/lib";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { web3Provider } from "../config/config";
+import { ethers } from "ethers";
 
-import getSablierAddress from "../config/sablier";
-import sablierAbi from "../abis/sablier";
+import payrollAbi from "../abis/payroll";
 
-const web3: any = new Web3(web3Provider);
+import { TransactionList } from "../typings/types";
+import { getSablierAddress } from "../config/sablier";
 
-const cancelStreamTxs = (network: Networks, streamId: string): Array<object> => {
-  const sablierAddress: string = getSablierAddress(network);
-  const sablierContract: Contract = new web3.eth.Contract(sablierAbi, sablierAddress);
-  const txs: { [key: string]: string | number }[] = [
+const cancelStreamTxs = (network: Networks, streamId: string): {}[] => {
+  const sablierProxyAddress: string = getSablierAddress(network);
+  const sablierProxyInterface: AbiInterface = new ethers.utils.Interface(payrollAbi);
+  const txs: TransactionList = [
     {
-      to: sablierContract.options.address,
+      data: sablierProxyInterface.encodeFunctionData("cancelSalary", [streamId]),
+      to: sablierProxyAddress,
       value: 0,
-      data: sablierContract.methods.cancelStream(streamId).encodeABI(),
     },
   ];
-
   return txs;
 };
 
