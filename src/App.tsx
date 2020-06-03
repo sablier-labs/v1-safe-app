@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Big from "big.js";
 import moment, { Moment } from "moment";
 import styled, { ThemeProvider } from "styled-components";
 
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Title, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
-import { Contract, ethers } from "ethers";
+import { BigNumber, Contract, ethers, utils } from "ethers";
 
 import StreamLengthInput, { StreamLength } from "./components/StreamLengthInput";
 import WidgetWrapper from "./components/WidgetWrapper";
@@ -20,6 +19,7 @@ import { SelectContainer, ButtonContainer } from "./components";
 import { Stream, TransactionList } from "./typings/types";
 import { getTokenList, TokenItem } from "./config/tokens";
 import { useAppsSdk } from "./hooks";
+import bigNumberToHumanFormat from "./utils/bigNumberToHumanFormat";
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
@@ -41,31 +41,23 @@ function SablierWidget() {
 
   /*** Callbacks ***/
 
-  const bigNumberToHumanFormat = useCallback(
-    (value: string): string => {
-      if (!selectedToken) {
-        return "";
-      }
-      return new Big(value).div(10 ** selectedToken.decimals).toFixed(4);
-    },
-    [selectedToken],
-  );
+  const humanTokenBalance = useCallback((): string => {
+    return selectedToken ? bigNumberToHumanFormat(tokenBalance, selectedToken.decimals) : "";
+  }, [selectedToken, tokenBalance]);
 
   const validateAmountValue = useCallback((): boolean => {
     setAmountError(undefined);
 
-    const currentValueBN = new Big(streamAmount);
-    const comparisonValueBN = new Big(tokenBalance);
+    const currentValueBN = BigNumber.from(streamAmount);
+    const comparisonValueBN = BigNumber.from(tokenBalance);
 
     if (currentValueBN.gt(comparisonValueBN)) {
-      setAmountError(
-        `You only have ${bigNumberToHumanFormat(tokenBalance)} ${selectedToken && selectedToken.label} in your Safe`,
-      );
+      setAmountError(`You only have ${humanTokenBalance()} ${selectedToken && selectedToken.label} in your Safe`);
       return false;
     }
 
     return true;
-  }, [bigNumberToHumanFormat, selectedToken, streamAmount, tokenBalance]);
+  }, [humanTokenBalance, selectedToken, streamAmount, tokenBalance]);
 
   const validateStreamLength = useCallback((): boolean => {
     const { days, hours, minutes } = streamLength;
@@ -212,7 +204,7 @@ function SablierWidget() {
       /* Get token Balance */
       let newTokenBalance: string;
       if (selectedToken.id === "ETH") {
-        newTokenBalance = new Big(safeInfo.ethBalance).times(10 ** 18).toString();
+        newTokenBalance = utils.parseEther(safeInfo.ethBalance).toString();
       } else {
         newTokenBalance = await tokenInstance.balanceOf(safeInfo.safeAddress);
       }
@@ -238,7 +230,7 @@ function SablierWidget() {
         <SelectContainer>
           <Select items={tokenList || []} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
           <Text strong size="lg">
-            {bigNumberToHumanFormat(tokenBalance)}
+            {humanTokenBalance()}
           </Text>
         </SelectContainer>
 

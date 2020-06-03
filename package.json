@@ -36,7 +36,6 @@
     "apollo-client": "^2.6.10",
     "apollo-utilities": "^1.3.4",
     "big-number-input": "^1.0.2",
-    "big.js": "^5.2.2",
     "ethers": "^5.0.0-beta.189",
     "graphql": "14.x",
     "moment": "^2.26.0",
