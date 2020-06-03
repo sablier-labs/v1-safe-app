@@ -6,15 +6,15 @@ import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-c
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import { BigNumber, Contract, ethers, utils } from "ethers";
 
-import StreamLengthInput, { StreamLength } from "./StreamLengthInput";
-import erc20Abi from "../abis/erc20";
-import createStreamTxs from "../transactions/createStream";
-import provider from "../config/provider";
+import StreamLengthInput, { StreamLength } from "../StreamLengthInput";
+import erc20Abi from "../../abis/erc20";
+import createStreamTxs from "../../transactions/createStream";
+import provider from "../../config/provider";
 
-import { SelectContainer, ButtonContainer } from "./index";
-import { TransactionList } from "../typings/types";
-import { getTokenList, TokenItem } from "../config/tokens";
-import bigNumberToHumanFormat from "../utils/bigNumberToHumanFormat";
+import { ButtonContainer, SelectContainer } from "../../theme/components";
+import { TransactionList } from "../../typings/types";
+import { bigNumberToHumanFormat } from "../../utils/format";
+import { getTokenList, TokenItem } from "../../config/tokens";
 
 function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }) {
   /*** State Variables ***/

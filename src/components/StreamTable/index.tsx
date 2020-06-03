@@ -1,21 +1,21 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
-import moment from "moment";
-
-import { Button } from "@gnosis.pm/safe-react-components";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import moment from "moment";
 
-import getStreams from "../gql/streams";
-import cancelStreamTxs from "../transactions/cancelStream";
+import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
+import { Button } from "@gnosis.pm/safe-react-components";
 
-import { Stream } from "../typings/types";
-import bigNumberToHumanFormat from "../utils/bigNumberToHumanFormat";
+import cancelStreamTxs from "../../transactions/cancelStream";
+import getStreams from "../../gql/streams";
 
-const StreamRow = ({ stream, cancelStream }: { stream: Stream; cancelStream: Function }): ReactElement => {
+import { Stream } from "../../typings/types";
+import { bigNumberToHumanFormat } from "../../utils/format";
+
+function StreamRow({ stream, cancelStream }: { stream: Stream; cancelStream: Function }): ReactElement {
   const humanStartTime: string = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
   const humanStopTime: string = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
   const humanDeposit: string = bigNumberToHumanFormat(stream.deposit, stream.token.decimals);
@@ -35,9 +35,9 @@ const StreamRow = ({ stream, cancelStream }: { stream: Stream; cancelStream: Fun
       </TableCell>
     </TableRow>
   );
-};
+}
 
-const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement => {
+function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
   const [outgoingStreams, setOutgoingStreams] = useState<Array<Stream>>([]);
 
   useEffect(() => {
@@ -78,6 +78,6 @@ const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
       <TableBody>{tableContents}</TableBody>
     </Table>
   );
-};
+}
 
 export default StreamTable;

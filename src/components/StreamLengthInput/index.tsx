@@ -1,7 +1,7 @@
 import React from "react";
 import { Select, Text } from "@gnosis.pm/safe-react-components";
 
-import { SelectContainer } from "./index";
+import { SelectContainer } from "../../theme/components";
 
 export type IntegerOption = {
   id: string;
