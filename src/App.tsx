@@ -19,6 +19,7 @@ import { SelectContainer, ButtonContainer } from "./components";
 import { Stream, TransactionList } from "./typings/types";
 import { getTokenList, TokenItem } from "./config/tokens";
 import { useAppsSdk } from "./hooks";
+import bigNumberToHumanFormat from "./utils/bigNumberToHumanFormat";
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
@@ -40,18 +41,9 @@ function SablierWidget() {
 
   /*** Callbacks ***/
 
-  const bigNumberToHumanFormat = useCallback(
+  const humanTokenBalance = useCallback(
     (value: string): string => {
-      if (!selectedToken) {
-        return "";
-      }
-      let scaledNumber = utils.formatUnits(value, selectedToken.decimals);
-
-      // Pad with zeros for 4 decimal places
-      // Note: `formatUnits` always returns a decimal point
-      scaledNumber = scaledNumber.padEnd(scaledNumber.indexOf(".") + 5, "0");
-      // Trim any excess decimal places
-      return scaledNumber.slice(0, scaledNumber.indexOf(".") + 5);
+      return selectedToken ? bigNumberToHumanFormat(value, selectedToken.decimals) : "";
     },
     [selectedToken],
   );
@@ -64,13 +56,13 @@ function SablierWidget() {
 
     if (currentValueBN.gt(comparisonValueBN)) {
       setAmountError(
-        `You only have ${bigNumberToHumanFormat(tokenBalance)} ${selectedToken && selectedToken.label} in your Safe`,
+        `You only have ${humanTokenBalance(tokenBalance)} ${selectedToken && selectedToken.label} in your Safe`,
       );
       return false;
     }
 
     return true;
-  }, [bigNumberToHumanFormat, selectedToken, streamAmount, tokenBalance]);
+  }, [humanTokenBalance, selectedToken, streamAmount, tokenBalance]);
 
   const validateStreamLength = useCallback((): boolean => {
     const { days, hours, minutes } = streamLength;
@@ -243,7 +235,7 @@ function SablierWidget() {
         <SelectContainer>
           <Select items={tokenList || []} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
           <Text strong size="lg">
-            {bigNumberToHumanFormat(tokenBalance)}
+            {humanTokenBalance(tokenBalance)}
           </Text>
         </SelectContainer>
 
