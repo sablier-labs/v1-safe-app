@@ -1,5 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
-
+import React, { ReactElement, useEffect, useState, useCallback } from "react";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
 
@@ -41,11 +40,14 @@ const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
     loadOutgoingStreams();
   }, [safeInfo]);
 
-  const cancelStream = (streamId: number): void => {
-    if (!safeInfo?.network) return;
-    const txs = cancelStreamTxs(safeInfo.network, streamId);
-    appsSdk.sendTransactions(txs);
-  };
+  const cancelStream = useCallback(
+    (streamId: number): void => {
+      if (!safeInfo?.network) return;
+      const txs = cancelStreamTxs(safeInfo.network, streamId);
+      appsSdk.sendTransactions(txs);
+    },
+    [appsSdk, safeInfo],
+  );
 
   const columns = generateColumns();
   const autoColumns = columns.filter(c => !c.custom);
