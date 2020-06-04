@@ -31,7 +31,7 @@ export const generateColumns = () => {
     id: TX_TABLE_RECIPIENT_ID,
     order: false,
     disablePadding: false,
-    label: "Recipient",
+    label: "To",
     custom: false,
     width: 180,
   };
@@ -40,7 +40,7 @@ export const generateColumns = () => {
     id: TX_TABLE_DEPOSIT_ID,
     order: false,
     disablePadding: false,
-    label: "Deposit",
+    label: "Value",
     custom: false,
     width: 120,
     static: true,
