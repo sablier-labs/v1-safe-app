@@ -27,6 +27,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@ethersproject/abi": "^5.0.0-beta.155",
+    "@ethersproject/bignumber": "^5.0.0-beta.139",
     "@gnosis.pm/safe-apps-sdk": "^0.1.1",
     "@gnosis.pm/safe-react-components": "^0.1.2",
     "@material-ui/core": "^4.10.0",
@@ -41,6 +42,7 @@
     "ethers": "^5.0.0-beta.189",
     "graphql": "14.x",
     "moment": "^2.26.0",
+    "polished": "^3.6.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "styled-components": "4.x",

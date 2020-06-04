@@ -9,10 +9,10 @@ import moment from "moment";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import { Button } from "@gnosis.pm/safe-react-components";
 
-import cancelStreamTxs from "../../transactions/cancelStream";
+import cancelStreamTxs from "../../utils/transactions/cancelStream";
 import getStreams from "../../gql/streams";
 
-import { Stream } from "../../typings/types";
+import { Stream } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils/format";
 
 function StreamRow({ stream, cancelStream }: { stream: Stream; cancelStream: Function }): ReactElement {

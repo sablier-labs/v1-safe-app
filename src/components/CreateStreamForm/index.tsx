@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useState } from "react";
 import moment, { Moment } from "moment";
 
+import { Contract, ethers } from "ethers";
+import { BigNumber } from "@ethersproject/bignumber";
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
-import { BigNumber, Contract, ethers, utils } from "ethers";
 
 import StreamLengthInput, { StreamLength } from "../StreamLengthInput";
 import erc20Abi from "../../abis/erc20";
-import createStreamTxs from "../../transactions/createStream";
+import createStreamTxs from "../../utils/transactions/createStream";
 import provider from "../../config/provider";
 
 import { ButtonContainer, SelectContainer } from "../../theme/components";
-import { TransactionList } from "../../typings/types";
-import { bigNumberToHumanFormat } from "../../utils/format";
+import { TransactionList } from "../../typings";
+import { bigNumberToHumanFormat } from "../../utils";
 import { getTokenList, TokenItem } from "../../config/tokens";
 
 function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }) {
@@ -37,8 +38,8 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
   const validateAmountValue = useCallback((): boolean => {
     setAmountError(undefined);
 
-    const currentValueBN = BigNumber.from(streamAmount);
-    const comparisonValueBN = BigNumber.from(tokenBalance);
+    const currentValueBN: BigNumber = BigNumber.from(streamAmount);
+    const comparisonValueBN: BigNumber = BigNumber.from(tokenBalance);
 
     if (currentValueBN.gt(comparisonValueBN)) {
       setAmountError(`You only have ${humanTokenBalance()} ${selectedToken && selectedToken.label} in your Safe`);
@@ -180,7 +181,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
       /* Get token Balance */
       let newTokenBalance: string;
       if (selectedToken.id === "ETH") {
-        newTokenBalance = utils.parseEther(safeInfo.ethBalance).toString();
+        newTokenBalance = ethers.utils.parseEther(safeInfo.ethBalance).toString();
       } else {
         newTokenBalance = await tokenInstance.balanceOf(safeInfo.safeAddress);
       }

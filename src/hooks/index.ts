@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { DependencyList, EffectCallback, useEffect, useMemo, useState } from "react";
 import initSdk, { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 
 import provider from "../config/provider";
@@ -65,4 +65,9 @@ export function useEffectWithDelay(condition = false, func = () => {}, delay = 1
 
 export function useEffectWithDefaultDelay({ condition = false, func = () => {} }) {
   return useEffectWithDelay(condition, func, 250);
+}
+
+/* See https://stackoverflow.com/questions/53120972/how-to-call-loading-function-with-react-useeffect-only-once */
+export function useMountEffect(func: EffectCallback, deps?: DependencyList) {
+  useEffect(func, deps);
 }

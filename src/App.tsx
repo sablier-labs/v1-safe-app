@@ -1,8 +1,8 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components";
 
-import { Title } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
+import { Title } from "@gnosis.pm/safe-react-components";
 
 import StreamTable from "./components/StreamTable";
 import CreateStreamForm from "./components/CreateStreamForm";

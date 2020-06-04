@@ -1,6 +1,7 @@
 import { Machine } from "xstate";
 
-export default Machine({
+/* "Undefined" because there's no context */
+export default Machine<undefined>({
   id: "durationPicker",
   initial: "idle",
   states: {

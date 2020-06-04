@@ -8,18 +8,6 @@ export type IntegerOption = {
   label: string;
 };
 
-export type StreamLength = {
-  days: string;
-  hours: string;
-  minutes: string;
-};
-
-export type StreamLengthInputProps = {
-  streamLength: StreamLength;
-  onStreamLengthChange: Function;
-  error?: string;
-};
-
 const integerOptions = (max: number): IntegerOption[] => {
   return Array.from(Array(max).keys()).map((index: number) => {
     return { id: index.toString(), label: index.toString() };
@@ -30,17 +18,29 @@ const daysOption: IntegerOption[] = integerOptions(366);
 const hoursOption: IntegerOption[] = integerOptions(24);
 const minutesOption: IntegerOption[] = integerOptions(60);
 
-function StreamLengthInput({ error, onStreamLengthChange, streamLength }: StreamLengthInputProps) {
+export type StreamLength = {
+  days: string;
+  hours: string;
+  minutes: string;
+};
+
+export type Props = {
+  readonly error?: string;
+  readonly onStreamLengthChange: Function;
+  readonly streamLength: StreamLength;
+};
+
+function StreamLengthInput(props: Props) {
   return (
     <>
       <Text size="md" color="error">
-        {error}
+        {props.error}
       </Text>
       <SelectContainer>
         <Select
           items={daysOption}
-          activeItemId={streamLength.days}
-          onItemClick={(id: string): void => onStreamLengthChange(id, "days")}
+          activeItemId={props.streamLength.days}
+          onItemClick={(id: string): void => props.onStreamLengthChange(id, "days")}
         />
         <Text strong size="lg">
           Days
@@ -50,8 +50,8 @@ function StreamLengthInput({ error, onStreamLengthChange, streamLength }: Stream
       <SelectContainer>
         <Select
           items={hoursOption}
-          activeItemId={streamLength.hours}
-          onItemClick={(id: string): void => onStreamLengthChange(id, "hours")}
+          activeItemId={props.streamLength.hours}
+          onItemClick={(id: string): void => props.onStreamLengthChange(id, "hours")}
         />
         <Text strong size="lg">
           Hours
@@ -61,8 +61,8 @@ function StreamLengthInput({ error, onStreamLengthChange, streamLength }: Stream
       <SelectContainer>
         <Select
           items={minutesOption}
-          activeItemId={streamLength.minutes}
-          onItemClick={(id: string): void => onStreamLengthChange(id, "minutes")}
+          activeItemId={props.streamLength.minutes}
+          onItemClick={(id: string): void => props.onStreamLengthChange(id, "minutes")}
         />
         <Text strong size="lg">
           Minutes

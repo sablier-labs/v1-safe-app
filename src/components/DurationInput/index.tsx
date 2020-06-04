@@ -1,59 +1,68 @@
 import React, { useCallback, useEffect, useReducer, useRef } from "react";
 import styled, { css } from "styled-components";
-import typy from "typy";
 import useOnClickOutside from "use-onclickoutside";
 
-import { BigNumber } from "bignumber.js";
-import { getSecondsForDays, getSecondsForHours, getSecondsForMinutes } from "@sablier/utils";
+import { BigNumber } from "@ethersproject/bignumber";
 import { rgba } from "polished";
-import { useCreateStreamManager } from "@sablier/contexts";
 import { useMachine } from "@xstate/react";
 
 import Machine from "./machine";
 
-import { useEffectWithDefaultDelay } from "../../hooks";
+import { getSecondsForDays, getSecondsForHours, getSecondsForMinutes } from "../../utils";
+import { useMountEffect } from "../../hooks";
 
 const OuterWrapper = styled.div`
-  ${props => props.theme.borderedFlexRowNoWrap};
   align-items: stretch;
-  background-color: ${props => props.theme.white};
+  background-color: #ffffff;
+  border: 1px solid #ebf0ff;
+  display: flex;
+  flex-flow: row nowrap;
   height: 3.25rem;
   margin: 0.75rem 0rem 0.75rem 0.5rem;
   max-width: 464px;
   padding: 0.5rem 1rem;
   position: relative;
 
-  ${props => props.theme.mediaWidth.upToMedium`
+  @media (max-width: 960px) {
     margin: 0.5rem 0rem;
-  `}
+  }
 `;
 
 const StyledFlexRowNoWrap = styled.div`
-  ${props => props.theme.flexRowNoWrap};
   align-items: center;
-  cursor: ${props => (props.isDisabled ? "not-allowed" : "pointer")};
+  display: flex;
+  flex-flow: row nowrap;
+  cursor: pointer;
   flex-grow: 1;
 `;
 
-const Label = styled.span`
-  color: ${props => props.theme.darkGunmetalBlack};
-  font-family: ${props => props.theme.robotoMonoFont};
+type LabelProps = {
+  readonly isPlaceholder: boolean;
+};
+
+const Label = styled.span<LabelProps>`
+  color: #1f2133;
   font-size: 0.9375rem;
   font-weight: 500;
 
   ${props =>
     props.isPlaceholder &&
     css`
-      color: ${props.theme.aliceBlue};
+      color: #ebf0ff;
     `}
 `;
 
-const DropdownWrapper = styled.div`
-  ${props => props.theme.borderedFlexRowNoWrap};
+type DropdownWrapperType = {
+  readonly isOpen: boolean;
+};
+
+const DropdownWrapper = styled.div<DropdownWrapperType>`
   align-items: stretch;
+  border: 1px solid #ebf0ff;
   border-radius: 0.25rem;
-  box-shadow: 0rem 1.25rem 2.5rem 0.5rem ${props => rgba(props.theme.darkGunmetalBlack, 0.15)};
-  display: ${props => (props.isOpen ? "flex" : "none")};
+  box-shadow: 0rem 1.25rem 2.5rem 0.5rem ${() => rgba("#1f2133", 0.15)};
+  /* display: ${props => (props.isOpen ? "flex" : "none")}; */
+  flex-flow: row nowrap;
   left: 0rem;
   max-height: 15rem;
   position: absolute;
@@ -63,7 +72,8 @@ const DropdownWrapper = styled.div`
 `;
 
 const StyledFlexColumnNoWrap = styled.div`
-  ${props => props.theme.flexColumnNoWrap};
+  display: flex;
+  flex-flow: column nowrap;
   flex-grow: 1;
   overflow-y: auto;
   /* https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll */
@@ -77,14 +87,17 @@ const StyledFlexColumnNoWrap = styled.div`
 `;
 
 const Separator = styled.div`
-  background-color: ${props => props.theme.aliceBlue};
+  background-color: #ebf0ff;
   width: 1px;
 `;
 
-const Row = styled.span`
-  background-color: ${props => props.theme.white};
+type RowProps = {
+  readonly isSelected: boolean;
+};
+
+const Row = styled.span<RowProps>`
+  background-color: "#ffffff";
   cursor: pointer;
-  font-family: ${props => props.theme.robotoMonoFont};
   font-size: 0.8125rem;
   font-weight: 400;
   padding: 0.6125rem 0.875rem;
@@ -93,17 +106,17 @@ const Row = styled.span`
 
   &:active,
   &:hover {
-    background-color: ${props => props.theme.ghostWhite};
+    background-color: #f5f7fc;
   }
 
-  ${props => props.theme.mediaWidth.upToMedium`
+  @media (max-width: 960px) {
     transition: none;
-  `}
+  }
 
   ${props =>
     props.isSelected &&
     css`
-      background-color: ${props.theme.ghostWhite};
+      background-color: #f5f7fc;
       font-weight: 600;
     `}
 `;
@@ -118,68 +131,92 @@ const daysArray = [...Array(365).keys()];
 const hoursArray = [...Array(24).keys()];
 const minutesArray = [...Array(60).keys()];
 
-function formatLabel(translation, days, hours, minutes) {
-  const formattedDuration = [];
+function formatLabel(days?: number, hours?: number, minutes?: number): string | undefined {
+  const formattedDuration: string[] = [];
 
-  if (days > 0) {
-    formattedDuration.push(days.toString() + " " + translation("words.day", { count: days }));
+  if (days && days > 0) {
+    formattedDuration.push(days?.toString() + " " + days + " days");
   }
 
-  if (hours > 0) {
-    formattedDuration.push(hours.toString() + " " + translation("words.hour", { count: hours }));
+  if (hours && hours > 0) {
+    formattedDuration.push(hours?.toString() + " " + hours + " hours");
   }
 
-  if (minutes > 0) {
-    formattedDuration.push(minutes.toString() + " " + translation("words.minute", { count: minutes }));
+  if (minutes && minutes > 0) {
+    formattedDuration.push(minutes?.toString() + " " + minutes + " hours");
   }
 
-  return formattedDuration.join(" ") || null;
+  return formattedDuration.join(" ") || undefined;
 }
 
-const RESET = "RESET";
-const UPDATE_DAYS = "UPDATE_DAYS";
-const UPDATE_HOURS = "UPDATE_HOURS";
-const UPDATE_MINUTES = "UPDATE_MINUTES";
+const RESET: string = "RESET";
+const UPDATE_DAYS: string = "UPDATE_DAYS";
+const UPDATE_HOURS: string = "UPDATE_HOURS";
+const UPDATE_MINUTES: string = "UPDATE_MINUTES";
 
-const initialState = {
+export type State = {
+  days?: number;
+  hours?: number;
+  minutes?: number;
+};
+
+export type Action =
+  | { type: typeof RESET; payload?: never }
+  | { type: typeof UPDATE_DAYS; payload: number }
+  | { type: typeof UPDATE_HOURS; payload: number }
+  | { type: typeof UPDATE_MINUTES; payload: number };
+
+declare const Action: Action;
+
+const initialState: State = {
   days: 0,
   hours: 0,
   minutes: 0,
 };
 
-function reducer(state, { type, payload }) {
-  switch (type) {
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
     case RESET: {
       return initialState;
     }
     case UPDATE_DAYS: {
       return {
         ...state,
-        days: payload,
+        days: action.payload,
       };
     }
     case UPDATE_HOURS: {
       return {
         ...state,
-        hours: payload,
+        hours: action.payload,
       };
     }
     case UPDATE_MINUTES: {
       return {
         ...state,
-        minutes: payload,
+        minutes: action.payload,
       };
     }
     default:
-      throw new Error(`Unexpected action type in DurationInput reducer: '${type}'.`);
+      throw new Error("Unexpected action type in DurationInput reducer");
   }
 }
 
-function DurationInput({ duration, onUpdateDuration, readOnly }) {
+export type Props = {
+  readonly duration: {
+    label?: string;
+    totalSeconds?: BigNumber;
+  };
+  readonly onUpdateDuration?: Function;
+};
+
+/**
+ * Component ported over from the official Sablier Interface at https://pay.sablier.finance
+ */
+function DurationInput(props: Props) {
   const wrapperRef = useRef(null);
   const [currentMachine, sendToMachine] = useMachine(Machine);
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { isOpen: isCreateStreamOpen } = useCreateStreamManager();
 
   useOnClickOutside(wrapperRef, () => {
     sendToMachine("IDLE");
@@ -192,43 +229,38 @@ function DurationInput({ duration, onUpdateDuration, readOnly }) {
    * select another duration.
    */
   const onClickWrapper = useCallback(() => {
-    if (!readOnly) {
-      if (currentMachine.value === "idle") {
-        sendToMachine("COLLAPSE");
-      } else if (currentMachine.value === "collapsed") {
-        sendToMachine("IDLE");
-      }
+    if (currentMachine.value === "idle") {
+      sendToMachine("COLLAPSE");
+    } else if (currentMachine.value === "collapsed") {
+      sendToMachine("IDLE");
     }
-  }, [currentMachine.value, readOnly, sendToMachine]);
+  }, [currentMachine.value, sendToMachine]);
 
   /** Side Effects **/
 
   /* Alert the parent component when the user changes one of the time units */
   useEffect(() => {
-    if (typy(onUpdateDuration).isTruthy) {
+    if (props.onUpdateDuration) {
       const label = formatLabel(state.days, state.hours, state.minutes);
-      const totalSeconds = new BigNumber(
+      const totalSeconds = BigNumber.from(
         getSecondsForDays(state.days) + getSecondsForHours(state.hours) + getSecondsForMinutes(state.minutes),
       );
-      onUpdateDuration({ label, totalSeconds });
+      props.onUpdateDuration({ label, totalSeconds });
     }
-  }, [onUpdateDuration, state]);
+  }, [props, state]);
 
-  /* When the sidebar closes, hide the dropdown and reset the state */
-  useEffectWithDefaultDelay({
-    condition: !isCreateStreamOpen,
-    func: () => {
-      sendToMachine("IDLE");
-      dispatch({ type: "RESET" });
-    },
-  });
+  /* The first time this component is mounted, set the initial state machine */
+  useMountEffect(() => {
+    sendToMachine("IDLE");
+    dispatch({ type: "RESET" });
+  }, [sendToMachine]);
 
   return (
     <OuterWrapper onClick={onClickWrapper} ref={wrapperRef}>
       <StyledFlexRowNoWrap>
-        <Label isPlaceholder={typy(duration, "label").isFalsy}>{typy(duration, "label").safeString || "30 Days"}</Label>
+        <Label isPlaceholder={props.duration.label === undefined}>{props.duration.label || "30 Days"}</Label>
       </StyledFlexRowNoWrap>
-      <DropdownWrapper isOpen={typy(currentMachine, "value").safeString === "collapsed"}>
+      <DropdownWrapper isOpen={currentMachine.value === "collapsed"}>
         <StyledFlexColumnNoWrap>
           {daysArray.map(days => {
             return (
@@ -244,7 +276,7 @@ function DurationInput({ duration, onUpdateDuration, readOnly }) {
               >
                 {days}
                 &nbsp;
-                {translation("words.day", { count: days }).toLowerCase()}
+                {days + " days"}
               </Row>
             );
           })}
@@ -265,7 +297,7 @@ function DurationInput({ duration, onUpdateDuration, readOnly }) {
               >
                 {hours}
                 &nbsp;
-                {translation("words.hour", { count: hours }).toLowerCase()}
+                {hours + " hours"}
               </Row>
             );
           })}
@@ -286,7 +318,7 @@ function DurationInput({ duration, onUpdateDuration, readOnly }) {
               >
                 {minutes}
                 &nbsp;
-                {translation("words.minute", { count: minutes }).toLowerCase()}
+                {minutes + " minutes"}
               </Row>
             );
           })}
@@ -295,19 +327,5 @@ function DurationInput({ duration, onUpdateDuration, readOnly }) {
     </OuterWrapper>
   );
 }
-
-// DurationInput.propTypes = {
-//   duration: PropTypes.shape({
-//     label: PropTypes.string,
-//     totalSeconds: PropTypes.shape({}),
-//   }),
-//   onUpdateDuration: PropTypes.func.isRequired,
-//   readOnly: PropTypes.bool,
-// };
-
-// DurationInput.defaultProps = {
-//   duration: null,
-//   readOnly: false,
-// };
 
 export default DurationInput;
