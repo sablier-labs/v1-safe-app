@@ -18,8 +18,8 @@ import { bigNumberToHumanFormat } from "../../utils/format";
 const humanReadableStream = (stream: ProxyStream) => {
   const { id, recipient, sender } = stream;
   const { deposit, startTime, stopTime, token } = stream.stream;
-  const humanStartTime: string = moment.unix(startTime).format("DD-MM-YYYY HH:mm");
-  const humanStopTime: string = moment.unix(stopTime).format("DD-MM-YYYY HH:mm");
+  const humanStartTime: string = moment.unix(startTime).format("MMM D, YYYY - HH:mm");
+  const humanStopTime: string = moment.unix(stopTime).format("MMM D, YYYY - HH:mm");
   const humanDeposit: string = `${bigNumberToHumanFormat(deposit, token.decimals)} ${token.symbol}`;
   return { id, recipient, sender, humanDeposit, humanStartTime, humanStopTime, token };
 };
