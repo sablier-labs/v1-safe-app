@@ -9,6 +9,7 @@ import Machine from "./machine";
 
 import { getSecondsForDays, getSecondsForHours, getSecondsForMinutes } from "../../../utils";
 import { useMountEffect } from "../../../hooks";
+import theme from "../../../theme";
 
 const OuterWrapper = styled.div`
   align-items: stretch;
@@ -95,6 +96,7 @@ type RowProps = {
 const Row = styled.span<RowProps>`
   background-color: "#ffffff";
   cursor: pointer;
+  font-family: ${theme.fonts.fontFamily};
   font-size: 13px;
   font-weight: 400;
   padding: 10px 14px;
@@ -103,7 +105,7 @@ const Row = styled.span<RowProps>`
 
   &:active,
   &:hover {
-    background-color: #f5f7fc;
+    background-color: ${theme.colors.background};
   }
 
   @media (max-width: 960px) {
@@ -113,7 +115,7 @@ const Row = styled.span<RowProps>`
   ${props =>
     props.isSelected &&
     css`
-      background-color: #f5f7fc;
+      background-color: ${theme.colors.background};
       font-weight: 600;
     `}
 `;
