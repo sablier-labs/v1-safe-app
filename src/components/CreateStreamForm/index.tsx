@@ -16,7 +16,15 @@ import { TransactionList } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils";
 import { getTokenList, TokenItem } from "../../config/tokens";
 
-function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }) {
+function CreateStreamForm({
+  appsSdk,
+  safeInfo,
+  toggleDisplayStreams,
+}: {
+  appsSdk: SdkInstance;
+  safeInfo?: SafeInfo;
+  toggleDisplayStreams: Function;
+}) {
   /*** State Variables ***/
   const [amountError, setAmountError] = useState<string | undefined>();
   const [duration, setDuration] = useState<Duration>({
@@ -230,6 +238,9 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
       <ButtonContainer>
         <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
           Create Stream
+        </Button>
+        <Button size="lg" color="secondary" variant="contained" onClick={() => toggleDisplayStreams()}>
+          Manage Active Streams
         </Button>
       </ButtonContainer>
     </>
