@@ -8,48 +8,46 @@ import { useMachine } from "@xstate/react";
 
 import Machine from "./machine";
 
-import { getSecondsForDays, getSecondsForHours, getSecondsForMinutes } from "../../utils";
-import { useMountEffect } from "../../hooks";
+import { getSecondsForDays, getSecondsForHours, getSecondsForMinutes } from "../../../utils";
+import { useMountEffect } from "../../../hooks";
 
 const OuterWrapper = styled.div`
   align-items: stretch;
-  background-color: #ffffff;
-  border: 1px solid #ebf0ff;
+  background-color: ${props => props.theme.colors.white};
+  border: 0;
   display: flex;
   flex-flow: row nowrap;
-  height: 3.25rem;
-  margin: 0.75rem 0rem 0.75rem 0.5rem;
-  max-width: 464px;
-  padding: 0.5rem 1rem;
+  margin: 0px 0px 15px 0px;
   position: relative;
-
-  @media (max-width: 960px) {
-    margin: 0.5rem 0rem;
-  }
+  width: 400px;
 `;
 
 const StyledFlexRowNoWrap = styled.div`
   align-items: center;
-  display: flex;
-  flex-flow: row nowrap;
+  background-color: rgba(0, 0, 0, 0.09);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.54);
   cursor: pointer;
+  display: inline-flex;
+  font-size: 16px;
+  line-height: 1.1876em;
   flex-grow: 1;
+  min-width: 0;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.13);
+  }
 `;
 
-type LabelProps = {
-  readonly isPlaceholder: boolean;
-};
-
-const Label = styled.span<LabelProps>`
-  color: #1f2133;
-  font-size: 0.9375rem;
-  font-weight: 500;
-
-  ${props =>
-    props.isPlaceholder &&
-    css`
-      color: #ebf0ff;
-    `}
+const Label = styled.span`
+  color: currentColor;
+  font: inherit;
+  font-family: ${props => props.theme.fonts.fontFamily};
+  padding: 20px 12px 18px 12px;
 `;
 
 type DropdownWrapperType = {
@@ -58,16 +56,16 @@ type DropdownWrapperType = {
 
 const DropdownWrapper = styled.div<DropdownWrapperType>`
   align-items: stretch;
+  background-color: ${props => props.theme.colors.white};
   border: 1px solid #ebf0ff;
-  border-radius: 0.25rem;
-  box-shadow: 0rem 1.25rem 2.5rem 0.5rem ${() => rgba("#1f2133", 0.15)};
-  /* display: ${props => (props.isOpen ? "flex" : "none")}; */
+  border-radius: 4px;
+  display: ${props => (props.isOpen ? "flex" : "none")};
   flex-flow: row nowrap;
-  left: 0rem;
-  max-height: 15rem;
+  left: 0px;
+  max-height: 240px;
   position: absolute;
-  right: 0rem;
-  top: 3.5rem;
+  right: 0px;
+  top: 56px;
   z-index: 100;
 `;
 
@@ -78,16 +76,16 @@ const StyledFlexColumnNoWrap = styled.div`
   overflow-y: auto;
   /* https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll */
   -ms-overflow-style: none;
-  scrollbar-width: 0rem;
+  scrollbar-width: 0px;
 
   &::-webkit-scrollbar {
-    height: 0rem;
-    width: 0rem;
+    height: 0px;
+    width: 0px;
   }
 `;
 
 const Separator = styled.div`
-  background-color: #ebf0ff;
+  background-color: rgba(0, 0, 0, 0.12);
   width: 1px;
 `;
 
@@ -98,9 +96,9 @@ type RowProps = {
 const Row = styled.span<RowProps>`
   background-color: "#ffffff";
   cursor: pointer;
-  font-size: 0.8125rem;
+  font-size: 13px;
   font-weight: 400;
-  padding: 0.6125rem 0.875rem;
+  padding: 10px 14px;
   transition: background-color 200ms ease-in-out;
   user-select: none;
 
@@ -135,15 +133,15 @@ function formatLabel(days?: number, hours?: number, minutes?: number): string | 
   const formattedDuration: string[] = [];
 
   if (days && days > 0) {
-    formattedDuration.push(days?.toString() + " " + days + " days");
+    formattedDuration.push(days?.toString() + " Days");
   }
 
   if (hours && hours > 0) {
-    formattedDuration.push(hours?.toString() + " " + hours + " hours");
+    formattedDuration.push(hours?.toString() + " Hours");
   }
 
   if (minutes && minutes > 0) {
-    formattedDuration.push(minutes?.toString() + " " + minutes + " hours");
+    formattedDuration.push(minutes?.toString() + " Minutes");
   }
 
   return formattedDuration.join(" ") || undefined;
@@ -168,8 +166,9 @@ export type Action =
 
 declare const Action: Action;
 
+/* Should be consistent with the default values in CreateStreamForm */
 const initialState: State = {
-  days: 0,
+  days: 3,
   hours: 0,
   minutes: 0,
 };
@@ -202,18 +201,21 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+export type Duration = {
+  label?: string;
+  totalSeconds?: BigNumber;
+};
+
 export type Props = {
-  readonly duration: {
-    label?: string;
-    totalSeconds?: BigNumber;
-  };
+  readonly duration: Duration;
   readonly onUpdateDuration?: Function;
 };
 
 /**
  * Component ported over from the official Sablier Interface at https://pay.sablier.finance
  */
-function DurationInput(props: Props) {
+function DurationInput({ duration, onUpdateDuration }: Props) {
+  const daysRef = useRef(null);
   const wrapperRef = useRef(null);
   const [currentMachine, sendToMachine] = useMachine(Machine);
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -238,27 +240,37 @@ function DurationInput(props: Props) {
 
   /** Side Effects **/
 
-  /* Alert the parent component when the user changes one of the time units */
-  useEffect(() => {
-    if (props.onUpdateDuration) {
-      const label = formatLabel(state.days, state.hours, state.minutes);
-      const totalSeconds = BigNumber.from(
-        getSecondsForDays(state.days) + getSecondsForHours(state.hours) + getSecondsForMinutes(state.minutes),
-      );
-      props.onUpdateDuration({ label, totalSeconds });
-    }
-  }, [props, state]);
-
   /* The first time this component is mounted, set the initial state machine */
   useMountEffect(() => {
     sendToMachine("IDLE");
     dispatch({ type: "RESET" });
-  }, [sendToMachine]);
+  }, [dispatch, sendToMachine]);
+
+  useEffect((): void => {
+    if (daysRef.current) {
+      console.log("daysRef.current", (daysRef.current as any).offsetTop);
+      window.scrollTo({
+        behavior: "smooth",
+        top: (daysRef.current as any).offsetTop,
+      });
+    }
+  }, [daysRef]);
+
+  /* Alert the parent component when the user changes one of the time units */
+  useEffect(() => {
+    if (onUpdateDuration) {
+      const label = formatLabel(state.days, state.hours, state.minutes);
+      const totalSeconds = BigNumber.from(
+        getSecondsForDays(state.days) + getSecondsForHours(state.hours) + getSecondsForMinutes(state.minutes),
+      );
+      onUpdateDuration({ label, totalSeconds });
+    }
+  }, [onUpdateDuration, state]);
 
   return (
     <OuterWrapper onClick={onClickWrapper} ref={wrapperRef}>
       <StyledFlexRowNoWrap>
-        <Label isPlaceholder={props.duration.label === undefined}>{props.duration.label || "30 Days"}</Label>
+        <Label>{duration.label || "3 Days"}</Label>
       </StyledFlexRowNoWrap>
       <DropdownWrapper isOpen={currentMachine.value === "collapsed"}>
         <StyledFlexColumnNoWrap>
@@ -276,7 +288,7 @@ function DurationInput(props: Props) {
               >
                 {days}
                 &nbsp;
-                {days + " days"}
+                {days === 1 ? "day" : "days"}
               </Row>
             );
           })}
@@ -297,7 +309,7 @@ function DurationInput(props: Props) {
               >
                 {hours}
                 &nbsp;
-                {hours + " hours"}
+                {hours === 1 ? "hour" : "hours"}
               </Row>
             );
           })}
@@ -318,7 +330,7 @@ function DurationInput(props: Props) {
               >
                 {minutes}
                 &nbsp;
-                {minutes + " minutes"}
+                {minutes === 1 ? "minute" : "minutes"}
               </Row>
             );
           })}

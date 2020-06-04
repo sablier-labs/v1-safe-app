@@ -7,24 +7,26 @@ import { BigNumberInput } from "big-number-input";
 import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 
-import StreamLengthInput, { StreamLength } from "../StreamLengthInput";
+import DurationInput, { Duration } from "./DurationInput";
 import erc20Abi from "../../abis/erc20";
 import createStreamTxs from "../../utils/transactions/createStream";
 import provider from "../../config/provider";
 
+import { SECONDS_IN_DAY, bigNumberToHumanFormat } from "../../utils";
 import { ButtonContainer, SelectContainer } from "../../theme/components";
 import { TransactionList } from "../../typings";
-import { bigNumberToHumanFormat } from "../../utils";
 import { getTokenList, TokenItem } from "../../config/tokens";
 
 function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }) {
   /*** State Variables ***/
   const [amountError, setAmountError] = useState<string | undefined>();
+  const [duration, setDuration] = useState<Duration>({
+    label: "3 days",
+    totalSeconds: BigNumber.from(SECONDS_IN_DAY).mul(3),
+  });
   const [recipient, setRecipient] = useState<string>("");
   const [selectedToken, setSelectedToken] = useState<TokenItem>();
   const [streamAmount, setStreamAmount] = useState<string>("");
-  const [streamLength, setStreamLength] = useState<StreamLength>({ days: "0", hours: "0", minutes: "0" });
-  const [streamLengthError, setStreamLengthError] = useState<string | undefined>();
   const [tokenBalance, setTokenBalance] = useState<string>("0");
   const [tokenInstance, setTokenInstance] = useState<Contract>();
   const [tokenList, setTokenList] = useState<TokenItem[]>();
@@ -49,37 +51,22 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
     return true;
   }, [humanTokenBalance, selectedToken, streamAmount, tokenBalance]);
 
-  const validateStreamLength = useCallback((): boolean => {
-    const { days, hours, minutes } = streamLength;
-    if (days === "0" && hours === "0" && minutes === "0") {
-      setStreamLengthError("Please set a stream length");
-      return false;
-    }
-    return true;
-  }, [streamLength]);
-
   const createStream = useCallback((): void => {
     /* We call in this way to ensure all errors are displayed to user */
     const amountValid = validateAmountValue();
-    const lengthValid = validateStreamLength();
-    if (!safeInfo || !selectedToken || !amountValid || !lengthValid) {
+    if (!safeInfo || !selectedToken || !amountValid || !duration || !duration?.label || !duration?.totalSeconds) {
       return;
     }
 
-    const streamDuration = moment.duration({
-      days: parseInt(streamLength.days, 10),
-      hours: parseInt(streamLength.hours, 10),
-      minutes: parseInt(streamLength.minutes, 10),
-    });
-
     /* TODO: Stream initiation must be approved by other owners within an hour */
+    const totalSeconds: number | undefined = duration?.totalSeconds?.toNumber();
     const startTime: Moment = moment()
       .startOf("second")
       .add({ hours: 1 });
-    const stopTime: Moment = startTime.clone().add(streamDuration.clone());
+    const stopTime: Moment = startTime.clone().add(totalSeconds);
 
     const bnStreamAmount = BigNumber.from(streamAmount);
-    const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(streamDuration.asSeconds()));
+    const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(totalSeconds));
 
     const txs: TransactionList = createStreamTxs(
       safeInfo.network,
@@ -93,21 +80,17 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
 
     setStreamAmount("");
     setRecipient("");
-  }, [
-    appsSdk,
-    recipient,
-    safeInfo,
-    selectedToken,
-    streamAmount,
-    streamLength,
-    tokenInstance,
-    validateAmountValue,
-    validateStreamLength,
-  ]);
+  }, [appsSdk, duration, recipient, safeInfo, selectedToken, streamAmount, tokenInstance, validateAmountValue]);
 
   const isButtonDisabled = useCallback((): boolean => {
-    return streamAmount.length === 0 || streamAmount === "0" || Boolean(amountError) || Boolean(streamLengthError);
-  }, [amountError, streamAmount, streamLengthError]);
+    return (
+      streamAmount.length === 0 ||
+      streamAmount === "0" ||
+      Boolean(amountError) ||
+      !duration.totalSeconds ||
+      duration.totalSeconds.isZero()
+    );
+  }, [amountError, duration, streamAmount]);
 
   const onSelectItem = useCallback(
     (id: string): void => {
@@ -130,12 +113,11 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
     setStreamAmount(value);
   }, []);
 
-  const onStreamLengthChange = useCallback(
-    (value: string, unit: "days" | "hours" | "minutes"): void => {
-      setStreamLengthError(undefined);
-      setStreamLength(state => ({ ...state, [unit]: value }));
+  const onUpdateDuration = useCallback(
+    (newDuration: Duration): void => {
+      setDuration(newDuration);
     },
-    [setStreamLength, setStreamLengthError],
+    [setDuration],
   );
 
   /*** Side Effects ***/
@@ -226,11 +208,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
 
       <Text size="lg">For how long should the money be streamed?</Text>
 
-      <StreamLengthInput
-        streamLength={streamLength}
-        onStreamLengthChange={onStreamLengthChange}
-        error={streamLengthError}
-      />
+      <DurationInput duration={duration} onUpdateDuration={onUpdateDuration} />
 
       <ButtonContainer>
         <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
