@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import useOnClickOutside from "use-onclickoutside";
 
 import { BigNumber } from "@ethersproject/bignumber";
-import { rgba } from "polished";
 import { useMachine } from "@xstate/react";
 
 import Machine from "./machine";
