@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import moment, { Moment } from "moment";
-
 import { Contract, ethers } from "ethers";
 import { BigNumber } from "@ethersproject/bignumber";
 import { BigNumberInput } from "big-number-input";
@@ -60,21 +58,26 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
 
     /* TODO: Stream initiation must be approved by other owners within an hour */
     const totalSeconds: number | undefined = duration?.totalSeconds?.toNumber();
-    const startTime: Moment = moment()
-      .startOf("second")
-      .add({ hours: 1 });
-    const stopTime: Moment = startTime.clone().add(totalSeconds);
+    const currentUnix: number = Math.floor(new Date().getTime() / 1000);
+    const startTime: BigNumber = BigNumber.from(currentUnix).add(3600);
+    const stopTime: BigNumber = startTime.add(totalSeconds);
 
     const bnStreamAmount = BigNumber.from(streamAmount);
     const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(totalSeconds));
+
+    console.log({
+      startTime: startTime.toString(),
+      stopTime: stopTime.toString(),
+      totalSeconds,
+    });
 
     const txs: TransactionList = createStreamTxs(
       safeInfo.network,
       recipient,
       safeStreamAmount.toString(),
       tokenInstance?.address || "",
-      startTime.format("X"),
-      stopTime.format("X"),
+      startTime.toString(),
+      stopTime.toString(),
     );
     appsSdk.sendTransactions(txs);
 
