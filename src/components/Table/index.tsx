@@ -171,9 +171,9 @@ class GnoTable extends React.Component<any, any> {
           </Table>
         )}
         {isEmpty && (
-          // <Row className={classes.loader} style={this.getEmptyStyle(emptyRows + 1)}>
-          <CircularProgress size={60} />
-          // </Row>
+          <div className={classes.loader} style={this.getEmptyStyle(emptyRows + 1)}>
+            <CircularProgress size={60} />
+          </div>
         )}
         {!disablePagination && (
           <TablePagination
