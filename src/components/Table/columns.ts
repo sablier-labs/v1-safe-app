@@ -33,7 +33,7 @@ export const generateColumns = () => {
     disablePadding: false,
     label: "To",
     custom: false,
-    width: 180,
+    width: 320,
   };
 
   const depositColumn: Column = {
