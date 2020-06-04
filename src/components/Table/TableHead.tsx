@@ -35,7 +35,7 @@ function GnoTableHead(props: any) {
           >
             {column.static ? (
               <div style={column.style}>
-                <Text size="sm">{column.label}</Text>
+                <Text size="lg">{column.label}</Text>
               </div>
             ) : (
               <TableSortLabel
@@ -44,7 +44,7 @@ function GnoTableHead(props: any) {
                 onClick={changeSort(column.id, column.order)}
                 style={column.style}
               >
-                <Text size="sm">{column.label}</Text>
+                <Text size="lg">{column.label}</Text>
               </TableSortLabel>
             )}
           </TableCell>
