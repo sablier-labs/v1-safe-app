@@ -57,7 +57,7 @@ type DropdownWrapperType = {
 const DropdownWrapper = styled.div<DropdownWrapperType>`
   align-items: stretch;
   background-color: ${props => props.theme.colors.white};
-  border: 1px solid #ebf0ff;
+  border: 1px solid ${theme.colors.background};
   border-radius: 4px;
   display: ${props => (props.isOpen ? "flex" : "none")};
   flex-flow: row nowrap;
