@@ -8,18 +8,18 @@ import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import { BigNumber, Contract, ethers, utils } from "ethers";
 
 import StreamLengthInput, { StreamLength } from "./components/StreamLengthInput";
-import WidgetWrapper from "./components/WidgetWrapper";
+import { Container, TitleArea, NavbarArea, BodyArea } from "./components/Layout";
 import erc20Abi from "./abis/erc20";
 import createStreamTxs from "./transactions/createStream";
-import getStreams from "./gql/streams";
 import provider from "./config/provider";
 import theme from "./theme";
 
 import { SelectContainer, ButtonContainer } from "./components";
-import { Stream, TransactionList } from "./typings/types";
+import { TransactionList } from "./typings/types";
 import { getTokenList, TokenItem } from "./config/tokens";
 import { useAppsSdk } from "./hooks";
 import bigNumberToHumanFormat from "./utils/bigNumberToHumanFormat";
+import StreamTable from "./components/StreamTable";
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
@@ -29,7 +29,6 @@ function SablierWidget() {
   /*** State Variables ***/
   const [appsSdk, safeInfo]: [SdkInstance, SafeInfo | undefined] = useAppsSdk();
   const [amountError, setAmountError] = useState<string | undefined>();
-  const [outgoingStreams, setOutgoingStreams] = useState<Stream[]>([]);
   const [recipient, setRecipient] = useState<string>("");
   const [selectedToken, setSelectedToken] = useState<TokenItem>();
   const [streamAmount, setStreamAmount] = useState<string>("");
@@ -110,11 +109,6 @@ function SablierWidget() {
     validateStreamLength,
   ]);
 
-  // const cancelStream = (streamId: string): void => {
-  //   const txs = cancelStreamTxs(streamId);
-  //   appsSdk.sendTransactions(txs);
-  // };
-
   const isButtonDisabled = useCallback((): boolean => {
     return streamAmount.length === 0 || streamAmount === "0" || Boolean(amountError) || Boolean(streamLengthError);
   }, [amountError, streamAmount, streamLengthError]);
@@ -164,19 +158,6 @@ function SablierWidget() {
     setSelectedToken(findDaiRes);
   }, [safeInfo]);
 
-  useEffect(() => {
-    const loadOutgoingStreams = async () => {
-      if (!safeInfo || !safeInfo.network || !safeInfo.safeAddress) {
-        return;
-      }
-
-      const streams: Stream[] = await getStreams(safeInfo.network, safeInfo.safeAddress);
-      setOutgoingStreams(streams);
-    };
-
-    loadOutgoingStreams();
-  }, [safeInfo]);
-
   /* Clear the form every time the user changes the token */
   useEffect(() => {
     if (!selectedToken) {
@@ -222,63 +203,61 @@ function SablierWidget() {
 
   return (
     <ThemeProvider theme={theme}>
-      <WidgetWrapper>
-        <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
+      <Container>
+        <TitleArea>
+          <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
+        </TitleArea>
 
-        <Title size="xs">What token do you want to use?</Title>
+        <NavbarArea>
+          <Text size="lg">What token do you want to use?</Text>
 
-        <SelectContainer>
-          <Select items={tokenList || []} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
-          <Text strong size="lg">
-            {humanTokenBalance()}
-          </Text>
-        </SelectContainer>
+          <SelectContainer>
+            <Select items={tokenList || []} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
+            <Text size="lg">{humanTokenBalance()}</Text>
+          </SelectContainer>
 
-        <Title size="xs">How much do you want to stream in total?</Title>
+          <Text size="lg">How much do you want to stream in total?</Text>
+          <SelectContainer>
+            <BigNumberInput
+              decimals={selectedToken.decimals}
+              onChange={onAmountChange}
+              value={streamAmount}
+              renderInput={(props: any) => (
+                <TextField label="Amount" value={props.value} onChange={props.onChange} meta={{ error: amountError }} />
+              )}
+            />
+          </SelectContainer>
 
-        <BigNumberInput
-          decimals={selectedToken.decimals}
-          onChange={onAmountChange}
-          value={streamAmount}
-          renderInput={(props: any) => (
-            <TextField label="Amount" value={props.value} onChange={props.onChange} meta={{ error: amountError }} />
-          )}
-        />
+          <Text size="lg">Who would you like to stream to?</Text>
 
-        <Title size="xs">Who would you like to stream to?</Title>
+          <SelectContainer>
+            <TextField
+              label="Recipient"
+              value={recipient}
+              onChange={(event): void => setRecipient(event.target.value)}
+            />
+          </SelectContainer>
 
-        <TextField label="Recipient" value={recipient} onChange={(event): void => setRecipient(event.target.value)} />
+          <Text size="lg">For how long should the money be streamed?</Text>
 
-        <Title size="xs">For how long should the money be streamed?</Title>
+          <StreamLengthInput
+            streamLength={streamLength}
+            onStreamLengthChange={onStreamLengthChange}
+            error={streamLengthError}
+          />
 
-        <StreamLengthInput
-          streamLength={streamLength}
-          onStreamLengthChange={onStreamLengthChange}
-          error={streamLengthError}
-        />
+          <ButtonContainer>
+            <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
+              Create Stream
+            </Button>
+          </ButtonContainer>
+        </NavbarArea>
 
-        <ButtonContainer>
-          <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
-            Create Stream
-          </Button>
-        </ButtonContainer>
-
-        {outgoingStreams.map((stream: Stream) => (
-          <StreamDisplay key={stream.id} stream={stream} />
-        ))}
-      </WidgetWrapper>
+        <BodyArea>
+          <StreamTable appsSdk={appsSdk} safeInfo={safeInfo} />
+        </BodyArea>
+      </Container>
     </ThemeProvider>
-  );
-}
-
-function StreamDisplay({ stream }: { stream: Stream }) {
-  const humanStartTime: string = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
-  const humanStopTime: string = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
-  return (
-    <Text strong size="lg">
-      {" "}
-      {`Stream ID: ${stream.id} Recipient: ${stream.recipient}  Start Time: ${humanStartTime} Stop Time: ${humanStopTime}`}
-    </Text>
   );
 }
 
