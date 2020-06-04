@@ -65,20 +65,25 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
       return;
     }
 
-    /* TODO: Stream initiation must be approved by other owners within an hour */
-    const startTime: Moment = moment()
-      .startOf("second")
-      .add({ hours: 1 });
-    const stopTime: Moment = startTime.clone().add({
+    const streamDuration = moment.duration({
       days: parseInt(streamLength.days, 10),
       hours: parseInt(streamLength.hours, 10),
       minutes: parseInt(streamLength.minutes, 10),
     });
 
+    /* TODO: Stream initiation must be approved by other owners within an hour */
+    const startTime: Moment = moment()
+      .startOf("second")
+      .add({ hours: 1 });
+    const stopTime: Moment = startTime.clone().add(streamDuration.clone());
+
+    const bnStreamAmount = BigNumber.from(streamAmount);
+    const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(streamDuration.asSeconds()));
+
     const txs: TransactionList = createStreamTxs(
       safeInfo.network,
       recipient,
-      streamAmount,
+      safeStreamAmount.toString(),
       tokenInstance?.address || "",
       startTime.format("X"),
       stopTime.format("X"),
