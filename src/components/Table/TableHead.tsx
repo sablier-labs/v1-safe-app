@@ -6,7 +6,7 @@ import * as React from "react";
 import { Text } from "@gnosis.pm/safe-react-components";
 import { Column } from "./columns";
 
-export const cellWidth = (width: number) => {
+export const cellWidth = (width?: number) => {
   if (!width) {
     return undefined;
   }
