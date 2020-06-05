@@ -1,5 +1,5 @@
+import React, { ReactElement } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import * as React from "react";
 
 import ErrorIcon from "./assets/error.svg";
 import ClockIcon from "./assets/clock.svg";
@@ -58,7 +58,7 @@ const statusIconStyle = {
   width: "14px",
 };
 
-const Status = ({ classes, status }: { classes: any; status: StreamStatus }) => {
+function Status({ classes, status }: { classes: any; status: StreamStatus }): ReactElement {
   const Icon = statusToIcon[status];
   const statusText = StreamStatus[status];
 
@@ -68,6 +68,6 @@ const Status = ({ classes, status }: { classes: any; status: StreamStatus }) => 
       <p className={classes.statusText}>{statusText}</p>
     </div>
   );
-};
+}
 
 export default withStyles(styles as any)(Status);

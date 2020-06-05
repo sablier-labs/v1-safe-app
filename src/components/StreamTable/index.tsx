@@ -67,7 +67,7 @@ type TableRowData = HumanReadableStream & {
   cancelStream: Function;
 };
 
-const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement => {
+function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
   const [outgoingStreams, setOutgoingStreams] = useState<ProxyStream[]>([]);
 
   useEffect(() => {
@@ -137,6 +137,6 @@ const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
       }
     </Table>
   );
-};
+}
 
 export default StreamTable;
