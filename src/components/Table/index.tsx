@@ -165,7 +165,7 @@ class GnoTable extends React.Component<any, any> {
     return (
       <>
         {!isEmpty && (
-          <Table aria-labelledby={label} className={noBorder ? "" : classes.root}>
+          <Table aria-labelledby={label} size="small" className={noBorder ? "" : classes.root}>
             <TableHead columns={columns} onSort={this.onSort} order={order} orderBy={orderByParam} />
             <TableBody>{children(sortedData)}</TableBody>
           </Table>
