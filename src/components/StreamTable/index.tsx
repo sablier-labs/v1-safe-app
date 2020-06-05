@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 
 import getStreams from "../../gql/streams";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
-import { generateColumns, STREAM_TABLE_ID } from "../Table/columns";
+import { generateColumns, STREAM_TABLE_ID, Column } from "../Table/columns";
 import { cellWidth } from "../Table/TableHead";
 import Table from "../Table";
 import Status from "../Status";
@@ -104,7 +104,7 @@ const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
       {(sortedData: TableRowData[]) =>
         sortedData.map((row: TableRowData) => (
           <TableRow key={row.id} tabIndex={-1}>
-            {autoColumns.map((column: any) => (
+            {autoColumns.map((column: Column) => (
               <TableCell align={column.align} component="td" key={column.id} style={cellWidth(column.width)}>
                 {(row as { [key: string]: any })[column.id]}
               </TableCell>
