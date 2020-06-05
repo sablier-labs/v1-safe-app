@@ -134,15 +134,15 @@ function formatLabel(days?: number, hours?: number, minutes?: number): string | 
   const formattedDuration: string[] = [];
 
   if (days && days > 0) {
-    formattedDuration.push(days?.toString() + " Days");
+    formattedDuration.push(`${days?.toString()} ${days > 1 ? "Days" : "Day"}`);
   }
 
   if (hours && hours > 0) {
-    formattedDuration.push(hours?.toString() + " Hours");
+    formattedDuration.push(`${hours?.toString()} ${hours > 1 ? "Hours" : "Hour"}`);
   }
 
   if (minutes && minutes > 0) {
-    formattedDuration.push(minutes?.toString() + " Minutes");
+    formattedDuration.push(`${minutes?.toString()} ${minutes > 1 ? "Minutes" : "Minute"}`);
   }
 
   return formattedDuration.join(" ") || undefined;
