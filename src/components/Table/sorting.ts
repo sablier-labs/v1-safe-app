@@ -2,7 +2,7 @@ export const FIXED = "fixed";
 
 export const buildOrderFieldFrom = (attr: string): string => `${attr}Order`;
 
-type Order = "asc" | "desc";
+export type Order = "asc" | "desc";
 
 const desc = (a: any, b: any, orderBy: string, orderProp: boolean) => {
   const order = orderProp ? buildOrderFieldFrom(orderBy) : orderBy;

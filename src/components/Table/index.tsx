@@ -7,7 +7,8 @@ import * as React from "react";
 
 // import Row from "src/components/layout/Row";
 import TableHead from "./TableHead";
-import { getSorting, stableSort } from "./sorting";
+import { getSorting, stableSort, Order } from "./sorting";
+import { Column } from "./columns";
 
 const sm = "8px";
 const xl = "32px";
@@ -49,10 +50,36 @@ const nextProps = {
   "aria-label": "Next Page",
 };
 
-class GnoTable extends React.Component<any, any> {
+type Props = {
+  children: Function;
+  classes: any;
+  columns: Column[];
+  data: any[];
+  defaultFixed: boolean;
+  defaultOrder: Order;
+  defaultOrderBy: string;
+  defaultRowsPerPage: number;
+  disableLoadingOnEmptyTable: boolean;
+  disablePagination: boolean;
+  label: string;
+  noBorder?: boolean;
+  size: number;
+};
+
+type State = {
+  page: number;
+  order: Order | undefined;
+  orderBy: string | undefined;
+  fixed: boolean | undefined;
+  orderProp: boolean;
+  rowsPerPage: number | undefined;
+};
+
+class GnoTable extends React.Component<Props, State> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
-    defaultOrder: "asc",
+    defaultOrder: "asc" as Order,
+    disableLoadingOnEmptyTable: false,
     disablePagination: false,
     defaultRowsPerPage: 5,
   };
@@ -74,9 +101,9 @@ class GnoTable extends React.Component<any, any> {
     const { columns, defaultOrderBy } = this.props;
 
     if (defaultOrderBy && columns) {
-      const defaultOrderCol = columns.find(({ id }: { id: string }) => id === defaultOrderBy);
+      const defaultOrderCol: Column | undefined = columns.find(({ id }: { id: string }) => id === defaultOrderBy);
 
-      if (defaultOrderCol.order) {
+      if (defaultOrderCol?.order) {
         this.setState({
           orderProp: true,
         });
@@ -87,7 +114,7 @@ class GnoTable extends React.Component<any, any> {
   onSort = (newOrderBy: string, orderProp: boolean) => {
     const { order, orderBy } = this.state;
     const { defaultOrder } = this.props;
-    let newOrder = "desc";
+    let newOrder: Order = "desc";
 
     // if table was previously sorted by the user
     if (order && orderBy === newOrderBy && order === "desc") {
@@ -140,11 +167,11 @@ class GnoTable extends React.Component<any, any> {
       label,
       noBorder,
       size,
-    }: any = this.props;
+    }: Props = this.props;
     const { fixed, order, orderBy, orderProp, page, rowsPerPage } = this.state;
-    const orderByParam = orderBy || defaultOrderBy;
-    const orderParam = order || defaultOrder;
-    const displayRows = rowsPerPage || defaultRowsPerPage;
+    const orderByParam: string = orderBy || defaultOrderBy;
+    const orderParam: Order = order || defaultOrder;
+    const displayRows: number = rowsPerPage || defaultRowsPerPage;
     const fixedParam = typeof fixed !== "undefined" ? fixed : !!defaultFixed;
 
     const paginationClasses = {
@@ -159,7 +186,7 @@ class GnoTable extends React.Component<any, any> {
       sortedData = sortedData.slice(page * displayRows, page * displayRows + displayRows);
     }
 
-    const emptyRows = displayRows - Math.min(displayRows, data.size - page * displayRows);
+    const emptyRows = displayRows - Math.min(displayRows, data.length - page * displayRows);
     const isEmpty = size === 0 && !disableLoadingOnEmptyTable;
 
     return (
