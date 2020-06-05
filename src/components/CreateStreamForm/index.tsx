@@ -8,6 +8,7 @@ import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import DurationInput, { Duration } from "./DurationInput";
 import erc20Abi from "../../abis/erc20";
 import createStreamTxs from "../../utils/transactions/createStream";
+import createETHStreamTxs from "../../utils/transactions/createETHStream";
 import provider from "../../config/provider";
 
 import { ButtonContainer, SelectContainer } from "../../theme/components";
@@ -71,14 +72,27 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
       totalSeconds,
     });
 
-    const txs: TransactionList = createStreamTxs(
-      safeInfo.network,
-      recipient,
-      safeStreamAmount.toString(),
-      tokenInstance?.address || "",
-      startTime.toString(),
-      stopTime.toString(),
-    );
+    let txs: TransactionList;
+    if (selectedToken.id === "ETH") {
+      // If streaming ETH we need to wrap it first.
+      txs = createETHStreamTxs(
+        safeInfo.network,
+        recipient,
+        safeStreamAmount.toString(),
+        startTime.toString(),
+        stopTime.toString(),
+      );
+    } else {
+      txs = createStreamTxs(
+        safeInfo.network,
+        recipient,
+        safeStreamAmount.toString(),
+        tokenInstance?.address || "",
+        startTime.toString(),
+        stopTime.toString(),
+      );
+    }
+
     appsSdk.sendTransactions(txs);
 
     setStreamAmount("");
