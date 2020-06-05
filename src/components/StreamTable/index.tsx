@@ -101,6 +101,7 @@ const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
         defaultRowsPerPage={25}
         label="Transactions"
         size={tableContents.length}
+        disableLoadingOnEmptyTable
       >
         {(sortedData: TableRowData[]) =>
           sortedData.map((row: TableRowData, index: number) => (
