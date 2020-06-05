@@ -8,6 +8,7 @@ export type ProxyStream = {
 
 export type Stream = {
   id: number;
+  cancellation: any;
   deposit: string;
   recipient: string;
   sender: string;

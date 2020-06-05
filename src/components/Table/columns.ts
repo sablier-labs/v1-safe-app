@@ -3,6 +3,7 @@ export const TX_TABLE_RECIPIENT_ID = "recipient";
 export const TX_TABLE_DEPOSIT_ID = "humanDeposit";
 export const TX_TABLE_START_TIME_ID = "humanStartTime";
 export const TX_TABLE_END_TIME_ID = "humanStopTime";
+export const TX_TABLE_STATUS_ID = "status";
 export const TX_TABLE_ACTION_ID = "action";
 
 export type Column = {
@@ -62,6 +63,15 @@ export const generateColumns = () => {
     custom: false,
   };
 
+  const statusColumn: Column = {
+    id: TX_TABLE_STATUS_ID,
+    order: false,
+    disablePadding: false,
+    label: "Status",
+    custom: true,
+    align: "right",
+  };
+
   const actionColumn: Column = {
     id: TX_TABLE_ACTION_ID,
     order: false,
@@ -72,5 +82,5 @@ export const generateColumns = () => {
     static: true,
   };
 
-  return [nonceColumn, recipientColumn, depositColumn, startColumn, endColumn, actionColumn];
+  return [nonceColumn, recipientColumn, depositColumn, startColumn, endColumn, statusColumn, actionColumn];
 };
