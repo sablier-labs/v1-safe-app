@@ -102,21 +102,10 @@ const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
       size={tableContents.length}
     >
       {(sortedData: TableRowData[]) =>
-        sortedData.map((row: TableRowData, index: number) => (
-          <TableRow
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
-            // className={cn(classes.row, expandedTx === row.tx.safeTxHash && classes.expandedRow)}
-            tabIndex={-1}
-          >
+        sortedData.map((row: TableRowData) => (
+          <TableRow key={row.id} tabIndex={-1}>
             {autoColumns.map((column: any) => (
-              <TableCell
-                align={column.align}
-                // className={cn(classes.cell, ["cancelled", "failed"].includes(row.status) && classes.cancelledRow)}
-                component="td"
-                key={column.id}
-                style={cellWidth(column.width)}
-              >
+              <TableCell align={column.align} component="td" key={column.id} style={cellWidth(column.width)}>
                 {(row as { [key: string]: any })[column.id]}
               </TableCell>
             ))}
