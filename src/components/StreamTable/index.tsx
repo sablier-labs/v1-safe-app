@@ -11,16 +11,10 @@ import cancelStreamTxs from "../../utils/transactions/cancelStream";
 import { generateColumns, STREAM_TABLE_ID, Column } from "../Table/columns";
 import { cellWidth } from "../Table/TableHead";
 import Table from "../Table";
-import Status from "../Status";
+import Status, { StreamStatus } from "../Status";
 
 import { ProxyStream, Token } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils/format";
-
-enum StreamStatus {
-  Active = 0,
-  Ended,
-  Cancelled,
-}
 
 const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { id, recipient, sender } = stream;
