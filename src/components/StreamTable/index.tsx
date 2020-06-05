@@ -22,7 +22,7 @@ enum StreamStatus {
   Cancelled,
 }
 
-const humanReadableStream = (stream: ProxyStream) => {
+const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { id, recipient, sender } = stream;
   const { cancellation, deposit, startTime, stopTime, token } = stream.stream;
   const humanStartTime: string = moment.unix(startTime).format("MMM D, YYYY - HH:mm");
@@ -38,10 +38,19 @@ const humanReadableStream = (stream: ProxyStream) => {
     status = StreamStatus.Active;
   }
 
-  return { id, recipient, sender, status, humanDeposit, humanStartTime, humanStopTime, token };
+  return {
+    id,
+    recipient,
+    sender,
+    status,
+    humanDeposit,
+    humanStartTime,
+    humanStopTime,
+    token,
+  };
 };
 
-type TableRowData = {
+type HumanReadableStream = {
   id: number;
   recipient: string;
   sender: string;
@@ -50,6 +59,9 @@ type TableRowData = {
   humanStartTime: string;
   humanStopTime: string;
   token: Token;
+};
+
+type TableRowData = HumanReadableStream & {
   humanStartTimeOrder: number;
   humanStopTimeOrder: number;
   cancelStream: Function;
