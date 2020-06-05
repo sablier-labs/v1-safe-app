@@ -7,7 +7,6 @@ type Order = "asc" | "desc";
 const desc = (a: any, b: any, orderBy: string, orderProp: boolean) => {
   const order = orderProp ? buildOrderFieldFrom(orderBy) : orderBy;
 
-  console.log(order, orderProp);
   if (b[order] < a[order]) {
     return -1;
   }
