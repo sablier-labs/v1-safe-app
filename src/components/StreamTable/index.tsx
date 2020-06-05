@@ -89,7 +89,6 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
   const columns = generateColumns();
   const autoColumns = columns.filter(c => !c.custom);
 
-  console.log(outgoingStreams);
   const tableContents: TableRowData[] = outgoingStreams.map(proxyStream => ({
     ...humanReadableStream(proxyStream),
     humanStartTimeOrder: proxyStream.stream.startTime,
