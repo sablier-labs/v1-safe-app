@@ -91,53 +91,50 @@ const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
     cancelStream: () => cancelStream(proxyStream.id),
   }));
   return (
-    <>
-      <Table
-        columns={columns}
-        data={tableContents}
-        defaultFixed
-        defaultOrder="desc"
-        defaultOrderBy={TX_TABLE_ID}
-        defaultRowsPerPage={25}
-        label="Transactions"
-        size={tableContents.length}
-        disableLoadingOnEmptyTable
-      >
-        {(sortedData: TableRowData[]) =>
-          sortedData.map((row: TableRowData, index: number) => (
-            <TableRow
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              // className={cn(classes.row, expandedTx === row.tx.safeTxHash && classes.expandedRow)}
-              tabIndex={-1}
-            >
-              {autoColumns.map((column: any) => (
-                <TableCell
-                  align={column.align}
-                  // className={cn(classes.cell, ["cancelled", "failed"].includes(row.status) && classes.cancelledRow)}
-                  component="td"
-                  key={column.id}
-                  style={cellWidth(column.width)}
-                >
-                  {(row as { [key: string]: any })[column.id]}
-                </TableCell>
-              ))}
-              <TableCell component="td">
-                <Status status={row.status} />
+    <Table
+      columns={columns}
+      data={tableContents}
+      defaultFixed
+      defaultOrder="desc"
+      defaultOrderBy={TX_TABLE_ID}
+      defaultRowsPerPage={25}
+      label="Transactions"
+      size={tableContents.length}
+    >
+      {(sortedData: TableRowData[]) =>
+        sortedData.map((row: TableRowData, index: number) => (
+          <TableRow
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            // className={cn(classes.row, expandedTx === row.tx.safeTxHash && classes.expandedRow)}
+            tabIndex={-1}
+          >
+            {autoColumns.map((column: any) => (
+              <TableCell
+                align={column.align}
+                // className={cn(classes.cell, ["cancelled", "failed"].includes(row.status) && classes.cancelledRow)}
+                component="td"
+                key={column.id}
+                style={cellWidth(column.width)}
+              >
+                {(row as { [key: string]: any })[column.id]}
               </TableCell>
+            ))}
+            <TableCell component="td">
+              <Status status={row.status} />
+            </TableCell>
 
-              <TableCell component="td">
-                {row.status === StreamStatus.Active && (
-                  <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(row.id)}>
-                    Cancel
-                  </Button>
-                )}
-              </TableCell>
-            </TableRow>
-          ))
-        }
-      </Table>
-    </>
+            <TableCell component="td">
+              {row.status === StreamStatus.Active && (
+                <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(row.id)}>
+                  Cancel
+                </Button>
+              )}
+            </TableCell>
+          </TableRow>
+        ))
+      }
+    </Table>
   );
 };
 
