@@ -16,6 +16,23 @@ import Status, { StreamStatus } from "../Status";
 import { ProxyStream, Token } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils/format";
 
+type HumanReadableStream = {
+  id: number;
+  recipient: string;
+  sender: string;
+  status: StreamStatus;
+  humanDeposit: string;
+  humanStartTime: string;
+  humanStopTime: string;
+  token: Token;
+};
+
+type TableRowData = HumanReadableStream & {
+  humanStartTimeOrder: number;
+  humanStopTimeOrder: number;
+  cancelStream: Function;
+};
+
 const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { id, recipient, sender } = stream;
   const { cancellation, deposit, startTime, stopTime, token } = stream.stream;
@@ -42,23 +59,6 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
     humanStopTime,
     token,
   };
-};
-
-type HumanReadableStream = {
-  id: number;
-  recipient: string;
-  sender: string;
-  status: StreamStatus;
-  humanDeposit: string;
-  humanStartTime: string;
-  humanStopTime: string;
-  token: Token;
-};
-
-type TableRowData = HumanReadableStream & {
-  humanStartTimeOrder: number;
-  humanStopTimeOrder: number;
-  cancelStream: Function;
 };
 
 function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
