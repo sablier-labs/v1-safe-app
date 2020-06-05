@@ -69,6 +69,7 @@ export const generateColumns = () => {
     label: "",
     custom: true,
     align: "right",
+    static: true,
   };
 
   return [nonceColumn, recipientColumn, depositColumn, startColumn, endColumn, actionColumn];
