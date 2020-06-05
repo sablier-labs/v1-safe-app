@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 
 import getStreams from "../../gql/streams";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
-import { generateColumns, TX_TABLE_ID } from "../Table/columns";
+import { generateColumns, STREAM_TABLE_ID } from "../Table/columns";
 import { cellWidth } from "../Table/TableHead";
 import Table from "../Table";
 import Status from "../Status";
@@ -96,7 +96,7 @@ const StreamTable = ({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
       data={tableContents}
       defaultFixed
       defaultOrder="desc"
-      defaultOrderBy={TX_TABLE_ID}
+      defaultOrderBy={STREAM_TABLE_ID}
       defaultRowsPerPage={25}
       label="Transactions"
       size={tableContents.length}

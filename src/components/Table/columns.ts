@@ -1,10 +1,10 @@
-export const TX_TABLE_ID = "id";
-export const TX_TABLE_RECIPIENT_ID = "recipient";
-export const TX_TABLE_DEPOSIT_ID = "humanDeposit";
-export const TX_TABLE_START_TIME_ID = "humanStartTime";
-export const TX_TABLE_END_TIME_ID = "humanStopTime";
-export const TX_TABLE_STATUS_ID = "status";
-export const TX_TABLE_ACTION_ID = "action";
+export const STREAM_TABLE_ID = "id";
+export const STREAM_TABLE_RECIPIENT_ID = "recipient";
+export const STREAM_TABLE_DEPOSIT_ID = "humanDeposit";
+export const STREAM_TABLE_START_TIME_ID = "humanStartTime";
+export const STREAM_TABLE_END_TIME_ID = "humanStopTime";
+export const STREAM_TABLE_STATUS_ID = "status";
+export const STREAM_TABLE_ACTION_ID = "action";
 
 export type Column = {
   id: string;
@@ -20,7 +20,7 @@ export type Column = {
 
 export const generateColumns = () => {
   const nonceColumn: Column = {
-    id: TX_TABLE_ID,
+    id: STREAM_TABLE_ID,
     disablePadding: false,
     label: "Stream ID",
     custom: false,
@@ -29,7 +29,7 @@ export const generateColumns = () => {
   };
 
   const recipientColumn: Column = {
-    id: TX_TABLE_RECIPIENT_ID,
+    id: STREAM_TABLE_RECIPIENT_ID,
     order: false,
     disablePadding: false,
     label: "To",
@@ -38,7 +38,7 @@ export const generateColumns = () => {
   };
 
   const depositColumn: Column = {
-    id: TX_TABLE_DEPOSIT_ID,
+    id: STREAM_TABLE_DEPOSIT_ID,
     order: false,
     disablePadding: false,
     label: "Value",
@@ -48,7 +48,7 @@ export const generateColumns = () => {
   };
 
   const startColumn: Column = {
-    id: TX_TABLE_START_TIME_ID,
+    id: STREAM_TABLE_START_TIME_ID,
     disablePadding: false,
     order: true,
     label: "Start Time",
@@ -56,7 +56,7 @@ export const generateColumns = () => {
   };
 
   const endColumn: Column = {
-    id: TX_TABLE_END_TIME_ID,
+    id: STREAM_TABLE_END_TIME_ID,
     disablePadding: false,
     order: true,
     label: "End Time",
@@ -64,7 +64,7 @@ export const generateColumns = () => {
   };
 
   const statusColumn: Column = {
-    id: TX_TABLE_STATUS_ID,
+    id: STREAM_TABLE_STATUS_ID,
     order: false,
     disablePadding: false,
     label: "Status",
@@ -73,7 +73,7 @@ export const generateColumns = () => {
   };
 
   const actionColumn: Column = {
-    id: TX_TABLE_ACTION_ID,
+    id: STREAM_TABLE_ACTION_ID,
     order: false,
     disablePadding: false,
     label: "",
