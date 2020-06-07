@@ -8,6 +8,18 @@ export type Stream = {
   token: Token;
 };
 
+/**
+ * The truthful sender of a stream is stored in a proxy stream (defined below)
+ * instead of a vanilla stream (defined above). The sender stored in the latter
+ * object is the Payroll.sol contract itself.
+ */
+export type ProxyStream = {
+  id: string;
+  recipient: string;
+  sender: string;
+  stream: Stream;
+};
+
 export type Token = {
   id: number;
   decimals: number;

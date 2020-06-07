@@ -10,26 +10,31 @@ import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import { Button } from "@gnosis.pm/safe-react-components";
 
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
-import getStreams from "../../gql/streams";
+import getProxyStreams from "../../gql/proxyStreams";
 
-import { Stream } from "../../typings";
+import { ProxyStream } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils/format";
 
-function StreamRow({ stream, cancelStream }: { stream: Stream; cancelStream: Function }): ReactElement {
-  const humanStartTime: string = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
-  const humanStopTime: string = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
-  const humanDeposit: string = bigNumberToHumanFormat(stream.deposit, stream.token.decimals);
+type RowProps = {
+  proxyStream: ProxyStream;
+  cancelStream: Function;
+};
+
+function Row({ proxyStream, cancelStream }: RowProps): ReactElement {
+  const humanStartTime: string = moment.unix(proxyStream.stream.startTime).format("DD-MM-YYYY HH:mm");
+  const humanStopTime: string = moment.unix(proxyStream.stream.stopTime).format("DD-MM-YYYY HH:mm");
+  const humanDeposit: string = bigNumberToHumanFormat(proxyStream.stream.deposit, proxyStream.stream.token.decimals);
   return (
-    <TableRow key={stream.id}>
+    <TableRow key={proxyStream.id}>
       <TableCell component="th" scope="row">
-        {stream.id}
+        {proxyStream.id}
       </TableCell>
-      <TableCell align="right">{stream.recipient.slice(0, 6)}...</TableCell>
-      <TableCell align="right">{`${humanDeposit} ${stream.token.symbol}`}</TableCell>
+      <TableCell align="right">{proxyStream.recipient.slice(0, 6)}...</TableCell>
+      <TableCell align="right">{humanDeposit + " " + proxyStream.stream.token.symbol}</TableCell>
       <TableCell align="right">{humanStartTime}</TableCell>
       <TableCell align="right">{humanStopTime}</TableCell>
       <TableCell align="right">
-        <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(stream.id)}>
+        <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(proxyStream.id)}>
           Cancel
         </Button>
       </TableCell>
@@ -38,7 +43,7 @@ function StreamRow({ stream, cancelStream }: { stream: Stream; cancelStream: Fun
 }
 
 function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
-  const [outgoingStreams, setOutgoingStreams] = useState<Array<Stream>>([]);
+  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
 
   useEffect(() => {
     const loadOutgoingStreams = async () => {
@@ -46,8 +51,8 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
         return;
       }
 
-      const streams: Stream[] = await getStreams(safeInfo.network, safeInfo.safeAddress);
-      setOutgoingStreams(streams);
+      const proxyStreams: ProxyStream[] = await getProxyStreams(safeInfo.network, safeInfo.safeAddress);
+      setOutgoingProxyStreams(proxyStreams);
     };
 
     loadOutgoingStreams();
@@ -59,10 +64,10 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
     appsSdk.sendTransactions(txs);
   };
 
-  // TODO: Add pagination to handle more than 7 streams
-  const tableContents = outgoingStreams
+  /* TODO: Add pagination to handle more than 7 streams */
+  const tableContents = outgoingProxyStreams
     .slice(0, 7)
-    .map((stream: Stream) => <StreamRow stream={stream} cancelStream={cancelStream} />);
+    .map((proxyStream: ProxyStream) => <Row proxyStream={proxyStream} cancelStream={cancelStream} />);
   return (
     <Table size="small">
       <TableHead>
