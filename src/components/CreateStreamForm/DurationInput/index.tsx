@@ -216,7 +216,6 @@ export type Props = {
  * Component ported over from the official Sablier Interface at https://pay.sablier.finance
  */
 function DurationInput({ duration, onUpdateDuration }: Props) {
-  const daysRef = useRef(null);
   const wrapperRef = useRef(null);
   const [currentMachine, sendToMachine] = useMachine(Machine);
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -246,16 +245,6 @@ function DurationInput({ duration, onUpdateDuration }: Props) {
     sendToMachine("IDLE");
     dispatch({ type: "RESET" });
   }, [dispatch, sendToMachine]);
-
-  useEffect((): void => {
-    if (daysRef.current) {
-      console.log("daysRef.current", (daysRef.current as any).offsetTop);
-      window.scrollTo({
-        behavior: "smooth",
-        top: (daysRef.current as any).offsetTop,
-      });
-    }
-  }, [daysRef]);
 
   /* Alert the parent component when the user changes one of the time units */
   useEffect(() => {
