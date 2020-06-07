@@ -203,8 +203,8 @@ function reducer(state: State, action: Action): State {
 }
 
 export type Duration = {
-  label?: string;
-  totalSeconds?: BigNumber;
+  readonly label?: string;
+  readonly totalSeconds?: BigNumber;
 };
 
 export type Props = {
