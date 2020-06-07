@@ -1,16 +1,16 @@
 {
-  "name": "Sablier",
-  "description": "The protocol for real-time finance",
+  "name": "Sablier Safe App",
+  "description": "Safe App for interacting with the Sablier protocol",
   "icons": [
     {
-      "src": "sablier-logo.png",
+      "src": "logo.svg",
       "type": "image/png",
       "sizes": "200x200"
     }
   ],
-  "iconPath": "sablier-logo.png",
+  "iconPath": "logo.svg",
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#f77423",
   "background_color": "#ffffff"
 }
