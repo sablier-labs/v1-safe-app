@@ -1,4 +1,4 @@
-import ApolloClient, { gql } from "apollo-boost";
+import ApolloClient, { gql, DocumentNode } from "apollo-boost";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
 import { ProxyStream } from "../typings";
@@ -12,6 +12,33 @@ const subgraphUri: { [key in Networks]: string } = {
   rinkeby: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
 };
 
+const streamQuery: string = `
+  stream {
+    id
+      deposit
+      startTime
+      stopTime
+      recipient
+      sender
+      token {
+        id
+        decimals
+        symbol
+      }
+  }
+`;
+
+const paginatedStreamsQuery: DocumentNode = gql`
+  query proxyStreams($first: Int!, $skip: Int!, $sender: String!) {
+    proxyStreams(first: $first, skip: $skip, where: { sender: $sender }) {
+      id
+      sender
+      recipient
+      ${streamQuery}
+    }
+  }
+`;
+
 async function getPaginatedStreams(
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   client: ApolloClient<any>,
@@ -20,30 +47,7 @@ async function getPaginatedStreams(
   skip: number,
 ): Promise<Response> {
   return client.query({
-    query: gql`
-      query proxyStreams($first: Int!, $skip: Int!, $sender: String!) {
-        proxyStreams(first: $first, skip: $skip, where: { sender: $sender }) {
-          id
-          recipient
-          sender
-          stream {
-            cancellation {
-              id
-            }
-            deposit
-            startTime
-            stopTime
-            recipient
-            sender
-            token {
-              id
-              decimals
-              symbol
-            }
-          }
-        }
-      }
-    `,
+    query: paginatedStreamsQuery,
     variables: {
       first,
       skip,
@@ -52,7 +56,7 @@ async function getPaginatedStreams(
   });
 }
 
-export default async function getStreams(network: Networks, safeAddress: string): Promise<ProxyStream[]> {
+export default async function getProxyStreams(network: Networks, safeAddress: string): Promise<ProxyStream[]> {
   const client = new ApolloClient({
     uri: subgraphUri[network],
   });
@@ -60,7 +64,7 @@ export default async function getStreams(network: Networks, safeAddress: string)
   let ended: boolean = false;
   const first: number = 1000;
   let skip: number = 0;
-  let streams: ProxyStream[] = [];
+  let proxyStreams: ProxyStream[] = [];
 
   while (!ended) {
     try {
@@ -68,7 +72,7 @@ export default async function getStreams(network: Networks, safeAddress: string)
       const res: Response = await getPaginatedStreams(client, first, safeAddress, skip);
       skip += first;
 
-      streams = [...streams, ...res.data.proxyStreams];
+      proxyStreams = [...proxyStreams, ...res.data.proxyStreams];
       if (res.data.proxyStreams.length < first) {
         ended = true;
       }
@@ -78,5 +82,5 @@ export default async function getStreams(network: Networks, safeAddress: string)
     }
   }
 
-  return streams;
+  return proxyStreams;
 }

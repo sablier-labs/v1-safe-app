@@ -62,7 +62,7 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
 };
 
 function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
-  const [outgoingStreams, setOutgoingStreams] = useState<ProxyStream[]>([]);
+  const [outgoingProxyStreams, setProxyOutgoingStreams] = useState<ProxyStream[]>([]);
 
   useEffect(() => {
     const loadOutgoingStreams = async () => {
@@ -71,7 +71,7 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
       }
 
       const streams: ProxyStream[] = await getStreams(safeInfo.network, safeInfo.safeAddress);
-      setOutgoingStreams(streams);
+      setProxyOutgoingStreams(streams);
     };
 
     loadOutgoingStreams();
@@ -89,7 +89,7 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
   const columns = generateColumns();
   const autoColumns = columns.filter(c => !c.custom);
 
-  const tableContents: TableRowData[] = outgoingStreams.map(proxyStream => ({
+  const tableContents: TableRowData[] = outgoingProxyStreams.map(proxyStream => ({
     ...humanReadableStream(proxyStream),
     humanStartTimeOrder: proxyStream.stream.startTime,
     humanStopTimeOrder: proxyStream.stream.stopTime,
