@@ -57,7 +57,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
     }
 
     /* TODO: Stream initiation must be approved by other owners within an hour */
-    const totalSeconds: number | undefined = duration?.totalSeconds?.toNumber();
+    const totalSeconds: number = duration.totalSeconds.toNumber();
     const currentUnix: number = Math.floor(new Date().getTime() / 1000);
     const startTime: BigNumber = BigNumber.from(currentUnix).add(3600);
     const stopTime: BigNumber = startTime.add(totalSeconds);
