@@ -12,6 +12,8 @@ module.exports = {
     "import/prefer-default-export": "off",
     "no-console": "off",
     "prefer-destructuring": "off",
+    "prefer-template": "off",
+    "react/destructuring-assignment": "off",
     "spaced-comment": ["error", "always", { markers: ["/", "**"] }],
   },
 };

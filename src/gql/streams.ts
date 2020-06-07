@@ -1,9 +1,9 @@
 import ApolloClient, { gql } from "apollo-boost";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import { Stream } from "../typings/types";
+import { Stream } from "../typings";
 
-type PaginatedStreamsResponse = {
+type Response = {
   data: { streams: Stream[] };
 };
 
@@ -16,9 +16,9 @@ async function getPaginatedStreams(
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   client: ApolloClient<any>,
   first: number,
-  skip: number,
   safeAddress: string,
-): Promise<PaginatedStreamsResponse> {
+  skip: number,
+): Promise<Response> {
   return client.query({
     query: gql`
       query streams($first: Int!, $skip: Int!, $sender: String!) {
@@ -58,7 +58,7 @@ export default async function getStreams(network: Networks, safeAddress: string)
   while (!ended) {
     try {
       // eslint-disable-next-line no-await-in-loop
-      const res: PaginatedStreamsResponse = await getPaginatedStreams(client, first, skip, safeAddress);
+      const res: Response = await getPaginatedStreams(client, first, safeAddress, skip);
       skip += first;
 
       streams = [...streams, ...res.data.streams];

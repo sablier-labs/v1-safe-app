@@ -1,6 +1,6 @@
 import { utils } from "ethers";
 
-const bigNumberToHumanFormat = (value: string, tokenDecimals: number, displayDecimals: number = 4): string => {
+export function bigNumberToHumanFormat(value: string, tokenDecimals: number, displayDecimals: number = 4): string {
   let scaledNumber = utils.formatUnits(value, tokenDecimals);
 
   // Pad with zeros for required decimal places
@@ -8,6 +8,4 @@ const bigNumberToHumanFormat = (value: string, tokenDecimals: number, displayDec
   scaledNumber = scaledNumber.padEnd(scaledNumber.indexOf(".") + displayDecimals + 1, "0");
   // Trim any excess decimal places
   return scaledNumber.slice(0, scaledNumber.indexOf(".") + displayDecimals + 1);
-};
-
-export default bigNumberToHumanFormat;
+}
