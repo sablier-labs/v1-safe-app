@@ -10,17 +10,17 @@ import erc20Abi from "../../abis/erc20";
 import createStreamTxs from "../../utils/transactions/createStream";
 import provider from "../../config/provider";
 
-import { SECONDS_IN_DAY, bigNumberToHumanFormat } from "../../utils";
 import { ButtonContainer, SelectContainer } from "../../theme/components";
 import { TransactionList } from "../../typings";
+import { bigNumberToHumanFormat } from "../../utils";
 import { getTokenList, TokenItem } from "../../config/tokens";
 
 function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }) {
   /*** State Variables ***/
   const [amountError, setAmountError] = useState<string | undefined>();
   const [duration, setDuration] = useState<Duration>({
-    label: "3 days",
-    totalSeconds: BigNumber.from(SECONDS_IN_DAY).mul(3),
+    label: "Duration",
+    totalSeconds: BigNumber.from(0),
   });
   const [recipient, setRecipient] = useState<string>("");
   const [selectedToken, setSelectedToken] = useState<TokenItem>();

@@ -169,7 +169,7 @@ declare const Action: Action;
 
 /* Should be consistent with the default values in CreateStreamForm */
 const initialState: State = {
-  days: 3,
+  days: 0,
   hours: 0,
   minutes: 0,
 };
@@ -260,7 +260,7 @@ function DurationInput({ duration, onUpdateDuration }: Props) {
   return (
     <OuterWrapper onClick={onClickWrapper} ref={wrapperRef}>
       <StyledFlexRowNoWrap>
-        <Label>{duration.label || "3 Days"}</Label>
+        <Label>{duration.label || "Duration"}</Label>
       </StyledFlexRowNoWrap>
       <DropdownWrapper isOpen={currentMachine.value === "collapsed"}>
         <StyledFlexColumnNoWrap>
