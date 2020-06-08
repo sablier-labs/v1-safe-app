@@ -18,7 +18,7 @@ const desc = (a: any, b: any, orderBy: string, orderProp: boolean) => {
 };
 
 // eslint-disable-next-line
-export const stableSort = (dataArray:any, cmp: Function, fixed:any) => {
+export const stableSort = (dataArray: any, cmp: Function, fixed: any) => {
   const fixedElems = fixed ? dataArray.filter((elem: any) => elem.fixed) : [];
   const data = fixed ? dataArray.filter((elem: any) => !elem[FIXED]) : dataArray;
   let stabilizedThis = data.map((el: any, index: number) => [el, index]);

@@ -1,41 +1,52 @@
 import React, { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 
-import { Title, Button } from "@gnosis.pm/safe-react-components";
+import { Button, Title } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 
-import theme from "./theme";
-
-import { useAppsSdk } from "./hooks";
 import StreamTable from "./components/StreamTable";
 import CreateStreamForm from "./components/CreateStreamForm";
 import WidgetWrapper from "./components/WidgetWrapper";
+import theme from "./theme";
+
+import { useAppsSdk } from "./hooks";
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
 `;
 
 function SablierWidget() {
-  /*** State Variables ***/
+  /** State Variables **/
   const [appsSdk, safeInfo]: [SdkInstance, SafeInfo | undefined] = useAppsSdk();
-  const [displayStreams, setDisplayStreams] = useState<boolean>(false);
-
-  const toggleDisplayStreams = () => setDisplayStreams(!displayStreams);
+  const [shouldDisplayStreams, setShouldDisplayStreams] = useState<boolean>(false);
 
   return (
     <ThemeProvider theme={theme}>
       <WidgetWrapper>
-        <StyledTitle size="xs">{displayStreams ? "Manage Active Streams" : "Create Sablier Stream"}</StyledTitle>
-        {displayStreams && (
-          <Button size="md" color="primary" variant="outlined" onClick={() => toggleDisplayStreams()}>
+        <StyledTitle size="xs">{shouldDisplayStreams ? "Manage Active Streams" : "Create Sablier Stream"}</StyledTitle>
+        {shouldDisplayStreams && (
+          <Button
+            size="md"
+            color="primary"
+            variant="outlined"
+            onClick={() => {
+              setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
+            }}
+          >
             Back
           </Button>
         )}
 
-        {displayStreams ? (
+        {shouldDisplayStreams ? (
           <StreamTable appsSdk={appsSdk} safeInfo={safeInfo} />
         ) : (
-          <CreateStreamForm appsSdk={appsSdk} safeInfo={safeInfo} toggleDisplayStreams={toggleDisplayStreams} />
+          <CreateStreamForm
+            appsSdk={appsSdk}
+            safeInfo={safeInfo}
+            toggleShouldDisplayStreams={() => {
+              setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
+            }}
+          />
         )}
       </WidgetWrapper>
     </ThemeProvider>

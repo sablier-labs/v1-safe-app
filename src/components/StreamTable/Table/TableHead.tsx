@@ -1,8 +1,8 @@
+import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import * as React from "react";
 import { Text } from "@gnosis.pm/safe-react-components";
 import { Column } from "./columns";
 

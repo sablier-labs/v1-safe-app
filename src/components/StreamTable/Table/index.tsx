@@ -1,11 +1,10 @@
+import React, { Component } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TablePagination from "@material-ui/core/TablePagination";
 import { withStyles } from "@material-ui/core/styles";
-import * as React from "react";
 
-// import Row from "src/components/layout/Row";
 import TableHead from "./TableHead";
 import { getSorting, stableSort, Order } from "./sorting";
 import { Column } from "./columns";
@@ -17,13 +16,13 @@ const xxl = "40px";
 const styles = {
   root: {
     backgroundColor: "white",
-    borderTopRightRadius: sm,
     borderTopLeftRadius: sm,
+    borderTopRightRadius: sm,
     // boxShadow: "1px 2px 10px 0 rgba(212, 212, 211, 0.59)",
   },
   selectRoot: {
-    lineHeight: xxl,
     backgroundColor: "white",
+    lineHeight: xxl,
   },
   white: {
     backgroundColor: "white",
@@ -31,16 +30,16 @@ const styles = {
   paginationRoot: {
     backgroundColor: "white",
     // boxShadow: "1px 2px 10px 0 rgba(212, 212, 211, 0.59)",
-    marginBottom: xl,
-    borderBottomRightRadius: sm,
     borderBottomLeftRadius: sm,
+    borderBottomRightRadius: sm,
+    marginBottom: xl,
   },
   loader: {
     // boxShadow: "1px 2px 10px 0 rgba(212, 212, 211, 0.59)",
   },
 };
 
-const FIXED_HEIGHT = 49;
+const FIXED_HEIGHT: number = 49;
 
 const backProps = {
   "aria-label": "Previous Page",
@@ -67,16 +66,16 @@ type Props = {
 };
 
 type State = {
-  page: number;
+  fixed: boolean | undefined;
   order: Order | undefined;
   orderBy: string | undefined;
-  fixed: boolean | undefined;
   orderProp: boolean;
+  page: number;
   rowsPerPage: number | undefined;
 };
 
-class GnoTable extends React.Component<Props, State> {
-  // eslint-disable-next-line react/static-property-placement
+class GnoTable extends Component<Props, State> {
+  /* eslint-disable-next-line react/static-property-placement */
   static defaultProps = {
     defaultOrder: "asc" as Order,
     disableLoadingOnEmptyTable: false,
@@ -125,22 +124,22 @@ class GnoTable extends React.Component<Props, State> {
     }
 
     this.setState(() => ({
+      fixed: false,
       order: newOrder,
       orderBy: newOrderBy,
       orderProp,
-      fixed: false,
     }));
   };
 
   getEmptyStyle = (emptyRows: number): object => ({
-    height: FIXED_HEIGHT * emptyRows,
-    borderTopRightRadius: sm,
-    borderTopLeftRadius: sm,
-    backgroundColor: "white",
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
+    borderTopLeftRadius: sm,
+    borderTopRightRadius: sm,
+    display: "flex",
+    height: FIXED_HEIGHT * emptyRows,
+    justifyContent: "center",
+    width: "100%",
   });
 
   handleChangePage = (e: any, page: number): void => {

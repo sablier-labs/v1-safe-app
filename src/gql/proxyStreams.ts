@@ -1,4 +1,4 @@
-import ApolloClient, { gql, DocumentNode } from "apollo-boost";
+import ApolloClient, { DocumentNode, gql } from "apollo-boost";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
 import { ProxyStream } from "../typings";

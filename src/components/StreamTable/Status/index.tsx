@@ -1,27 +1,27 @@
 import React, { ReactElement } from "react";
 import { withStyles } from "@material-ui/core/styles";
 
-import ErrorIcon from "./assets/error.svg";
-import ClockIcon from "./assets/clock.svg";
-import OkIcon from "./assets/ok.svg";
-import theme from "../../theme";
+import ClockIcon from "../../../assets/clock.svg";
+import ErrorIcon from "../../../assets/error.svg";
+import OkIcon from "../../../assets/ok.svg";
+import theme from "../../../theme";
 
-const sm = "8px";
-const lg = "24px";
+const sm: string = "8px";
+const lg: string = "24px";
 
 const styles = () => ({
   container: {
+    alignItems: "center",
+    borderRadius: "3px",
+    boxSizing: "border-box",
     display: "flex",
     fontSize: "11px",
     fontWeight: 700,
-    padding: sm,
     justifyContent: "center",
-    alignItems: "center",
-    boxSizing: "border-box",
     height: lg,
-    marginTop: sm,
     marginBottom: sm,
-    borderRadius: "3px",
+    marginTop: sm,
+    padding: sm,
   },
   Active: {
     backgroundColor: "#A1D2CA",
@@ -37,7 +37,7 @@ const styles = () => ({
     border: `1px solid ${theme.colors.error}`,
   },
   statusText: {
-    padding: "0 7px",
+    padding: "0px 7px",
   },
 });
 

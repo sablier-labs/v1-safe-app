@@ -1,29 +1,29 @@
-import React, { ReactElement, useEffect, useState, useCallback } from "react";
+import React, { ReactElement, useEffect, useMemo, useState, useCallback } from "react";
+import { Button } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
 
-import { Button } from "@gnosis.pm/safe-react-components";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
-import getStreams from "../../gql/streams";
+import Table from "./Table";
+import Status, { StreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
-import { generateColumns, STREAM_TABLE_ID, Column } from "../Table/columns";
-import { cellWidth } from "../Table/TableHead";
-import Table from "../Table";
-import Status, { StreamStatus } from "../Status";
+import getProxyStreams from "../../gql/proxyStreams";
 
 import { ProxyStream, Token } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils/format";
+import { cellWidth } from "./Table/TableHead";
+import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
 
 type HumanReadableStream = {
+  humanDeposit: string;
+  humanStartTime: string;
+  humanStopTime: string;
   id: number;
   recipient: string;
   sender: string;
   status: StreamStatus;
-  humanDeposit: string;
-  humanStartTime: string;
-  humanStopTime: string;
   token: Token;
 };
 
@@ -38,7 +38,7 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { cancellation, deposit, startTime, stopTime, token } = stream.stream;
   const humanStartTime: string = moment.unix(startTime).format("MMM D, YYYY - HH:mm");
   const humanStopTime: string = moment.unix(stopTime).format("MMM D, YYYY - HH:mm");
-  const humanDeposit: string = `${bigNumberToHumanFormat(deposit, token.decimals)} ${token.symbol}`;
+  const humanDeposit: string = bigNumberToHumanFormat(deposit, token.decimals) + " " + token.symbol;
   let status: StreamStatus;
 
   if (cancellation !== null) {
@@ -62,20 +62,26 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
 };
 
 function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
-  const [outgoingProxyStreams, setProxyOutgoingStreams] = useState<ProxyStream[]>([]);
+  /** State Variables **/
 
-  useEffect(() => {
-    const loadOutgoingStreams = async () => {
-      if (!safeInfo || !safeInfo.network || !safeInfo.safeAddress) {
-        return;
+  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
+
+  /** Memoized Variables **/
+
+  const columns = useMemo(() => {
+    return generateColumns();
+  }, []);
+
+  const autoColumns = useMemo(() => {
+    return columns.filter((column: Column) => {
+      if (!column.custom) {
+        return column;
       }
+      return undefined;
+    });
+  }, [columns]);
 
-      const streams: ProxyStream[] = await getStreams(safeInfo.network, safeInfo.safeAddress);
-      setProxyOutgoingStreams(streams);
-    };
-
-    loadOutgoingStreams();
-  }, [safeInfo]);
+  /** Callbacks **/
 
   const cancelStream = useCallback(
     (streamId: number): void => {
@@ -86,8 +92,20 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
     [appsSdk, safeInfo],
   );
 
-  const columns = generateColumns();
-  const autoColumns = columns.filter(c => !c.custom);
+  /** Side Effects **/
+
+  useEffect(() => {
+    const loadOutgoingStreams = async () => {
+      if (!safeInfo || !safeInfo.network || !safeInfo.safeAddress) {
+        return;
+      }
+
+      const proxyStreams: ProxyStream[] = await getProxyStreams(safeInfo.network, safeInfo.safeAddress);
+      setOutgoingProxyStreams(proxyStreams);
+    };
+
+    loadOutgoingStreams();
+  }, [safeInfo]);
 
   const tableContents: TableRowData[] = outgoingProxyStreams.map(proxyStream => ({
     ...humanReadableStream(proxyStream),

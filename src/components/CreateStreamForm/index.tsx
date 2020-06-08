@@ -16,16 +16,15 @@ import { TransactionList } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils";
 import { getTokenList, TokenItem } from "../../config/tokens";
 
-function CreateStreamForm({
-  appsSdk,
-  safeInfo,
-  toggleDisplayStreams,
-}: {
+export type Props = {
   appsSdk: SdkInstance;
   safeInfo?: SafeInfo;
-  toggleDisplayStreams: Function;
-}) {
-  /*** State Variables ***/
+  toggleShouldDisplayStreams: Function;
+};
+
+function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Props) {
+  /** State Variables **/
+
   const [amountError, setAmountError] = useState<string | undefined>();
   const [duration, setDuration] = useState<Duration>({
     label: "Duration",
@@ -38,7 +37,7 @@ function CreateStreamForm({
   const [tokenInstance, setTokenInstance] = useState<Contract>();
   const [tokenList, setTokenList] = useState<TokenItem[]>();
 
-  /*** Callbacks ***/
+  /** Callbacks **/
 
   const humanTokenBalance = useCallback((): string => {
     return selectedToken ? bigNumberToHumanFormat(tokenBalance, selectedToken.decimals) : "";
@@ -73,12 +72,6 @@ function CreateStreamForm({
 
     const bnStreamAmount = BigNumber.from(streamAmount);
     const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(totalSeconds));
-
-    console.log({
-      startTime: startTime.toString(),
-      stopTime: stopTime.toString(),
-      totalSeconds,
-    });
 
     let txs: TransactionList;
     if (selectedToken.id === "ETH") {
@@ -145,7 +138,7 @@ function CreateStreamForm({
     [setDuration],
   );
 
-  /*** Side Effects ***/
+  /** Side Effects **/
 
   /* Load tokens list and initialize with DAI */
   useEffect(() => {
@@ -239,7 +232,7 @@ function CreateStreamForm({
         <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
           Create Stream
         </Button>
-        <Button size="lg" color="secondary" variant="contained" onClick={() => toggleDisplayStreams()}>
+        <Button size="lg" color="secondary" variant="contained" onClick={() => toggleShouldDisplayStreams()}>
           Manage Active Streams
         </Button>
       </ButtonContainer>
