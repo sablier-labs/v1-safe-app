@@ -57,7 +57,7 @@ export default async function getStreams(network: Networks, safeAddress: string)
 
   while (!ended) {
     try {
-      // eslint-disable-next-line no-await-in-loop
+      /* eslint-disable-next-line no-await-in-loop */
       const res: Response = await getPaginatedStreams(client, first, safeAddress, skip);
       skip += first;
 
