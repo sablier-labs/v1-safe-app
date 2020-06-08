@@ -41,18 +41,18 @@ export const getTokenList = (network: Networks): TokenItem[] => {
 
   return [
     {
-      address: tokensByNetwork.ETH,
-      decimals: 18,
-      iconUrl: wethIcon,
-      id: "ETH",
-      label: "ETH",
-    },
-    {
       address: tokensByNetwork.DAI,
       decimals: 18,
       iconUrl: daiIcon,
       id: "DAI",
       label: "Dai",
+    },
+    {
+      address: tokensByNetwork.ETH,
+      decimals: 18,
+      iconUrl: wethIcon,
+      id: "ETH",
+      label: "ETH",
     },
     {
       address: tokensByNetwork.WETH,

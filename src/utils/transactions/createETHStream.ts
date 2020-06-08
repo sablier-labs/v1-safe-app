@@ -8,7 +8,7 @@ import { TransactionList } from "../../typings";
 import tokens from "../../config/tokens";
 import createStreamTxs from "./createStream";
 
-const createETHStreamTxs = (
+const createEthStreamTxs = (
   network: Networks,
   recipient: string,
   deposit: string,
@@ -18,17 +18,16 @@ const createETHStreamTxs = (
   const wethAddress: string = tokens[network].WETH;
   const wethInterface: AbiInterface = new ethers.utils.Interface(wethAbi);
 
-  const wrappingTx: TransactionList = [
+  const txs: TransactionList = [
     {
       data: wethInterface.encodeFunctionData("deposit"),
       to: wethAddress,
       value: deposit,
     },
+    ...createStreamTxs(network, recipient, deposit, wethAddress, startTime, stopTime),
   ];
-
-  const txs = wrappingTx.concat(createStreamTxs(network, recipient, deposit, wethAddress, startTime, stopTime));
 
   return txs;
 };
 
-export default createETHStreamTxs;
+export default createEthStreamTxs;

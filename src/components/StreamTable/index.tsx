@@ -59,7 +59,7 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
     appsSdk.sendTransactions(txs);
   };
 
-  // TODO: Add pagination to handle more than 7 streams
+  /* TODO: Add pagination to handle more than 7 streams */
   const tableContents = outgoingStreams
     .slice(0, 7)
     .map((stream: Stream) => <StreamRow stream={stream} cancelStream={cancelStream} />);
