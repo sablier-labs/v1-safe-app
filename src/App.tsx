@@ -1,39 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 
+import { Button, Title } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
-import { Title } from "@gnosis.pm/safe-react-components";
 
 import StreamTable from "./components/StreamTable";
 import CreateStreamForm from "./components/CreateStreamForm";
+import WidgetWrapper from "./components/WidgetWrapper";
 import theme from "./theme";
 
-import { BodyArea, Container, NavbarArea, TitleArea } from "./theme/components";
 import { useAppsSdk } from "./hooks";
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
+  padding-right: 30px;
+  display: inline-block;
+`;
+
+const StyledBackButton = styled(Button).attrs({
+  color: "primary",
+  size: "md",
+  variant: "outlined",
+})`
+  font-size: 16px !important;
+  min-width: 0 !important;
+  padding: 0px !important;
 `;
 
 function SablierWidget() {
-  /*** State Variables ***/
+  /** State Variables **/
   const [appsSdk, safeInfo]: [SdkInstance, SafeInfo | undefined] = useAppsSdk();
+  const [shouldDisplayStreams, setShouldDisplayStreams] = useState<boolean>(false);
 
   return (
     <ThemeProvider theme={theme}>
-      <Container>
-        <TitleArea>
-          <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
-        </TitleArea>
+      <WidgetWrapper>
+        <StyledTitle size="xs">{shouldDisplayStreams ? "Manage Active Streams" : "Create Sablier Stream"}</StyledTitle>
+        {shouldDisplayStreams && (
+          <StyledBackButton
+            onClick={() => {
+              setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
+            }}
+          >
+            Back
+          </StyledBackButton>
+        )}
 
-        <NavbarArea>
-          <CreateStreamForm appsSdk={appsSdk} safeInfo={safeInfo} />
-        </NavbarArea>
-
-        <BodyArea>
+        {shouldDisplayStreams ? (
           <StreamTable appsSdk={appsSdk} safeInfo={safeInfo} />
-        </BodyArea>
-      </Container>
+        ) : (
+          <CreateStreamForm
+            appsSdk={appsSdk}
+            safeInfo={safeInfo}
+            toggleShouldDisplayStreams={() => {
+              setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
+            }}
+          />
+        )}
+      </WidgetWrapper>
     </ThemeProvider>
   );
 }

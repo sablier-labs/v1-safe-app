@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import erc20Abi from "../../abis/erc20";
 import payrollAbi from "../../abis/payroll";
 
-import { TransactionList } from "../../typings";
+import { Transaction } from "../../typings";
 import { getSablierAddress } from "../../config/sablier";
 
 const createStreamTxs = (
@@ -15,12 +15,12 @@ const createStreamTxs = (
   tokenAddress: string,
   startTime: string,
   stopTime: string,
-): TransactionList => {
+): Transaction[] => {
   const sablierProxyAddress: string = getSablierAddress(network);
   const erc20Interface: AbiInterface = new ethers.utils.Interface(erc20Abi);
   const sablierProxyInterface: AbiInterface = new ethers.utils.Interface(payrollAbi);
 
-  const txs: TransactionList = [];
+  const txs: Transaction[] = [];
 
   txs.push({
     data: erc20Interface.encodeFunctionData("approve", [sablierProxyAddress, deposit]),

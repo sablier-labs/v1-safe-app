@@ -1,44 +1,102 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import React, { ReactElement, useEffect, useMemo, useState, useCallback } from "react";
+import { Button } from "@gnosis.pm/safe-react-components";
+import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
 
-import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
-import { Button } from "@gnosis.pm/safe-react-components";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
 
+import Table from "./Table";
+import Status, { StreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
-import getStreams from "../../gql/streams";
+import getProxyStreams from "../../gql/proxyStreams";
 
-import { Stream } from "../../typings";
+import { ProxyStream, Token } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils/format";
+import { cellWidth } from "./Table/TableHead";
+import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
+import { shortenAddress } from "../../utils/address";
+import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 
-function StreamRow({ stream, cancelStream }: { stream: Stream; cancelStream: Function }): ReactElement {
-  const humanStartTime: string = moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm");
-  const humanStopTime: string = moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm");
-  const humanDeposit: string = bigNumberToHumanFormat(stream.deposit, stream.token.decimals);
-  return (
-    <TableRow key={stream.id}>
-      <TableCell component="th" scope="row">
-        {stream.id}
-      </TableCell>
-      <TableCell align="right">{stream.recipient.slice(0, 6)}...</TableCell>
-      <TableCell align="right">{`${humanDeposit} ${stream.token.symbol}`}</TableCell>
-      <TableCell align="right">{humanStartTime}</TableCell>
-      <TableCell align="right">{humanStopTime}</TableCell>
-      <TableCell align="right">
-        <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(stream.id)}>
-          Cancel
-        </Button>
-      </TableCell>
-    </TableRow>
-  );
-}
+type HumanReadableStream = {
+  humanDeposit: string;
+  humanStartTime: string;
+  humanStopTime: string;
+  id: number;
+  humanRecipient: string;
+  humanSender: string;
+  status: StreamStatus;
+  token: Token;
+};
+
+type TableRowData = HumanReadableStream & {
+  humanStartTimeOrder: number;
+  humanStopTimeOrder: number;
+  cancelStream: Function;
+};
+
+const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
+  const { id, recipient, sender } = stream;
+  const { cancellation, deposit, startTime, stopTime, token } = stream.stream;
+  const humanRecipient: string = shortenAddress(recipient);
+  const humanSender: string = shortenAddress(sender);
+  const humanStartTime: string = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStopTime: string = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanDeposit: string = bigNumberToHumanFormat(deposit, token.decimals, 2) + " " + token.symbol;
+  let status: StreamStatus;
+
+  if (cancellation !== undefined) {
+    status = StreamStatus.Cancelled;
+  } else if (moment().isAfter(moment.unix(stopTime))) {
+    status = StreamStatus.Ended;
+  } else {
+    status = StreamStatus.Active;
+  }
+
+  return {
+    id,
+    humanRecipient,
+    humanSender,
+    status,
+    humanDeposit,
+    humanStartTime,
+    humanStopTime,
+    token,
+  };
+};
 
 function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
-  const [outgoingStreams, setOutgoingStreams] = useState<Array<Stream>>([]);
+  /** State Variables **/
+
+  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
+
+  /** Memoized Variables **/
+
+  const columns = useMemo(() => {
+    return generateColumns();
+  }, []);
+
+  const autoColumns = useMemo(() => {
+    return columns.filter((column: Column) => {
+      if (!column.custom) {
+        return column;
+      }
+      return undefined;
+    });
+  }, [columns]);
+
+  /** Callbacks **/
+
+  const cancelStream = useCallback(
+    (streamId: number): void => {
+      if (!safeInfo?.network) return;
+      const txs = cancelStreamTxs(safeInfo.network, streamId);
+      appsSdk.sendTransactions(txs);
+    },
+    [appsSdk, safeInfo],
+  );
+
+  /** Side Effects **/
 
   useEffect(() => {
     const loadOutgoingStreams = async () => {
@@ -46,36 +104,52 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
         return;
       }
 
-      const streams: Stream[] = await getStreams(safeInfo.network, safeInfo.safeAddress);
-      setOutgoingStreams(streams);
+      const proxyStreams: ProxyStream[] = await getProxyStreams(safeInfo.network, safeInfo.safeAddress);
+      setOutgoingProxyStreams(proxyStreams);
     };
 
     loadOutgoingStreams();
   }, [safeInfo]);
 
-  const cancelStream = (streamId: string): void => {
-    if (!safeInfo?.network) return;
-    const txs = cancelStreamTxs(safeInfo.network, streamId);
-    appsSdk.sendTransactions(txs);
-  };
-
-  /* TODO: Add pagination to handle more than 7 streams */
-  const tableContents = outgoingStreams
-    .slice(0, 7)
-    .map((stream: Stream) => <StreamRow stream={stream} cancelStream={cancelStream} />);
+  const tableContents: TableRowData[] = outgoingProxyStreams.map(proxyStream => ({
+    ...humanReadableStream(proxyStream),
+    humanStartTimeOrder: proxyStream.stream.startTime,
+    humanStopTimeOrder: proxyStream.stream.stopTime,
+    cancelStream: () => cancelStream(proxyStream.id),
+  }));
   return (
-    <Table size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell>Stream ID</TableCell>
-          <TableCell align="right">Recipient</TableCell>
-          <TableCell align="right">Value</TableCell>
-          <TableCell align="right">Start time</TableCell>
-          <TableCell align="right">End time</TableCell>
-          <TableCell align="right">Cancel</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>{tableContents}</TableBody>
+    <Table
+      columns={columns}
+      data={tableContents}
+      defaultFixed
+      defaultOrder="desc"
+      defaultOrderBy={STREAM_TABLE_ID}
+      defaultRowsPerPage={10}
+      label="Transactions"
+      size={tableContents.length}
+    >
+      {(sortedData: TableRowData[]) =>
+        sortedData.map((row: TableRowData) => (
+          <TableRow key={row.id} tabIndex={-1}>
+            {autoColumns.map((column: Column) => (
+              <TableCell align={column.align} component="td" key={column.id} style={cellWidth(column.width)}>
+                {(row as { [key: string]: any })[column.id]}
+              </TableCell>
+            ))}
+            <TableCell component="td">
+              <Status status={row.status} />
+            </TableCell>
+
+            <TableCell component="td">
+              {row.status === StreamStatus.Active && (
+                <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(row.id)}>
+                  Cancel
+                </Button>
+              )}
+            </TableCell>
+          </TableRow>
+        ))
+      }
     </Table>
   );
 }

@@ -1,11 +1,39 @@
+import { BigNumberish } from "@ethersproject/bignumber";
+
+export type Cancellation = {
+  id: number;
+  recipientBalance: BigNumberish;
+  recipientInterest: BigNumberish;
+  sablierInterest: BigNumberish;
+  senderBalance: BigNumberish;
+  senderInterest: BigNumberish;
+  timestamp: BigNumberish;
+  token: Token;
+  txHash: string;
+};
+
 export type Stream = {
-  id: string;
+  id: number;
+  cancellation: Cancellation | undefined;
   deposit: string;
   recipient: string;
   sender: string;
   startTime: number;
   stopTime: number;
   token: Token;
+};
+
+/**
+ * The truthful sender of a stream is stored in a proxy stream (defined below)
+ * instead of a vanilla stream (defined above). The sender stored in the latter
+ * object is the Payroll.sol contract itself.
+ */
+export type ProxyStream = {
+  id: number;
+  recipient: string;
+  sender: string;
+  stream: Stream;
+  timestamp: number;
 };
 
 export type Token = {
@@ -15,4 +43,8 @@ export type Token = {
   symbol: string;
 };
 
-export type TransactionList = { [key: string]: string | number }[];
+export type Transaction = {
+  data: string;
+  to: string;
+  value: BigNumberish;
+};

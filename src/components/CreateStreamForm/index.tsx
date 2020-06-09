@@ -12,12 +12,19 @@ import createStreamTxs from "../../utils/transactions/createStream";
 import provider from "../../config/provider";
 
 import { ButtonContainer, SelectContainer } from "../../theme/components";
-import { TransactionList } from "../../typings";
+import { Transaction } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils";
 import { getTokenList, TokenItem } from "../../config/tokens";
 
-function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }) {
-  /*** State Variables ***/
+export type Props = {
+  appsSdk: SdkInstance;
+  safeInfo?: SafeInfo;
+  toggleShouldDisplayStreams: Function;
+};
+
+function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Props) {
+  /** State Variables **/
+
   const [amountError, setAmountError] = useState<string | undefined>();
   const [duration, setDuration] = useState<Duration>({
     label: "Duration",
@@ -30,7 +37,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
   const [tokenInstance, setTokenInstance] = useState<Contract>();
   const [tokenList, setTokenList] = useState<TokenItem[]>();
 
-  /*** Callbacks ***/
+  /** Callbacks **/
 
   const humanTokenBalance = useCallback((): string => {
     return selectedToken ? bigNumberToHumanFormat(tokenBalance, selectedToken.decimals) : "";
@@ -66,13 +73,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
     const bnStreamAmount = BigNumber.from(streamAmount);
     const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(totalSeconds));
 
-    console.log({
-      startTime: startTime.toString(),
-      stopTime: stopTime.toString(),
-      totalSeconds,
-    });
-
-    let txs: TransactionList;
+    let txs: Transaction[];
     if (selectedToken.id === "ETH") {
       /* If streaming ETH we need to wrap it first. */
       txs = createEthStreamTxs(
@@ -137,7 +138,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
     [setDuration],
   );
 
-  /*** Side Effects ***/
+  /** Side Effects **/
 
   /* Load tokens list and initialize with DAI */
   useEffect(() => {
@@ -230,6 +231,9 @@ function CreateStreamForm({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInf
       <ButtonContainer>
         <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
           Create Stream
+        </Button>
+        <Button size="lg" color="secondary" variant="contained" onClick={() => toggleShouldDisplayStreams()}>
+          Manage Created Streams
         </Button>
       </ButtonContainer>
     </>
