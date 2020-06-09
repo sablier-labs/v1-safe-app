@@ -42,7 +42,7 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const humanSender: string = shortenAddress(sender);
   const humanStartTime: string = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanStopTime: string = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
-  const humanDeposit: string = bigNumberToHumanFormat(deposit, token.decimals) + " " + token.symbol;
+  const humanDeposit: string = bigNumberToHumanFormat(deposit, token.decimals, 2) + " " + token.symbol;
   let status: StreamStatus;
 
   if (cancellation !== undefined) {
