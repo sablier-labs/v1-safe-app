@@ -1,6 +1,18 @@
+export type Cancellation = {
+  id: number;
+  recipientBalance: string;
+  recipientInterest: string;
+  sablierInterest: string;
+  senderBalance: string;
+  senderInterest: string;
+  timestamp: number;
+  token: Token;
+  txHash: string;
+};
+
 export type Stream = {
   id: number;
-  cancellation: any;
+  cancellation: Cancellation | undefined;
   deposit: string;
   recipient: string;
   sender: string;
