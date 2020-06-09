@@ -233,7 +233,7 @@ function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Pro
           Create Stream
         </Button>
         <Button size="lg" color="secondary" variant="contained" onClick={() => toggleShouldDisplayStreams()}>
-          Manage Active Streams
+          Manage Created Streams
         </Button>
       </ButtonContainer>
     </>
