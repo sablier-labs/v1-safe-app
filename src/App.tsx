@@ -15,6 +15,16 @@ const StyledTitle = styled(Title)`
   margin-top: 0px;
 `;
 
+const StyledBackButton = styled(Button).attrs({
+  color: "primary",
+  size: "md",
+  variant: "outlined",
+})`
+  font-size: 16px !important;
+  min-width: 0 !important;
+  padding: 0px !important;
+`;
+
 function SablierWidget() {
   /** State Variables **/
   const [appsSdk, safeInfo]: [SdkInstance, SafeInfo | undefined] = useAppsSdk();
@@ -25,16 +35,13 @@ function SablierWidget() {
       <WidgetWrapper>
         <StyledTitle size="xs">{shouldDisplayStreams ? "Manage Active Streams" : "Create Sablier Stream"}</StyledTitle>
         {shouldDisplayStreams && (
-          <Button
-            size="md"
-            color="primary"
-            variant="outlined"
+          <StyledBackButton
             onClick={() => {
               setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
             }}
           >
             Back
-          </Button>
+          </StyledBackButton>
         )}
 
         {shouldDisplayStreams ? (
