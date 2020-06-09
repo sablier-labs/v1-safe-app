@@ -1,3 +1,5 @@
+import { BigNumberish } from "@ethersproject/bignumber";
+
 export type Cancellation = {
   id: number;
   recipientBalance: string;
@@ -41,4 +43,8 @@ export type Token = {
   symbol: string;
 };
 
-export type TransactionList = { [key: string]: string | number }[];
+export type Transaction = {
+  data: string;
+  to: string;
+  value: BigNumberish;
+};

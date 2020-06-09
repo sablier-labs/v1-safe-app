@@ -12,7 +12,7 @@ import createStreamTxs from "../../utils/transactions/createStream";
 import provider from "../../config/provider";
 
 import { ButtonContainer, SelectContainer } from "../../theme/components";
-import { TransactionList } from "../../typings";
+import { Transaction } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils";
 import { getTokenList, TokenItem } from "../../config/tokens";
 
@@ -73,7 +73,7 @@ function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Pro
     const bnStreamAmount = BigNumber.from(streamAmount);
     const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(totalSeconds));
 
-    let txs: TransactionList;
+    let txs: Transaction[];
     if (selectedToken.id === "ETH") {
       /* If streaming ETH we need to wrap it first. */
       txs = createEthStreamTxs(

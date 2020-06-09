@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 import wethAbi from "../../abis/weth";
 
-import { TransactionList } from "../../typings";
+import { Transaction } from "../../typings";
 import tokens from "../../config/tokens";
 import createStreamTxs from "./createStream";
 
@@ -14,11 +14,11 @@ const createEthStreamTxs = (
   deposit: string,
   startTime: string,
   stopTime: string,
-): TransactionList => {
+): Transaction[] => {
   const wethAddress: string = tokens[network].WETH;
   const wethInterface: AbiInterface = new ethers.utils.Interface(wethAbi);
 
-  const txs: TransactionList = [
+  const txs: Transaction[] = [
     {
       data: wethInterface.encodeFunctionData("deposit"),
       to: wethAddress,
