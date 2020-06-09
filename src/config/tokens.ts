@@ -2,6 +2,10 @@ import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
 import daiIcon from "../assets/tokens/dai.svg";
 import wethIcon from "../assets/tokens/weth.svg";
+import batIcon from "../assets/tokens/bat.svg";
+import usdcIcon from "../assets/tokens/usdc.svg";
+import repIcon from "../assets/tokens/rep.svg";
+import btcIcon from "../assets/tokens/wbtc.svg";
 
 export type TokenItem = {
   address: string;
@@ -70,7 +74,7 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.USDC,
       decimals: 6,
-      iconUrl: wethIcon,
+      iconUrl: usdcIcon,
       id: "USDC",
       label: "USDC",
     },
@@ -84,7 +88,7 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.cUSDC,
       decimals: 8,
-      iconUrl: wethIcon,
+      iconUrl: usdcIcon,
       id: "cUSDC",
       label: "cUSDC",
     },
@@ -112,7 +116,7 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.BAT,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: batIcon,
       id: "BAT",
       label: "BAT",
     },
@@ -140,14 +144,14 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.REP,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: repIcon,
       id: "REP",
       label: "REP",
     },
     {
       address: tokensByNetwork.WBTC,
       decimals: 8,
-      iconUrl: wethIcon,
+      iconUrl: btcIcon,
       id: "WBTC",
       label: "WBTC",
     },
