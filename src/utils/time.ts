@@ -14,9 +14,9 @@ export const SECONDS_IN_MONTH = 2592000; // 30 days
 /* Measured in milliseconds */
 export const SLIDE_DURATION = 250;
 
-export const DATE_FORMAT = "MMMM DD, YYYY";
-export const TIME_FORMAT = "hh:mmA";
-export const TIME_FORMAT_DEFAULT = "12:00AM";
+export const DATE_FORMAT = "MMM D, YYYY";
+export const TIME_FORMAT = "HH:mm";
+export const TIME_FORMAT_DEFAULT = "00:00";
 
 export function getSecondsForDays(days?: number) {
   if (days === 0) {

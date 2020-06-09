@@ -16,6 +16,7 @@ import { bigNumberToHumanFormat } from "../../utils/format";
 import { cellWidth } from "./Table/TableHead";
 import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
 import { shortenAddress } from "../../utils/address";
+import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 
 type HumanReadableStream = {
   humanDeposit: string;
@@ -39,8 +40,8 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { cancellation, deposit, startTime, stopTime, token } = stream.stream;
   const humanRecipient: string = shortenAddress(recipient);
   const humanSender: string = shortenAddress(sender);
-  const humanStartTime: string = moment.unix(startTime).format("MMM D, YYYY - HH:mm");
-  const humanStopTime: string = moment.unix(stopTime).format("MMM D, YYYY - HH:mm");
+  const humanStartTime: string = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStopTime: string = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanDeposit: string = bigNumberToHumanFormat(deposit, token.decimals) + " " + token.symbol;
   let status: StreamStatus;
 
