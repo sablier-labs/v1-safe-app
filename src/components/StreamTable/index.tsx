@@ -15,14 +15,15 @@ import { ProxyStream, Token } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils/format";
 import { cellWidth } from "./Table/TableHead";
 import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
+import { shortenAddress } from "../../utils/address";
 
 type HumanReadableStream = {
   humanDeposit: string;
   humanStartTime: string;
   humanStopTime: string;
   id: number;
-  recipient: string;
-  sender: string;
+  humanRecipient: string;
+  humanSender: string;
   status: StreamStatus;
   token: Token;
 };
@@ -36,6 +37,8 @@ type TableRowData = HumanReadableStream & {
 const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { id, recipient, sender } = stream;
   const { cancellation, deposit, startTime, stopTime, token } = stream.stream;
+  const humanRecipient: string = shortenAddress(recipient);
+  const humanSender: string = shortenAddress(sender);
   const humanStartTime: string = moment.unix(startTime).format("MMM D, YYYY - HH:mm");
   const humanStopTime: string = moment.unix(stopTime).format("MMM D, YYYY - HH:mm");
   const humanDeposit: string = bigNumberToHumanFormat(deposit, token.decimals) + " " + token.symbol;
@@ -51,8 +54,8 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
 
   return {
     id,
-    recipient,
-    sender,
+    humanRecipient,
+    humanSender,
     status,
     humanDeposit,
     humanStartTime,

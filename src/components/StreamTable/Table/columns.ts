@@ -1,5 +1,5 @@
 export const STREAM_TABLE_ID = "id";
-export const STREAM_TABLE_RECIPIENT_ID = "recipient";
+export const STREAM_TABLE_RECIPIENT_ID = "humanRecipient";
 export const STREAM_TABLE_DEPOSIT_ID = "humanDeposit";
 export const STREAM_TABLE_START_TIME_ID = "humanStartTime";
 export const STREAM_TABLE_END_TIME_ID = "humanStopTime";
