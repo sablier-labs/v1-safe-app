@@ -124,10 +124,9 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
       defaultFixed
       defaultOrder="desc"
       defaultOrderBy={STREAM_TABLE_ID}
-      defaultRowsPerPage={25}
+      defaultRowsPerPage={10}
       label="Transactions"
       size={tableContents.length}
-      disablePagination
     >
       {(sortedData: TableRowData[]) =>
         sortedData.map((row: TableRowData) => (

@@ -179,7 +179,7 @@ function GnoTable(props: Props): ReactElement {
           onChangeRowsPerPage={handleChangeRowsPerPage}
           page={page}
           rowsPerPage={displayRows}
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          rowsPerPageOptions={[displayRows]}
         />
       )}
     </>
