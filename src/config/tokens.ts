@@ -82,8 +82,8 @@ export const getTokenList = (network: Networks): TokenItem[] => {
       address: tokensByNetwork.cDAI,
       decimals: 8,
       iconUrl: daiIcon,
-      id: "DAI",
-      label: "Dai",
+      id: "cDAI",
+      label: "cDAI",
     },
     {
       address: tokensByNetwork.cUSDC,
