@@ -2,12 +2,12 @@ import { BigNumberish } from "@ethersproject/bignumber";
 
 export type Cancellation = {
   id: number;
-  recipientBalance: string;
-  recipientInterest: string;
-  sablierInterest: string;
-  senderBalance: string;
-  senderInterest: string;
-  timestamp: number;
+  recipientBalance: BigNumberish;
+  recipientInterest: BigNumberish;
+  sablierInterest: BigNumberish;
+  senderBalance: BigNumberish;
+  senderInterest: BigNumberish;
+  timestamp: BigNumberish;
   token: Token;
   txHash: string;
 };
