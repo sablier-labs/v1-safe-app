@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import ClockIcon from "../../../assets/clock.svg";
 import ErrorIcon from "../../../assets/error.svg";
@@ -9,7 +9,7 @@ import theme from "../../../theme";
 const sm: string = "8px";
 const lg: string = "24px";
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
   container: {
     alignItems: "center",
     borderRadius: "3px",
@@ -39,13 +39,14 @@ const styles = () => ({
   statusText: {
     padding: "0px 7px",
   },
-});
+}));
 
 export enum StreamStatus {
   Active = 0,
   Ended,
   Cancelled,
 }
+type streamStatusKey = keyof typeof StreamStatus;
 
 const statusToIcon = {
   [StreamStatus.Active]: ClockIcon,
@@ -58,9 +59,10 @@ const statusIconStyle = {
   width: "14px",
 };
 
-function Status({ classes, status }: { classes: any; status: StreamStatus }): ReactElement {
+function Status({ status }: { status: StreamStatus }): ReactElement {
+  const classes = useStyles();
   const Icon = statusToIcon[status];
-  const statusText = StreamStatus[status];
+  const statusText: streamStatusKey = StreamStatus[status] as streamStatusKey;
 
   return (
     <div className={`${classes.container} ${classes[statusText]}`}>
@@ -70,4 +72,4 @@ function Status({ classes, status }: { classes: any; status: StreamStatus }): Re
   );
 }
 
-export default withStyles(styles as any)(Status);
+export default Status;
