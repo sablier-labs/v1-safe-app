@@ -22,7 +22,7 @@ export const generateColumns = () => {
   const nonceColumn: Column = {
     id: STREAM_TABLE_ID,
     disablePadding: false,
-    label: "Stream ID",
+    label: "Id",
     custom: false,
     order: false,
     width: 10,
