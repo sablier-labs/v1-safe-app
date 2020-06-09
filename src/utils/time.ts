@@ -8,11 +8,11 @@ export const ISO_8601_FORMAT_HOUR = "DD MMM YYYY @ h:00a";
 export const SECONDS_IN_MINUTE: number = 60;
 export const SECONDS_IN_HOUR: number = 3600;
 export const SECONDS_IN_DAY: number = 86400;
-export const SECONDS_IN_WEEK = 604800;
-export const SECONDS_IN_MONTH = 2592000; // 30 days
+export const SECONDS_IN_WEEK: number = 604800;
+export const SECONDS_IN_MONTH: number = 2592000; // 30 days
 
 /* Measured in milliseconds */
-export const SLIDE_DURATION = 250;
+export const SLIDE_DURATION: number = 250;
 
 export const DATE_FORMAT = "MMM D, YYYY";
 export const TIME_FORMAT = "HH:mm";
