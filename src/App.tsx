@@ -13,6 +13,8 @@ import { useAppsSdk } from "./hooks";
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
+  padding-right: 30px;
+  display: inline-block;
 `;
 
 const StyledBackButton = styled(Button).attrs({
