@@ -1,7 +1,6 @@
 import { DependencyList, EffectCallback, useEffect, useMemo, useState } from "react";
 import initSdk, { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
-
-import provider from "../config/provider";
+import { Web3Provider } from "@ethersproject/providers";
 
 /**
  * Initialises the Gnosis Apps Sdk.
@@ -20,6 +19,9 @@ export function useAppsSdk(): [SdkInstance, SafeInfo | undefined] {
   useEffect(() => {
     if (process.env.NODE_ENV !== "production" && process.env.REACT_APP_LOCAL_WEB3_PROVIDER) {
       console.warn("SABLIER APP: you are using a local web3 provider");
+      const { ethereum } = window as any;
+      ethereum.enable();
+      const provider = new Web3Provider(ethereum);
       provider
         .getSigner()
         .getAddress()

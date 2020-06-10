@@ -1659,6 +1659,28 @@
     "@ethersproject/web" ">=5.0.0-beta.138"
     ws "7.2.3"
 
+"@ethersproject/providers@^5.0.0-beta.171":
+  version "5.0.0-beta.171"
+  resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.0.0-beta.171.tgz#2be647ebc7c1a9a1d07c240fb52dc8ae1dfe9d36"
+  integrity sha512-DqwZcfURXPpjIK8IABlsLlhT1Y7HHGf+0I24Hylf/K+dPu30Xg2dXrUDwIi4v+jj6ZaVohbRNeShuwg59yRyUw==
+  dependencies:
+    "@ethersproject/abstract-provider" ">=5.0.0-beta.139"
+    "@ethersproject/abstract-signer" ">=5.0.0-beta.142"
+    "@ethersproject/address" ">=5.0.0-beta.134"
+    "@ethersproject/bignumber" ">=5.0.0-beta.138"
+    "@ethersproject/bytes" ">=5.0.0-beta.137"
+    "@ethersproject/constants" ">=5.0.0-beta.133"
+    "@ethersproject/hash" ">=5.0.0-beta.133"
+    "@ethersproject/logger" ">=5.0.0-beta.137"
+    "@ethersproject/networks" ">=5.0.0-beta.136"
+    "@ethersproject/properties" ">=5.0.0-beta.140"
+    "@ethersproject/random" ">=5.0.0-beta.135"
+    "@ethersproject/rlp" ">=5.0.0-beta.132"
+    "@ethersproject/strings" ">=5.0.0-beta.136"
+    "@ethersproject/transactions" ">=5.0.0-beta.135"
+    "@ethersproject/web" ">=5.0.0-beta.138"
+    ws "7.2.3"
+
 "@ethersproject/random@>=5.0.0-beta.135":
   version "5.0.0-beta.136"
   resolved "https://registry.npmjs.org/@ethersproject/random/-/random-5.0.0-beta.136.tgz#5f5e89f50e0fb7d286daeb0286fe44eb243ddeb4"
