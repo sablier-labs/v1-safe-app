@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Contract, ethers } from "ethers";
+import { Contract } from "@ethersproject/contracts";
 import { BigNumber } from "@ethersproject/bignumber";
+import { InfuraProvider } from "@ethersproject/providers";
+import { parseEther } from "@ethersproject/units";
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
@@ -163,8 +165,8 @@ function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Pro
     setStreamAmount("");
     setAmountError(undefined);
 
-    const provider = new ethers.providers.InfuraProvider(safeInfo.network, process.env.REACT_APP_INFURA_KEY);
-    setTokenInstance(new ethers.Contract(selectedToken.address, erc20Abi, provider));
+    const provider = new InfuraProvider(safeInfo.network, process.env.REACT_APP_INFURA_KEY);
+    setTokenInstance(new Contract(selectedToken.address, erc20Abi, provider));
   }, [safeInfo, selectedToken]);
 
   useEffect(() => {
@@ -181,7 +183,7 @@ function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Pro
       /* Get token Balance */
       let newTokenBalance: string;
       if (selectedToken.id === "ETH") {
-        newTokenBalance = ethers.utils.parseEther(safeInfo.ethBalance).toString();
+        newTokenBalance = parseEther(safeInfo.ethBalance).toString();
       } else {
         newTokenBalance = await tokenInstance.balanceOf(safeInfo.safeAddress);
       }

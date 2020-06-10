@@ -1,6 +1,5 @@
-import { Interface as AbiInterface } from "@ethersproject/abi/lib";
+import { Interface } from "@ethersproject/abi";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { ethers } from "ethers";
 
 import payrollAbi from "../../abis/payroll";
 
@@ -9,7 +8,7 @@ import { getSablierAddress } from "../../config/sablier";
 
 const cancelStreamTxs = (network: Networks, streamId: number): {}[] => {
   const sablierProxyAddress: string = getSablierAddress(network);
-  const sablierProxyInterface: AbiInterface = new ethers.utils.Interface(payrollAbi);
+  const sablierProxyInterface: Interface = new Interface(payrollAbi);
   const txs: Transaction[] = [
     {
       data: sablierProxyInterface.encodeFunctionData("cancelSalary", [streamId]),

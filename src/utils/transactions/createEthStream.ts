@@ -1,6 +1,5 @@
-import { Interface as AbiInterface } from "@ethersproject/abi/lib";
+import { Interface } from "@ethersproject/abi";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { ethers } from "ethers";
 
 import wethAbi from "../../abis/weth";
 
@@ -16,7 +15,7 @@ const createEthStreamTxs = (
   stopTime: string,
 ): Transaction[] => {
   const wethAddress: string = tokens[network].WETH;
-  const wethInterface: AbiInterface = new ethers.utils.Interface(wethAbi);
+  const wethInterface: Interface = new Interface(wethAbi);
 
   const txs: Transaction[] = [
     {
