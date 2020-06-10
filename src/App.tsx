@@ -35,7 +35,9 @@ function SablierWidget() {
   return (
     <ThemeProvider theme={theme}>
       <WidgetWrapper>
-        <StyledTitle size="xs">{shouldDisplayStreams ? "Manage Active Streams" : "Create Sablier Stream"}</StyledTitle>
+        <StyledTitle size="xs">
+          {shouldDisplayStreams ? "Manage Existing Streams" : "Create Sablier Stream"}
+        </StyledTitle>
         {shouldDisplayStreams && (
           <StyledBackButton
             onClick={() => {
