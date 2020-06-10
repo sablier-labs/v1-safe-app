@@ -66,6 +66,7 @@
     "known-css-properties": "^0.19.0",
     "lint-staged": "^10.2.7",
     "prettier": "1.x",
+    "react-app-rewired": "^2.1.6",
     "react-scripts": "3.4.1",
     "shx": "^0.3.2",
     "stylelint": "^13.5.0",
@@ -90,14 +91,14 @@
   "scripts": {
     "precommit": "lint-staged",
     "commit": "git-cz",
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
     "clean": "shx rm -rf ./build",
     "eject": "react-scripts eject",
     "lint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore src/**/*.{ts,tsx}",
     "lint:styles": "stylelint --config ./.stylelintrc.js './src/**/*.{css,ts,tsx,scss}'",
     "prettier": "prettier --config .prettierrc --write '**/*.{js,json,jsx,md,ts,tsx}'",
     "prettier:list-different": "prettier --config .prettierrc --list-different '**/*.{js,json,jsx,md,ts,tsx}'",
-    "start": "react-scripts start"
+    "start": "react-app-rewired start"
   },
   "config": {
     "commitizen": {
