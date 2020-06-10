@@ -29,6 +29,7 @@
     "@apollo/react-hooks": "^3.1.5",
     "@ethersproject/abi": "^5.0.0-beta.155",
     "@ethersproject/bignumber": "^5.0.0-beta.139",
+    "@ethersproject/providers": "^5.0.0-beta.171",
     "@gnosis.pm/safe-apps-sdk": "^0.1.1",
     "@gnosis.pm/safe-react-components": "^0.1.2",
     "@material-ui/core": "^4.10.0",

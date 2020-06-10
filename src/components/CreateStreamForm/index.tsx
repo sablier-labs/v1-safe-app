@@ -9,7 +9,6 @@ import DurationInput, { Duration } from "./DurationInput";
 import erc20Abi from "../../abis/erc20";
 import createEthStreamTxs from "../../utils/transactions/createEthStream";
 import createStreamTxs from "../../utils/transactions/createStream";
-import provider from "../../config/provider";
 
 import { ButtonContainer, SelectContainer } from "../../theme/components";
 import { Transaction } from "../../typings";
@@ -156,7 +155,7 @@ function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Pro
 
   /* Clear the form every time the user changes the token */
   useEffect(() => {
-    if (!selectedToken) {
+    if (!safeInfo?.network || !selectedToken) {
       return;
     }
 
@@ -164,8 +163,9 @@ function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Pro
     setStreamAmount("");
     setAmountError(undefined);
 
+    const provider = new ethers.providers.InfuraProvider(safeInfo.network, process.env.REACT_APP_INFURA_KEY);
     setTokenInstance(new ethers.Contract(selectedToken.address, erc20Abi, provider));
-  }, [selectedToken]);
+  }, [safeInfo, selectedToken]);
 
   useEffect(() => {
     const getData = async () => {
