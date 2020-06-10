@@ -1,38 +1,60 @@
-import React, { ReactElement, useMemo, useCallback } from "react";
-import { Button } from "@gnosis.pm/safe-react-components";
+import React, { ReactElement, useMemo, useCallback, useState } from "react";
+
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
 
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
+import { IconButton, Collapse, makeStyles } from "@material-ui/core";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
+
 import Table from "./Table";
 import Status, { StreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
 
-import { ProxyStream, Token } from "../../typings";
+import { ProxyStream } from "../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../utils/format";
 import { cellWidth } from "./Table/TableHead";
 import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
 import { shortenAddress } from "../../utils/address";
 import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
+import ExpandedStream from "./ExpandedStream";
+import { TableRowData, HumanReadableStream } from "./types";
 
-type HumanReadableStream = {
-  humanDeposit: string;
-  humanStartTime: string;
-  humanStopTime: string;
-  id: number;
-  humanRecipient: string;
-  humanSender: string;
-  status: StreamStatus;
-  token: Token;
-};
-
-type TableRowData = HumanReadableStream & {
-  humanStartTimeOrder: number;
-  humanStopTimeOrder: number;
-  cancelStream: Function;
-};
+const useStyles = makeStyles(() => ({
+  container: {
+    marginTop: "56px",
+  },
+  row: {
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#fff3e2",
+    },
+  },
+  expandedRow: {
+    backgroundColor: "#fff3e2",
+  },
+  cancelledRow: {
+    opacity: 0.4,
+  },
+  extendedTxContainer: {
+    padding: 0,
+    border: 0,
+    "&:last-child": {
+      padding: 0,
+    },
+    backgroundColor: "#fffaf4",
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  expandCellStyle: {
+    paddingLeft: 0,
+    paddingRight: 15,
+  },
+}));
 
 const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { id, recipient, sender } = stream;
@@ -73,6 +95,11 @@ function StreamTable({
   safeInfo?: SafeInfo;
   outgoingProxyStreams: ProxyStream[];
 }): ReactElement {
+  const classes = useStyles();
+
+  /** State Variables **/
+  const [expandedStream, setExpandedStream] = useState<number | null>(null);
+
   /** Memoized Variables **/
 
   const columns = useMemo(() => {
@@ -94,6 +121,12 @@ function StreamTable({
     [appsSdk, safeInfo],
   );
 
+  /** Side Effects **/
+
+  const handleStreamExpand = (id: number): void => {
+    setExpandedStream((prevId: number | null) => (prevId === id ? null : id));
+  };
+
   const tableContents: TableRowData[] = outgoingProxyStreams.map(proxyStream => ({
     ...humanReadableStream(proxyStream),
     humanStartTimeOrder: proxyStream.stream.startTime,
@@ -114,24 +147,40 @@ function StreamTable({
     >
       {(sortedData: TableRowData[]) =>
         sortedData.map((row: TableRowData) => (
-          <TableRow key={row.id} tabIndex={-1}>
-            {autoColumns.map((column: Column) => (
-              <TableCell align={column.align} component="td" key={column.id} style={cellWidth(column.width)}>
-                {(row as { [key: string]: any })[column.id]}
+          <>
+            <TableRow
+              key={row.id}
+              className={`${classes.row} ${expandedStream === row.id && classes.expandedRow}`}
+              onClick={() => handleStreamExpand(row.id)}
+              tabIndex={-1}
+            >
+              {autoColumns.map((column: Column) => (
+                <TableCell align={column.align} component="td" key={column.id} style={cellWidth(column.width)}>
+                  {(row as { [key: string]: any })[column.id]}
+                </TableCell>
+              ))}
+              <TableCell component="td">
+                <Status status={row.status} />
               </TableCell>
-            ))}
-            <TableCell component="td">
-              <Status status={row.status} />
-            </TableCell>
-
-            <TableCell component="td">
-              {row.status === StreamStatus.Active && (
-                <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(row.id)}>
-                  Cancel
-                </Button>
-              )}
-            </TableCell>
-          </TableRow>
+              <TableCell className={classes.expandCellStyle}>
+                <IconButton disableRipple>{expandedStream === row.id ? <ExpandLess /> : <ExpandMore />}</IconButton>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell
+                className={classes.extendedTxContainer}
+                colSpan={7}
+                style={{ paddingBottom: 0, paddingTop: 0 }}
+              >
+                <Collapse
+                  component={() => <ExpandedStream stream={row} cancelStream={(): void => cancelStream(row.id)} />}
+                  in={expandedStream === row.id}
+                  timeout="auto"
+                  unmountOnExit
+                />
+              </TableCell>
+            </TableRow>
+          </>
         ))
       }
     </Table>
