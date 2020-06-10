@@ -77,12 +77,7 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
   }, []);
 
   const autoColumns = useMemo(() => {
-    return columns.filter((column: Column) => {
-      if (!column.custom) {
-        return column;
-      }
-      return undefined;
-    });
+    return columns.filter((column: Column) => !column.custom);
   }, [columns]);
 
   /** Callbacks **/
