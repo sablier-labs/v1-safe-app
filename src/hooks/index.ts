@@ -65,6 +65,7 @@ export function useEffectWithDelay(condition = false, func = () => {}, delay = 1
   }, [condition, delay, func]);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export function useEffectWithDefaultDelay({ condition = false, func = () => {} }) {
   return useEffectWithDelay(condition, func, 250);
 }
