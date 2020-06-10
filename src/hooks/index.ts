@@ -17,7 +17,7 @@ export function useAppsSdk(): [SdkInstance, SafeInfo | undefined] {
 
   /* For development purposes with local provider */
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production" && process.env.REACT_APP_LOCAL_WEB3_PROVIDER) {
+    if (process.env.NODE_ENV !== "production" && process.env.REACT_APP_LOCAL_WEB3_PROVIDER === "true") {
       console.warn("SABLIER APP: you are using a local web3 provider");
       const { ethereum } = window as any;
       ethereum.enable();
