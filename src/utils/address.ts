@@ -1,4 +1,4 @@
-import { isAddress } from "ethers/lib/utils";
+import { isAddress } from "@ethersproject/address";
 
 export function shortenAddress(address: string, digits: number = 4) {
   if (!isAddress(address)) {

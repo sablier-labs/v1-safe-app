@@ -1,6 +1,5 @@
-import { Interface as AbiInterface } from "@ethersproject/abi/lib";
+import { Interface } from "@ethersproject/abi";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { ethers } from "ethers";
 
 import erc20Abi from "../../abis/erc20";
 import payrollAbi from "../../abis/payroll";
@@ -17,8 +16,8 @@ const createStreamTxs = (
   stopTime: string,
 ): Transaction[] => {
   const sablierProxyAddress: string = getSablierAddress(network);
-  const erc20Interface: AbiInterface = new ethers.utils.Interface(erc20Abi);
-  const sablierProxyInterface: AbiInterface = new ethers.utils.Interface(payrollAbi);
+  const erc20Interface: Interface = new Interface(erc20Abi);
+  const sablierProxyInterface: Interface = new Interface(payrollAbi);
 
   const txs: Transaction[] = [];
 

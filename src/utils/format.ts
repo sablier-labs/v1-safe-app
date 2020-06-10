@@ -1,7 +1,7 @@
-import { utils } from "ethers";
+import { formatUnits } from "@ethersproject/units";
 
 export function bigNumberToHumanFormat(value: string, tokenDecimals: number, displayDecimals: number = 4): string {
-  let scaledNumber = utils.formatUnits(value, tokenDecimals);
+  let scaledNumber = formatUnits(value, tokenDecimals);
 
   /*
    *Pad with zeros for required decimal places
