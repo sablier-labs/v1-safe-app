@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useMemo, useState, useCallback } from "react";
+import React, { ReactElement, useMemo, useCallback } from "react";
 import { Button } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
@@ -9,7 +9,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Table from "./Table";
 import Status, { StreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
-import getProxyStreams from "../../gql/proxyStreams";
 
 import { ProxyStream, Token } from "../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../utils/format";
@@ -65,11 +64,15 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   };
 };
 
-function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: SafeInfo }): ReactElement {
-  /** State Variables **/
-
-  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
-
+function StreamTable({
+  appsSdk,
+  safeInfo,
+  outgoingProxyStreams,
+}: {
+  appsSdk: SdkInstance;
+  safeInfo?: SafeInfo;
+  outgoingProxyStreams: ProxyStream[];
+}): ReactElement {
   /** Memoized Variables **/
 
   const columns = useMemo(() => {
@@ -90,21 +93,6 @@ function StreamTable({ appsSdk, safeInfo }: { appsSdk: SdkInstance; safeInfo?: S
     },
     [appsSdk, safeInfo],
   );
-
-  /** Side Effects **/
-
-  useEffect(() => {
-    const loadOutgoingStreams = async () => {
-      if (!safeInfo || !safeInfo.network || !safeInfo.safeAddress) {
-        return;
-      }
-
-      const proxyStreams: ProxyStream[] = await getProxyStreams(safeInfo.network, safeInfo.safeAddress);
-      setOutgoingProxyStreams(proxyStreams);
-    };
-
-    loadOutgoingStreams();
-  }, [safeInfo]);
 
   const tableContents: TableRowData[] = outgoingProxyStreams.map(proxyStream => ({
     ...humanReadableStream(proxyStream),
