@@ -11,3 +11,7 @@ export function bigNumberToHumanFormat(value: string, tokenDecimals: number, dis
   /* Trim any excess decimal places */
   return scaledNumber.slice(0, scaledNumber.indexOf(".") + displayDecimals + 1);
 }
+
+export const BigNumberToRoundedHumanFormat = (value: string, tokenDecimals: number, displayDecimals: number = 4) =>
+  // Truncate to one decimal more than displaying to ensure that rounding is accurate
+  parseFloat(bigNumberToHumanFormat(value, tokenDecimals, displayDecimals + 1)).toFixed(displayDecimals);

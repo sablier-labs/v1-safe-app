@@ -12,7 +12,7 @@ import cancelStreamTxs from "../../utils/transactions/cancelStream";
 import getProxyStreams from "../../gql/proxyStreams";
 
 import { ProxyStream, Token } from "../../typings";
-import { bigNumberToHumanFormat } from "../../utils/format";
+import { BigNumberToRoundedHumanFormat } from "../../utils/format";
 import { cellWidth } from "./Table/TableHead";
 import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
 import { shortenAddress } from "../../utils/address";
@@ -42,7 +42,7 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const humanSender: string = shortenAddress(sender);
   const humanStartTime: string = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanStopTime: string = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
-  const humanDeposit: string = bigNumberToHumanFormat(deposit, token.decimals, 2) + " " + token.symbol;
+  const humanDeposit: string = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
   let status: StreamStatus;
 
   if (cancellation !== undefined) {
