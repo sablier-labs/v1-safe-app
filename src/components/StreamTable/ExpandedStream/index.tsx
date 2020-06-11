@@ -58,6 +58,9 @@ const senderShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigN
   return userShare(value, streamDuration, remainingDuration);
 };
 
+const percentageProgress = (startTime: BigNumberish, endTime: BigNumberish) =>
+  recipientShare(10000, startTime, endTime).toNumber() / 100;
+
 const ExpandedStream = ({
   proxyStream,
   cancelStream,
@@ -87,6 +90,9 @@ const ExpandedStream = ({
             <Text size="md">{`Recipient: ${recipient}`}</Text>
           </p>
         </div>
+        <p>
+          <Text size="md">{`Stream Progress: ${percentageProgress(startTime, stopTime)}%`}</Text>
+        </p>
         <p>
           <Text size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</Text>
         </p>
