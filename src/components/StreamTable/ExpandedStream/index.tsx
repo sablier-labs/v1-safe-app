@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core";
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import moment from "moment";
 
-import Row from "./Row";
 import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
@@ -16,6 +15,10 @@ const md = "16px";
 const useStyles = makeStyles(() => ({
   expandedStreamBlock: {
     borderBottom: `2px solid ${border}`,
+    display: "flex",
+    flex: "0 1 auto",
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   streamDataContainer: {
     padding: `${lg} ${md}`,
@@ -80,44 +83,40 @@ const ExpandedStream = ({
 
   return (
     <div className={classes.expandedStreamBlock}>
-      <Row>
-        <div>
-          <div className={classes.streamDataContainer}>
-            <div className={classes.streamData}>
-              <p>
-                <Text size="md">Recipient: {recipient} </Text>
-              </p>
-            </div>
-            <p>
-              <Text size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</Text>
-            </p>
-            <p>
-              <Text size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol}`}</Text>
-            </p>
-          </div>
+      <div className={classes.streamDataContainer}>
+        <div className={classes.streamData}>
+          <p>
+            <Text size="md">Recipient: {recipient} </Text>
+          </p>
         </div>
-        <div className={classes.streamDataContainer}>
-          <a
-            href={sablierStreamUrl(proxyStream.id)}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none" }}
-          >
-            <Button size="md" color="primary" variant="contained">
-              View Stream
-            </Button>
-          </a>
-          <Button
-            size="md"
-            color="primary"
-            variant="contained"
-            disabled={getStreamStatus(proxyStream) !== StreamStatus.Active}
-            onClick={cancelStream}
-          >
-            Cancel
+        <p>
+          <Text size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</Text>
+        </p>
+        <p>
+          <Text size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol}`}</Text>
+        </p>
+      </div>
+      <div className={classes.streamDataContainer}>
+        <a
+          href={sablierStreamUrl(proxyStream.id)}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none" }}
+        >
+          <Button size="md" color="primary" variant="contained">
+            View Stream
           </Button>
-        </div>
-      </Row>
+        </a>
+        <Button
+          size="md"
+          color="primary"
+          variant="contained"
+          disabled={getStreamStatus(proxyStream) !== StreamStatus.Active}
+          onClick={cancelStream}
+        >
+          Cancel
+        </Button>
+      </div>
     </div>
   );
 };
