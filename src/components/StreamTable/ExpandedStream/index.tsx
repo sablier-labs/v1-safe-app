@@ -23,11 +23,6 @@ const useStyles = makeStyles(() => ({
   streamDataContainer: {
     padding: `${lg} ${md}`,
   },
-  streamData: {
-    alignItems: "center",
-    display: "flex",
-    lineHeight: "1.6",
-  },
   emptyRowDataContainer: {
     paddingTop: lg,
     paddingLeft: md,
@@ -85,11 +80,9 @@ const ExpandedStream = ({
   return (
     <div className={classes.expandedStreamBlock}>
       <div className={classes.streamDataContainer}>
-        <div className={classes.streamData}>
-          <p>
-            <Text size="md">{`Recipient: ${recipient}`}</Text>
-          </p>
-        </div>
+        <p>
+          <Text size="md">{`Recipient: ${recipient}`}</Text>
+        </p>
         <p>
           <Text size="md">{`Stream Progress: ${percentageProgress(startTime, stopTime)}%`}</Text>
         </p>
