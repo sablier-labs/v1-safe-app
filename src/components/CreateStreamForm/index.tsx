@@ -13,9 +13,9 @@ import createEthStreamTxs from "../../utils/transactions/createEthStream";
 import createStreamTxs from "../../utils/transactions/createStream";
 
 import { ButtonContainer, SelectContainer } from "../../theme/components";
+import { TokenItem, getTokenList } from "../../config/tokens";
 import { Transaction } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils";
-import { getTokenList, TokenItem } from "../../config/tokens";
 
 export type Props = {
   appsSdk: SdkInstance;
@@ -151,7 +151,9 @@ function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Pro
 
     setTokenList(tokenListRes);
 
-    const findDaiRes: TokenItem | undefined = tokenListRes.find(t => t.id === "DAI");
+    const findDaiRes: TokenItem | undefined = tokenListRes.find(t => {
+      return t.id === "DAI";
+    });
     setSelectedToken(findDaiRes);
   }, [safeInfo]);
 
