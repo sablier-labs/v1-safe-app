@@ -109,14 +109,27 @@ const ExpandedStream = ({
           </div>
           {/* <Hairline /> */}
         </div>
-
-        {getStreamStatus(proxyStream) === StreamStatus.Active && (
-          <div className={classes.streamDataContainer}>
-            <Button size="md" color="primary" variant="contained" onClick={cancelStream}>
-              Cancel
+        <div className={classes.streamDataContainer}>
+          <a
+            href={sablierStreamUrl(proxyStream.id)}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "none" }}
+          >
+            <Button size="md" color="primary" variant="contained">
+              View Stream
             </Button>
-          </div>
-        )}
+          </a>
+          <Button
+            size="md"
+            color="primary"
+            variant="contained"
+            disabled={getStreamStatus(proxyStream) !== StreamStatus.Active}
+            onClick={cancelStream}
+          >
+            Cancel
+          </Button>
+        </div>
       </Row>
     </div>
   );
