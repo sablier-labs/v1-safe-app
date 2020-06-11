@@ -41,21 +41,21 @@ const useStyles = makeStyles(() => ({
 
 const sablierStreamUrl = (proxyStreamId: number): string => `https://app.sablier.finance/stream/${proxyStreamId}`;
 
-const userShare = (value: BigNumberish, streamDuration: BigNumberish, ownedDuration: BigNumberish): BigNumberish => {
-  if (BigNumber.from(ownedDuration).lte("0")) return "0";
-  if (BigNumber.from(ownedDuration).gte(streamDuration)) return value;
+const userShare = (value: BigNumberish, streamDuration: BigNumberish, ownedDuration: BigNumberish): BigNumber => {
+  if (BigNumber.from(ownedDuration).lte("0")) return BigNumber.from("0");
+  if (BigNumber.from(ownedDuration).gte(streamDuration)) return BigNumber.from(value);
   return BigNumber.from(value)
     .mul(ownedDuration)
     .div(streamDuration);
 };
 
-const recipientShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigNumberish): BigNumberish => {
+const recipientShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigNumberish): BigNumber => {
   const streamDuration = BigNumber.from(endTime).sub(startTime);
   const elapsedDuration = BigNumber.from(moment().format("X")).sub(startTime);
   return userShare(value, streamDuration, elapsedDuration);
 };
 
-const senderShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigNumberish): BigNumberish => {
+const senderShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigNumberish): BigNumber => {
   const streamDuration = BigNumber.from(endTime).sub(startTime);
   const remainingDuration = BigNumber.from(endTime).sub(moment().format("X"));
   return userShare(value, streamDuration, remainingDuration);
