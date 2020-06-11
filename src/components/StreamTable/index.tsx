@@ -165,7 +165,15 @@ function StreamTable({
                 style={{ paddingBottom: 0, paddingTop: 0 }}
               >
                 <Collapse
-                  component={() => <ExpandedStream stream={row} cancelStream={(): void => cancelStream(row.id)} />}
+                  component={() => {
+                    const proxyStream = outgoingProxyStreams.find(({ id }) => expandedStream === id);
+                    return (
+                      <ExpandedStream
+                        proxyStream={proxyStream as ProxyStream}
+                        cancelStream={(): void => cancelStream(row.id)}
+                      />
+                    );
+                  }}
                   in={expandedStream === row.id}
                   timeout="auto"
                   unmountOnExit
