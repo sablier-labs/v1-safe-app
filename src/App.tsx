@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 
 import { Button, Title } from "@gnosis.pm/safe-react-components";
@@ -31,13 +31,14 @@ const StyledBackButton = styled(Button).attrs({
 
 function SablierWidget() {
   /** State Variables **/
-  const [appsSdk, safeInfo]: [SdkInstance, SafeInfo | undefined] = useAppsSdk();
-  const [shouldDisplayStreams, setShouldDisplayStreams] = useState<boolean>(false);
-  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
 
-  const toggleShouldDisplayStreams = () => {
+  const [appsSdk, safeInfo]: [SdkInstance, SafeInfo | undefined] = useAppsSdk();
+  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
+  const [shouldDisplayStreams, setShouldDisplayStreams] = useState<boolean>(false);
+
+  const toggleShouldDisplayStreams = useCallback(() => {
     setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
-  };
+  }, [setShouldDisplayStreams]);
 
   /** Side Effects **/
 
@@ -52,7 +53,7 @@ function SablierWidget() {
     };
 
     loadOutgoingStreams();
-  }, [safeInfo]);
+  }, [safeInfo, setOutgoingProxyStreams]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -68,7 +69,7 @@ function SablierWidget() {
         )}
 
         {shouldDisplayStreams ? (
-          <StreamTable appsSdk={appsSdk} safeInfo={safeInfo} outgoingProxyStreams={outgoingProxyStreams} />
+          <StreamTable appsSdk={appsSdk} outgoingProxyStreams={outgoingProxyStreams} safeInfo={safeInfo} />
         ) : (
           <CreateStreamForm appsSdk={appsSdk} safeInfo={safeInfo} />
         )}
