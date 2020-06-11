@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from "react";
+import React, { ReactElement } from "react";
 import { Text, Button } from "@gnosis.pm/safe-react-components";
 import { makeStyles } from "@material-ui/core";
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
@@ -72,13 +72,14 @@ const ExpandedStream = ({
   const { recipient } = proxyStream;
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
 
-  const senderBalance = useMemo(
-    () => BigNumberToRoundedHumanFormat(senderShare(deposit, startTime, stopTime), token.decimals, 3),
-    [deposit, startTime, stopTime, token.decimals],
-  );
-  const recipientBalance = useMemo(
-    () => BigNumberToRoundedHumanFormat(recipientShare(deposit, startTime, stopTime), token.decimals, 3),
-    [deposit, startTime, stopTime, token.decimals],
+  /* These variables are purposefully not memoised as they depend on the current time */
+
+  const senderBalance = BigNumberToRoundedHumanFormat(senderShare(deposit, startTime, stopTime), token.decimals, 3);
+
+  const recipientBalance = BigNumberToRoundedHumanFormat(
+    recipientShare(deposit, startTime, stopTime),
+    token.decimals,
+    3,
   );
 
   return (
