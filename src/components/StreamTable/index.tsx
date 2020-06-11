@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { IconButton, Collapse, makeStyles } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
+import { BigNumberish } from "@ethersproject/bignumber";
 import Table from "./Table";
 import Status, { StreamStatus, getStreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
@@ -20,7 +21,7 @@ import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
 import { shortenAddress } from "../../utils/address";
 import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
-import { TableRowData, HumanReadableStream } from "./types";
+import { HumanReadableStream } from "./types";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -61,9 +62,11 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { deposit, startTime, stopTime, token } = stream.stream;
   const humanRecipient: string = shortenAddress(recipient);
   const humanSender: string = shortenAddress(sender);
-  const humanStartTime: string = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
-  const humanStopTime: string = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
-  const humanDeposit: string = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
+  const humanStartTime: BigNumberish = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStopTime: BigNumberish = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStartTimeOrder: BigNumberish = startTime;
+  const humanStopTimeOrder: BigNumberish = stopTime;
+  const humanDeposit: BigNumberish = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
   const status: StreamStatus = getStreamStatus(stream);
 
   return {
@@ -74,6 +77,8 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
     humanDeposit,
     humanStartTime,
     humanStopTime,
+    humanStartTimeOrder,
+    humanStopTimeOrder,
     token,
   };
 };
@@ -119,12 +124,9 @@ function StreamTable({
     setExpandedStream((prevId: number | null) => (prevId === id ? null : id));
   };
 
-  const tableContents: TableRowData[] = outgoingProxyStreams.map(proxyStream => ({
-    ...humanReadableStream(proxyStream),
-    humanStartTimeOrder: proxyStream.stream.startTime,
-    humanStopTimeOrder: proxyStream.stream.stopTime,
-    cancelStream: () => cancelStream(proxyStream.id),
-  }));
+  const tableContents: HumanReadableStream[] = outgoingProxyStreams.map(proxyStream =>
+    humanReadableStream(proxyStream),
+  );
   return (
     <Table
       columns={columns}
@@ -137,8 +139,8 @@ function StreamTable({
       size={tableContents.length}
       disableLoadingOnEmptyTable
     >
-      {(sortedData: TableRowData[]) =>
-        sortedData.map((row: TableRowData) => (
+      {(sortedData: HumanReadableStream[]) =>
+        sortedData.map((row: HumanReadableStream) => (
           <>
             <TableRow
               key={row.id}
