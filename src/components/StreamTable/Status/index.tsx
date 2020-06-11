@@ -1,10 +1,12 @@
 import React, { ReactElement } from "react";
+import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ClockIcon from "../../../assets/clock.svg";
 import ErrorIcon from "../../../assets/error.svg";
 import OkIcon from "../../../assets/ok.svg";
 import theme from "../../../theme";
+import { ProxyStream } from "../../../typings";
 
 const sm: string = "8px";
 const lg: string = "24px";
@@ -52,6 +54,17 @@ const statusToIcon = {
   [StreamStatus.Active]: ClockIcon,
   [StreamStatus.Ended]: OkIcon,
   [StreamStatus.Cancelled]: ErrorIcon,
+};
+
+export const getStreamStatus = (proxyStream: ProxyStream): StreamStatus => {
+  const { cancellation, stopTime } = proxyStream.stream;
+  if (cancellation !== null) {
+    return StreamStatus.Cancelled;
+  }
+  if (moment().isAfter(moment.unix(stopTime))) {
+    return StreamStatus.Ended;
+  }
+  return StreamStatus.Active;
 };
 
 const statusIconStyle = {

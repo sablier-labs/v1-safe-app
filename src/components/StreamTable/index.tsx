@@ -10,7 +10,7 @@ import { IconButton, Collapse, makeStyles } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import Table from "./Table";
-import Status, { StreamStatus } from "./Status";
+import Status, { StreamStatus, getStreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
 
 import { ProxyStream } from "../../typings";
@@ -58,21 +58,13 @@ const useStyles = makeStyles(() => ({
 
 const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const { id, recipient, sender } = stream;
-  const { cancellation, deposit, startTime, stopTime, token } = stream.stream;
+  const { deposit, startTime, stopTime, token } = stream.stream;
   const humanRecipient: string = shortenAddress(recipient);
   const humanSender: string = shortenAddress(sender);
   const humanStartTime: string = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanStopTime: string = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanDeposit: string = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
-  let status: StreamStatus;
-
-  if (cancellation !== null) {
-    status = StreamStatus.Cancelled;
-  } else if (moment().isAfter(moment.unix(stopTime))) {
-    status = StreamStatus.Ended;
-  } else {
-    status = StreamStatus.Active;
-  }
+  const status: StreamStatus = getStreamStatus(stream);
 
   return {
     id,
