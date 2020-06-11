@@ -165,7 +165,7 @@ function StreamTable({
             <TableRow>
               <TableCell
                 className={classes.extendedTxContainer}
-                colSpan={7}
+                colSpan={columns.length}
                 style={{ paddingBottom: 0, paddingTop: 0 }}
               >
                 <Collapse
