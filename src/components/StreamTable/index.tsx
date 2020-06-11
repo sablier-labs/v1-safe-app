@@ -95,7 +95,7 @@ function StreamTable({
   const classes = useStyles();
 
   /** State Variables **/
-  const [expandedStream, setExpandedStream] = useState<number | null>(null);
+  const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
 
   /** Memoized Variables **/
 
@@ -106,6 +106,10 @@ function StreamTable({
   const autoColumns = useMemo(() => {
     return columns.filter((column: Column) => !column.custom);
   }, [columns]);
+
+  const expandedStream = useMemo(() => {
+    return outgoingProxyStreams.find(({ id }) => expandedStreamId === id);
+  }, [outgoingProxyStreams, expandedStreamId]);
 
   const tableContents: HumanReadableStream[] = useMemo(
     () => outgoingProxyStreams.map(proxyStream => humanReadableStream(proxyStream)),
@@ -126,7 +130,7 @@ function StreamTable({
   /** Side Effects **/
 
   const handleStreamExpand = (id: number): void => {
-    setExpandedStream((prevId: number | null) => (prevId === id ? null : id));
+    setExpandedStreamId((prevId: number | null) => (prevId === id ? null : id));
   };
 
   return (
@@ -146,7 +150,7 @@ function StreamTable({
           <>
             <TableRow
               key={row.id}
-              className={`${classes.row} ${expandedStream === row.id && classes.expandedRow}`}
+              className={`${classes.row} ${expandedStreamId === row.id && classes.expandedRow}`}
               onClick={() => handleStreamExpand(row.id)}
               tabIndex={-1}
             >
@@ -159,7 +163,7 @@ function StreamTable({
                 <Status status={row.status} />
               </TableCell>
               <TableCell className={classes.expandCellStyle}>
-                <IconButton disableRipple>{expandedStream === row.id ? <ExpandLess /> : <ExpandMore />}</IconButton>
+                <IconButton disableRipple>{expandedStreamId === row.id ? <ExpandLess /> : <ExpandMore />}</IconButton>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -168,20 +172,16 @@ function StreamTable({
                 colSpan={columns.length}
                 style={{ paddingBottom: 0, paddingTop: 0 }}
               >
-                <Collapse
-                  component={() => {
-                    const proxyStream = outgoingProxyStreams.find(({ id }) => expandedStream === id);
-                    return (
-                      <ExpandedStream
-                        proxyStream={proxyStream as ProxyStream}
-                        cancelStream={(): void => cancelStream(row.id)}
-                      />
-                    );
-                  }}
-                  in={expandedStream === row.id}
-                  timeout="auto"
-                  unmountOnExit
-                />
+                {expandedStream && (
+                  <Collapse
+                    component={() => (
+                      <ExpandedStream proxyStream={expandedStream} cancelStream={(): void => cancelStream(row.id)} />
+                    )}
+                    in={expandedStreamId === row.id}
+                    timeout="auto"
+                    unmountOnExit
+                  />
+                )}
               </TableCell>
             </TableRow>
           </>
