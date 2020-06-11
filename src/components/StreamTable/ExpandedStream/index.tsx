@@ -7,6 +7,7 @@ import moment from "moment";
 import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
+import useRefreshwithPeriod from "../../../hooks/useRefreshWithPeriod";
 
 const border = "#e8e7e6";
 const lg = "24px";
@@ -63,6 +64,7 @@ const ExpandedStream = ({
   proxyStream: ProxyStream;
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }): ReactElement => {
+  useRefreshwithPeriod(1000);
   const classes = useStyles();
   const { recipient } = proxyStream;
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
@@ -76,6 +78,7 @@ const ExpandedStream = ({
     token.decimals,
     3,
   );
+  const streamInitiated = BigNumber.from(moment().format("X")).gte(startTime);
 
   return (
     <div className={classes.expandedStreamBlock}>
@@ -84,7 +87,9 @@ const ExpandedStream = ({
           <Text size="md">{`Recipient: ${recipient}`}</Text>
         </p>
         <p>
-          <Text size="md">{`Stream Progress: ${percentageProgress(startTime, stopTime)}%`}</Text>
+          <Text size="md">{`Stream Progress: ${
+            streamInitiated ? `${percentageProgress(startTime, stopTime)}%` : "Not yet started"
+          }`}</Text>
         </p>
         <p>
           <Text size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</Text>
