@@ -57,9 +57,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
-  const { id, recipient, sender } = stream;
-  const { deposit, startTime, stopTime, token } = stream.stream;
+const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
+  const { id, recipient, sender } = proxyStream;
+  const { deposit, startTime, stopTime, token } = proxyStream.stream;
   const humanRecipient: string = shortenAddress(recipient);
   const humanSender: string = shortenAddress(sender);
   const humanStartTime: BigNumberish = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
@@ -67,7 +67,7 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const humanStartTimeOrder: BigNumberish = startTime;
   const humanStopTimeOrder: BigNumberish = stopTime;
   const humanDeposit: BigNumberish = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
-  const status: StreamStatus = getStreamStatus(stream);
+  const status: StreamStatus = getStreamStatus(proxyStream);
 
   return {
     id,
