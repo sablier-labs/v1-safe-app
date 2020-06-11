@@ -107,6 +107,11 @@ function StreamTable({
     return columns.filter((column: Column) => !column.custom);
   }, [columns]);
 
+  const tableContents: HumanReadableStream[] = useMemo(
+    () => outgoingProxyStreams.map(proxyStream => humanReadableStream(proxyStream)),
+    [outgoingProxyStreams],
+  );
+
   /** Callbacks **/
 
   const cancelStream = useCallback(
@@ -124,9 +129,6 @@ function StreamTable({
     setExpandedStream((prevId: number | null) => (prevId === id ? null : id));
   };
 
-  const tableContents: HumanReadableStream[] = outgoingProxyStreams.map(proxyStream =>
-    humanReadableStream(proxyStream),
-  );
   return (
     <Table
       columns={columns}
