@@ -131,7 +131,7 @@ function GnoTable(props: Props): ReactElement {
   const sortedData = useMemo((): any => {
     let sortedDataHookScope = stableSort(data, getSorting(orderParam, orderByParam, orderProp as boolean), fixedParam);
     if (!disablePagination) {
-      sortedDataHookScope = sortedData.slice(page * displayRows, page * displayRows + displayRows);
+      sortedDataHookScope = sortedDataHookScope.slice(page * displayRows, page * displayRows + displayRows);
     }
     return sortedDataHookScope;
   }, [data, disablePagination, displayRows, fixedParam, orderByParam, orderParam, orderProp, page]);
