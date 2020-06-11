@@ -86,7 +86,7 @@ const ExpandedStream = ({
       <div className={classes.streamDataContainer}>
         <div className={classes.streamData}>
           <p>
-            <Text size="md">Recipient: {recipient} </Text>
+            <Text size="md">{`Recipient: ${recipient}`}</Text>
           </p>
         </div>
         <p>
