@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useMemo } from "react";
 import { Text, Button } from "@gnosis.pm/safe-react-components";
 import { makeStyles } from "@material-ui/core";
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
@@ -68,26 +68,32 @@ const ExpandedStream = ({
   const classes = useStyles();
   const { recipient } = proxyStream;
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
+
+  const senderBalance = useMemo(
+    () => BigNumberToRoundedHumanFormat(senderShare(deposit, startTime, stopTime), token.decimals, 3),
+    [deposit, startTime, stopTime, token.decimals],
+  );
+  const recipientBalance = useMemo(
+    () => BigNumberToRoundedHumanFormat(recipientShare(deposit, startTime, stopTime), token.decimals, 3),
+    [deposit, startTime, stopTime, token.decimals],
+  );
+
   return (
     <div className={classes.expandedStreamBlock}>
       <Row>
         <div>
           <div className={classes.streamDataContainer}>
             <div className={classes.streamData}>
-              <Text size="md">Recipient: {recipient} </Text>
-              <Text size="md">
-                Sender Balance:
-                {`${BigNumberToRoundedHumanFormat(senderShare(deposit, startTime, stopTime), token.decimals, 3)} ${
-                  token.symbol
-                }`}
-              </Text>
-              <Text size="md">
-                Recipient Balance:
-                {`${BigNumberToRoundedHumanFormat(recipientShare(deposit, startTime, stopTime), token.decimals, 3)} ${
-                  token.symbol
-                }`}
-              </Text>
+              <p>
+                <Text size="md">Recipient: {recipient} </Text>
+              </p>
             </div>
+            <p>
+              <Text size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</Text>
+            </p>
+            <p>
+              <Text size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol}`}</Text>
+            </p>
           </div>
         </div>
         <div className={classes.streamDataContainer}>
