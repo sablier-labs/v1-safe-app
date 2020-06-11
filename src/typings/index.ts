@@ -9,12 +9,12 @@ export type Cancellation = {
   senderInterest: BigNumberish;
   timestamp: BigNumberish;
   token: Token;
-  txHash: string;
+  txhash: string;
 };
 
 export type Stream = {
   id: number;
-  cancellation: Cancellation | undefined;
+  cancellation: Cancellation | null;
   deposit: string;
   recipient: string;
   sender: string;

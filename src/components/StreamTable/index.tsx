@@ -66,7 +66,7 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
   const humanDeposit: string = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
   let status: StreamStatus;
 
-  if (cancellation !== undefined) {
+  if (cancellation !== null) {
     status = StreamStatus.Cancelled;
   } else if (moment().isAfter(moment.unix(stopTime))) {
     status = StreamStatus.Ended;
