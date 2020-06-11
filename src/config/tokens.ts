@@ -1,18 +1,13 @@
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import batIcon from "../assets/tokens/bat.svg";
 import cdaiIcon from "../assets/tokens/cdai.svg";
 import chaiIcon from "../assets/tokens/chai.png";
 import cusdcIcon from "../assets/tokens/cusdc.svg";
 import daiIcon from "../assets/tokens/dai.svg";
 import ethIcon from "../assets/tokens/eth.svg";
-import kncIcon from "../assets/tokens/knc.svg";
 import linkIcon from "../assets/tokens/link.svg";
 import mkrIcon from "../assets/tokens/mkr.svg";
-import repIcon from "../assets/tokens/rep.svg";
-import snxIcon from "../assets/tokens/snx.svg";
 import susdIcon from "../assets/tokens/susd.svg";
-import tusdIcon from "../assets/tokens/tusd.svg";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
 
@@ -37,20 +32,16 @@ const tokens: TokenMap = {
   mainnet: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     DAI: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    BAT: "0x0D8775F648430679A709E98d2b0Cb6250d2887EF",
-    cDAI: "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
-    CHAI: "0x06AF07097C9Eeb7fD685c692751D5C66dB49c215",
-    cUSDC: "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
-    KNC: "0xdd974D5C2e2928deA5F71b9825b8b646686BD200",
-    LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
-    MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
-    REP: "0x1985365e9f78359a9B6AD760e32412f4a445E862",
-    SNX: "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
-    sUSD: "0x57Ab1E02fEE23774580C119740129eAC7081e9D3",
     TUSD: "0x0000000000085d4780B73119b644AE5ecd22b376",
     USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    sUSD: "0x57Ab1E02fEE23774580C119740129eAC7081e9D3",
+    CHAI: "0x06AF07097C9Eeb7fD685c692751D5C66dB49c215",
+    cDAI: "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
+    cUSDC: "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
+    LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+    MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
     WBTC: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+    WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   rinkeby: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
@@ -74,18 +65,25 @@ export const getTokenList = (network: Networks): TokenItem[] => {
       label: "ETH",
     },
     {
-      address: tokensByNetwork.BAT,
+      address: tokensByNetwork.DAI,
       decimals: 18,
-      iconUrl: batIcon,
-      id: "BAT",
-      label: "BAT",
+      iconUrl: daiIcon,
+      id: "DAI",
+      label: "DAI",
     },
     {
-      address: tokensByNetwork.cDAI,
-      decimals: 8,
-      iconUrl: cdaiIcon,
-      id: "cDAI",
-      label: "cDAI",
+      address: tokensByNetwork.USDC,
+      decimals: 6,
+      iconUrl: usdcIcon,
+      id: "USDC",
+      label: "USDC",
+    },
+    {
+      address: tokensByNetwork.sUSD,
+      decimals: 18,
+      iconUrl: susdIcon,
+      id: "sUSD",
+      label: "sUSD",
     },
     {
       address: tokensByNetwork.CHAI,
@@ -95,25 +93,18 @@ export const getTokenList = (network: Networks): TokenItem[] => {
       label: "CHAI",
     },
     {
+      address: tokensByNetwork.cDAI,
+      decimals: 8,
+      iconUrl: cdaiIcon,
+      id: "cDAI",
+      label: "cDAI",
+    },
+    {
       address: tokensByNetwork.cUSDC,
       decimals: 8,
       iconUrl: cusdcIcon,
       id: "cUSDC",
       label: "cUSDC",
-    },
-    {
-      address: tokensByNetwork.DAI,
-      decimals: 18,
-      iconUrl: daiIcon,
-      id: "DAI",
-      label: "DAI",
-    },
-    {
-      address: tokensByNetwork.KNC,
-      decimals: 18,
-      iconUrl: kncIcon,
-      id: "KNC",
-      label: "KNC",
     },
     {
       address: tokensByNetwork.LINK,
@@ -128,41 +119,6 @@ export const getTokenList = (network: Networks): TokenItem[] => {
       iconUrl: mkrIcon,
       id: "MKR",
       label: "MKR",
-    },
-    {
-      address: tokensByNetwork.REP,
-      decimals: 18,
-      iconUrl: repIcon,
-      id: "REP",
-      label: "REP",
-    },
-    {
-      address: tokensByNetwork.SNX,
-      decimals: 18,
-      iconUrl: snxIcon,
-      id: "SNX",
-      label: "SNX",
-    },
-    {
-      address: tokensByNetwork.sUSD,
-      decimals: 18,
-      iconUrl: susdIcon,
-      id: "sUSD",
-      label: "sUSD",
-    },
-    {
-      address: tokensByNetwork.TUSD,
-      decimals: 18,
-      iconUrl: tusdIcon,
-      id: "TUSD",
-      label: "TUSD",
-    },
-    {
-      address: tokensByNetwork.USDC,
-      decimals: 6,
-      iconUrl: usdcIcon,
-      id: "USDC",
-      label: "USDC",
     },
     {
       address: tokensByNetwork.WBTC,
