@@ -51,27 +51,24 @@ const useStyles = makeStyles(() => ({
 
 const sablierStreamUrl = (proxyStreamId: number): string => `https://app.sablier.finance/stream/${proxyStreamId}`;
 
-const userShare = (
-  value: BigNumberish,
-  startTime: BigNumberish,
-  endTime: BigNumberish,
-  ownedDuration: BigNumberish,
-): BigNumberish => {
+const userShare = (value: BigNumberish, streamDuration: BigNumberish, ownedDuration: BigNumberish): BigNumberish => {
   if (BigNumber.from(ownedDuration).lte("0")) return "0";
-  const streamDuration = BigNumber.from(endTime).sub(startTime);
+  if (BigNumber.from(ownedDuration).gte(streamDuration)) return value;
   return BigNumber.from(value)
     .mul(ownedDuration)
     .div(streamDuration);
 };
 
 const recipientShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigNumberish): BigNumberish => {
+  const streamDuration = BigNumber.from(endTime).sub(startTime);
   const elapsedDuration = BigNumber.from(moment().format("X")).sub(startTime);
-  return userShare(value, startTime, endTime, elapsedDuration);
+  return userShare(value, streamDuration, elapsedDuration);
 };
 
 const senderShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigNumberish): BigNumberish => {
+  const streamDuration = BigNumber.from(endTime).sub(startTime);
   const remainingDuration = BigNumber.from(endTime).sub(moment().format("X"));
-  return userShare(value, startTime, endTime, remainingDuration);
+  return userShare(value, streamDuration, remainingDuration);
 };
 
 const ExpandedStream = ({
