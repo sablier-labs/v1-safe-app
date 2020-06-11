@@ -1,11 +1,20 @@
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import daiIcon from "../assets/tokens/dai.svg";
-import wethIcon from "../assets/tokens/weth.svg";
 import batIcon from "../assets/tokens/bat.svg";
-import usdcIcon from "../assets/tokens/usdc.svg";
+import cdaiIcon from "../assets/tokens/cdai.svg";
+import chaiIcon from "../assets/tokens/chai.png";
+import cusdcIcon from "../assets/tokens/cusdc.svg";
+import daiIcon from "../assets/tokens/dai.svg";
+import ethIcon from "../assets/tokens/eth.svg";
+import kncIcon from "../assets/tokens/knc.svg";
+import linkIcon from "../assets/tokens/link.svg";
+import mkrIcon from "../assets/tokens/mkr.svg";
 import repIcon from "../assets/tokens/rep.svg";
-import btcIcon from "../assets/tokens/wbtc.svg";
+import snxIcon from "../assets/tokens/snx.svg";
+import susdIcon from "../assets/tokens/susd.svg";
+import tusdIcon from "../assets/tokens/tusd.svg";
+import usdcIcon from "../assets/tokens/usdc.svg";
+import wbtcIcon from "../assets/tokens/wbtc.svg";
 
 export type TokenItem = {
   address: string;
@@ -60,7 +69,7 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.ETH,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: ethIcon,
       id: "ETH",
       label: "ETH",
     },
@@ -74,21 +83,21 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.cDAI,
       decimals: 8,
-      iconUrl: daiIcon,
+      iconUrl: cdaiIcon,
       id: "cDAI",
       label: "cDAI",
     },
     {
       address: tokensByNetwork.CHAI,
       decimals: 18,
-      iconUrl: daiIcon,
+      iconUrl: chaiIcon,
       id: "CHAI",
       label: "CHAI",
     },
     {
       address: tokensByNetwork.cUSDC,
       decimals: 8,
-      iconUrl: usdcIcon,
+      iconUrl: cusdcIcon,
       id: "cUSDC",
       label: "cUSDC",
     },
@@ -102,21 +111,21 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.KNC,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: kncIcon,
       id: "KNC",
       label: "KNC",
     },
     {
       address: tokensByNetwork.LINK,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: linkIcon,
       id: "LINK",
       label: "LINK",
     },
     {
       address: tokensByNetwork.MKR,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: mkrIcon,
       id: "MKR",
       label: "MKR",
     },
@@ -130,21 +139,21 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.SNX,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: snxIcon,
       id: "SNX",
       label: "SNX",
     },
     {
       address: tokensByNetwork.sUSD,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: susdIcon,
       id: "sUSD",
       label: "sUSD",
     },
     {
       address: tokensByNetwork.TUSD,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: tusdIcon,
       id: "TUSD",
       label: "TUSD",
     },
@@ -158,14 +167,14 @@ export const getTokenList = (network: Networks): TokenItem[] => {
     {
       address: tokensByNetwork.WBTC,
       decimals: 8,
-      iconUrl: btcIcon,
+      iconUrl: wbtcIcon,
       id: "WBTC",
       label: "WBTC",
     },
     {
       address: tokensByNetwork.WETH,
       decimals: 18,
-      iconUrl: wethIcon,
+      iconUrl: ethIcon,
       id: "WETH",
       label: "WETH",
     },
