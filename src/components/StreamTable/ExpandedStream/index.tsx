@@ -9,8 +9,6 @@ import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
 
-// import EtherScanLink from "src/components/EtherscanLink";
-
 const border = "#e8e7e6";
 const connected = "#008C73";
 const error = "#f02525";
@@ -80,16 +78,13 @@ const ExpandedStream = ({
 }): ReactElement => {
   const classes = useStyles();
   const { recipient } = proxyStream;
-  const { cancellation, deposit, startTime, stopTime, token } = proxyStream.stream;
+  const { deposit, startTime, stopTime, token } = proxyStream.stream;
   return (
     <div className={classes.expandedTxBlock}>
       <Row>
         <div>
           <div className={classes.streamDataContainer}>
             <div className={classes.streamData}>
-              <Text size="md">Hash:</Text>
-              <Text size="md">Creation Tx: </Text>
-              <Text size="md">Cancellation Tx: {cancellation?.txhash || "N/A"} </Text>
               <Text size="md">Recipient: {recipient} </Text>
               <Text size="md">
                 Sender Balance:
@@ -103,11 +98,8 @@ const ExpandedStream = ({
                   token.symbol
                 }`}
               </Text>
-              <Text size="md">app.sablier.finance link: {sablierStreamUrl(proxyStream.id)} </Text>
-              {/* {stream.executionTxHash ? <EtherScanLink cut={8} type="tx" value={tx.executionTxHash} /> : "n/a"} */}
             </div>
           </div>
-          {/* <Hairline /> */}
         </div>
         <div className={classes.streamDataContainer}>
           <a
