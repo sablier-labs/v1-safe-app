@@ -10,13 +10,11 @@ import { ProxyStream } from "../../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
 
 const border = "#e8e7e6";
-const connected = "#008C73";
-const error = "#f02525";
 const lg = "24px";
 const md = "16px";
 
 const useStyles = makeStyles(() => ({
-  expandedTxBlock: {
+  expandedStreamBlock: {
     borderBottom: `2px solid ${border}`,
   },
   streamDataContainer: {
@@ -27,17 +25,8 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     lineHeight: "1.6",
   },
-  success: {
-    color: connected,
-  },
-  cancelled: {
-    color: error,
-  },
   txHash: {
     paddingRight: "3px",
-  },
-  incomingTxBlock: {
-    bderRight: "2px solid rgb(232, 231, 230)",
   },
   emptyRowDataContainer: {
     paddingTop: lg,
@@ -80,7 +69,7 @@ const ExpandedStream = ({
   const { recipient } = proxyStream;
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
   return (
-    <div className={classes.expandedTxBlock}>
+    <div className={classes.expandedStreamBlock}>
       <Row>
         <div>
           <div className={classes.streamDataContainer}>
