@@ -28,9 +28,6 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     lineHeight: "1.6",
   },
-  txHash: {
-    paddingRight: "3px",
-  },
   emptyRowDataContainer: {
     paddingTop: lg,
     paddingLeft: md,
