@@ -13,7 +13,7 @@ import erc20Abi from "../../abis/erc20";
 import createEthStreamTxs from "../../utils/transactions/createEthStream";
 import createStreamTxs from "../../utils/transactions/createStream";
 
-import { ButtonContainer, SelectContainer } from "../../theme/components";
+import { ButtonContainer, SelectContainer } from "../index";
 import { TokenItem, getTokenList } from "../../config/tokens";
 import { Transaction } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils";
