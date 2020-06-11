@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 
 import { Button, Title } from "@gnosis.pm/safe-react-components";
@@ -10,6 +10,8 @@ import WidgetWrapper from "./components/WidgetWrapper";
 import theme from "./theme";
 
 import { useAppsSdk } from "./hooks";
+import getProxyStreams from "./gql/proxyStreams";
+import { ProxyStream } from "./typings";
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
@@ -29,8 +31,29 @@ const StyledBackButton = styled(Button).attrs({
 
 function SablierWidget() {
   /** State Variables **/
+
   const [appsSdk, safeInfo]: [SdkInstance, SafeInfo | undefined] = useAppsSdk();
+  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
   const [shouldDisplayStreams, setShouldDisplayStreams] = useState<boolean>(false);
+
+  const toggleShouldDisplayStreams = useCallback(() => {
+    setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
+  }, [setShouldDisplayStreams]);
+
+  /** Side Effects **/
+
+  useEffect(() => {
+    const loadOutgoingStreams = async () => {
+      if (!safeInfo || !safeInfo.network || !safeInfo.safeAddress) {
+        return;
+      }
+
+      const proxyStreams: ProxyStream[] = await getProxyStreams(safeInfo.network, safeInfo.safeAddress);
+      setOutgoingProxyStreams(proxyStreams);
+    };
+
+    loadOutgoingStreams();
+  }, [safeInfo, setOutgoingProxyStreams]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -38,26 +61,17 @@ function SablierWidget() {
         <StyledTitle size="xs">
           {shouldDisplayStreams ? "Manage Existing Streams" : "Create Sablier Stream"}
         </StyledTitle>
-        {shouldDisplayStreams && (
-          <StyledBackButton
-            onClick={() => {
-              setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
-            }}
-          >
-            Back
+
+        {outgoingProxyStreams.length > 0 && (
+          <StyledBackButton onClick={toggleShouldDisplayStreams}>
+            {shouldDisplayStreams ? "Back" : "Manage Existing Streams"}
           </StyledBackButton>
         )}
 
         {shouldDisplayStreams ? (
-          <StreamTable appsSdk={appsSdk} safeInfo={safeInfo} />
+          <StreamTable appsSdk={appsSdk} outgoingProxyStreams={outgoingProxyStreams} safeInfo={safeInfo} />
         ) : (
-          <CreateStreamForm
-            appsSdk={appsSdk}
-            safeInfo={safeInfo}
-            toggleShouldDisplayStreams={() => {
-              setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
-            }}
-          />
+          <CreateStreamForm appsSdk={appsSdk} safeInfo={safeInfo} />
         )}
       </WidgetWrapper>
     </ThemeProvider>

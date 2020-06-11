@@ -20,10 +20,9 @@ import { bigNumberToHumanFormat } from "../../utils";
 export type Props = {
   appsSdk: SdkInstance;
   safeInfo?: SafeInfo;
-  toggleShouldDisplayStreams: Function;
 };
 
-function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Props) {
+function CreateStreamForm({ appsSdk, safeInfo }: Props) {
   /** State Variables **/
 
   const [amountError, setAmountError] = useState<string | undefined>();
@@ -235,9 +234,6 @@ function CreateStreamForm({ appsSdk, safeInfo, toggleShouldDisplayStreams }: Pro
       <ButtonContainer>
         <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
           Create Stream
-        </Button>
-        <Button size="lg" color="secondary" variant="contained" onClick={() => toggleShouldDisplayStreams()}>
-          Manage Existing Streams
         </Button>
       </ButtonContainer>
     </>
