@@ -41,6 +41,10 @@ const useStyles = makeStyles(() => ({
   statusText: {
     padding: "0px 7px",
   },
+  statusIcon: {
+    height: "14px",
+    width: "14px",
+  },
 }));
 
 export enum StreamStatus {
@@ -67,11 +71,6 @@ export const getStreamStatus = (proxyStream: ProxyStream): StreamStatus => {
   return StreamStatus.Active;
 };
 
-const statusIconStyle = {
-  height: "14px",
-  width: "14px",
-};
-
 function Status({ status }: { status: StreamStatus }): ReactElement {
   const classes = useStyles();
   const Icon = statusToIcon[status];
@@ -79,7 +78,7 @@ function Status({ status }: { status: StreamStatus }): ReactElement {
 
   return (
     <div className={`${classes.container} ${classes[statusText]}`}>
-      {typeof Icon === "object" ? Icon : <img alt={statusText} src={Icon} style={statusIconStyle} />}
+      {typeof Icon === "object" ? Icon : <img alt={statusText} src={Icon} className={classes.statusIcon} />}
       <p className={classes.statusText}>{statusText}</p>
     </div>
   );
