@@ -6,7 +6,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import { makeStyles } from "@material-ui/core";
 
 import TableHead from "./TableHead";
-import { Column } from "./columns";
+import { Column } from "../columns";
 import { getSorting, stableSort, Order } from "./sorting";
 
 const sm: string = "8px";

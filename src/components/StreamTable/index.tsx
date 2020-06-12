@@ -18,7 +18,7 @@ import cancelStreamTxs from "../../utils/transactions/cancelStream";
 import { ProxyStream } from "../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../utils/format";
 import { cellWidth } from "./Table/TableHead";
-import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
+import { STREAM_TABLE_ID, Column, generateColumns } from "./columns";
 import { shortenAddress } from "../../utils/address";
 import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
