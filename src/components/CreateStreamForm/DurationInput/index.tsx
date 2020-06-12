@@ -244,7 +244,7 @@ function DurationInput({ duration, onUpdateDuration }: Props) {
   useMountEffect(() => {
     sendToMachine("IDLE");
     dispatch({ type: "RESET" });
-  }, [dispatch, sendToMachine]);
+  });
 
   /* Alert the parent component when the user changes one of the time units */
   useEffect(() => {
