@@ -1,9 +1,10 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useMemo } from "react";
 import { Text, Button } from "@gnosis.pm/safe-react-components";
 import { makeStyles } from "@material-ui/core";
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import moment from "moment";
 
+import { getAddress } from "@ethersproject/address";
 import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
@@ -69,6 +70,8 @@ const ExpandedStream = ({
   const { recipient } = proxyStream;
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
 
+  const recipientAddress = useMemo(() => getAddress(recipient), [recipient]);
+
   /* These variables are purposefully not memoised as they depend on the current time */
 
   const senderBalance = BigNumberToRoundedHumanFormat(senderShare(deposit, startTime, stopTime), token.decimals, 3);
@@ -84,7 +87,7 @@ const ExpandedStream = ({
     <div className={classes.expandedStreamBlock}>
       <div className={classes.streamDataContainer}>
         <p>
-          <Text size="md">{`Recipient: ${recipient}`}</Text>
+          <Text size="md">{`Recipient: ${recipientAddress}`}</Text>
         </p>
         <p>
           <Text size="md">{`Stream Progress: ${

@@ -10,6 +10,7 @@ import { IconButton, Collapse, makeStyles } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import { BigNumberish } from "@ethersproject/bignumber";
+import { getAddress } from "@ethersproject/address";
 import Table from "./Table";
 import Status, { StreamStatus, getStreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
@@ -60,8 +61,8 @@ const useStyles = makeStyles(() => ({
 const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   const { id, recipient, sender } = proxyStream;
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
-  const humanRecipient: string = shortenAddress(recipient);
-  const humanSender: string = shortenAddress(sender);
+  const humanRecipient: string = shortenAddress(getAddress(recipient));
+  const humanSender: string = shortenAddress(getAddress(sender));
   const humanStartTime: BigNumberish = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanStopTime: BigNumberish = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanStartTimeOrder: BigNumberish = startTime;
