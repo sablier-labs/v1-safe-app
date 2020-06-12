@@ -173,16 +173,18 @@ function StreamTable({
                 colSpan={columns.length}
                 style={{ paddingBottom: 0, paddingTop: 0 }}
               >
-                {expandedStream && (
-                  <Collapse
-                    component={() => (
+                <Collapse
+                  component={() =>
+                    expandedStream ? (
                       <ExpandedStream proxyStream={expandedStream} cancelStream={(): void => cancelStream(row.id)} />
-                    )}
-                    in={expandedStreamId === row.id}
-                    timeout="auto"
-                    unmountOnExit
-                  />
-                )}
+                    ) : (
+                      <div />
+                    )
+                  }
+                  in={expandedStreamId === row.id}
+                  timeout="auto"
+                  unmountOnExit
+                />
               </TableCell>
             </TableRow>
           </>
