@@ -81,7 +81,6 @@ const ExpandedStream = ({
     token.decimals,
     3,
   );
-  const streamInitiated = BigNumber.from(moment().format("X")).gte(startTime);
 
   return (
     <div className={classes.expandedStreamBlock}>
@@ -91,7 +90,9 @@ const ExpandedStream = ({
         </p>
         <p>
           <Text size="md">{`Stream Progress: ${
-            streamInitiated ? `${percentageProgress(startTime, stopTime)}%` : "Not yet started"
+            moment().isAfter(moment.unix(startTime))
+              ? `${percentageProgress(startTime, stopTime)}%`
+              : `Starts ${moment.unix(startTime).fromNow()}`
           }`}</Text>
         </p>
         <p>
