@@ -5,10 +5,12 @@ import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import moment from "moment";
 
 import { getAddress } from "@ethersproject/address";
+import { Networks } from "@gnosis.pm/safe-apps-sdk";
 import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
 import useRefreshwithPeriod from "../../../hooks/useRefreshWithPeriod";
+import EtherscanLink from "../../EtherscanLink";
 
 const border = "#e8e7e6";
 const lg = "24px";
@@ -61,9 +63,11 @@ const percentageProgress = (startTime: BigNumberish, endTime: BigNumberish) =>
 const ExpandedStream = ({
   proxyStream,
   cancelStream,
+  network,
 }: {
   proxyStream: ProxyStream;
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  network: Networks;
 }): ReactElement => {
   useRefreshwithPeriod(1000);
   const classes = useStyles();
@@ -86,7 +90,9 @@ const ExpandedStream = ({
     <div className={classes.expandedStreamBlock}>
       <div className={classes.streamDataContainer}>
         <p>
-          <Text size="md">{`Recipient: ${recipientAddress}`}</Text>
+          <Text size="md">
+            Recipient: <EtherscanLink network={network} type="address" value={recipientAddress} />
+          </Text>
         </p>
         <p>
           <Text size="md">{`Stream Progress: ${

@@ -1,6 +1,6 @@
 import React, { ReactElement, useMemo, useCallback, useState } from "react";
 
-import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
+import { SafeInfo, SdkInstance, Networks } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
 
 import TableCell from "@material-ui/core/TableCell";
@@ -176,7 +176,11 @@ function StreamTable({
                 <Collapse
                   component={() =>
                     expandedStream ? (
-                      <ExpandedStream proxyStream={expandedStream} cancelStream={(): void => cancelStream(row.id)} />
+                      <ExpandedStream
+                        proxyStream={expandedStream}
+                        cancelStream={(): void => cancelStream(row.id)}
+                        network={safeInfo?.network as Networks}
+                      />
                     ) : (
                       <div />
                     )
