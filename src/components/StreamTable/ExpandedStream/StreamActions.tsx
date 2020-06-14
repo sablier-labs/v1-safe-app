@@ -13,12 +13,15 @@ const useStyles = makeStyles(() => ({
   actionsContainer: {
     padding: `${lg} ${md}`,
     display: "flex",
-    // flex: "0 1 auto",
+    flexGrow: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around",
-    alignItems: "space-around",
-    alignContent: "space-around",
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  button: {
+    marginLeft: md,
+    marginRight: md,
   },
 }));
 
@@ -36,12 +39,12 @@ const StreamActions = ({
   return (
     <div className={classes.actionsContainer}>
       <CopyToClipboard text={sablierStreamUrl}>
-        <Button size="md" color="primary" variant="contained">
+        <Button size="md" color="primary" variant="contained" className={classes.button}>
           Copy Stream Link
         </Button>
       </CopyToClipboard>
       <a href={sablierStreamUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-        <Button size="md" color="primary" variant="contained">
+        <Button size="md" color="primary" variant="contained" className={classes.button}>
           View Stream
         </Button>
       </a>
@@ -49,10 +52,11 @@ const StreamActions = ({
         size="md"
         color="primary"
         variant="contained"
+        className={classes.button}
         disabled={getStreamStatus(proxyStream) !== StreamStatus.Active}
         onClick={cancelStream}
       >
-        Cancel
+        Cancel Stream
       </Button>
     </div>
   );
