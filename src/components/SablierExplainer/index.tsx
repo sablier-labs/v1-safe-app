@@ -52,8 +52,11 @@ function SablierExplainer() {
         <ListItem>• Select an ERC20 token you want to use.</ListItem>
         <ListItem>• Type an amount.</ListItem>
         <ListItem>• Type the Ethereum address of the recipient - maybe an employee or a contractor.</ListItem>
-        <ListItem>• Choose a duration - the period over which the amount will be streamed.</ListItem>
-        <ListItem>• Submit the transaction and let the streaming begin! </ListItem>
+        <ListItem>
+          • Choose a duration - the period over which the amount will be streamed. The start time is implicitly set to 1
+          hour from now.{" "}
+        </ListItem>
+        <ListItem>• Submit the transaction and the minimum number of Safe approvals within 1 hour. </ListItem>
       </ListWrapper>
       <BottomWrapper>
         <Text>You can cancel the stream at any time, should you need to do this.</Text>
