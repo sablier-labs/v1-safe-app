@@ -1,36 +1,50 @@
 import React, { ReactElement, useMemo } from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
+import styled from "styled-components";
+
 import { Button } from "@gnosis.pm/safe-react-components";
 import { makeStyles } from "@material-ui/core";
 
-import CopyToClipboard from "react-copy-to-clipboard";
 import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../typings";
 
-const lg = "24px";
-const md = "16px";
+const lg: string = "24px";
+const md: string = "16px";
 
 const useStyles = makeStyles(() => ({
   actionsContainer: {
-    padding: `${lg} ${md}`,
+    alignContent: "space-around",
+    alignItems: "space-around",
     display: "flex",
-    flexGrow: 1,
-    flexDirection: "row",
+    flexDirection: "column",
     flexWrap: "wrap",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  button: {
-    marginLeft: md,
-    marginRight: md,
+    justifyContent: "space-around",
+    padding: `${lg} ${md}`,
   },
 }));
 
+const StyledButton = styled(Button).attrs({
+  color: "primary",
+  size: "md",
+  variant: "contained",
+})`
+  min-width: 120px;
+`;
+
+const StyledAnchor = styled.a.attrs({
+  rel: "noopener noreferrer",
+  target: "_blank",
+})`
+  color: ${props => props.theme.colors.white};
+  text-decoration: none;
+`;
+
 const StreamActions = ({
-  proxyStream,
   cancelStream,
+  proxyStream,
 }: {
-  proxyStream: ProxyStream;
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  proxyStream: ProxyStream;
 }): ReactElement => {
   const classes = useStyles();
 
@@ -39,25 +53,14 @@ const StreamActions = ({
   return (
     <div className={classes.actionsContainer}>
       <CopyToClipboard text={sablierStreamUrl}>
-        <Button size="md" color="primary" variant="contained" className={classes.button}>
-          Copy Stream Link
-        </Button>
+        <StyledButton>Copy Stream Link</StyledButton>
       </CopyToClipboard>
-      <a href={sablierStreamUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-        <Button size="md" color="primary" variant="contained" className={classes.button}>
-          View Stream
-        </Button>
-      </a>
-      <Button
-        size="md"
-        color="primary"
-        variant="contained"
-        className={classes.button}
-        disabled={getStreamStatus(proxyStream) !== StreamStatus.Active}
-        onClick={cancelStream}
-      >
-        Cancel Stream
-      </Button>
+      <StyledButton>
+        <StyledAnchor href={sablierStreamUrl}>View Stream</StyledAnchor>
+      </StyledButton>
+      <StyledButton disabled={getStreamStatus(proxyStream) !== StreamStatus.Active} onClick={cancelStream}>
+        Cancel
+      </StyledButton>
     </div>
   );
 };

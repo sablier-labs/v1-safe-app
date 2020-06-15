@@ -19,13 +19,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ExpandedStream = ({
-  proxyStream,
   cancelStream,
   network,
+  proxyStream,
 }: {
-  proxyStream: ProxyStream;
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   network: Networks;
+  proxyStream: ProxyStream;
 }): ReactElement => {
   const classes = useStyles();
 
