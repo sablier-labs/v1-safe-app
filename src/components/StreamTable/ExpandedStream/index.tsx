@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { makeStyles } from "@material-ui/core";
+import styled from "styled-components";
 
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 import { ProxyStream } from "../../../typings";
@@ -8,15 +8,13 @@ import StreamActions from "./StreamActions";
 
 const border = "#e8e7e6";
 
-const useStyles = makeStyles(() => ({
-  expandedStreamBlock: {
-    borderBottom: `2px solid ${border}`,
-    display: "flex",
-    flex: "0 1 auto",
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-}));
+const ExpandedStreamContainer = styled.div`
+  border-bottom: 2px solid ${border};
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
 
 const ExpandedStream = ({
   cancelStream,
@@ -26,15 +24,11 @@ const ExpandedStream = ({
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   network: Networks;
   proxyStream: ProxyStream;
-}): ReactElement => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.expandedStreamBlock}>
-      <StreamInfo proxyStream={proxyStream} network={network} />
-      <StreamActions proxyStream={proxyStream} cancelStream={cancelStream} />
-    </div>
-  );
-};
+}): ReactElement => (
+  <ExpandedStreamContainer>
+    <StreamInfo proxyStream={proxyStream} network={network} />
+    <StreamActions proxyStream={proxyStream} cancelStream={cancelStream} />
+  </ExpandedStreamContainer>
+);
 
 export default ExpandedStream;

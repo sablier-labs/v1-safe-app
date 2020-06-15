@@ -1,31 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import Tooltip from "@material-ui/core/Tooltip";
-import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 import CopyIcon from "./copy.svg";
-
-const xs = "4px";
-
-const useStyles = makeStyles({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    cursor: "pointer",
-    margin: `0 ${xs}`,
-    borderRadius: "50%",
-    transition: "background-color .2s ease-in-out",
-    "&:hover": {
-      backgroundColor: "#F0EFEE",
-    },
-  },
-  increasedPopperZindex: {
-    zIndex: 2001,
-  },
-});
+import { LinkContainer, StyledTooltip } from "./components";
 
 const CopyBtn = ({
   content,
@@ -37,12 +16,10 @@ const CopyBtn = ({
   increaseZindex?: boolean;
 }) => {
   const [clicked, setClicked] = useState(false);
-  const classes = useStyles();
-  const customClasses = increaseZindex ? { popper: classes.increasedPopperZindex } : {};
 
   return (
-    <Tooltip
-      classes={customClasses}
+    <StyledTooltip
+      increaseZindex={increaseZindex}
       onClose={() => {
         // this is fired before tooltip is closed
         // added setTimeout so the user doesn't see the text changing/jumping
@@ -55,12 +32,12 @@ const CopyBtn = ({
       placement="top"
       title={clicked ? "Copied" : "Copy to clipboard"}
     >
-      <div className={`${classes.container} ${className}`}>
+      <LinkContainer className={className}>
         <CopyToClipboard text={content} onCopy={() => setClicked(true)}>
           <img alt="Copy to clipboard" height={20} src={CopyIcon} />
         </CopyToClipboard>
-      </div>
-    </Tooltip>
+      </LinkContainer>
+    </StyledTooltip>
   );
 };
 

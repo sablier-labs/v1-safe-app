@@ -1,6 +1,6 @@
 import React, { ReactElement, useMemo } from "react";
 import { Text } from "@gnosis.pm/safe-react-components";
-import { makeStyles } from "@material-ui/core";
+import styled from "styled-components";
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import moment from "moment";
 
@@ -14,18 +14,15 @@ import EtherscanLink from "../../EtherscanLink";
 const lg = "24px";
 const md = "16px";
 
-const useStyles = makeStyles(() => ({
-  streamDataContainer: {
-    padding: `${lg} ${md}`,
-    display: "flex",
-    // flex: "0 1 auto",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    alignItems: "space-around",
-    alignContent: "space-around",
-  },
-}));
+const StreamDataContainer = styled.div`
+  padding: ${lg} ${md};
+  display: "flex";
+  flexdirection: "column";
+  flexwrap: "wrap";
+  justifycontent: "space-around";
+  alignitems: "space-around";
+  aligncontent: "space-around";
+`;
 
 const userShare = (value: BigNumberish, streamDuration: BigNumberish, ownedDuration: BigNumberish): BigNumber => {
   if (BigNumber.from(ownedDuration).lte("0")) return BigNumber.from("0");
@@ -52,7 +49,6 @@ const percentageProgress = (startTime: BigNumberish, endTime: BigNumberish) =>
 
 const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; network: Networks }): ReactElement => {
   useRefreshwithPeriod(1000);
-  const classes = useStyles();
   const { recipient } = proxyStream;
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
 
@@ -69,7 +65,7 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
   );
 
   return (
-    <div className={classes.streamDataContainer}>
+    <StreamDataContainer>
       <p>
         <Text size="md">
           Recipient: <EtherscanLink network={network} type="address" value={recipientAddress} />
@@ -88,7 +84,7 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
       <p>
         <Text size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol}`}</Text>
       </p>
-    </div>
+    </StreamDataContainer>
   );
 };
 

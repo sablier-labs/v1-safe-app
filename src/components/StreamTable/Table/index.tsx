@@ -5,6 +5,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TablePagination from "@material-ui/core/TablePagination";
 import { makeStyles } from "@material-ui/core";
 
+import styled, { css } from "styled-components";
 import TableHead from "./TableHead";
 import { Column } from "../columns";
 import { getSorting, stableSort, Order } from "./sorting";
@@ -14,24 +15,15 @@ const xl: string = "32px";
 const xxl: string = "40px";
 
 const useStyles = makeStyles(() => ({
-  loader: {
-    /* boxShadow: "1px 2px 10px 0 rgba(212, 212, 211, 0.59)", */
-  },
-  root: {
-    backgroundColor: "white",
-    borderTopLeftRadius: sm,
-    borderTopRightRadius: sm,
-    /* boxShadow: "1px 2px 10px 0 rgba(212, 212, 211, 0.59)", */
-  },
   paginationRoot: {
     backgroundColor: "white",
-    /* boxShadow: "1px 2px 10px 0 rgba(212, 212, 211, 0.59)", */
+    // boxShadow: "1px 2px 10px 0 rgba(212, 212, 211, 0.59)",
     borderBottomLeftRadius: sm,
     borderBottomRightRadius: sm,
     marginBottom: xl,
   },
   selectRoot: {
-    backgroundColor: "white",
+    backgroundColor: "black",
     lineHeight: xxl,
   },
   white: {
@@ -39,7 +31,29 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const StyledTable = styled(Table)`
+  ${({ noBorder }: { noBorder?: boolean }) =>
+    !noBorder &&
+    css`
+      background-color: white;
+      box-shadow: 1px 2px 10px 0 rgba(212, 212, 211, 0.59);
+      border-top-left-radius: ${sm};
+      border-top-rightrradius: ${sm};
+    `}
+`;
+
 const FIXED_HEIGHT: number = 49;
+
+const StyledLoader = styled.div`
+  align-items: center;
+  background-color: white;
+  border-top-left-radius: ${sm};
+  border-top-right-radius: ${sm};
+  display: flex;
+  height: ${({ emptyRows }: { emptyRows: number }) => FIXED_HEIGHT * emptyRows}px;
+  justify-content: center;
+  width: 100%;
+`;
 
 const backProps = {
   "aria-label": "Previous Page",
@@ -48,17 +62,6 @@ const backProps = {
 const nextProps = {
   "aria-label": "Next Page",
 };
-
-const getEmptyStyle = (emptyRows: number): object => ({
-  alignItems: "center",
-  backgroundColor: "white",
-  borderTopLeftRadius: sm,
-  borderTopRightRadius: sm,
-  display: "flex",
-  height: FIXED_HEIGHT * emptyRows,
-  justifyContent: "center",
-  width: "100%",
-});
 
 type Props = {
   children: Function;
@@ -120,6 +123,7 @@ function GnoTable(props: Props): ReactElement {
     return typeof fixed !== "undefined" ? fixed : Boolean(defaultFixed);
   }, [defaultFixed, fixed]);
 
+  console.log(classes);
   const paginationClasses = useMemo(() => {
     return {
       input: classes.white,
@@ -198,15 +202,15 @@ function GnoTable(props: Props): ReactElement {
   return (
     <>
       {!isEmpty && (
-        <Table aria-labelledby={label} size="small" className={noBorder ? "" : classes.root}>
+        <StyledTable aria-labelledby={label} size="small" noBorder={noBorder}>
           <TableHead columns={columns} onSort={onSort} order={order} orderBy={orderByParam} />
           <TableBody>{children(sortedData)}</TableBody>
-        </Table>
+        </StyledTable>
       )}
       {isEmpty && (
-        <div className={classes.loader} style={getEmptyStyle(emptyRows + 1)}>
+        <StyledLoader emptyRows={emptyRows + 1}>
           <CircularProgress size={60} />
-        </div>
+        </StyledLoader>
       )}
       {!disablePagination && (
         <TablePagination

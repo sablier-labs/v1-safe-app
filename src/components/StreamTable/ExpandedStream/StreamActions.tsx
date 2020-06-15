@@ -3,7 +3,6 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
 import { Button } from "@gnosis.pm/safe-react-components";
-import { makeStyles } from "@material-ui/core";
 
 import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../typings";
@@ -11,17 +10,14 @@ import { ProxyStream } from "../../../typings";
 const lg: string = "24px";
 const md: string = "16px";
 
-const useStyles = makeStyles(() => ({
-  actionsContainer: {
-    alignContent: "space-around",
-    alignItems: "space-around",
-    display: "flex",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    padding: `${lg} ${md}`,
-  },
-}));
+const ActionsContainer = styled.div`
+  align-content: space-around;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: ${lg} ${md};
+`;
 
 const StyledButton = styled(Button).attrs({
   color: "primary",
@@ -46,12 +42,10 @@ const StreamActions = ({
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   proxyStream: ProxyStream;
 }): ReactElement => {
-  const classes = useStyles();
-
   const sablierStreamUrl = useMemo(() => `https://app.sablier.finance/stream/${proxyStream.id}`, [proxyStream]);
 
   return (
-    <div className={classes.actionsContainer}>
+    <ActionsContainer>
       <CopyToClipboard text={sablierStreamUrl}>
         <StyledButton>Copy Stream Link</StyledButton>
       </CopyToClipboard>
@@ -61,7 +55,7 @@ const StreamActions = ({
       <StyledButton disabled={getStreamStatus(proxyStream) !== StreamStatus.Active} onClick={cancelStream}>
         Cancel
       </StyledButton>
-    </div>
+    </ActionsContainer>
   );
 };
 

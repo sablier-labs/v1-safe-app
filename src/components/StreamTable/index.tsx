@@ -6,11 +6,12 @@ import moment from "moment";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
-import { IconButton, Collapse, makeStyles } from "@material-ui/core";
+import { IconButton, Collapse } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import { BigNumberish } from "@ethersproject/bignumber";
 import { getAddress } from "@ethersproject/address";
+import styled, { css } from "styled-components";
 import Table from "./Table";
 import Status, { StreamStatus, getStreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
@@ -24,39 +25,32 @@ import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
 import { HumanReadableStream } from "./types";
 
-const useStyles = makeStyles(() => ({
-  container: {
-    marginTop: "56px",
+const StyledTableRow = styled(TableRow)`
+  cursor: pointer;
+  &:hover {
+    background-color: #fff3e2;
   },
-  row: {
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: "#fff3e2",
-    },
-  },
-  expandedRow: {
-    backgroundColor: "#fff3e2",
-  },
-  cancelledRow: {
-    opacity: 0.4,
-  },
-  extendedTxContainer: {
-    padding: 0,
-    border: 0,
-    "&:last-child": {
-      padding: 0,
-    },
-    backgroundColor: "#fffaf4",
-  },
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end",
-  },
-  expandCellStyle: {
-    paddingLeft: 0,
-    paddingRight: 15,
-  },
-}));
+
+  ${({ expanded }: { expanded: boolean }) =>
+    expanded &&
+    css`
+      backgroundcolor: #fff3e2;
+    `}
+`;
+
+const ExpandRowCell = styled(TableCell)`
+  padding-left: 0;
+  padding-right: 15;
+`;
+
+const ExpandedStreamCell = styled(TableCell)`
+  padding: 0;
+  border: 0;
+  &:last-child {
+    padding: 0;
+  }
+  background-color: #fffaf4;
+`;
 
 const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   const { id, recipient, sender } = proxyStream;
@@ -93,8 +87,6 @@ function StreamTable({
   safeInfo?: SafeInfo;
   outgoingProxyStreams: ProxyStream[];
 }): ReactElement {
-  const classes = useStyles();
-
   /** State Variables **/
   const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
 
@@ -144,14 +136,15 @@ function StreamTable({
       defaultRowsPerPage={10}
       label="Transactions"
       size={tableContents.length}
+      noBorder
       disableLoadingOnEmptyTable
     >
       {(sortedData: HumanReadableStream[]) =>
         sortedData.map((row: HumanReadableStream) => (
           <>
-            <TableRow
+            <StyledTableRow
               key={row.id}
-              className={`${classes.row} ${expandedStreamId === row.id && classes.expandedRow}`}
+              expanded={expandedStreamId === row.id}
               onClick={() => handleStreamExpand(row.id)}
               tabIndex={-1}
             >
@@ -163,16 +156,12 @@ function StreamTable({
               <TableCell component="td">
                 <Status status={row.status} />
               </TableCell>
-              <TableCell className={classes.expandCellStyle}>
+              <ExpandRowCell>
                 <IconButton disableRipple>{expandedStreamId === row.id ? <ExpandLess /> : <ExpandMore />}</IconButton>
-              </TableCell>
-            </TableRow>
+              </ExpandRowCell>
+            </StyledTableRow>
             <TableRow>
-              <TableCell
-                className={classes.extendedTxContainer}
-                colSpan={columns.length}
-                style={{ paddingBottom: 0, paddingTop: 0 }}
-              >
+              <ExpandedStreamCell colSpan={columns.length} style={{ paddingBottom: 0, paddingTop: 0 }}>
                 <Collapse
                   component={() =>
                     expandedStream ? (
@@ -189,7 +178,7 @@ function StreamTable({
                   timeout="auto"
                   unmountOnExit
                 />
-              </TableCell>
+              </ExpandedStreamCell>
             </TableRow>
           </>
         ))
