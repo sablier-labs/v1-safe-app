@@ -13,9 +13,16 @@ import theme from "./theme";
 import { ProxyStream } from "./typings";
 import { useAppsSdk } from "./hooks";
 
-const OuterWrapper = styled.div`
+const HomeOuterWrapper = styled.div`
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
+  padding: 16px 24px;
+  width: calc(100% - 48px);
+`;
+
+const StreamsOuterWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
   padding: 16px 24px;
   width: calc(100% - 48px);
 `;
@@ -84,7 +91,7 @@ function SablierWidget() {
 
   const renderHomeView = useCallback((): React.ReactNode => {
     return (
-      <>
+      <HomeOuterWrapper>
         <LeftWrapper>
           <TopLeftHorizontalWrapper>
             <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
@@ -97,13 +104,13 @@ function SablierWidget() {
         <RightWrapper>
           <SablierExplainer />
         </RightWrapper>
-      </>
+      </HomeOuterWrapper>
     );
   }, [appsSdk, outgoingProxyStreams, safeInfo, toggleShouldDisplayStreams]);
 
   const renderStreamsView = useCallback((): React.ReactNode => {
     return (
-      <>
+      <StreamsOuterWrapper>
         <TopLeftHorizontalWrapper>
           <StyledTitle size="xs">Manage Existing Streams</StyledTitle>
           <StyledButton onClick={toggleShouldDisplayStreams}>Create a new stream</StyledButton>
@@ -111,15 +118,11 @@ function SablierWidget() {
         <TableWrapper>
           <StreamTable appsSdk={appsSdk} outgoingProxyStreams={outgoingProxyStreams} safeInfo={safeInfo} />
         </TableWrapper>
-      </>
+      </StreamsOuterWrapper>
     );
   }, [appsSdk, outgoingProxyStreams, safeInfo, toggleShouldDisplayStreams]);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <OuterWrapper>{!shouldDisplayStreams ? renderHomeView() : renderStreamsView()}</OuterWrapper>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}>{!shouldDisplayStreams ? renderHomeView() : renderStreamsView()}</ThemeProvider>;
 }
 
 export default SablierWidget;
