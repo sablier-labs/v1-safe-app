@@ -16,7 +16,7 @@ import createStreamTxs from "../../utils/transactions/createStream";
 import { ButtonContainer, SelectContainer } from "../index";
 import { TokenItem, getTokenList } from "../../config/tokens";
 import { Transaction } from "../../typings";
-import { bigNumberToHumanFormat } from "../../utils";
+import { bigNumberToHumanFormat, SECONDS_IN_HOUR } from "../../utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
     /* TODO: Stream initiation must be approved by other owners within an hour */
     const totalSeconds: number = duration.totalSeconds.toNumber();
     const currentUnix: number = Math.floor(new Date().getTime() / 1000);
-    const startTime: BigNumber = BigNumber.from(currentUnix).add(3600);
+    const startTime: BigNumber = BigNumber.from(currentUnix).add(SECONDS_IN_HOUR);
     const stopTime: BigNumber = startTime.add(totalSeconds);
 
     const bnStreamAmount = BigNumber.from(streamAmount);
