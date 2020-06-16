@@ -37,34 +37,50 @@ const userShare = (value: BigNumberish, streamDuration: BigNumberish, ownedDurat
     .div(streamDuration);
 };
 
-const recipientShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigNumberish): BigNumber => {
+const recipientShare = (
+  value: BigNumberish,
+  startTime: BigNumberish,
+  endTime: BigNumberish,
+  cancellationTime?: BigNumberish,
+): BigNumber => {
   const streamDuration = BigNumber.from(endTime).sub(startTime);
-  const elapsedDuration = BigNumber.from(moment().format("X")).sub(startTime);
+  const elapsedDuration = BigNumber.from(cancellationTime || moment().format("X")).sub(startTime);
   return userShare(value, streamDuration, elapsedDuration);
 };
 
-const senderShare = (value: BigNumberish, startTime: BigNumberish, endTime: BigNumberish): BigNumber => {
+const senderShare = (
+  value: BigNumberish,
+  startTime: BigNumberish,
+  endTime: BigNumberish,
+  cancellationTime?: BigNumberish,
+): BigNumber => {
   const streamDuration = BigNumber.from(endTime).sub(startTime);
-  const remainingDuration = BigNumber.from(endTime).sub(moment().format("X"));
+  const remainingDuration = BigNumber.from(endTime).sub(cancellationTime || moment().format("X"));
   return userShare(value, streamDuration, remainingDuration);
 };
 
-const percentageProgress = (startTime: BigNumberish, endTime: BigNumberish) =>
-  recipientShare(10000, startTime, endTime).toNumber() / 100;
+const percentageProgress = (startTime: BigNumberish, endTime: BigNumberish, cancellationTime?: BigNumberish) =>
+  recipientShare(10000, startTime, endTime, cancellationTime).toNumber() / 100;
 
 const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; network: Networks }): ReactElement => {
   useRefreshwithPeriod(1000);
   const { recipient } = proxyStream;
-  const { deposit, startTime, stopTime, token } = proxyStream.stream;
+  const { cancellation, deposit, startTime, stopTime, token } = proxyStream.stream;
+
+  /** Memoized Variables **/
 
   const recipientAddress = useMemo(() => getAddress(recipient), [recipient]);
 
   /* These variables are purposefully not memoised as they depend on the current time */
 
-  const senderBalance = BigNumberToRoundedHumanFormat(senderShare(deposit, startTime, stopTime), token.decimals, 3);
+  const senderBalance = BigNumberToRoundedHumanFormat(
+    senderShare(deposit, startTime, stopTime, cancellation?.timestamp),
+    token.decimals,
+    3,
+  );
 
   const recipientBalance = BigNumberToRoundedHumanFormat(
-    recipientShare(deposit, startTime, stopTime),
+    recipientShare(deposit, startTime, stopTime, cancellation?.timestamp),
     token.decimals,
     3,
   );
@@ -76,7 +92,7 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
       </StyledText>
       <StyledText size="md">{`Stream Progress: ${
         moment().isAfter(moment.unix(startTime))
-          ? `${percentageProgress(startTime, stopTime)}%`
+          ? `${percentageProgress(startTime, stopTime, cancellation?.timestamp)}%`
           : `Starts ${moment.unix(startTime).fromNow()}`
       }`}</StyledText>
       <StyledText size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</StyledText>

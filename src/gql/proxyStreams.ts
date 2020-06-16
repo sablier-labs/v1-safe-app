@@ -18,6 +18,7 @@ const streamQuery: string = `
     cancellation {
       id
       txhash
+      timestamp
     }
     deposit
     startTime
