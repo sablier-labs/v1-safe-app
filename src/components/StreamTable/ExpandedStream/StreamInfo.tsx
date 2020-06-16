@@ -16,12 +16,17 @@ const md = "16px";
 
 const StreamDataContainer = styled.div`
   padding: ${lg} ${md};
-  display: "flex";
-  flexdirection: "column";
-  flexwrap: "wrap";
-  justifycontent: "space-around";
-  alignitems: "space-around";
-  aligncontent: "space-around";
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: space-around;
+  align-content: space-around;
+`;
+
+const StyledText = styled(Text)`
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;
 
 const userShare = (value: BigNumberish, streamDuration: BigNumberish, ownedDuration: BigNumberish): BigNumber => {
@@ -66,24 +71,16 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
 
   return (
     <StreamDataContainer>
-      <p>
-        <Text size="md">
-          Recipient: <EtherscanLink network={network} type="address" value={recipientAddress} />
-        </Text>
-      </p>
-      <p>
-        <Text size="md">{`Stream Progress: ${
-          moment().isAfter(moment.unix(startTime))
-            ? `${percentageProgress(startTime, stopTime)}%`
-            : `Starts ${moment.unix(startTime).fromNow()}`
-        }`}</Text>
-      </p>
-      <p>
-        <Text size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</Text>
-      </p>
-      <p>
-        <Text size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol}`}</Text>
-      </p>
+      <StyledText size="md">
+        Recipient: <EtherscanLink network={network} type="address" value={recipientAddress} />
+      </StyledText>
+      <StyledText size="md">{`Stream Progress: ${
+        moment().isAfter(moment.unix(startTime))
+          ? `${percentageProgress(startTime, stopTime)}%`
+          : `Starts ${moment.unix(startTime).fromNow()}`
+      }`}</StyledText>
+      <StyledText size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</StyledText>
+      <StyledText size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol}`}</StyledText>
     </StreamDataContainer>
   );
 };

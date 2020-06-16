@@ -7,8 +7,8 @@ import { shortenAddress } from "../../utils/address";
 const secondaryText = "#B2B5B2";
 
 const EtherscanLinkContainer = styled.div`
-  display: flex
-  align-items: center
+  display: inline-flex;
+  align-items: center;
 
   &:svg {
     fill: ${secondaryText};
@@ -16,14 +16,14 @@ const EtherscanLinkContainer = styled.div`
 `;
 
 const Address = styled.span`
-  display: "block",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   ${({ knownAddress }: { knownAddress: boolean }) =>
     knownAddress &&
     css`
-      fontsize: "13px";
+      fontsize: 13px;
     `}
 `;
 
