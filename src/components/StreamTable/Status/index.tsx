@@ -22,7 +22,7 @@ const StatusContainer = styled.div`
   align-items: center;
   border-radius: 3px;
   box-sizing: border-box;
-  display: flex;
+  display: inline-flex;
   font-size: 11px;
   font-weight: 700;
   justify-content: center;

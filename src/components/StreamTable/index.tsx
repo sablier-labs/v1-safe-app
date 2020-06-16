@@ -153,7 +153,7 @@ function StreamTable({
                   {(row as { [key: string]: any })[column.id]}
                 </TableCell>
               ))}
-              <TableCell component="td">
+              <TableCell component="td" align="right">
                 <Status status={row.status} />
               </TableCell>
               <ExpandRowCell>
