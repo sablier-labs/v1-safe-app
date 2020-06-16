@@ -15,8 +15,9 @@ import { useAppsSdk } from "./hooks";
 
 const OuterWrapper = styled.div`
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   padding: 16px 24px;
+  width: calc(100% - 48px);
 `;
 
 const LeftWrapper = styled.div`
