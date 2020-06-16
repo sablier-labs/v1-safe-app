@@ -106,7 +106,7 @@ function SablierWidget() {
       <>
         <TopLeftHorizontalWrapper>
           <StyledTitle size="xs">Manage Existing Streams</StyledTitle>
-          <StyledButton onClick={toggleShouldDisplayStreams}>Go to Dashboard</StyledButton>
+          <StyledButton onClick={toggleShouldDisplayStreams}>Create a new stream</StyledButton>
         </TopLeftHorizontalWrapper>
         <TableWrapper>
           <StreamTable appsSdk={appsSdk} outgoingProxyStreams={outgoingProxyStreams} safeInfo={safeInfo} />
