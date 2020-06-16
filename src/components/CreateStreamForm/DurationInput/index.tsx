@@ -46,7 +46,8 @@ const StyledFlexRowNoWrap = styled.div`
 const Label = styled.span`
   color: currentColor;
   font: inherit;
-  font-family: ${props => props.theme.fonts.fontFamily};
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
   padding: 20px 12px 18px 12px;
 `;
 
