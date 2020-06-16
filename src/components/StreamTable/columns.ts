@@ -4,7 +4,7 @@ export const STREAM_TABLE_DEPOSIT_ID = "humanDeposit";
 export const STREAM_TABLE_START_TIME_ID = "humanStartTime";
 export const STREAM_TABLE_END_TIME_ID = "humanStopTime";
 export const STREAM_TABLE_STATUS_ID = "status";
-export const STREAM_TABLE_ACTION_ID = "action";
+export const STREAM_TABLE_EXPAND_ICON = "expand";
 
 export type Column = {
   id: string;
@@ -72,15 +72,15 @@ export const generateColumns = () => {
     align: "right",
   };
 
-  const actionColumn: Column = {
-    id: STREAM_TABLE_ACTION_ID,
+  const expandIconColumn: Column = {
+    id: STREAM_TABLE_EXPAND_ICON,
     order: false,
-    disablePadding: false,
+    disablePadding: true,
     label: "",
     custom: true,
-    align: "right",
+    width: 50,
     static: true,
   };
 
-  return [nonceColumn, recipientColumn, depositColumn, startColumn, endColumn, statusColumn, actionColumn];
+  return [nonceColumn, recipientColumn, depositColumn, startColumn, endColumn, statusColumn, expandIconColumn];
 };

@@ -1,6 +1,11 @@
 import { formatUnits } from "@ethersproject/units";
+import { BigNumberish } from "@ethersproject/bignumber";
 
-export function bigNumberToHumanFormat(value: string, tokenDecimals: number, displayDecimals: number = 4): string {
+export function bigNumberToHumanFormat(
+  value: BigNumberish,
+  tokenDecimals: number,
+  displayDecimals: number = 4,
+): string {
   let scaledNumber = formatUnits(value, tokenDecimals);
 
   /*
@@ -12,6 +17,10 @@ export function bigNumberToHumanFormat(value: string, tokenDecimals: number, dis
   return scaledNumber.slice(0, scaledNumber.indexOf(".") + displayDecimals + 1);
 }
 
-export const BigNumberToRoundedHumanFormat = (value: string, tokenDecimals: number, displayDecimals: number = 4) =>
+export const BigNumberToRoundedHumanFormat = (
+  value: BigNumberish,
+  tokenDecimals: number,
+  displayDecimals: number = 4,
+) =>
   // Truncate to one decimal more than displaying to ensure that rounding is accurate
   parseFloat(bigNumberToHumanFormat(value, tokenDecimals, displayDecimals + 1)).toFixed(displayDecimals);

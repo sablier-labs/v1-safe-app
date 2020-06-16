@@ -15,16 +15,20 @@ const subgraphUri: { [key in Networks]: string } = {
 const streamQuery: string = `
   stream {
     id
-      deposit
-      startTime
-      stopTime
-      recipient
-      sender
-      token {
-        id
-        decimals
-        symbol
-      }
+    cancellation {
+      id
+      txhash
+    }
+    deposit
+    startTime
+    stopTime
+    recipient
+    sender
+    token {
+      id
+      decimals
+      symbol
+    }
   }
 `;
 

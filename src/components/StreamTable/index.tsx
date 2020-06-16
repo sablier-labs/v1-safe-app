@@ -1,56 +1,68 @@
-import React, { ReactElement, useMemo, useCallback } from "react";
-import { Button } from "@gnosis.pm/safe-react-components";
-import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
+import React, { ReactElement, useMemo, useCallback, useState } from "react";
+
+import { SafeInfo, SdkInstance, Networks } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
 
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
+import { IconButton, Collapse } from "@material-ui/core";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
+
+import { BigNumberish } from "@ethersproject/bignumber";
+import { getAddress } from "@ethersproject/address";
+import styled, { css } from "styled-components";
 import Table from "./Table";
-import Status, { StreamStatus } from "./Status";
+import Status, { StreamStatus, getStreamStatus } from "./Status";
 import cancelStreamTxs from "../../utils/transactions/cancelStream";
 
-import { ProxyStream, Token } from "../../typings";
+import { ProxyStream } from "../../typings";
 import { BigNumberToRoundedHumanFormat } from "../../utils/format";
 import { cellWidth } from "./Table/TableHead";
-import { STREAM_TABLE_ID, Column, generateColumns } from "./Table/columns";
+import { STREAM_TABLE_ID, Column, generateColumns } from "./columns";
 import { shortenAddress } from "../../utils/address";
 import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
+import ExpandedStream from "./ExpandedStream";
+import { HumanReadableStream } from "./types";
 
-type HumanReadableStream = {
-  humanDeposit: string;
-  humanStartTime: string;
-  humanStopTime: string;
-  id: number;
-  humanRecipient: string;
-  humanSender: string;
-  status: StreamStatus;
-  token: Token;
-};
+const StyledTableRow = styled(TableRow)`
+  cursor: pointer;
+  &:hover {
+    background-color: #fff3e2;
+  },
 
-type TableRowData = HumanReadableStream & {
-  humanStartTimeOrder: number;
-  humanStopTimeOrder: number;
-  cancelStream: Function;
-};
+  ${({ expanded }: { expanded: boolean }) =>
+    expanded &&
+    css`
+      backgroundcolor: #fff3e2;
+    `}
+`;
 
-const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
-  const { id, recipient, sender } = stream;
-  const { cancellation, deposit, startTime, stopTime, token } = stream.stream;
-  const humanRecipient: string = shortenAddress(recipient);
-  const humanSender: string = shortenAddress(sender);
-  const humanStartTime: string = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
-  const humanStopTime: string = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
-  const humanDeposit: string = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
-  let status: StreamStatus;
+const ExpandRowCell = styled(TableCell)`
+  padding-left: 0;
+  padding-right: 15;
+`;
 
-  if (cancellation !== undefined) {
-    status = StreamStatus.Cancelled;
-  } else if (moment().isAfter(moment.unix(stopTime))) {
-    status = StreamStatus.Ended;
-  } else {
-    status = StreamStatus.Active;
+const ExpandedStreamCell = styled(TableCell)`
+  padding: 0;
+  border: 0;
+  &:last-child {
+    padding: 0;
   }
+  background-color: #fffaf4;
+`;
+
+const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
+  const { id, recipient, sender } = proxyStream;
+  const { deposit, startTime, stopTime, token } = proxyStream.stream;
+  const humanRecipient: string = shortenAddress(getAddress(recipient));
+  const humanSender: string = shortenAddress(getAddress(sender));
+  const humanStartTime: BigNumberish = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStopTime: BigNumberish = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStartTimeOrder: BigNumberish = startTime;
+  const humanStopTimeOrder: BigNumberish = stopTime;
+  const humanDeposit: BigNumberish = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
+  const status: StreamStatus = getStreamStatus(proxyStream);
 
   return {
     id,
@@ -60,6 +72,8 @@ const humanReadableStream = (stream: ProxyStream): HumanReadableStream => {
     humanDeposit,
     humanStartTime,
     humanStopTime,
+    humanStartTimeOrder,
+    humanStopTimeOrder,
     token,
   };
 };
@@ -73,6 +87,9 @@ function StreamTable({
   safeInfo?: SafeInfo;
   outgoingProxyStreams: ProxyStream[];
 }): ReactElement {
+  /** State Variables **/
+  const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
+
   /** Memoized Variables **/
 
   const columns = useMemo(() => {
@@ -82,6 +99,15 @@ function StreamTable({
   const autoColumns = useMemo(() => {
     return columns.filter((column: Column) => !column.custom);
   }, [columns]);
+
+  const expandedStream = useMemo(() => {
+    return outgoingProxyStreams.find(({ id }) => expandedStreamId === id);
+  }, [outgoingProxyStreams, expandedStreamId]);
+
+  const tableContents: HumanReadableStream[] = useMemo(
+    () => outgoingProxyStreams.map(proxyStream => humanReadableStream(proxyStream)),
+    [outgoingProxyStreams],
+  );
 
   /** Callbacks **/
 
@@ -94,12 +120,12 @@ function StreamTable({
     [appsSdk, safeInfo],
   );
 
-  const tableContents: TableRowData[] = outgoingProxyStreams.map(proxyStream => ({
-    ...humanReadableStream(proxyStream),
-    humanStartTimeOrder: proxyStream.stream.startTime,
-    humanStopTimeOrder: proxyStream.stream.stopTime,
-    cancelStream: () => cancelStream(proxyStream.id),
-  }));
+  /** Side Effects **/
+
+  const handleStreamExpand = (id: number): void => {
+    setExpandedStreamId((prevId: number | null) => (prevId === id ? null : id));
+  };
+
   return (
     <Table
       columns={columns}
@@ -110,28 +136,51 @@ function StreamTable({
       defaultRowsPerPage={10}
       label="Transactions"
       size={tableContents.length}
+      noBorder
       disableLoadingOnEmptyTable
     >
-      {(sortedData: TableRowData[]) =>
-        sortedData.map((row: TableRowData) => (
-          <TableRow key={row.id} tabIndex={-1}>
-            {autoColumns.map((column: Column) => (
-              <TableCell align={column.align} component="td" key={column.id} style={cellWidth(column.width)}>
-                {(row as { [key: string]: any })[column.id]}
+      {(sortedData: HumanReadableStream[]) =>
+        sortedData.map((row: HumanReadableStream) => (
+          <>
+            <StyledTableRow
+              key={row.id}
+              expanded={expandedStreamId === row.id}
+              onClick={() => handleStreamExpand(row.id)}
+              tabIndex={-1}
+            >
+              {autoColumns.map((column: Column) => (
+                <TableCell align={column.align} component="td" key={column.id} style={cellWidth(column.width)}>
+                  {(row as { [key: string]: any })[column.id]}
+                </TableCell>
+              ))}
+              <TableCell component="td" align="right">
+                <Status status={row.status} />
               </TableCell>
-            ))}
-            <TableCell component="td">
-              <Status status={row.status} />
-            </TableCell>
-
-            <TableCell component="td">
-              {row.status === StreamStatus.Active && (
-                <Button size="md" color="primary" variant="contained" onClick={() => cancelStream(row.id)}>
-                  Cancel
-                </Button>
-              )}
-            </TableCell>
-          </TableRow>
+              <ExpandRowCell>
+                <IconButton disableRipple>{expandedStreamId === row.id ? <ExpandLess /> : <ExpandMore />}</IconButton>
+              </ExpandRowCell>
+            </StyledTableRow>
+            <TableRow>
+              <ExpandedStreamCell colSpan={columns.length} style={{ paddingBottom: 0, paddingTop: 0 }}>
+                <Collapse
+                  component={() =>
+                    expandedStream ? (
+                      <ExpandedStream
+                        proxyStream={expandedStream}
+                        cancelStream={(): void => cancelStream(row.id)}
+                        network={safeInfo?.network as Networks}
+                      />
+                    ) : (
+                      <div />
+                    )
+                  }
+                  in={expandedStreamId === row.id}
+                  timeout="auto"
+                  unmountOnExit
+                />
+              </ExpandedStreamCell>
+            </TableRow>
+          </>
         ))
       }
     </Table>

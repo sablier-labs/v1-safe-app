@@ -4,7 +4,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import { Text } from "@gnosis.pm/safe-react-components";
-import { Column } from "./columns";
+import { Column } from "../columns";
 
 export const cellWidth = (width?: number) => {
   if (!width) {
