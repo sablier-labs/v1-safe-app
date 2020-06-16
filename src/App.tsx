@@ -30,6 +30,10 @@ const RightWrapper = styled.div`
   flex-flow: column nowrap;
 `;
 
+const TableWrapper = styled.div`
+  flex-grow: 1;
+`;
+
 const TopLeftHorizontalWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -104,7 +108,9 @@ function SablierWidget() {
           <StyledTitle size="xs">Manage Existing Streams</StyledTitle>
           <StyledButton onClick={toggleShouldDisplayStreams}>Go to Dashboard</StyledButton>
         </TopLeftHorizontalWrapper>
-        <StreamTable appsSdk={appsSdk} outgoingProxyStreams={outgoingProxyStreams} safeInfo={safeInfo} />
+        <TableWrapper>
+          <StreamTable appsSdk={appsSdk} outgoingProxyStreams={outgoingProxyStreams} safeInfo={safeInfo} />
+        </TableWrapper>
       </>
     );
   }, [appsSdk, outgoingProxyStreams, safeInfo, toggleShouldDisplayStreams]);
