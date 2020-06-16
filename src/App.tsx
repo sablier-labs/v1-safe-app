@@ -4,14 +4,35 @@ import styled, { ThemeProvider } from "styled-components";
 import { Button, Title } from "@gnosis.pm/safe-react-components";
 import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 
-import StreamTable from "./components/StreamTable";
 import CreateStreamForm from "./components/CreateStreamForm";
-import WidgetWrapper from "./components/WidgetWrapper";
+import SablierExplainer from "./components/SablierExplainer";
+import StreamTable from "./components/StreamTable";
+import getProxyStreams from "./gql/proxyStreams";
 import theme from "./theme";
 
-import { useAppsSdk } from "./hooks";
-import getProxyStreams from "./gql/proxyStreams";
 import { ProxyStream } from "./typings";
+import { useAppsSdk } from "./hooks";
+
+const OuterWrapper = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 16px 24px;
+`;
+
+const LeftWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+`;
+
+const RightWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+`;
+
+const TopLeftHorizontalWrapper = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+`;
 
 const StyledTitle = styled(Title)`
   margin-top: 0px;
@@ -19,12 +40,13 @@ const StyledTitle = styled(Title)`
   display: inline-block;
 `;
 
-const StyledBackButton = styled(Button).attrs({
+const StyledButton = styled(Button).attrs({
   color: "primary",
   size: "md",
   variant: "outlined",
 })`
-  font-size: 16px !important;
+  font-size: 14px !important;
+  margin-top: -4px !important;
   min-width: 0 !important;
   padding: 0px !important;
 `;
@@ -55,25 +77,40 @@ function SablierWidget() {
     loadOutgoingStreams();
   }, [safeInfo, setOutgoingProxyStreams]);
 
+  const renderHomeView = useCallback((): React.ReactNode => {
+    return (
+      <>
+        <LeftWrapper>
+          <TopLeftHorizontalWrapper>
+            <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
+            {outgoingProxyStreams.length > 0 && (
+              <StyledButton onClick={toggleShouldDisplayStreams}>Go to dashboard</StyledButton>
+            )}
+          </TopLeftHorizontalWrapper>
+          <CreateStreamForm appsSdk={appsSdk} safeInfo={safeInfo} />
+        </LeftWrapper>
+        <RightWrapper>
+          <SablierExplainer />
+        </RightWrapper>
+      </>
+    );
+  }, [appsSdk, outgoingProxyStreams, safeInfo, toggleShouldDisplayStreams]);
+
+  const renderStreamsView = useCallback((): React.ReactNode => {
+    return (
+      <>
+        <TopLeftHorizontalWrapper>
+          <StyledTitle size="xs">Manage Existing Streams</StyledTitle>
+          <StyledButton onClick={toggleShouldDisplayStreams}>Go to Dashboard</StyledButton>
+        </TopLeftHorizontalWrapper>
+        <StreamTable appsSdk={appsSdk} outgoingProxyStreams={outgoingProxyStreams} safeInfo={safeInfo} />
+      </>
+    );
+  }, [appsSdk, outgoingProxyStreams, safeInfo, toggleShouldDisplayStreams]);
+
   return (
     <ThemeProvider theme={theme}>
-      <WidgetWrapper>
-        <StyledTitle size="xs">
-          {shouldDisplayStreams ? "Manage Existing Streams" : "Create Sablier Stream"}
-        </StyledTitle>
-
-        {outgoingProxyStreams.length > 0 && (
-          <StyledBackButton onClick={toggleShouldDisplayStreams}>
-            {shouldDisplayStreams ? "Back" : "Manage Existing Streams"}
-          </StyledBackButton>
-        )}
-
-        {shouldDisplayStreams ? (
-          <StreamTable appsSdk={appsSdk} outgoingProxyStreams={outgoingProxyStreams} safeInfo={safeInfo} />
-        ) : (
-          <CreateStreamForm appsSdk={appsSdk} safeInfo={safeInfo} />
-        )}
-      </WidgetWrapper>
+      <OuterWrapper>{!shouldDisplayStreams ? renderHomeView() : renderStreamsView()}</OuterWrapper>
     </ThemeProvider>
   );
 }

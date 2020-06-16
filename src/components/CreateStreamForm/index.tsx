@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
 import { Contract } from "@ethersproject/contracts";
 import { BigNumber } from "@ethersproject/bignumber";
 import { InfuraProvider } from "@ethersproject/providers";
@@ -16,6 +17,12 @@ import { ButtonContainer, SelectContainer } from "../../theme/components";
 import { TokenItem, getTokenList } from "../../config/tokens";
 import { Transaction } from "../../typings";
 import { bigNumberToHumanFormat } from "../../utils";
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 16px;
+`;
 
 export type Props = {
   appsSdk: SdkInstance;
@@ -201,7 +208,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
   }
 
   return (
-    <>
+    <Wrapper>
       <Text size="lg">What token do you want to use?</Text>
 
       <SelectContainer>
@@ -236,7 +243,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
           Create Stream
         </Button>
       </ButtonContainer>
-    </>
+    </Wrapper>
   );
 }
 
