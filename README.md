@@ -20,7 +20,7 @@
 
 The Sablier Safe App brings real-time finance to [Gnosis Safe](https://gnosis-safe.io/) users by allowing them to use the [Sablier](https://sablier.finance) platform.
 
-This opens up the opportunity for organisations to pay and interact with each other without having to give custody of funds to a single member:
+This opens up the opportunity for organisations to pay and interact with each other in new ways without having to give custody of funds to a single member:
 
 1. "Continuous" payroll or freelancing
 2. Subscriptions, paying for a product or a service in real-time
