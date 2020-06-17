@@ -1,6 +1,10 @@
 {
   "name": "Sablier",
   "description": "Safe App for interacting with the Sablier protocol",
+  "providedBy": {
+    "name": "Sablier",
+    "url": "https://sablier.finance"
+  },
   "icons": [
     {
       "src": "logo.svg",
