@@ -28,12 +28,28 @@ This opens up the opportunity for organisations to pay and interact with each ot
 
 Read more about Safe Apps [here](https://docs.gnosis.io/safe/docs/sdks_safe_apps/).
 
+## Usage :money_with_wings:
+
+|                                                    |                                           |
+| :------------------------------------------------: | :---------------------------------------: |
+| <img width="1604" alt="Create Stream Page" src=""> | <img width="1604" alt="Dashboard" src=""> |
+
+Using the Sablier Safe app you can:
+
+- Create new streams
+- View details on your outgoing streams
+- Cancel streams in progress
+
+**Important:** All streams created using the Sablier Safe app are set to start 1 hour from when the stream creation form is submitted. For the stream to be successful, you must collect the number of confirmations required for your particular Safe before the stream is due to start.
+
+> Note: We do not support withdrawing from streams which are being sent to your Safe. Please do not use a Safe as a recipient of a Sablier stream. We have omitted implementing support for withdrawals as they will be unnecessary after the Sablier V2 upgrade later this year. Instead funds will directly accrue in your safe.
+
 ## Deployments :earth_africa:
 
 There are multiple ways to access the Sablier safe app, you may use either of the below URLs:
 
-* Vercel deployment: https://sablier-safe-app.now.sh/
-* IPFS deployment: https://ipfs.io/ipfs/QmabPEk7g4zaytFefp6fE4nz8f85QMJoWmRQQZypvJViNG/
+- Vercel deployment: https://sablier-safe-app.now.sh/
+- IPFS deployment: https://ipfs.io/ipfs/QmabPEk7g4zaytFefp6fE4nz8f85QMJoWmRQQZypvJViNG/
 
 The Vercel deployment will automatically update to the newest version of the Sablier safe app, however for additional security you may also access the app using IPFS.
 
@@ -72,3 +88,17 @@ yarn start
 ```
 
 The app will then be hosted on `http://localhost:3002`. By default the app will expect an injected web3 provider such as metamask; if you want to interact with the app through the Gnosis UI you'll need to set the `REACT_APP_LOCAL_WEB3_PROVIDER` environment variable to `false`.
+
+### react-app-rewired
+
+In order to allow the Gnosis Safe UI to access the app while it's running on localhost we need to edit the headers on the dev server (`node_modules/react-scripts/config/webpackDevServer.config.js`) to avoid CORS issues:
+
+```
+headers: {
+    "Access-Control-Allow-Origin": "\*",
+    "Access-Control-Allow-Methods": "GET",
+    "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+},
+```
+
+We automate injecting these headers in to the server config through [react-app-rewired](https://github.com/timarney/react-app-rewired).
