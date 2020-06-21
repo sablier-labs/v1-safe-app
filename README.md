@@ -32,7 +32,7 @@ Read more about Safe Apps [here](https://docs.gnosis.io/safe/docs/sdks_safe_apps
 
 |                                                    |                                           |
 | :------------------------------------------------: | :---------------------------------------: |
-| <img width="1604" alt="Create Stream Page" src=""> | <img width="1604" alt="Dashboard" src=""> |
+| <img width="1604" alt="Create Stream Page" src="https://user-images.githubusercontent.com/15848336/85229771-aecf7100-b3e3-11ea-9e7a-09e61d1cb4c9.png"> | <img width="1604" alt="Dashboard" src="https://user-images.githubusercontent.com/15848336/85229785-bf7fe700-b3e3-11ea-8f57-7a79a8dbffea.png"> |
 
 Using the Sablier Safe app you can:
 
