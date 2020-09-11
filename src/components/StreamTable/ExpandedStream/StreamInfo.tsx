@@ -15,18 +15,17 @@ const lg = "24px";
 const md = "16px";
 
 const StreamDataContainer = styled.div`
-  padding: ${lg} ${md};
+  align-content: space-around;
+  align-items: space-around;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-around;
-  align-items: space-around;
-  align-content: space-around;
+  padding: ${lg} ${md};
 `;
 
 const StyledText = styled(Text)`
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin: 8px 0px;
 `;
 
 const userShare = (value: BigNumberish, streamDuration: BigNumberish, ownedDuration: BigNumberish): BigNumber => {

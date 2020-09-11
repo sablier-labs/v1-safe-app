@@ -32,9 +32,9 @@ const StyledFlexRowNoWrap = styled.div`
   color: rgba(0, 0, 0, 0.54);
   cursor: pointer;
   display: inline-flex;
+  flex-grow: 1;
   font-size: 16px;
   line-height: 1.1876em;
-  flex-grow: 1;
   min-width: 0;
   transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
