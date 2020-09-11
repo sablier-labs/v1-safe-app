@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
+import { HashRouter, Route, Switch, useHistory } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
 import { Button, Title } from "@gnosis.pm/safe-react-components";
@@ -60,51 +61,63 @@ const StyledButton = styled(Button).attrs({
   padding: 0px !important;
 `;
 
-function SablierWidget() {
+function HomeView() {
+  const history = useHistory();
   const outgoingProxyStreams = useOutgoingStreams();
-
-  /** State Variables **/
   const userHasOutgoingStreams = outgoingProxyStreams.length > 0;
-  const [shouldDisplayStreams, setShouldDisplayStreams] = useState<boolean>(false);
 
-  const toggleShouldDisplayStreams = useCallback(() => {
-    setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
-  }, [setShouldDisplayStreams]);
-
-  const renderHomeView = useCallback((): React.ReactNode => {
-    return (
-      <HomeOuterWrapper>
-        <LeftWrapper>
-          <TopLeftHorizontalWrapper>
-            <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
-            {userHasOutgoingStreams && (
-              <StyledButton onClick={toggleShouldDisplayStreams}>Go to dashboard</StyledButton>
-            )}
-          </TopLeftHorizontalWrapper>
-          <CreateStreamForm />
-        </LeftWrapper>
-        <RightWrapper>
-          <SablierExplainer />
-        </RightWrapper>
-      </HomeOuterWrapper>
-    );
-  }, [userHasOutgoingStreams, toggleShouldDisplayStreams]);
-
-  const renderStreamsView = useCallback((): React.ReactNode => {
-    return (
-      <StreamsOuterWrapper>
+  return (
+    <HomeOuterWrapper>
+      <LeftWrapper>
         <TopLeftHorizontalWrapper>
-          <StyledTitle size="xs">Manage Existing Streams</StyledTitle>
-          <StyledButton onClick={toggleShouldDisplayStreams}>Create a new stream</StyledButton>
+          <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
+          {userHasOutgoingStreams && (
+            <StyledButton onClick={() => history.push("/outgoing")}>Go to dashboard</StyledButton>
+          )}
         </TopLeftHorizontalWrapper>
-        <TableWrapper>
-          <StreamTable />
-        </TableWrapper>
-      </StreamsOuterWrapper>
-    );
-  }, [toggleShouldDisplayStreams]);
+        <CreateStreamForm />
+      </LeftWrapper>
+      <RightWrapper>
+        <SablierExplainer />
+      </RightWrapper>
+    </HomeOuterWrapper>
+  );
+}
 
-  return <ThemeProvider theme={theme}>{!shouldDisplayStreams ? renderHomeView() : renderStreamsView()}</ThemeProvider>;
+function StreamsView() {
+  const history = useHistory();
+
+  return (
+    <StreamsOuterWrapper>
+      <TopLeftHorizontalWrapper>
+        <StyledTitle size="xs">Manage Existing Streams</StyledTitle>
+        <StyledButton onClick={() => history.push("/")}>Create a new stream</StyledButton>
+      </TopLeftHorizontalWrapper>
+      <TableWrapper>
+        <StreamTable />
+      </TableWrapper>
+    </StreamsOuterWrapper>
+  );
+}
+
+function SablierWidget() {
+  return (
+    <ThemeProvider theme={theme}>
+      <HashRouter>
+        <Switch>
+          <Route path="/incoming">
+            <StreamsView />
+          </Route>
+          <Route path="/outgoing">
+            <StreamsView />
+          </Route>
+          <Route path="/">
+            <HomeView />
+          </Route>
+        </Switch>
+      </HashRouter>
+    </ThemeProvider>
+  );
 }
 
 export default SablierWidget;
