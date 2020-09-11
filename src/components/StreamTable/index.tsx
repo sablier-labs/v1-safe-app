@@ -1,6 +1,6 @@
 import React, { ReactElement, useMemo, useCallback, useState } from "react";
 
-import { SafeInfo, SdkInstance, Networks } from "@gnosis.pm/safe-apps-sdk";
+import { Networks } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
 
 import TableCell from "@material-ui/core/TableCell";
@@ -24,6 +24,7 @@ import { shortenAddress } from "../../utils/address";
 import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
 import { HumanReadableStream } from "./types";
+import { useSendTransactions, useSafeNetwork } from "../../contexts/SafeContext";
 
 const StyledTableRow = styled(TableRow)`
   cursor: pointer;
@@ -78,15 +79,9 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   };
 };
 
-function StreamTable({
-  appsSdk,
-  safeInfo,
-  outgoingProxyStreams,
-}: {
-  appsSdk: SdkInstance;
-  safeInfo?: SafeInfo;
-  outgoingProxyStreams: ProxyStream[];
-}): ReactElement {
+function StreamTable({ outgoingProxyStreams }: { outgoingProxyStreams: ProxyStream[] }): ReactElement {
+  const network = useSafeNetwork();
+  const sendTransactions = useSendTransactions();
   /** State Variables **/
   const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
 
@@ -113,11 +108,11 @@ function StreamTable({
 
   const cancelStream = useCallback(
     (streamId: number): void => {
-      if (!safeInfo?.network) return;
-      const txs = cancelStreamTxs(safeInfo.network, streamId);
-      appsSdk.sendTransactions(txs);
+      if (!network) return;
+      const txs = cancelStreamTxs(network, streamId);
+      sendTransactions(txs);
     },
-    [appsSdk, safeInfo],
+    [network, sendTransactions],
   );
 
   /** Side Effects **/
@@ -168,7 +163,7 @@ function StreamTable({
                       <ExpandedStream
                         proxyStream={expandedStream}
                         cancelStream={(): void => cancelStream(row.id)}
-                        network={safeInfo?.network as Networks}
+                        network={network as Networks}
                       />
                     ) : (
                       <div />
