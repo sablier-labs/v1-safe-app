@@ -9,12 +9,12 @@ import TableRow from "@material-ui/core/TableRow";
 import { IconButton, Collapse } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
-import { BigNumberish } from "@ethersproject/bignumber";
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { getAddress } from "@ethersproject/address";
 import styled, { css } from "styled-components";
 import Table from "./Table";
 import Status, { StreamStatus, getStreamStatus } from "./Status";
-import { cancelStreamTxs } from "../../transactions";
+import { cancelStreamTxs, withdrawStreamTxs } from "../../transactions";
 
 import { ProxyStream } from "../../types";
 import { BigNumberToRoundedHumanFormat } from "../../utils/format";
@@ -116,6 +116,15 @@ function StreamTable({ streams }: { streams: ProxyStream[] }): ReactElement {
     [network, sendTransactions],
   );
 
+  const withdrawStream = useCallback(
+    (streamId: number, amount: BigNumberish): void => {
+      if (!network || BigNumber.from(amount).eq(0)) return;
+      const txs = withdrawStreamTxs(network, streamId, amount);
+      sendTransactions(txs);
+    },
+    [network, sendTransactions],
+  );
+
   /** Side Effects **/
 
   const handleStreamExpand = (id: number): void => {
@@ -163,6 +172,7 @@ function StreamTable({ streams }: { streams: ProxyStream[] }): ReactElement {
                       <ExpandedStream
                         proxyStream={expandedStream}
                         cancelStream={(): void => cancelStream(row.id)}
+                        withdrawStream={(amount: BigNumberish): void => withdrawStream(row.id, amount)}
                         network={network as Networks}
                       />
                     ) : (
