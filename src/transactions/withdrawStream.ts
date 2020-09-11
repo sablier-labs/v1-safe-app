@@ -6,15 +6,17 @@ import payrollAbi from "../abis/payroll";
 import { Transaction } from "../types";
 import { getSablierAddress } from "../config/sablier";
 
-const cancelStreamTxs = (network: Networks, streamId: number): Transaction[] => {
+const withdrawStreamTxs = (network: Networks, streamId: string, amount: string): Transaction[] => {
   const sablierProxyAddress: string = getSablierAddress(network);
   const sablierProxyInterface: Interface = new Interface(payrollAbi);
-  const cancellationTx = {
-    data: sablierProxyInterface.encodeFunctionData("cancelSalary", [streamId]),
+
+  const withdrawalTx = {
+    data: sablierProxyInterface.encodeFunctionData("withdrawFromSalary", [streamId, amount]),
     to: sablierProxyAddress,
     value: 0,
   };
-  return [cancellationTx];
+
+  return [withdrawalTx];
 };
 
-export default cancelStreamTxs;
+export default withdrawStreamTxs;

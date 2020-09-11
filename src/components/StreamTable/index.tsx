@@ -14,7 +14,7 @@ import { getAddress } from "@ethersproject/address";
 import styled, { css } from "styled-components";
 import Table from "./Table";
 import Status, { StreamStatus, getStreamStatus } from "./Status";
-import cancelStreamTxs from "../../transactions/cancelStream";
+import { cancelStreamTxs } from "../../transactions";
 
 import { ProxyStream } from "../../types";
 import { BigNumberToRoundedHumanFormat } from "../../utils/format";

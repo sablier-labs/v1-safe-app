@@ -19,15 +19,13 @@ const createStreamTxs = (
   const erc20Interface: Interface = new Interface(erc20Abi);
   const sablierProxyInterface: Interface = new Interface(payrollAbi);
 
-  const txs: Transaction[] = [];
-
-  txs.push({
+  const approvalTx = {
     data: erc20Interface.encodeFunctionData("approve", [sablierProxyAddress, deposit]),
     to: tokenAddress,
     value: 0,
-  });
+  };
 
-  txs.push({
+  const streamTx = {
     data: sablierProxyInterface.encodeFunctionData("createSalary", [
       recipient,
       deposit,
@@ -37,9 +35,9 @@ const createStreamTxs = (
     ]),
     to: sablierProxyAddress,
     value: 0,
-  });
+  };
 
-  return txs;
+  return [approvalTx, streamTx];
 };
 
 export default createStreamTxs;
