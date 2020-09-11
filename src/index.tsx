@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import GlobalStyles from "./global";
+import GlobalStyles from "./theme/global";
 import SafeProvider from "./contexts/SafeContext";
 import StreamsProvider from "./contexts/StreamsContext";
 

@@ -17,16 +17,13 @@ const createEthStreamTxs = (
   const wethAddress: string = tokens[network].WETH;
   const wethInterface: Interface = new Interface(wethAbi);
 
-  const txs: Transaction[] = [
-    {
-      data: wethInterface.encodeFunctionData("deposit"),
-      to: wethAddress,
-      value: deposit,
-    },
-    ...createStreamTxs(network, recipient, deposit, wethAddress, startTime, stopTime),
-  ];
+  const wrappingTx = {
+    data: wethInterface.encodeFunctionData("deposit"),
+    to: wethAddress,
+    value: deposit,
+  };
 
-  return txs;
+  return [wrappingTx, ...createStreamTxs(network, recipient, deposit, wethAddress, startTime, stopTime)];
 };
 
 export default createEthStreamTxs;

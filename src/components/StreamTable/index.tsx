@@ -9,12 +9,12 @@ import TableRow from "@material-ui/core/TableRow";
 import { IconButton, Collapse } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
-import { BigNumberish } from "@ethersproject/bignumber";
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { getAddress } from "@ethersproject/address";
 import styled, { css } from "styled-components";
 import Table from "./Table";
 import Status, { StreamStatus, getStreamStatus } from "./Status";
-import cancelStreamTxs from "../../transactions/cancelStream";
+import { cancelStreamTxs, withdrawStreamTxs } from "../../transactions";
 
 import { ProxyStream } from "../../types";
 import { BigNumberToRoundedHumanFormat } from "../../utils/format";
@@ -25,7 +25,6 @@ import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
 import { HumanReadableStream } from "./types";
 import { useSendTransactions, useSafeNetwork } from "../../contexts/SafeContext";
-import { useOutgoingStreams } from "../../contexts/StreamsContext";
 
 const StyledTableRow = styled(TableRow)`
   cursor: pointer;
@@ -81,10 +80,9 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   };
 };
 
-function StreamTable(): ReactElement {
+function StreamTable({ streams }: { streams: ProxyStream[] }): ReactElement {
   const network = useSafeNetwork();
   const sendTransactions = useSendTransactions();
-  const outgoingProxyStreams = useOutgoingStreams();
   /** State Variables **/
   const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
 
@@ -99,12 +97,12 @@ function StreamTable(): ReactElement {
   }, [columns]);
 
   const expandedStream = useMemo(() => {
-    return outgoingProxyStreams.find(({ id }) => expandedStreamId === id);
-  }, [outgoingProxyStreams, expandedStreamId]);
+    return streams.find(({ id }) => expandedStreamId === id);
+  }, [streams, expandedStreamId]);
 
   const tableContents: HumanReadableStream[] = useMemo(
-    () => outgoingProxyStreams.map(proxyStream => humanReadableStream(proxyStream)),
-    [outgoingProxyStreams],
+    () => streams.map(proxyStream => humanReadableStream(proxyStream)),
+    [streams],
   );
 
   /** Callbacks **/
@@ -113,6 +111,15 @@ function StreamTable(): ReactElement {
     (streamId: number): void => {
       if (!network) return;
       const txs = cancelStreamTxs(network, streamId);
+      sendTransactions(txs);
+    },
+    [network, sendTransactions],
+  );
+
+  const withdrawStream = useCallback(
+    (streamId: number, amount: BigNumberish): void => {
+      if (!network || BigNumber.from(amount).eq(0)) return;
+      const txs = withdrawStreamTxs(network, streamId, amount);
       sendTransactions(txs);
     },
     [network, sendTransactions],
@@ -165,6 +172,7 @@ function StreamTable(): ReactElement {
                       <ExpandedStream
                         proxyStream={expandedStream}
                         cancelStream={(): void => cancelStream(row.id)}
+                        withdrawStream={(amount: BigNumberish): void => withdrawStream(row.id, amount)}
                         network={network as Networks}
                       />
                     ) : (

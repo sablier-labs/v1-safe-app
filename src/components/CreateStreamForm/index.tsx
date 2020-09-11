@@ -9,8 +9,7 @@ import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-c
 
 import DurationInput, { Duration } from "./DurationInput";
 import erc20Abi from "../../abis/erc20";
-import createEthStreamTxs from "../../transactions/createEthStream";
-import createStreamTxs from "../../transactions/createStream";
+import { createStreamTxs, createEthStreamTxs } from "../../transactions";
 
 import { ButtonContainer, SelectContainer } from "../index";
 import { TokenItem, getTokenList } from "../../config/tokens";
