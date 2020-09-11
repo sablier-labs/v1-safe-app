@@ -6,7 +6,7 @@ import payrollAbi from "../../abis/payroll";
 import { Transaction } from "../../typings";
 import { getSablierAddress } from "../../config/sablier";
 
-const cancelStreamTxs = (network: Networks, streamId: number): {}[] => {
+const cancelStreamTxs = (network: Networks, streamId: number): Transaction[] => {
   const sablierProxyAddress: string = getSablierAddress(network);
   const sablierProxyInterface: Interface = new Interface(payrollAbi);
   const txs: Transaction[] = [
