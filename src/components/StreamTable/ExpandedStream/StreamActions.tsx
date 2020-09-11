@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { Button } from "@gnosis.pm/safe-react-components";
 
-import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import { BigNumberish } from "@ethersproject/bignumber";
 import { Zero } from "@ethersproject/constants";
 import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../types";
