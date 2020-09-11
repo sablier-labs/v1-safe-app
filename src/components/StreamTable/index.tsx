@@ -25,7 +25,6 @@ import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
 import { HumanReadableStream } from "./types";
 import { useSendTransactions, useSafeNetwork } from "../../contexts/SafeContext";
-import { useOutgoingStreams } from "../../contexts/StreamsContext";
 
 const StyledTableRow = styled(TableRow)`
   cursor: pointer;
@@ -81,10 +80,9 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   };
 };
 
-function StreamTable(): ReactElement {
+function StreamTable({ streams }: { streams: ProxyStream[] }): ReactElement {
   const network = useSafeNetwork();
   const sendTransactions = useSendTransactions();
-  const outgoingProxyStreams = useOutgoingStreams();
   /** State Variables **/
   const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
 
@@ -99,12 +97,12 @@ function StreamTable(): ReactElement {
   }, [columns]);
 
   const expandedStream = useMemo(() => {
-    return outgoingProxyStreams.find(({ id }) => expandedStreamId === id);
-  }, [outgoingProxyStreams, expandedStreamId]);
+    return streams.find(({ id }) => expandedStreamId === id);
+  }, [streams, expandedStreamId]);
 
   const tableContents: HumanReadableStream[] = useMemo(
-    () => outgoingProxyStreams.map(proxyStream => humanReadableStream(proxyStream)),
-    [outgoingProxyStreams],
+    () => streams.map(proxyStream => humanReadableStream(proxyStream)),
+    [streams],
   );
 
   /** Callbacks **/

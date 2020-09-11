@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Button, Title } from "@gnosis.pm/safe-react-components";
 
 import StreamTable from "../components/StreamTable";
+import { useOutgoingStreams } from "../contexts/StreamsContext";
 
 const StreamsOuterWrapper = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ const StyledButton = styled(Button).attrs({
 
 function OutgoingStreamsPage() {
   const history = useHistory();
+  const outgoingProxyStreams = useOutgoingStreams();
 
   return (
     <StreamsOuterWrapper>
@@ -49,7 +51,7 @@ function OutgoingStreamsPage() {
         <StyledButton onClick={() => history.push("/")}>Create a new stream</StyledButton>
       </TopLeftHorizontalWrapper>
       <TableWrapper>
-        <StreamTable />
+        <StreamTable streams={outgoingProxyStreams} />
       </TableWrapper>
     </StreamsOuterWrapper>
   );
