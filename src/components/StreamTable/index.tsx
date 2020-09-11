@@ -30,7 +30,7 @@ const StyledTableRow = styled(TableRow)`
   cursor: pointer;
   &:hover {
     background-color: #fff3e2;
-  },
+  }
 
   ${({ expanded }: { expanded: boolean }) =>
     expanded &&
@@ -45,12 +45,13 @@ const ExpandRowCell = styled(TableCell)`
 `;
 
 const ExpandedStreamCell = styled(TableCell)`
-  padding: 0;
+  background-color: #fffaf4;
   border: 0;
+  padding: 0;
+
   &:last-child {
     padding: 0;
   }
-  background-color: #fffaf4;
 `;
 
 const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {

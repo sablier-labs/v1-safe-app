@@ -46,9 +46,9 @@ const TopLeftHorizontalWrapper = styled.div`
 `;
 
 const StyledTitle = styled(Title)`
+  display: inline-block;
   margin-top: 0px;
   padding-right: 30px;
-  display: inline-block;
 `;
 
 const StyledButton = styled(Button).attrs({
