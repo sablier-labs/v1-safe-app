@@ -2,7 +2,7 @@ import React, { useState, createContext, ReactElement, useContext, useEffect } f
 
 import { ProxyStream } from "../typings";
 import { useSafeAddress, useSafeNetwork } from "./SafeContext";
-import getProxyStreams from "../gql/proxyStreams";
+import { getIncomingStreams, getOutgoingStreams } from "../gql/proxyStreams";
 
 interface Props {
   children: ReactElement | ReactElement[];
@@ -33,10 +33,10 @@ function StreamsProvider({ children }: Props) {
         return;
       }
 
-      const newIncomingProxyStreams = await getProxyStreams(network, safeAddress);
+      const newIncomingProxyStreams = await getIncomingStreams(network, safeAddress);
       setIncomingProxyStreams(newIncomingProxyStreams);
 
-      const newOutgoingProxyStreams = await getProxyStreams(network, safeAddress);
+      const newOutgoingProxyStreams = await getOutgoingStreams(network, safeAddress);
       setOutgoingProxyStreams(newOutgoingProxyStreams);
     };
 
