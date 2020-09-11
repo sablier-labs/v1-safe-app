@@ -1,8 +1,8 @@
 import React, { useState, createContext, ReactElement, useContext, useEffect } from "react";
 
-import { ProxyStream } from "../typings";
+import { ProxyStream } from "../types";
 import { useSafeAddress, useSafeNetwork } from "./SafeContext";
-import { getIncomingStreams, getOutgoingStreams } from "../gql/proxyStreams";
+import { getIncomingStreams, getOutgoingStreams } from "../graphql/proxyStreams";
 
 interface Props {
   children: ReactElement | ReactElement[];

@@ -6,7 +6,7 @@ import moment from "moment";
 
 import { getAddress } from "@ethersproject/address";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { ProxyStream } from "../../../typings";
+import { ProxyStream } from "../../../types";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
 import useRefreshwithPeriod from "../../../hooks/useRefreshWithPeriod";
 import EtherscanLink from "../../EtherscanLink";

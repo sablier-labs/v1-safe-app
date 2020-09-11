@@ -9,12 +9,12 @@ import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-c
 
 import DurationInput, { Duration } from "./DurationInput";
 import erc20Abi from "../../abis/erc20";
-import createEthStreamTxs from "../../utils/transactions/createEthStream";
-import createStreamTxs from "../../utils/transactions/createStream";
+import createEthStreamTxs from "../../transactions/createEthStream";
+import createStreamTxs from "../../transactions/createStream";
 
 import { ButtonContainer, SelectContainer } from "../index";
 import { TokenItem, getTokenList } from "../../config/tokens";
-import { Transaction } from "../../typings";
+import { Transaction } from "../../types";
 import { bigNumberToHumanFormat, SECONDS_IN_HOUR } from "../../utils";
 import { useSafeNetwork, useSendTransactions, useSafeEthBalance, useSafeAddress } from "../../contexts/SafeContext";
 

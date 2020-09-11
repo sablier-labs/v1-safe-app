@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { ProxyStream } from "../../../typings";
+import { ProxyStream } from "../../../types";
 import StreamInfo from "./StreamInfo";
 import StreamActions from "./StreamActions";
 

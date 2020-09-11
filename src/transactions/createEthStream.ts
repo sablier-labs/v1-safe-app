@@ -1,10 +1,10 @@
 import { Interface } from "@ethersproject/abi";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import wethAbi from "../../abis/weth";
+import { Transaction } from "../types";
+import wethAbi from "../abis/weth";
 
-import { Transaction } from "../../typings";
-import tokens from "../../config/tokens";
+import tokens from "../config/tokens";
 import createStreamTxs from "./createStream";
 
 const createEthStreamTxs = (

@@ -1,10 +1,10 @@
 import { Interface } from "@ethersproject/abi";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import payrollAbi from "../../abis/payroll";
+import payrollAbi from "../abis/payroll";
 
-import { Transaction } from "../../typings";
-import { getSablierAddress } from "../../config/sablier";
+import { Transaction } from "../types";
+import { getSablierAddress } from "../config/sablier";
 
 const cancelStreamTxs = (network: Networks, streamId: number): Transaction[] => {
   const sablierProxyAddress: string = getSablierAddress(network);

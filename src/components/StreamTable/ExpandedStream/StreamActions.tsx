@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Button } from "@gnosis.pm/safe-react-components";
 
 import { StreamStatus, getStreamStatus } from "../Status";
-import { ProxyStream } from "../../../typings";
+import { ProxyStream } from "../../../types";
 
 const lg: string = "24px";
 const md: string = "16px";

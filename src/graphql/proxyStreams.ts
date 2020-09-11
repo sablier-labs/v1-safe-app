@@ -1,7 +1,7 @@
 import ApolloClient, { DocumentNode, gql } from "apollo-boost";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import { ProxyStream } from "../typings";
+import { ProxyStream } from "../types";
 
 type Response = {
   data: { proxyStreams: ProxyStream[] };

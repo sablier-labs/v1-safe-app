@@ -1,11 +1,11 @@
 import { Interface } from "@ethersproject/abi";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import erc20Abi from "../../abis/erc20";
-import payrollAbi from "../../abis/payroll";
+import erc20Abi from "../abis/erc20";
+import payrollAbi from "../abis/payroll";
 
-import { Transaction } from "../../typings";
-import { getSablierAddress } from "../../config/sablier";
+import { Transaction } from "../types";
+import { getSablierAddress } from "../config/sablier";
 
 const createStreamTxs = (
   network: Networks,
