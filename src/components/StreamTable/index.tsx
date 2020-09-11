@@ -25,6 +25,7 @@ import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
 import { HumanReadableStream } from "./types";
 import { useSendTransactions, useSafeNetwork } from "../../contexts/SafeContext";
+import { useOutgoingStreams } from "../../contexts/StreamsContext";
 
 const StyledTableRow = styled(TableRow)`
   cursor: pointer;
@@ -80,9 +81,10 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   };
 };
 
-function StreamTable({ outgoingProxyStreams }: { outgoingProxyStreams: ProxyStream[] }): ReactElement {
+function StreamTable(): ReactElement {
   const network = useSafeNetwork();
   const sendTransactions = useSendTransactions();
+  const outgoingProxyStreams = useOutgoingStreams();
   /** State Variables **/
   const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
 

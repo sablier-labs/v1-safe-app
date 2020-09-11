@@ -1,16 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 
 import { Button, Title } from "@gnosis.pm/safe-react-components";
 
+import { useOutgoingStreams } from "./contexts/StreamsContext";
+
 import CreateStreamForm from "./components/CreateStreamForm";
 import SablierExplainer from "./components/SablierExplainer";
 import StreamTable from "./components/StreamTable";
-import getProxyStreams from "./gql/proxyStreams";
 import theme from "./theme";
-
-import { ProxyStream } from "./typings";
-import { useSafeAddress, useSafeNetwork } from "./contexts/SafeContext";
 
 const HomeOuterWrapper = styled.div`
   display: flex;
@@ -63,32 +61,15 @@ const StyledButton = styled(Button).attrs({
 `;
 
 function SablierWidget() {
-  const safeAddress = useSafeAddress();
-  const network = useSafeNetwork();
+  const outgoingProxyStreams = useOutgoingStreams();
 
   /** State Variables **/
-
-  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
+  const userHasOutgoingStreams = outgoingProxyStreams.length > 0;
   const [shouldDisplayStreams, setShouldDisplayStreams] = useState<boolean>(false);
 
   const toggleShouldDisplayStreams = useCallback(() => {
     setShouldDisplayStreams((prevShouldDisplayStreams: boolean) => !prevShouldDisplayStreams);
   }, [setShouldDisplayStreams]);
-
-  /** Side Effects **/
-
-  useEffect(() => {
-    const loadOutgoingStreams = async () => {
-      if (!network || !safeAddress) {
-        return;
-      }
-
-      const proxyStreams: ProxyStream[] = await getProxyStreams(network, safeAddress);
-      setOutgoingProxyStreams(proxyStreams);
-    };
-
-    loadOutgoingStreams();
-  }, [network, safeAddress, setOutgoingProxyStreams]);
 
   const renderHomeView = useCallback((): React.ReactNode => {
     return (
@@ -96,7 +77,7 @@ function SablierWidget() {
         <LeftWrapper>
           <TopLeftHorizontalWrapper>
             <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
-            {outgoingProxyStreams.length > 0 && (
+            {userHasOutgoingStreams && (
               <StyledButton onClick={toggleShouldDisplayStreams}>Go to dashboard</StyledButton>
             )}
           </TopLeftHorizontalWrapper>
@@ -107,7 +88,7 @@ function SablierWidget() {
         </RightWrapper>
       </HomeOuterWrapper>
     );
-  }, [outgoingProxyStreams, toggleShouldDisplayStreams]);
+  }, [userHasOutgoingStreams, toggleShouldDisplayStreams]);
 
   const renderStreamsView = useCallback((): React.ReactNode => {
     return (
@@ -117,11 +98,11 @@ function SablierWidget() {
           <StyledButton onClick={toggleShouldDisplayStreams}>Create a new stream</StyledButton>
         </TopLeftHorizontalWrapper>
         <TableWrapper>
-          <StreamTable outgoingProxyStreams={outgoingProxyStreams} />
+          <StreamTable />
         </TableWrapper>
       </StreamsOuterWrapper>
     );
-  }, [outgoingProxyStreams, toggleShouldDisplayStreams]);
+  }, [toggleShouldDisplayStreams]);
 
   return <ThemeProvider theme={theme}>{!shouldDisplayStreams ? renderHomeView() : renderStreamsView()}</ThemeProvider>;
 }
