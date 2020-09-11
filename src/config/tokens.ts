@@ -7,6 +7,8 @@ import daiIcon from "../assets/tokens/dai.svg";
 import ethIcon from "../assets/tokens/eth.svg";
 import linkIcon from "../assets/tokens/link.svg";
 import mkrIcon from "../assets/tokens/mkr.svg";
+import mtaIcon from "../assets/tokens/mta.svg";
+import musdIcon from "../assets/tokens/musd.svg";
 import susdIcon from "../assets/tokens/susd.svg";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
@@ -34,12 +36,14 @@ const tokens: TokenMap = {
     DAI: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
     TUSD: "0x0000000000085d4780B73119b644AE5ecd22b376",
     USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    mUSD: "0xe2f2a5C287993345a840Db3B0845fbC70f5935a5",
     sUSD: "0x57Ab1E02fEE23774580C119740129eAC7081e9D3",
     CHAI: "0x06AF07097C9Eeb7fD685c692751D5C66dB49c215",
     cDAI: "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
     cUSDC: "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
     LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
     MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
+    MTA: "0xa3bed4e1c75d00fa6f4e5e6922db7261b5e9acd2",
     WBTC: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
@@ -77,6 +81,13 @@ export const getTokenList = (network: Networks): TokenItem[] => {
       iconUrl: usdcIcon,
       id: "USDC",
       label: "USDC",
+    },
+    {
+      address: tokensByNetwork.mUSD,
+      decimals: 18,
+      iconUrl: musdIcon,
+      id: "mUSD",
+      label: "mUSD",
     },
     {
       address: tokensByNetwork.sUSD,
@@ -119,6 +130,13 @@ export const getTokenList = (network: Networks): TokenItem[] => {
       iconUrl: mkrIcon,
       id: "MKR",
       label: "MKR",
+    },
+    {
+      address: tokensByNetwork.MTA,
+      decimals: 18,
+      iconUrl: mtaIcon,
+      id: "MTA",
+      label: "MTA",
     },
     {
       address: tokensByNetwork.WBTC,
