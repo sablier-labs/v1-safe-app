@@ -6,7 +6,6 @@ import { InfuraProvider } from "@ethersproject/providers";
 import { parseEther } from "@ethersproject/units";
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
-import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
 
 import DurationInput, { Duration } from "./DurationInput";
 import erc20Abi from "../../abis/erc20";
@@ -17,6 +16,7 @@ import { ButtonContainer, SelectContainer } from "../index";
 import { TokenItem, getTokenList } from "../../config/tokens";
 import { Transaction } from "../../typings";
 import { bigNumberToHumanFormat, SECONDS_IN_HOUR } from "../../utils";
+import { useSafeNetwork, useSendTransactions, useSafeEthBalance, useSafeAddress } from "../../contexts/SafeContext";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,12 +24,11 @@ const Wrapper = styled.div`
   margin-top: 16px;
 `;
 
-export type Props = {
-  appsSdk: SdkInstance;
-  safeInfo?: SafeInfo;
-};
-
-function CreateStreamForm({ appsSdk, safeInfo }: Props) {
+function CreateStreamForm() {
+  const safeAddress = useSafeAddress();
+  const network = useSafeNetwork() || "mainnet";
+  const ethBalance = useSafeEthBalance();
+  const sendTransactions = useSendTransactions();
   /** State Variables **/
 
   const [amountError, setAmountError] = useState<string | undefined>();
@@ -67,7 +66,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
   const createStream = useCallback((): void => {
     /* We call in this way to ensure all errors are displayed to user */
     const amountValid = validateAmountValue();
-    if (!safeInfo || !selectedToken || !amountValid || !duration || !duration?.label || !duration?.totalSeconds) {
+    if (!selectedToken || !amountValid || !duration || !duration?.label || !duration?.totalSeconds) {
       return;
     }
 
@@ -84,7 +83,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
     if (selectedToken.id === "ETH") {
       /* If streaming ETH we need to wrap it first. */
       txs = createEthStreamTxs(
-        safeInfo.network,
+        network,
         recipient,
         safeStreamAmount.toString(),
         startTime.toString(),
@@ -92,7 +91,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       );
     } else {
       txs = createStreamTxs(
-        safeInfo.network,
+        network,
         recipient,
         safeStreamAmount.toString(),
         tokenInstance?.address || "",
@@ -101,11 +100,11 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       );
     }
 
-    appsSdk.sendTransactions(txs);
+    sendTransactions(txs);
 
     setStreamAmount("");
     setRecipient("");
-  }, [appsSdk, duration, recipient, safeInfo, selectedToken, streamAmount, tokenInstance, validateAmountValue]);
+  }, [duration, network, recipient, selectedToken, sendTransactions, streamAmount, tokenInstance, validateAmountValue]);
 
   const isButtonDisabled = useCallback((): boolean => {
     return (
@@ -149,11 +148,11 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
 
   /* Load tokens list and initialize with DAI */
   useEffect(() => {
-    if (!safeInfo) {
+    if (!network) {
       return;
     }
 
-    const tokenListRes: TokenItem[] = getTokenList(safeInfo.network);
+    const tokenListRes: TokenItem[] = getTokenList(network);
 
     setTokenList(tokenListRes);
 
@@ -161,11 +160,11 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       return t.id === "DAI";
     });
     setSelectedToken(findDaiRes);
-  }, [safeInfo]);
+  }, [network]);
 
   /* Clear the form every time the user changes the token */
   useEffect(() => {
-    if (!safeInfo?.network || !selectedToken) {
+    if (!network || !selectedToken) {
       return;
     }
 
@@ -173,13 +172,13 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
     setStreamAmount("");
     setAmountError(undefined);
 
-    const provider = new InfuraProvider(safeInfo.network, process.env.REACT_APP_INFURA_KEY);
+    const provider = new InfuraProvider(network, process.env.REACT_APP_INFURA_KEY);
     setTokenInstance(new Contract(selectedToken.address, erc20Abi, provider));
-  }, [safeInfo, selectedToken]);
+  }, [network, selectedToken]);
 
   useEffect(() => {
     const getData = async () => {
-      if (!safeInfo || !selectedToken || !tokenInstance) {
+      if (!safeAddress || !ethBalance || !selectedToken || !tokenInstance) {
         return;
       }
 
@@ -191,9 +190,9 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       /* Get token Balance */
       let newTokenBalance: string;
       if (selectedToken.id === "ETH") {
-        newTokenBalance = parseEther(safeInfo.ethBalance).toString();
+        newTokenBalance = parseEther(ethBalance).toString();
       } else {
-        newTokenBalance = await tokenInstance.balanceOf(safeInfo.safeAddress);
+        newTokenBalance = await tokenInstance.balanceOf(safeAddress);
       }
 
       /* Update all the values in a row to avoid UI flickers */
@@ -201,7 +200,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
     };
 
     getData();
-  }, [safeInfo, selectedToken, tokenInstance]);
+  }, [ethBalance, safeAddress, selectedToken, tokenInstance]);
 
   if (!selectedToken) {
     return <Loader size="md" />;

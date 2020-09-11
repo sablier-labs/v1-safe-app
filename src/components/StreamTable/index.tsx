@@ -1,6 +1,6 @@
 import React, { ReactElement, useMemo, useCallback, useState } from "react";
 
-import { SafeInfo, SdkInstance, Networks } from "@gnosis.pm/safe-apps-sdk";
+import { Networks } from "@gnosis.pm/safe-apps-sdk";
 import moment from "moment";
 
 import TableCell from "@material-ui/core/TableCell";
@@ -24,12 +24,14 @@ import { shortenAddress } from "../../utils/address";
 import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
 import { HumanReadableStream } from "./types";
+import { useSendTransactions, useSafeNetwork } from "../../contexts/SafeContext";
+import { useOutgoingStreams } from "../../contexts/StreamsContext";
 
 const StyledTableRow = styled(TableRow)`
   cursor: pointer;
   &:hover {
     background-color: #fff3e2;
-  },
+  }
 
   ${({ expanded }: { expanded: boolean }) =>
     expanded &&
@@ -44,12 +46,13 @@ const ExpandRowCell = styled(TableCell)`
 `;
 
 const ExpandedStreamCell = styled(TableCell)`
-  padding: 0;
+  background-color: #fffaf4;
   border: 0;
+  padding: 0;
+
   &:last-child {
     padding: 0;
   }
-  background-color: #fffaf4;
 `;
 
 const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
@@ -78,15 +81,10 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   };
 };
 
-function StreamTable({
-  appsSdk,
-  safeInfo,
-  outgoingProxyStreams,
-}: {
-  appsSdk: SdkInstance;
-  safeInfo?: SafeInfo;
-  outgoingProxyStreams: ProxyStream[];
-}): ReactElement {
+function StreamTable(): ReactElement {
+  const network = useSafeNetwork();
+  const sendTransactions = useSendTransactions();
+  const outgoingProxyStreams = useOutgoingStreams();
   /** State Variables **/
   const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
 
@@ -113,11 +111,11 @@ function StreamTable({
 
   const cancelStream = useCallback(
     (streamId: number): void => {
-      if (!safeInfo?.network) return;
-      const txs = cancelStreamTxs(safeInfo.network, streamId);
-      appsSdk.sendTransactions(txs);
+      if (!network) return;
+      const txs = cancelStreamTxs(network, streamId);
+      sendTransactions(txs);
     },
-    [appsSdk, safeInfo],
+    [network, sendTransactions],
   );
 
   /** Side Effects **/
@@ -168,7 +166,7 @@ function StreamTable({
                       <ExpandedStream
                         proxyStream={expandedStream}
                         cancelStream={(): void => cancelStream(row.id)}
-                        network={safeInfo?.network as Networks}
+                        network={network as Networks}
                       />
                     ) : (
                       <div />
