@@ -30,6 +30,9 @@ const streamQuery: string = `
       decimals
       symbol
     }
+    withdrawals {
+      amount
+    }
   }
 `;
 
