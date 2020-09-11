@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { Button, Title } from "@gnosis.pm/safe-react-components";
 
-import { useOutgoingStreams } from "../contexts/StreamsContext";
+import { useIncomingStreams, useOutgoingStreams } from "../contexts/StreamsContext";
 
 import CreateStreamForm from "../components/CreateStreamForm";
 import SablierExplainer from "../components/SablierExplainer";
@@ -50,7 +50,9 @@ const StyledButton = styled(Button).attrs({
 
 function HomePage() {
   const history = useHistory();
+  const incomingProxyStreams = useIncomingStreams();
   const outgoingProxyStreams = useOutgoingStreams();
+  const userHasIncomingStreams = incomingProxyStreams.length > 0;
   const userHasOutgoingStreams = outgoingProxyStreams.length > 0;
 
   return (
@@ -58,8 +60,11 @@ function HomePage() {
       <LeftWrapper>
         <TopLeftHorizontalWrapper>
           <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
+          {userHasIncomingStreams && (
+            <StyledButton onClick={() => history.push("/incoming")}>Go to incoming dashboard</StyledButton>
+          )}
           {userHasOutgoingStreams && (
-            <StyledButton onClick={() => history.push("/outgoing")}>Go to dashboard</StyledButton>
+            <StyledButton onClick={() => history.push("/outgoing")}>Go to outgoing dashboard</StyledButton>
           )}
         </TopLeftHorizontalWrapper>
         <CreateStreamForm />
