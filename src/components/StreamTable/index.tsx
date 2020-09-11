@@ -139,9 +139,8 @@ function StreamTable(): ReactElement {
     >
       {(sortedData: HumanReadableStream[]) =>
         sortedData.map((row: HumanReadableStream) => (
-          <>
+          <React.Fragment key={row.id}>
             <StyledTableRow
-              key={row.id}
               expanded={expandedStreamId === row.id}
               onClick={() => handleStreamExpand(row.id)}
               tabIndex={-1}
@@ -178,7 +177,7 @@ function StreamTable(): ReactElement {
                 />
               </ExpandedStreamCell>
             </TableRow>
-          </>
+          </React.Fragment>
         ))
       }
     </Table>
