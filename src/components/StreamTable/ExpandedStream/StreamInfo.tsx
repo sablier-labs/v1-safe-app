@@ -63,13 +63,13 @@ const percentageProgress = (startTime: BigNumberish, endTime: BigNumberish, canc
 
 const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; network: Networks }): ReactElement => {
   useRefreshwithPeriod(1000);
-  const { recipient } = proxyStream;
+  const { recipient, sender } = proxyStream;
   const { cancellation, deposit, startTime, stopTime, token } = proxyStream.stream;
 
   /** Memoized Variables **/
 
   const recipientAddress = useMemo(() => getAddress(recipient), [recipient]);
-
+  const senderAddress = useMemo(() => getAddress(sender), [sender]);
   /* These variables are purposefully not memoised as they depend on the current time */
 
   const senderBalance = BigNumberToRoundedHumanFormat(
@@ -86,6 +86,9 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
 
   return (
     <StreamDataContainer>
+      <StyledText size="md">
+        Sender: <EtherscanLink network={network} type="address" value={senderAddress} />
+      </StyledText>
       <StyledText size="md">
         Recipient: <EtherscanLink network={network} type="address" value={recipientAddress} />
       </StyledText>
