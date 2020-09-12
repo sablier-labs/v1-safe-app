@@ -10,6 +10,8 @@ import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pi
 
 import DateFnsUtils from "@date-io/date-fns";
 import { addDays, addMinutes, isAfter, isFuture } from "date-fns";
+import { ThemeProvider } from "@material-ui/core";
+
 import erc20Abi from "../../abis/erc20";
 import { createStreamTxs, createEthStreamTxs } from "../../transactions";
 
@@ -20,6 +22,7 @@ import { TIME_FORMAT, DATE_FORMAT, bigNumberToHumanFormat } from "../../utils";
 import { Transaction } from "../../types";
 
 import { useSafeNetwork, useSendTransactions, useSafeEthBalance, useSafeAddress } from "../../contexts/SafeContext";
+import dateTimeTheme from "../../theme/datetimepicker";
 
 const Wrapper = styled.div`
   display: flex;
@@ -233,24 +236,26 @@ function CreateStreamForm() {
       <Text size="lg">For how long should the money be streamed?</Text>
 
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDateTimePicker
-          ampm={false}
-          label="Start Time"
-          value={startDate}
-          onChange={date => handleStartDateChange(date && isFuture(date) ? date : new Date())}
-          onError={console.log}
-          disablePast
-          format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
-        />
-        <KeyboardDateTimePicker
-          ampm={false}
-          label="End Time"
-          value={endDate}
-          onChange={date => handleEndDateChange(date && isFuture(date) ? date : new Date())}
-          onError={console.log}
-          disablePast
-          format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
-        />
+        <ThemeProvider theme={dateTimeTheme}>
+          <KeyboardDateTimePicker
+            ampm={false}
+            label="Start Time"
+            value={startDate}
+            onChange={date => handleStartDateChange(date && isFuture(date) ? date : new Date())}
+            onError={console.log}
+            disablePast
+            format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
+          />
+          <KeyboardDateTimePicker
+            ampm={false}
+            label="End Time"
+            value={endDate}
+            onChange={date => handleEndDateChange(date && isFuture(date) ? date : new Date())}
+            onError={console.log}
+            disablePast
+            format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
+          />
+        </ThemeProvider>
       </MuiPickersUtilsProvider>
 
       <ButtonContainer>
