@@ -1,4 +1,5 @@
 export const STREAM_TABLE_ID = "id";
+export const STREAM_TABLE_SENDER_ID = "humanSender";
 export const STREAM_TABLE_RECIPIENT_ID = "humanRecipient";
 export const STREAM_TABLE_DEPOSIT_ID = "humanDeposit";
 export const STREAM_TABLE_START_TIME_ID = "humanStartTime";
@@ -26,6 +27,15 @@ export const generateColumns = () => {
     custom: false,
     order: false,
     width: 10,
+  };
+
+  const senderColumn: Column = {
+    id: STREAM_TABLE_SENDER_ID,
+    order: false,
+    disablePadding: false,
+    label: "From",
+    custom: false,
+    width: 320,
   };
 
   const recipientColumn: Column = {
@@ -82,5 +92,14 @@ export const generateColumns = () => {
     static: true,
   };
 
-  return [nonceColumn, recipientColumn, depositColumn, startColumn, endColumn, statusColumn, expandIconColumn];
+  return [
+    nonceColumn,
+    senderColumn,
+    recipientColumn,
+    depositColumn,
+    startColumn,
+    endColumn,
+    statusColumn,
+    expandIconColumn,
+  ];
 };
