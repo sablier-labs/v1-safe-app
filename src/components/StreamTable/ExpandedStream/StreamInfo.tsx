@@ -1,11 +1,11 @@
 import React, { ReactElement, useMemo } from "react";
 import { Text } from "@gnosis.pm/safe-react-components";
 import styled from "styled-components";
-import moment from "moment";
 
 import { getAddress } from "@ethersproject/address";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
 import { Zero } from "@ethersproject/constants";
+import { formatDistanceToNow, isPast } from "date-fns";
 import { ProxyStream } from "../../../types";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
 import useRefreshwithPeriod from "../../../hooks/useRefreshWithPeriod";
@@ -68,9 +68,9 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
         Recipient: <EtherscanLink network={network} type="address" value={recipientAddress} />
       </StyledText>
       <StyledText size="md">{`Stream Progress: ${
-        moment().isAfter(moment.unix(startTime))
+        isPast(new Date(startTime * 1000))
           ? `${percentageProgress(startTime, stopTime, cancellation?.timestamp)}%`
-          : `Starts ${moment.unix(startTime).fromNow()}`
+          : `Starts ${formatDistanceToNow(new Date(startTime * 1000))}`
       }`}</StyledText>
       <StyledText size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</StyledText>
       <StyledText size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol} (${availableBalance} ${token.symbol} available to withdraw)`}</StyledText>

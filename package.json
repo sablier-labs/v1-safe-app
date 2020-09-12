@@ -50,7 +50,6 @@
     "big-number-input": "^1.0.2",
     "date-fns": "^2.16.1",
     "graphql": "14.x",
-    "moment": "^2.26.0",
     "react": "16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "16.13.1",

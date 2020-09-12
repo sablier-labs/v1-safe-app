@@ -9,14 +9,16 @@ import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-c
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 import DateFnsUtils from "@date-io/date-fns";
-import { addDays, isAfter, isFuture } from "date-fns";
+import { addDays, addMinutes, isAfter, isFuture } from "date-fns";
 import erc20Abi from "../../abis/erc20";
 import { createStreamTxs, createEthStreamTxs } from "../../transactions";
 
 import { ButtonContainer, SelectContainer } from "../index";
 import { TokenItem, getTokenList } from "../../config/tokens";
+import { TIME_FORMAT, DATE_FORMAT, bigNumberToHumanFormat } from "../../utils";
+
 import { Transaction } from "../../types";
-import { bigNumberToHumanFormat } from "../../utils";
+
 import { useSafeNetwork, useSendTransactions, useSafeEthBalance, useSafeAddress } from "../../contexts/SafeContext";
 
 const Wrapper = styled.div`
@@ -33,8 +35,8 @@ function CreateStreamForm() {
   /** State Variables **/
 
   const [amountError, setAmountError] = useState<string | undefined>();
-  const [startDate, handleStartDateChange] = useState<Date>(new Date());
-  const [endDate, handleEndDateChange] = useState<Date>(addDays(new Date(), 1));
+  const [startDate, handleStartDateChange] = useState<Date>(addMinutes(new Date(), 30));
+  const [endDate, handleEndDateChange] = useState<Date>(addDays(addMinutes(new Date(), 30), 1));
   const [recipient, setRecipient] = useState<string>("");
   const [selectedToken, setSelectedToken] = useState<TokenItem>();
   const [streamAmount, setStreamAmount] = useState<string>("");
@@ -238,7 +240,7 @@ function CreateStreamForm() {
           onChange={date => handleStartDateChange(date && isFuture(date) ? date : new Date())}
           onError={console.log}
           disablePast
-          format="yyyy/MM/dd HH:mm"
+          format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
         />
         <KeyboardDateTimePicker
           ampm={false}
@@ -247,7 +249,7 @@ function CreateStreamForm() {
           onChange={date => handleEndDateChange(date && isFuture(date) ? date : new Date())}
           onError={console.log}
           disablePast
-          format="yyyy/MM/dd HH:mm"
+          format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
         />
       </MuiPickersUtilsProvider>
 
