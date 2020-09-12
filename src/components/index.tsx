@@ -6,12 +6,14 @@ export const ButtonContainer = styled.div`
   margin-top: 15px;
 `;
 
-export const SelectContainer = styled.div`
+export const TextFieldContainer = styled.div`
   align-items: center;
   display: flex;
   justify-content: left;
   margin-bottom: 15px;
+`;
 
+export const SelectContainer = styled(TextFieldContainer)`
   *:first-child {
     margin-right: 5px;
   }

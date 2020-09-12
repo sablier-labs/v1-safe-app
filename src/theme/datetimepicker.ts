@@ -1,9 +1,20 @@
 import { createMuiTheme } from "@material-ui/core";
-import { lightBlue } from "@material-ui/core/colors";
 import theme from ".";
 
-const { primary, primaryLight } = theme.colors;
+const { primary, primaryLight, primaryHover, secondary, secondaryLight, secondaryHover } = theme.colors;
 const dateTimeTheme = createMuiTheme({
+  palette: {
+    primary: {
+      light: primaryLight,
+      main: primary,
+      dark: primaryHover,
+    },
+    secondary: {
+      light: secondaryLight,
+      main: secondary,
+      dark: secondaryHover,
+    },
+  },
   overrides: {
     MuiPickersToolbar: {
       toolbar: {
@@ -12,48 +23,10 @@ const dateTimeTheme = createMuiTheme({
     },
     MuiPickerDTTabs: {
       tabs: {
-        backgroundColor: primary,
+        backgroundColor: primaryLight,
       },
-    },
-    MuiPickersClock: {
-      pin: {
-        backgroundColor: primary,
-      },
-    },
-    MuiPickersClockPointer: {
-      pointer: {
-        backgroundColor: primary,
-      },
-      noPoint: {
-        backgroundColor: primary,
-      },
-      thumb: {
-        backgroundColor: primary,
-        borderColor: primary,
-      },
-    },
-    MuiPickersDay: {
-      day: {
-        color: primaryLight,
-      },
-      daySelected: {
-        backgroundColor: primary,
-      },
-      dayDisabled: {
-        color: lightBlue["100"],
-      },
-      current: {
-        color: primary,
-      },
-    },
-    MuiPickersModal: {
-      dialogAction: {
-        color: primary,
-      },
-    },
-    MuiButton: {
-      textPrimary: {
-        color: primary,
+      indicator: {
+        backgroundColor: secondary,
       },
     },
   },
