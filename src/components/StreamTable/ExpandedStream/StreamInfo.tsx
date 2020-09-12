@@ -5,6 +5,7 @@ import moment from "moment";
 
 import { getAddress } from "@ethersproject/address";
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
+import { Zero } from "@ethersproject/constants";
 import { ProxyStream } from "../../../types";
 import { BigNumberToRoundedHumanFormat } from "../../../utils";
 import useRefreshwithPeriod from "../../../hooks/useRefreshWithPeriod";
@@ -31,7 +32,7 @@ const StyledText = styled(Text)`
 const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; network: Networks }): ReactElement => {
   useRefreshwithPeriod(1000);
   const { recipient, sender } = proxyStream;
-  const { cancellation, deposit, startTime, stopTime, token } = proxyStream.stream;
+  const { cancellation, deposit, startTime, stopTime, token, withdrawals } = proxyStream.stream;
 
   /** Memoized Variables **/
 
@@ -51,6 +52,13 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
     3,
   );
 
+  const withdrawnBalance = withdrawals.reduce((accumulator, { amount }) => accumulator.add(amount), Zero);
+  const availableBalance = BigNumberToRoundedHumanFormat(
+    cancellation === null ? recipientShare(deposit, startTime, stopTime).sub(withdrawnBalance) : Zero,
+    token.decimals,
+    3,
+  );
+
   return (
     <StreamDataContainer>
       <StyledText size="md">
@@ -65,7 +73,7 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
           : `Starts ${moment.unix(startTime).fromNow()}`
       }`}</StyledText>
       <StyledText size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</StyledText>
-      <StyledText size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol}`}</StyledText>
+      <StyledText size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol} (${availableBalance} ${token.symbol} available to withdraw)`}</StyledText>
     </StreamDataContainer>
   );
 };

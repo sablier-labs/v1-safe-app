@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Button } from "@gnosis.pm/safe-react-components";
 
 import { BigNumberish } from "@ethersproject/bignumber";
+import { Zero } from "@ethersproject/constants";
 import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../types";
 import { useSafeAddress } from "../../../contexts/SafeContext";
@@ -50,8 +51,12 @@ const StreamActions = ({
   const safeAddress = useSafeAddress();
   const sablierStreamUrl = useMemo(() => `https://app.sablier.finance/stream/${proxyStream.id}`, [proxyStream]);
 
-  const { deposit, startTime, stopTime } = proxyStream.stream;
-  const recipientBalance = recipientShare(deposit, startTime, stopTime);
+  const triggerWithdrawal = () => {
+    const { deposit, startTime, stopTime, withdrawals } = proxyStream.stream;
+    const withdrawnBalance = withdrawals.reduce((accumulator, { amount }) => accumulator.add(amount), Zero);
+    const availableBalance = recipientShare(deposit, startTime, stopTime).sub(withdrawnBalance);
+    withdrawStream(availableBalance);
+  };
 
   return (
     <ActionsContainer>
@@ -61,10 +66,7 @@ const StreamActions = ({
       <StyledButton>
         <StyledAnchor href={sablierStreamUrl}>View Stream</StyledAnchor>
       </StyledButton>
-      <StyledButton
-        disabled={proxyStream.recipient !== safeAddress?.toLowerCase()}
-        onClick={() => withdrawStream(recipientBalance)}
-      >
+      <StyledButton disabled={proxyStream.recipient !== safeAddress?.toLowerCase()} onClick={triggerWithdrawal}>
         Withdraw
       </StyledButton>
       <StyledButton disabled={getStreamStatus(proxyStream) !== StreamStatus.Active} onClick={cancelStream}>

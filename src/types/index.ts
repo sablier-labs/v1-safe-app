@@ -21,6 +21,9 @@ export type Stream = {
   startTime: number;
   stopTime: number;
   token: Token;
+  withdrawals: {
+    amount: BigNumberish;
+  }[];
 };
 
 /**
