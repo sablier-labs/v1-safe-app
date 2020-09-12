@@ -128,7 +128,7 @@ function CreateStreamForm() {
       Boolean(amountError) ||
       !startDate ||
       !endDate ||
-      isAfter(endDate, startDate)
+      !isAfter(endDate, startDate)
     );
   }, [amountError, endDate, startDate, streamAmount]);
 
