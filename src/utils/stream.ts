@@ -1,4 +1,6 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import { Zero } from "@ethersproject/constants";
+import { ProxyStream } from "../types";
 
 const currentUnixTimestamp = () => Math.trunc(Date.now() / 1000);
 
@@ -34,3 +36,9 @@ export const senderShare = (
 
 export const percentageProgress = (startTime: BigNumberish, endTime: BigNumberish, cancellationTime?: BigNumberish) =>
   recipientShare(10000, startTime, endTime, cancellationTime).toNumber() / 100;
+
+export const streamAvailableBalance = (proxyStream: ProxyStream): BigNumber => {
+  const { deposit, startTime, stopTime, withdrawals } = proxyStream.stream;
+  const withdrawnBalance = withdrawals.reduce((accumulator, { amount }) => accumulator.add(amount), Zero);
+  return recipientShare(deposit, startTime, stopTime).sub(withdrawnBalance);
+};
