@@ -43,34 +43,39 @@ const StyledButton = styled(Button).attrs({
   variant: "outlined",
 })`
   font-size: 14px !important;
-  margin-top: -4px !important;
-  min-width: 0 !important;
-  padding: 0px !important;
+`;
+
+const DashboardNavWrapper = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  padding-left: 32px;
 `;
 
 function HomePage() {
   const history = useHistory();
   const incomingProxyStreams = useIncomingStreams();
   const outgoingProxyStreams = useOutgoingStreams();
-  const userHasIncomingStreams = incomingProxyStreams.length > 0;
-  const userHasOutgoingStreams = outgoingProxyStreams.length > 0;
+  const userHasNoIncomingStreams = incomingProxyStreams.length === 0;
+  const userHasNoOutgoingStreams = outgoingProxyStreams.length === 0;
 
   return (
     <HomeOuterWrapper>
       <LeftWrapper>
         <TopLeftHorizontalWrapper>
           <StyledTitle size="xs">Create Sablier Stream</StyledTitle>
-          {userHasIncomingStreams && (
-            <StyledButton onClick={() => history.push("/incoming")}>Go to incoming dashboard</StyledButton>
-          )}
-          {userHasOutgoingStreams && (
-            <StyledButton onClick={() => history.push("/outgoing")}>Go to outgoing dashboard</StyledButton>
-          )}
         </TopLeftHorizontalWrapper>
         <CreateStreamForm />
       </LeftWrapper>
       <RightWrapper>
         <SablierExplainer />
+        <DashboardNavWrapper>
+          <StyledButton disabled={userHasNoIncomingStreams} onClick={() => history.push("/incoming")}>
+            See incoming streams
+          </StyledButton>
+          <StyledButton disabled={userHasNoOutgoingStreams} onClick={() => history.push("/outgoing")}>
+            See outgoing streams
+          </StyledButton>
+        </DashboardNavWrapper>
       </RightWrapper>
     </HomeOuterWrapper>
   );

@@ -1,7 +1,6 @@
 import React, { ReactElement, useMemo, useCallback, useState } from "react";
 
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import moment from "moment";
 
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
@@ -12,6 +11,7 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { getAddress } from "@ethersproject/address";
 import styled, { css } from "styled-components";
+import { format } from "date-fns";
 import Table from "./Table";
 import Status, { StreamStatus, getStreamStatus } from "./Status";
 import { cancelStreamTxs, withdrawStreamTxs } from "../../transactions";
@@ -59,8 +59,8 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
   const humanRecipient: string = shortenAddress(getAddress(recipient));
   const humanSender: string = shortenAddress(getAddress(sender));
-  const humanStartTime: BigNumberish = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
-  const humanStopTime: BigNumberish = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStartTime: BigNumberish = format(new Date(startTime * 1000), `${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStopTime: BigNumberish = format(new Date(stopTime * 1000), `${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanStartTimeOrder: BigNumberish = startTime;
   const humanStopTimeOrder: BigNumberish = stopTime;
   const humanDeposit: BigNumberish = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;

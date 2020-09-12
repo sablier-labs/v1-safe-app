@@ -47,8 +47,8 @@ function OutgoingStreamsPage() {
   return (
     <StreamsOuterWrapper>
       <TopLeftHorizontalWrapper>
-        <StyledTitle size="xs">Manage Existing Streams</StyledTitle>
-        <StyledButton onClick={() => history.push("/")}>Create a new stream</StyledButton>
+        <StyledTitle size="xs">Manage Outgoing Streams</StyledTitle>
+        <StyledButton onClick={() => history.push("/")}>Return to main page</StyledButton>
       </TopLeftHorizontalWrapper>
       <TableWrapper>
         <StreamTable streams={outgoingProxyStreams} />

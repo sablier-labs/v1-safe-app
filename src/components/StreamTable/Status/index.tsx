@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
-import moment from "moment";
 import styled, { css } from "styled-components";
 
+import { isPast } from "date-fns";
 import ClockIcon from "../../../assets/clock.svg";
 import ErrorIcon from "../../../assets/error.svg";
 import OkIcon from "../../../assets/ok.svg";
@@ -25,8 +25,8 @@ const StatusContainer = styled.div`
   display: inline-flex;
   font-size: 11px;
   font-weight: 700;
-  justify-content: center;
   height: ${lg};
+  justify-content: center;
   margin-bottom: ${sm};
   margin-top: ${sm};
   padding: ${sm};
@@ -74,7 +74,7 @@ export const getStreamStatus = (proxyStream: ProxyStream): StreamStatus => {
   if (cancellation !== null) {
     return StreamStatus.Cancelled;
   }
-  if (moment().isAfter(moment.unix(stopTime))) {
+  if (isPast(new Date(stopTime * 1000))) {
     return StreamStatus.Ended;
   }
   return StreamStatus.Active;
