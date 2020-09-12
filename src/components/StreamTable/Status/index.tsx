@@ -25,8 +25,8 @@ const StatusContainer = styled.div`
   display: inline-flex;
   font-size: 11px;
   font-weight: 700;
-  justify-content: center;
   height: ${lg};
+  justify-content: center;
   margin-bottom: ${sm};
   margin-top: ${sm};
   padding: ${sm};
