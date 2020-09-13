@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Contract } from "@ethersproject/contracts";
 import { BigNumber } from "@ethersproject/bignumber";
@@ -121,16 +121,16 @@ function CreateStreamForm() {
     validateAmountValue,
   ]);
 
-  const isButtonDisabled = useCallback((): boolean => {
-    return (
+  const isButtonDisabled = useMemo(
+    (): boolean =>
       streamAmount.length === 0 ||
       streamAmount === "0" ||
       typeof amountError !== "undefined" ||
       !startDate ||
       !endDate ||
-      !isAfter(endDate, startDate)
-    );
-  }, [amountError, endDate, startDate, streamAmount]);
+      !isAfter(endDate, startDate),
+    [amountError, endDate, startDate, streamAmount],
+  );
 
   const onSelectItem = useCallback(
     (id: string): void => {
@@ -279,7 +279,7 @@ function CreateStreamForm() {
       </MuiPickersUtilsProvider>
 
       <ButtonContainer>
-        <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
+        <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled}>
           Create Stream
         </Button>
       </ButtonContainer>
