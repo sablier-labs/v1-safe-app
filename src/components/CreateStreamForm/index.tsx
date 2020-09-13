@@ -125,7 +125,7 @@ function CreateStreamForm() {
     return (
       streamAmount.length === 0 ||
       streamAmount === "0" ||
-      Boolean(amountError) ||
+      typeof amountError !== "undefined" ||
       !startDate ||
       !endDate ||
       !isAfter(endDate, startDate)
