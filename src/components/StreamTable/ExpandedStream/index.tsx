@@ -2,7 +2,9 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 
 import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { ProxyStream } from "../../../typings";
+
+import { BigNumberish } from "@ethersproject/bignumber";
+import { ProxyStream } from "../../../types";
 import StreamInfo from "./StreamInfo";
 import StreamActions from "./StreamActions";
 
@@ -18,16 +20,18 @@ const ExpandedStreamContainer = styled.div`
 
 const ExpandedStream = ({
   cancelStream,
+  withdrawStream,
   network,
   proxyStream,
 }: {
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  withdrawStream: (amount: BigNumberish) => void;
   network: Networks;
   proxyStream: ProxyStream;
 }): ReactElement => (
   <ExpandedStreamContainer>
     <StreamInfo proxyStream={proxyStream} network={network} />
-    <StreamActions proxyStream={proxyStream} cancelStream={cancelStream} />
+    <StreamActions proxyStream={proxyStream} cancelStream={cancelStream} withdrawStream={withdrawStream} />
   </ExpandedStreamContainer>
 );
 

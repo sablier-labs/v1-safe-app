@@ -1,5 +1,5 @@
 import { StreamStatus } from "./Status";
-import { Token } from "../../typings";
+import { Token } from "../../types";
 
 export type HumanReadableStream = {
   humanDeposit: string;

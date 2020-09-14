@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Contract } from "@ethersproject/contracts";
 import { BigNumber } from "@ethersproject/bignumber";
@@ -6,37 +6,42 @@ import { InfuraProvider } from "@ethersproject/providers";
 import { parseEther } from "@ethersproject/units";
 import { BigNumberInput } from "big-number-input";
 import { Button, Select, Text, TextField, Loader } from "@gnosis.pm/safe-react-components";
-import { SafeInfo, SdkInstance } from "@gnosis.pm/safe-apps-sdk";
+import { ThemeProvider } from "@material-ui/core";
 
-import DurationInput, { Duration } from "./DurationInput";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+
+import DateFnsUtils from "@date-io/date-fns";
+import { isAfter, isDate, isFuture } from "date-fns";
+
 import erc20Abi from "../../abis/erc20";
-import createEthStreamTxs from "../../utils/transactions/createEthStream";
-import createStreamTxs from "../../utils/transactions/createStream";
+import { createStreamTxs, createEthStreamTxs } from "../../transactions";
 
-import { ButtonContainer, SelectContainer } from "../index";
+import { ButtonContainer, SelectContainer, TextFieldContainer } from "../index";
 import { TokenItem, getTokenList } from "../../config/tokens";
-import { Transaction } from "../../typings";
-import { bigNumberToHumanFormat, SECONDS_IN_HOUR } from "../../utils";
+import { TIME_FORMAT, DATE_FORMAT, bigNumberToHumanFormat } from "../../utils";
+
+import { Transaction } from "../../types";
+
+import { useSafeNetwork, useSendTransactions, useSafeEthBalance, useSafeAddress } from "../../contexts/SafeContext";
+import dateTimeTheme from "../../theme/datetimepicker";
 
 const Wrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   margin-top: 16px;
+  max-width: 500px;
 `;
 
-export type Props = {
-  appsSdk: SdkInstance;
-  safeInfo?: SafeInfo;
-};
-
-function CreateStreamForm({ appsSdk, safeInfo }: Props) {
+function CreateStreamForm() {
+  const safeAddress = useSafeAddress();
+  const network = useSafeNetwork() || "mainnet";
+  const ethBalance = useSafeEthBalance();
+  const sendTransactions = useSendTransactions();
   /** State Variables **/
 
   const [amountError, setAmountError] = useState<string | undefined>();
-  const [duration, setDuration] = useState<Duration>({
-    label: "Duration",
-    totalSeconds: BigNumber.from(0),
-  });
+  const [startDate, handleStartDateChange] = useState<Date | null>(null);
+  const [endDate, handleEndDateChange] = useState<Date | null>(null);
   const [recipient, setRecipient] = useState<string>("");
   const [selectedToken, setSelectedToken] = useState<TokenItem>();
   const [streamAmount, setStreamAmount] = useState<string>("");
@@ -67,15 +72,14 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
   const createStream = useCallback((): void => {
     /* We call in this way to ensure all errors are displayed to user */
     const amountValid = validateAmountValue();
-    if (!safeInfo || !selectedToken || !amountValid || !duration || !duration?.label || !duration?.totalSeconds) {
+    if (!selectedToken || !amountValid || !startDate || !endDate) {
       return;
     }
 
     /* TODO: Stream initiation must be approved by other owners within an hour */
-    const totalSeconds: number = duration.totalSeconds.toNumber();
-    const currentUnix: number = Math.floor(new Date().getTime() / 1000);
-    const startTime: BigNumber = BigNumber.from(currentUnix).add(SECONDS_IN_HOUR);
-    const stopTime: BigNumber = startTime.add(totalSeconds);
+    const startTime: BigNumber = BigNumber.from(startDate.getTime() / 1000);
+    const stopTime: BigNumber = BigNumber.from(endDate.getTime() / 1000);
+    const totalSeconds = stopTime.sub(startTime);
 
     const bnStreamAmount = BigNumber.from(streamAmount);
     const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(totalSeconds));
@@ -84,7 +88,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
     if (selectedToken.id === "ETH") {
       /* If streaming ETH we need to wrap it first. */
       txs = createEthStreamTxs(
-        safeInfo.network,
+        network,
         recipient,
         safeStreamAmount.toString(),
         startTime.toString(),
@@ -92,7 +96,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       );
     } else {
       txs = createStreamTxs(
-        safeInfo.network,
+        network,
         recipient,
         safeStreamAmount.toString(),
         tokenInstance?.address || "",
@@ -101,21 +105,32 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       );
     }
 
-    appsSdk.sendTransactions(txs);
+    sendTransactions(txs);
 
     setStreamAmount("");
     setRecipient("");
-  }, [appsSdk, duration, recipient, safeInfo, selectedToken, streamAmount, tokenInstance, validateAmountValue]);
+  }, [
+    endDate,
+    network,
+    recipient,
+    selectedToken,
+    sendTransactions,
+    startDate,
+    streamAmount,
+    tokenInstance,
+    validateAmountValue,
+  ]);
 
-  const isButtonDisabled = useCallback((): boolean => {
-    return (
+  const isButtonDisabled = useMemo(
+    (): boolean =>
       streamAmount.length === 0 ||
       streamAmount === "0" ||
-      Boolean(amountError) ||
-      !duration.totalSeconds ||
-      duration.totalSeconds.isZero()
-    );
-  }, [amountError, duration, streamAmount]);
+      typeof amountError !== "undefined" ||
+      !startDate ||
+      !endDate ||
+      !isAfter(endDate, startDate),
+    [amountError, endDate, startDate, streamAmount],
+  );
 
   const onSelectItem = useCallback(
     (id: string): void => {
@@ -138,22 +153,15 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
     setStreamAmount(value);
   }, []);
 
-  const onUpdateDuration = useCallback(
-    (newDuration: Duration): void => {
-      setDuration(newDuration);
-    },
-    [setDuration],
-  );
-
   /** Side Effects **/
 
   /* Load tokens list and initialize with DAI */
   useEffect(() => {
-    if (!safeInfo) {
+    if (!network) {
       return;
     }
 
-    const tokenListRes: TokenItem[] = getTokenList(safeInfo.network);
+    const tokenListRes: TokenItem[] = getTokenList(network);
 
     setTokenList(tokenListRes);
 
@@ -161,11 +169,11 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       return t.id === "DAI";
     });
     setSelectedToken(findDaiRes);
-  }, [safeInfo]);
+  }, [network]);
 
   /* Clear the form every time the user changes the token */
   useEffect(() => {
-    if (!safeInfo?.network || !selectedToken) {
+    if (!network || !selectedToken) {
       return;
     }
 
@@ -173,13 +181,13 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
     setStreamAmount("");
     setAmountError(undefined);
 
-    const provider = new InfuraProvider(safeInfo.network, process.env.REACT_APP_INFURA_KEY);
+    const provider = new InfuraProvider(network, process.env.REACT_APP_INFURA_KEY);
     setTokenInstance(new Contract(selectedToken.address, erc20Abi, provider));
-  }, [safeInfo, selectedToken]);
+  }, [network, selectedToken, setTokenBalance]);
 
   useEffect(() => {
     const getData = async () => {
-      if (!safeInfo || !selectedToken || !tokenInstance) {
+      if (!safeAddress || !ethBalance || !selectedToken || !tokenInstance) {
         return;
       }
 
@@ -191,9 +199,9 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       /* Get token Balance */
       let newTokenBalance: string;
       if (selectedToken.id === "ETH") {
-        newTokenBalance = parseEther(safeInfo.ethBalance).toString();
+        newTokenBalance = parseEther(ethBalance).toString();
       } else {
-        newTokenBalance = await tokenInstance.balanceOf(safeInfo.safeAddress);
+        newTokenBalance = await tokenInstance.balanceOf(safeAddress);
       }
 
       /* Update all the values in a row to avoid UI flickers */
@@ -201,7 +209,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
     };
 
     getData();
-  }, [safeInfo, selectedToken, tokenInstance]);
+  }, [ethBalance, safeAddress, selectedToken, setTokenBalance, tokenInstance]);
 
   if (!selectedToken) {
     return <Loader size="md" />;
@@ -217,7 +225,7 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
       </SelectContainer>
 
       <Text size="lg">How much do you want to stream in total?</Text>
-      <SelectContainer>
+      <TextFieldContainer>
         <BigNumberInput
           decimals={selectedToken.decimals}
           onChange={onAmountChange}
@@ -226,20 +234,52 @@ function CreateStreamForm({ appsSdk, safeInfo }: Props) {
             <TextField label="Amount" value={props.value} onChange={props.onChange} meta={{ error: amountError }} />
           )}
         />
-      </SelectContainer>
+      </TextFieldContainer>
 
       <Text size="lg">Who would you like to stream to?</Text>
 
-      <SelectContainer>
+      <TextFieldContainer>
         <TextField label="Recipient" value={recipient} onChange={(event): void => setRecipient(event.target.value)} />
-      </SelectContainer>
+      </TextFieldContainer>
 
-      <Text size="lg">For how long should the money be streamed?</Text>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <ThemeProvider theme={dateTimeTheme}>
+          <Text size="lg">When should the stream start?</Text>
+          <TextFieldContainer>
+            <DateTimePicker
+              clearable
+              label="Start time"
+              inputVariant="filled"
+              ampm={false}
+              value={startDate}
+              onChange={date => handleStartDateChange(!isDate(date) || isFuture(date as Date) ? date : null)}
+              onError={console.log}
+              disablePast
+              format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
+              fullWidth
+            />
+          </TextFieldContainer>
 
-      <DurationInput duration={duration} onUpdateDuration={onUpdateDuration} />
+          <Text size="lg">When should the stream end?</Text>
+          <TextFieldContainer>
+            <DateTimePicker
+              clearable
+              label="End time"
+              inputVariant="filled"
+              ampm={false}
+              value={endDate}
+              onChange={date => handleEndDateChange(!isDate(date) || isFuture(date as Date) ? date : null)}
+              onError={console.log}
+              disablePast
+              format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
+              fullWidth
+            />
+          </TextFieldContainer>
+        </ThemeProvider>
+      </MuiPickersUtilsProvider>
 
       <ButtonContainer>
-        <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled()}>
+        <Button size="lg" color="primary" variant="contained" onClick={createStream} disabled={isButtonDisabled}>
           Create Stream
         </Button>
       </ButtonContainer>

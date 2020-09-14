@@ -4,8 +4,12 @@ import styled from "styled-components";
 
 import { Button } from "@gnosis.pm/safe-react-components";
 
+import { BigNumberish } from "@ethersproject/bignumber";
+import { Zero } from "@ethersproject/constants";
 import { StreamStatus, getStreamStatus } from "../Status";
-import { ProxyStream } from "../../../typings";
+import { ProxyStream } from "../../../types";
+import { useSafeAddress } from "../../../contexts/SafeContext";
+import { streamAvailableBalance } from "../../../utils/stream";
 
 const lg: string = "24px";
 const md: string = "16px";
@@ -37,12 +41,19 @@ const StyledAnchor = styled.a.attrs({
 
 const StreamActions = ({
   cancelStream,
+  withdrawStream,
   proxyStream,
 }: {
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  withdrawStream: (amount: BigNumberish) => void;
   proxyStream: ProxyStream;
 }): ReactElement => {
+  const safeAddress = useSafeAddress();
   const sablierStreamUrl = useMemo(() => `https://app.sablier.finance/stream/${proxyStream.id}`, [proxyStream]);
+
+  const triggerWithdrawal = () => {
+    withdrawStream(streamAvailableBalance(proxyStream));
+  };
 
   return (
     <ActionsContainer>
@@ -51,6 +62,12 @@ const StreamActions = ({
       </CopyToClipboard>
       <StyledButton>
         <StyledAnchor href={sablierStreamUrl}>View Stream</StyledAnchor>
+      </StyledButton>
+      <StyledButton
+        disabled={streamAvailableBalance(proxyStream).eq(Zero) || proxyStream.recipient !== safeAddress?.toLowerCase()}
+        onClick={triggerWithdrawal}
+      >
+        Withdraw
       </StyledButton>
       <StyledButton disabled={getStreamStatus(proxyStream) !== StreamStatus.Active} onClick={cancelStream}>
         Cancel

@@ -1,7 +1,6 @@
 import React, { ReactElement, useMemo, useCallback, useState } from "react";
 
-import { SafeInfo, SdkInstance, Networks } from "@gnosis.pm/safe-apps-sdk";
-import moment from "moment";
+import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
@@ -9,14 +8,15 @@ import TableRow from "@material-ui/core/TableRow";
 import { IconButton, Collapse } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
-import { BigNumberish } from "@ethersproject/bignumber";
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { getAddress } from "@ethersproject/address";
 import styled, { css } from "styled-components";
+import { format } from "date-fns";
 import Table from "./Table";
 import Status, { StreamStatus, getStreamStatus } from "./Status";
-import cancelStreamTxs from "../../utils/transactions/cancelStream";
+import { cancelStreamTxs, withdrawStreamTxs } from "../../transactions";
 
-import { ProxyStream } from "../../typings";
+import { ProxyStream } from "../../types";
 import { BigNumberToRoundedHumanFormat } from "../../utils/format";
 import { cellWidth } from "./Table/TableHead";
 import { STREAM_TABLE_ID, Column, generateColumns } from "./columns";
@@ -24,12 +24,13 @@ import { shortenAddress } from "../../utils/address";
 import { TIME_FORMAT, DATE_FORMAT } from "../../utils";
 import ExpandedStream from "./ExpandedStream";
 import { HumanReadableStream } from "./types";
+import { useSendTransactions, useSafeNetwork } from "../../contexts/SafeContext";
 
 const StyledTableRow = styled(TableRow)`
   cursor: pointer;
   &:hover {
     background-color: #fff3e2;
-  },
+  }
 
   ${({ expanded }: { expanded: boolean }) =>
     expanded &&
@@ -44,12 +45,13 @@ const ExpandRowCell = styled(TableCell)`
 `;
 
 const ExpandedStreamCell = styled(TableCell)`
-  padding: 0;
+  background-color: #fffaf4;
   border: 0;
+  padding: 0;
+
   &:last-child {
     padding: 0;
   }
-  background-color: #fffaf4;
 `;
 
 const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
@@ -57,8 +59,8 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   const { deposit, startTime, stopTime, token } = proxyStream.stream;
   const humanRecipient: string = shortenAddress(getAddress(recipient));
   const humanSender: string = shortenAddress(getAddress(sender));
-  const humanStartTime: BigNumberish = moment.unix(startTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
-  const humanStopTime: BigNumberish = moment.unix(stopTime).format(`${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStartTime: BigNumberish = format(new Date(startTime * 1000), `${DATE_FORMAT} - ${TIME_FORMAT}`);
+  const humanStopTime: BigNumberish = format(new Date(stopTime * 1000), `${DATE_FORMAT} - ${TIME_FORMAT}`);
   const humanStartTimeOrder: BigNumberish = startTime;
   const humanStopTimeOrder: BigNumberish = stopTime;
   const humanDeposit: BigNumberish = BigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
@@ -78,15 +80,9 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   };
 };
 
-function StreamTable({
-  appsSdk,
-  safeInfo,
-  outgoingProxyStreams,
-}: {
-  appsSdk: SdkInstance;
-  safeInfo?: SafeInfo;
-  outgoingProxyStreams: ProxyStream[];
-}): ReactElement {
+function StreamTable({ streams }: { streams: ProxyStream[] }): ReactElement {
+  const network = useSafeNetwork();
+  const sendTransactions = useSendTransactions();
   /** State Variables **/
   const [expandedStreamId, setExpandedStreamId] = useState<number | null>(null);
 
@@ -101,23 +97,32 @@ function StreamTable({
   }, [columns]);
 
   const expandedStream = useMemo(() => {
-    return outgoingProxyStreams.find(({ id }) => expandedStreamId === id);
-  }, [outgoingProxyStreams, expandedStreamId]);
+    return streams.find(({ id }) => expandedStreamId === id);
+  }, [streams, expandedStreamId]);
 
   const tableContents: HumanReadableStream[] = useMemo(
-    () => outgoingProxyStreams.map(proxyStream => humanReadableStream(proxyStream)),
-    [outgoingProxyStreams],
+    () => streams.map(proxyStream => humanReadableStream(proxyStream)),
+    [streams],
   );
 
   /** Callbacks **/
 
   const cancelStream = useCallback(
     (streamId: number): void => {
-      if (!safeInfo?.network) return;
-      const txs = cancelStreamTxs(safeInfo.network, streamId);
-      appsSdk.sendTransactions(txs);
+      if (!network) return;
+      const txs = cancelStreamTxs(network, streamId);
+      sendTransactions(txs);
     },
-    [appsSdk, safeInfo],
+    [network, sendTransactions],
+  );
+
+  const withdrawStream = useCallback(
+    (streamId: number, amount: BigNumberish): void => {
+      if (!network || BigNumber.from(amount).eq(0)) return;
+      const txs = withdrawStreamTxs(network, streamId, amount);
+      sendTransactions(txs);
+    },
+    [network, sendTransactions],
   );
 
   /** Side Effects **/
@@ -141,9 +146,8 @@ function StreamTable({
     >
       {(sortedData: HumanReadableStream[]) =>
         sortedData.map((row: HumanReadableStream) => (
-          <>
+          <React.Fragment key={row.id}>
             <StyledTableRow
-              key={row.id}
               expanded={expandedStreamId === row.id}
               onClick={() => handleStreamExpand(row.id)}
               tabIndex={-1}
@@ -168,7 +172,8 @@ function StreamTable({
                       <ExpandedStream
                         proxyStream={expandedStream}
                         cancelStream={(): void => cancelStream(row.id)}
-                        network={safeInfo?.network as Networks}
+                        withdrawStream={(amount: BigNumberish): void => withdrawStream(row.id, amount)}
+                        network={network as Networks}
                       />
                     ) : (
                       <div />
@@ -180,7 +185,7 @@ function StreamTable({
                 />
               </ExpandedStreamCell>
             </TableRow>
-          </>
+          </React.Fragment>
         ))
       }
     </Table>
