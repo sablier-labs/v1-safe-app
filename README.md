@@ -40,20 +40,16 @@ Using the Sablier Safe app you can:
 - View details on your outgoing streams
 - Cancel streams in progress
 
-**Important:** All streams created using the Sablier Safe app are set to start 1 hour from when the stream creation form is submitted. For the stream to be successful, you must collect the number of confirmations required for your particular Safe before the stream is due to start.
-
-> Note: We do not support withdrawing from streams which are being sent to your Safe. Please do not use a Safe as a recipient of a Sablier stream. We have omitted implementing support for withdrawals as they will be unnecessary after the Sablier V2 upgrade later this year. Instead funds will directly accrue in your safe.
-
 ## Deployments :earth_africa:
 
 There are multiple ways to access the Sablier safe app, you may use either of the below URLs:
 
 - Vercel deployment: https://sablier-safe-app.now.sh/
-- IPFS deployment: https://ipfs.io/ipfs/QmabPEk7g4zaytFefp6fE4nz8f85QMJoWmRQQZypvJViNG/
+- IPFS deployment: https://ipfs.io/ipfs/QmeHa5CS6eAMRvQfTBwWfcXKrXZ7itZTpWSM6625ZZ522N/
 
 The Vercel deployment will automatically update to the newest version of the Sablier safe app, however for additional security you may also access the app using IPFS.
 
-We recommend that you use the IPFS version.
+We strongly recommend that you use the IPFS version.
 
 ## Other ways to use Sablier :hammer_and_pick:
 
