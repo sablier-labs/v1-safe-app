@@ -70,10 +70,10 @@ function HomePage() {
         <SablierExplainer />
         <DashboardNavWrapper>
           <StyledButton disabled={userHasNoIncomingStreams} onClick={() => history.push("/incoming")}>
-            See incoming streams
+            View incoming streams
           </StyledButton>
           <StyledButton disabled={userHasNoOutgoingStreams} onClick={() => history.push("/outgoing")}>
-            See outgoing streams
+            View outgoing streams
           </StyledButton>
         </DashboardNavWrapper>
       </RightWrapper>
