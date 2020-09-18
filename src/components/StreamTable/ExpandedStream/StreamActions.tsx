@@ -64,7 +64,7 @@ const StreamActions = ({
         <StyledAnchor href={sablierStreamUrl}>View Stream</StyledAnchor>
       </StyledButton>
       <StyledButton
-        disabled={streamAvailableBalance(proxyStream).eq(Zero) || proxyStream.recipient !== safeAddress?.toLowerCase()}
+        disabled={proxyStream.recipient !== safeAddress?.toLowerCase() || streamAvailableBalance(proxyStream).eq(Zero)}
         onClick={triggerWithdrawal}
       >
         Withdraw
