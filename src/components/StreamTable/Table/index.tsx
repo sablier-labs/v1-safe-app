@@ -123,7 +123,6 @@ function GnoTable(props: Props): ReactElement {
     return typeof fixed !== "undefined" ? fixed : Boolean(defaultFixed);
   }, [defaultFixed, fixed]);
 
-  console.log(classes);
   const paginationClasses = useMemo(() => {
     return {
       input: classes.white,
