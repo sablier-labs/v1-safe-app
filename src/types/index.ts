@@ -49,5 +49,5 @@ export type Token = {
 export type Transaction = {
   data: string;
   to: string;
-  value: BigNumberish;
+  value: string;
 };

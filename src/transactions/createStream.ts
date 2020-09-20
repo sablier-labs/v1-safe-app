@@ -22,7 +22,7 @@ const createStreamTxs = (
   const approvalTx = {
     data: erc20Interface.encodeFunctionData("approve", [sablierProxyAddress, deposit]),
     to: tokenAddress,
-    value: 0,
+    value: "0",
   };
 
   const streamTx = {
@@ -34,7 +34,7 @@ const createStreamTxs = (
       stopTime,
     ]),
     to: sablierProxyAddress,
-    value: 0,
+    value: "0",
   };
 
   return [approvalTx, streamTx];

@@ -12,7 +12,7 @@ const cancelStreamTxs = (network: Networks, streamId: number): Transaction[] => 
   const cancellationTx = {
     data: sablierProxyInterface.encodeFunctionData("cancelSalary", [streamId]),
     to: sablierProxyAddress,
-    value: 0,
+    value: "0",
   };
   return [cancellationTx];
 };

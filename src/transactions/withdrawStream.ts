@@ -14,7 +14,7 @@ const withdrawStreamTxs = (network: Networks, streamId: number, amount: BigNumbe
   const withdrawalTx = {
     data: sablierProxyInterface.encodeFunctionData("withdrawFromSalary", [streamId, amount]),
     to: sablierProxyAddress,
-    value: 0,
+    value: "0",
   };
 
   return [withdrawalTx];
