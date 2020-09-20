@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 
 function CreateStreamForm() {
   const safeAddress = useSafeAddress();
-  const network = useSafeNetwork() || "mainnet";
+  const network = useSafeNetwork();
   const ethBalance = useSafeEthBalance();
   const sendTransactions = useSendTransactions();
   /** State Variables **/
@@ -72,7 +72,7 @@ function CreateStreamForm() {
   const createStream = useCallback((): void => {
     /* We call in this way to ensure all errors are displayed to user */
     const amountValid = validateAmountValue();
-    if (!selectedToken || !amountValid || !startDate || !endDate) {
+    if (!network || !selectedToken || !amountValid || !startDate || !endDate) {
       return;
     }
 
