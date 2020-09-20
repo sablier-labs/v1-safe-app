@@ -1757,10 +1757,10 @@
     "@ethersproject/properties" "^5.0.3"
     "@ethersproject/strings" "^5.0.3"
 
-"@gnosis.pm/safe-apps-sdk@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@gnosis.pm/safe-apps-sdk/-/safe-apps-sdk-0.1.1.tgz#94011ba872853ee83c09652348c4a2e3699e3c0e"
-  integrity sha512-nUirtYsXO9kGeO+CnZp3qwO51mxddDnJ1UtSYSFu23CM3xuKuHtM5OXytItvOmtiHtYq8eqEm6MVpIdgb6JHOg==
+"@gnosis.pm/safe-apps-sdk@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-sdk/-/safe-apps-sdk-0.4.0.tgz#26c821513c995b9dc023ebbdfe103a832e731521"
+  integrity sha512-hUt/Siz5kSu9jgvMZXejQsxQiUo/NIow67KNAQGfMt7D0S1YoyvpCGAgSliNelY/bP7EanBhhStOnItnu7DwUA==
 
 "@gnosis.pm/safe-react-components@^0.1.2":
   version "0.1.2"

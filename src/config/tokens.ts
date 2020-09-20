@@ -1,5 +1,3 @@
-import { Networks } from "@gnosis.pm/safe-apps-sdk";
-
 import cdaiIcon from "../assets/tokens/cdai.svg";
 import chaiIcon from "../assets/tokens/chai.png";
 import cusdcIcon from "../assets/tokens/cusdc.svg";
@@ -12,6 +10,7 @@ import musdIcon from "../assets/tokens/musd.svg";
 import susdIcon from "../assets/tokens/susd.svg";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
+import { SablierNetworks } from "../types";
 
 export type TokenItem = {
   address: string;
@@ -21,14 +20,7 @@ export type TokenItem = {
   label: string;
 };
 
-export type TokenMap = {
-  mainnet: {
-    [name: string]: string;
-  };
-  rinkeby: {
-    [name: string]: string;
-  };
-};
+export type TokenMap = { [key in SablierNetworks]: { [name: string]: string } };
 
 const tokens: TokenMap = {
   mainnet: {
@@ -52,9 +44,24 @@ const tokens: TokenMap = {
     DAI: "0xc3dbf84abb494ce5199d5d4d815b10ec29529ff8",
     WETH: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
   },
+  ropsten: {
+    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+    DAI: "0x2D69aD895797C880abce92437788047BA0Eb7fF6",
+    WETH: "0x0a180a76e4466bf68a7f86fb029bed3cccfaaac5",
+  },
+  kovan: {
+    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+    DAI: "0x7d669a64deb8a4a51eea755bb0e19fd39ce25ae9",
+    WETH: "0x5eca15b12d959dfcf9c71c59f8b467eb8c6efd0b",
+  },
+  goerli: {
+    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+    DAI: "0xF2D1F94310823FE26cFa9c9B6fD152834b8E7849",
+    WETH: "0xef03ef2d709c2e9cc40d72f72eb357928f34acd5",
+  },
 };
 
-export const getTokenList = (network: Networks): TokenItem[] => {
+export const getTokenList = (network: SablierNetworks): TokenItem[] => {
   const tokensByNetwork: { [name: string]: string } = tokens[network];
   if (!tokensByNetwork) {
     throw Error(`No token configuration for ${network}`);

@@ -1,14 +1,14 @@
 import { Interface } from "@ethersproject/abi";
-import { Networks } from "@gnosis.pm/safe-apps-sdk";
+import { Transaction } from "@gnosis.pm/safe-apps-sdk";
 
-import { Transaction } from "../types";
 import wethAbi from "../abis/weth";
 
 import tokens from "../config/tokens";
+import { SablierNetworks } from "../types";
 import createStreamTxs from "./createStream";
 
 const createEthStreamTxs = (
-  network: Networks,
+  network: SablierNetworks,
   recipient: string,
   deposit: string,
   startTime: string,

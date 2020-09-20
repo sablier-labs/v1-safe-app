@@ -1,5 +1,8 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 
+export const sablierNetworks = ["mainnet", "rinkeby", "ropsten", "kovan", "goerli"] as const;
+export type SablierNetworks = typeof sablierNetworks[number];
+
 export type Cancellation = {
   id: number;
   recipientBalance: BigNumberish;
@@ -44,10 +47,4 @@ export type Token = {
   decimals: number;
   name: string;
   symbol: string;
-};
-
-export type Transaction = {
-  data: string;
-  to: string;
-  value: string;
 };
