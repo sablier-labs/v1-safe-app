@@ -1,8 +1,8 @@
-import React, { useState, createContext, ReactElement, useContext, useEffect } from "react";
+import React, { useState, createContext, ReactElement, useContext, useEffect, useCallback } from "react";
 
-import initSdk, { SdkInstance, SafeInfo, Networks } from "@gnosis.pm/safe-apps-sdk";
+import initSdk, { SdkInstance, SafeInfo, RequestId, SentSDKMessage, Transaction } from "@gnosis.pm/safe-apps-sdk";
 import { Web3Provider } from "@ethersproject/providers";
-import { Transaction } from "../types";
+import { SablierNetworks, sablierNetworks } from "../types";
 
 interface Props {
   children: ReactElement | ReactElement[];
@@ -19,11 +19,12 @@ export function useSafeContext(): State {
   return useContext(SafeContext);
 }
 
+const gnosisSDK = initSdk();
+
 function SafeProvider({ children }: Props) {
   /** State Variables **/
   const [safeInfo, setSafeInfo] = useState<SafeInfo>();
-
-  const [appsSdk] = useState<SdkInstance>(initSdk());
+  const appsSdk = gnosisSDK;
 
   /* For development purposes with local provider */
   useEffect(() => {
@@ -46,14 +47,28 @@ function SafeProvider({ children }: Props) {
     }
   }, [setSafeInfo]);
 
+  const onSafeInfo = useCallback(
+    ({ safeAddress, network, ethBalance }: SafeInfo) => {
+      if (!sablierNetworks.includes(network.toLowerCase() as SablierNetworks)) {
+        throw Error("Sablier doesn't support this network");
+      }
+      setSafeInfo({
+        safeAddress,
+        network: network.toLowerCase() as SablierNetworks,
+        ethBalance,
+      });
+    },
+    [setSafeInfo],
+  );
+
   /* Config Safe connector */
   useEffect(() => {
     appsSdk.addListeners({
-      onSafeInfo: setSafeInfo,
+      onSafeInfo,
     });
 
     return () => appsSdk.removeListeners();
-  }, [appsSdk]);
+  }, [appsSdk, onSafeInfo]);
 
   return <SafeContext.Provider value={{ safeInfo, appsSdk }}>{children}</SafeContext.Provider>;
 }
@@ -68,9 +83,9 @@ export const useSafeAddress = (): string | undefined => {
   return safeAddress;
 };
 
-export const useSafeNetwork = (): Networks | undefined => {
+export const useSafeNetwork = (): SablierNetworks | undefined => {
   const { network } = useSafeInfo() || {};
-  return network;
+  return network as SablierNetworks;
 };
 
 export const useSafeEthBalance = (): string | undefined => {
@@ -83,7 +98,10 @@ export const useAppsSdk = (): SdkInstance => {
   return appsSdk;
 };
 
-export const useSendTransactions = (): ((txs: Transaction[]) => void) => {
+export const useSendTransactions = (): ((
+  txs: Transaction[],
+  requestId?: RequestId,
+) => SentSDKMessage<"SEND_TRANSACTIONS">) => {
   const { sendTransactions } = useAppsSdk();
   return sendTransactions;
 };

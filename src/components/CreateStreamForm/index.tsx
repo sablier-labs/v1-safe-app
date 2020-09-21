@@ -13,6 +13,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { isAfter, isDate, isFuture } from "date-fns";
 
+import { Transaction } from "@gnosis.pm/safe-apps-sdk";
 import erc20Abi from "../../abis/erc20";
 import { createStreamTxs, createEthStreamTxs } from "../../transactions";
 
@@ -20,10 +21,9 @@ import { ButtonContainer, SelectContainer, TextFieldContainer } from "../index";
 import { TokenItem, getTokenList } from "../../config/tokens";
 import { TIME_FORMAT, DATE_FORMAT, bigNumberToHumanFormat } from "../../utils";
 
-import { Transaction } from "../../types";
-
 import { useSafeNetwork, useSendTransactions, useSafeEthBalance, useSafeAddress } from "../../contexts/SafeContext";
 import dateTimeTheme from "../../theme/datetimepicker";
+import { SablierNetworks } from "../../types";
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 
 function CreateStreamForm() {
   const safeAddress = useSafeAddress();
-  const network = useSafeNetwork() || "mainnet";
+  const network = useSafeNetwork();
   const ethBalance = useSafeEthBalance();
   const sendTransactions = useSendTransactions();
   /** State Variables **/
@@ -72,7 +72,7 @@ function CreateStreamForm() {
   const createStream = useCallback((): void => {
     /* We call in this way to ensure all errors are displayed to user */
     const amountValid = validateAmountValue();
-    if (!selectedToken || !amountValid || !startDate || !endDate) {
+    if (!network || !selectedToken || !amountValid || !startDate || !endDate) {
       return;
     }
 
@@ -161,7 +161,7 @@ function CreateStreamForm() {
       return;
     }
 
-    const tokenListRes: TokenItem[] = getTokenList(network);
+    const tokenListRes: TokenItem[] = getTokenList(network.toLowerCase() as SablierNetworks);
 
     setTokenList(tokenListRes);
 

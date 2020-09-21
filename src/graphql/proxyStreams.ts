@@ -1,15 +1,17 @@
 import ApolloClient, { DocumentNode, gql } from "apollo-boost";
-import { Networks } from "@gnosis.pm/safe-apps-sdk";
 
-import { ProxyStream } from "../types";
+import { ProxyStream, SablierNetworks } from "../types";
 
 type Response = {
   data: { proxyStreams: ProxyStream[] };
 };
 
-const subgraphUri: { [key in Networks]: string } = {
+const subgraphUri: { [key in SablierNetworks]: string } = {
   mainnet: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
   rinkeby: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
+  ropsten: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-ropsten",
+  kovan: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-kovan",
+  goerli: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-goerli",
 };
 
 const streamQuery: string = `
@@ -94,7 +96,7 @@ async function getPaginatedIncomingStreams(
 
 async function getProxyStreams(
   query: (client: ApolloClient<any>, first: number, safeAddress: string, skip: number) => Promise<Response>,
-  network: Networks,
+  network: SablierNetworks,
   safeAddress: string,
 ): Promise<ProxyStream[]> {
   const client = new ApolloClient({
@@ -125,7 +127,7 @@ async function getProxyStreams(
   return proxyStreams;
 }
 
-export const getOutgoingStreams = (network: Networks, safeAddress: string) =>
+export const getOutgoingStreams = (network: SablierNetworks, safeAddress: string) =>
   getProxyStreams(getPaginatedOutgoingStreams, network, safeAddress);
-export const getIncomingStreams = (network: Networks, safeAddress: string) =>
+export const getIncomingStreams = (network: SablierNetworks, safeAddress: string) =>
   getProxyStreams(getPaginatedIncomingStreams, network, safeAddress);

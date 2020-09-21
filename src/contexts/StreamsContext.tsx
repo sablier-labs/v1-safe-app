@@ -1,4 +1,4 @@
-import React, { useState, createContext, ReactElement, useContext, useEffect } from "react";
+import React, { useState, createContext, ReactElement, useContext, useEffect, useCallback } from "react";
 
 import { ProxyStream } from "../types";
 import { useSafeAddress, useSafeNetwork } from "./SafeContext";
@@ -27,21 +27,23 @@ function StreamsProvider({ children }: Props) {
   const [incomingProxyStreams, setIncomingProxyStreams] = useState<ProxyStream[]>([]);
   const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
 
-  useEffect(() => {
-    const loadStreams = async () => {
-      if (!network || !safeAddress) {
-        return;
-      }
+  const refreshStreams = useCallback(async () => {
+    if (!network || !safeAddress) {
+      return;
+    }
 
-      const newIncomingProxyStreams = await getIncomingStreams(network, safeAddress);
-      setIncomingProxyStreams(newIncomingProxyStreams);
+    const newIncomingProxyStreams = await getIncomingStreams(network, safeAddress);
+    setIncomingProxyStreams(newIncomingProxyStreams);
 
-      const newOutgoingProxyStreams = await getOutgoingStreams(network, safeAddress);
-      setOutgoingProxyStreams(newOutgoingProxyStreams);
-    };
-
-    loadStreams();
+    const newOutgoingProxyStreams = await getOutgoingStreams(network, safeAddress);
+    setOutgoingProxyStreams(newOutgoingProxyStreams);
   }, [network, safeAddress]);
+
+  useEffect(() => {
+    refreshStreams();
+    const intervalId = setInterval(refreshStreams, 10 * 1000);
+    return () => clearInterval(intervalId);
+  }, [refreshStreams]);
 
   return (
     <StreamsContext.Provider value={{ incomingProxyStreams, outgoingProxyStreams }}>{children}</StreamsContext.Provider>
