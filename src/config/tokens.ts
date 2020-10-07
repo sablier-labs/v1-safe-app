@@ -7,6 +7,7 @@ import linkIcon from "../assets/tokens/link.svg";
 import mkrIcon from "../assets/tokens/mkr.svg";
 import mtaIcon from "../assets/tokens/mta.svg";
 import musdIcon from "../assets/tokens/musd.svg";
+import rlyIcon from "../assets/tokens/rly.svg";
 import susdIcon from "../assets/tokens/susd.svg";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
@@ -36,6 +37,7 @@ const tokens: TokenMap = {
     LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
     MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
     MTA: "0xa3bed4e1c75d00fa6f4e5e6922db7261b5e9acd2",
+    RLY: "0xf1f955016EcbCd7321c7266BccFB96c68ea5E49b",
     WBTC: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
@@ -144,6 +146,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: mtaIcon,
       id: "MTA",
       label: "MTA",
+    },
+    {
+      address: tokensByNetwork.RLY,
+      decimals: 18,
+      iconUrl: rlyIcon,
+      id: "RLY",
+      label: "RLY",
     },
     {
       address: tokensByNetwork.WBTC,
