@@ -60,6 +60,8 @@ const StreamActions = ({
     getStreamStatus(proxyStream) !== StreamStatus.Cancelled && // Stream hasn't been cancelled (and funds distributed)
     streamAvailableBalance(proxyStream).gt(Zero); // There are funds in stream
 
+  const canCancelStream =
+    getStreamStatus(proxyStream) === StreamStatus.Active || getStreamStatus(proxyStream) === StreamStatus.Pending;
   return (
     <ActionsContainer>
       <CopyToClipboard text={sablierStreamUrl}>
@@ -71,7 +73,7 @@ const StreamActions = ({
       <StyledButton disabled={!canWithdrawFromStream} onClick={triggerWithdrawal}>
         Withdraw
       </StyledButton>
-      <StyledButton disabled={getStreamStatus(proxyStream) !== StreamStatus.Active} onClick={cancelStream}>
+      <StyledButton disabled={!canCancelStream} onClick={cancelStream}>
         Cancel
       </StyledButton>
     </ActionsContainer>
