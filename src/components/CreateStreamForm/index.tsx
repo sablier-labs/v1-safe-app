@@ -77,8 +77,8 @@ function CreateStreamForm() {
     }
 
     /* TODO: Stream initiation must be approved by other owners within an hour */
-    const startTime: BigNumber = BigNumber.from(startDate.getTime() / 1000);
-    const stopTime: BigNumber = BigNumber.from(endDate.getTime() / 1000);
+    const startTime: BigNumber = BigNumber.from(Math.floor(startDate.getTime() / 1000));
+    const stopTime: BigNumber = BigNumber.from(Math.floor(endDate.getTime() / 1000));
     const totalSeconds = stopTime.sub(startTime);
 
     const bnStreamAmount = BigNumber.from(streamAmount);
