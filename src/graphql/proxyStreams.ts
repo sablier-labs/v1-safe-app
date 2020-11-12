@@ -95,6 +95,7 @@ async function getPaginatedIncomingStreams(
 }
 
 async function getProxyStreams(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   query: (client: ApolloClient<any>, first: number, safeAddress: string, skip: number) => Promise<Response>,
   network: SablierNetworks,
   safeAddress: string,
