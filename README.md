@@ -1,40 +1,21 @@
-<p align="center"><img src="https://i.imgur.com/q6UHTt1.png" width="280px"/></p>
+# Sablier Safe App
 
-<p align="center">Sablier is the protocol for real-time finance on Ethereum. Read this <a href="https://medium.com/@PaulRBerg/the-protocol-for-real-time-finance-on-ethereum-5a5350db16ae" target="_blank">article</a> to find out more about what we're up to.</p>
-
-<p align="center">
-  <a href="https://prettier.io">
-    <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="Styled with Prettier">
-  </a>
-  <a href="http://commitizen.github.io/cz-cli/">
-    <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen Friendly">
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-008033.svg" alt="License: MIT">
-  </a>
-</p>
-
----
-
-## Sablier Safe App
-
-The Sablier Safe App brings real-time finance to [Gnosis Safe](https://gnosis-safe.io/) users by allowing them to use the [Sablier](https://sablier.finance) platform.
+The Sablier Safe App brings real-time finance to [Gnosis Safe](https://gnosis-safe.io/) users by allowing them to use
+the [Sablier](https://sablier.finance) platform. Read more about Safe Apps [here](https://docs.gnosis.io/safe/docs/sdks_safe_apps/).
 
 This opens up the opportunity for organisations to pay and interact with each other in new ways without having to give custody of funds to a single member:
 
 1. "Continuous" payroll or freelancing
-2. Subscriptions, paying for a product or a service in real-time
-3. Investing, continuous ICOs; imagine a DAO using a Safe to stream DAI to a founder and the founder streaming equity tokens or social money back
-
-Read more about Safe Apps [here](https://docs.gnosis.io/safe/docs/sdks_safe_apps/).
+2. Vesting, imagine streaming governance tokens to early investors
+3. Subscriptions, paying for a product or a service in real-time
 
 ## Usage :money_with_wings:
 
-|                                                    |                                           |
-| :------------------------------------------------: | :---------------------------------------: |
+|                                                                                                                                                        |                                                                                                                                               |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: |
 | <img width="1604" alt="Create Stream Page" src="https://user-images.githubusercontent.com/15848336/85229771-aecf7100-b3e3-11ea-9e7a-09e61d1cb4c9.png"> | <img width="1604" alt="Dashboard" src="https://user-images.githubusercontent.com/15848336/85229785-bf7fe700-b3e3-11ea-8f57-7a79a8dbffea.png"> |
 
-Using the Sablier Safe app you can:
+Using the Sablier Safe App you can:
 
 - Create new streams
 - View details on your outgoing streams
@@ -42,7 +23,7 @@ Using the Sablier Safe app you can:
 
 ## Deployments :earth_africa:
 
-There are multiple ways to access the Sablier safe app, you may use either of the below URLs:
+There are multiple ways to access the Safe App, you may use either of the below URLs:
 
 - Vercel deployment: https://sablier-safe-app.now.sh/
 - IPFS deployment: https://ipfs.io/ipfs/QmeHa5CS6eAMRvQfTBwWfcXKrXZ7itZTpWSM6625ZZ522N/
@@ -53,17 +34,17 @@ We strongly recommend that you use the IPFS version.
 
 ## Other ways to use Sablier :hammer_and_pick:
 
-If you don't have a Gnosis Safe but would like to use Sablier, head to [pay.sablier.finance](https://pay.sablier.finance) to create streams and
-[app.sablier.finance](https://app.sablier.finance) to withdraw from streams. You'll need an Ethereum wallet and some ERC20 tokens to interact
-with the dapps.
+If you don't have a Gnosis Safe but would like to use Sablier, there is [pay.sablier.finance](https://pay.sablier.finance) for creating streams and
+[app.sablier.finance](https://app.sablier.finance) for withdrawing from streams.
 
 ## Contributing :raising_hand_woman:
 
-We highly encourage participation from the community to help shape the development of Sablier. If you are interested in contributing or have any questions, ping us on [Twitter](https://twitter.com/sablierhq) or [Telegram](https://t.me/sablier).
+We highly encourage participation from the community to help shape the development of Sablier. If you are interested in
+contributing or have any questions, ping us on [Discord](https://discord.gg/KXajCXC).
 
 ### Getting set up
 
-To start developing on the Sablier Safe app, first clone this repository and enter the new directory.
+To start developing on the Sablier Safe App, first clone this repository and enter the new directory.
 
 ```bash
 git clone https://github.com/TomAFrench/sablier-safe-app.git
