@@ -1,6 +1,7 @@
 import cdaiIcon from "../assets/tokens/cdai.svg";
 import chaiIcon from "../assets/tokens/chai.png";
 import cusdcIcon from "../assets/tokens/cusdc.svg";
+import cvpIcon from "../assets/tokens/cvp.png";
 import daiIcon from "../assets/tokens/dai.svg";
 import dhtIcon from "../assets/tokens/dht.png";
 import ethIcon from "../assets/tokens/eth.svg";
@@ -42,6 +43,7 @@ const tokens: TokenMap = {
     cDAI: "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
     cUSDC: "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
     // Volatile assets
+    CVP: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1",
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
     kMPL: "0xc463f34040ad6222C1fFB03ACEbDFAAC032202d6",
     LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
@@ -137,6 +139,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: cusdcIcon,
       id: "cUSDC",
       label: "cUSDC",
+    },
+    {
+      address: tokensByNetwork.CVP,
+      decimals: 18,
+      iconUrl: cvpIcon,
+      id: "CVP",
+      label: "CVP",
     },
     {
       address: tokensByNetwork.DHT,
