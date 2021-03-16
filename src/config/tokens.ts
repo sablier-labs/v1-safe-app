@@ -14,6 +14,7 @@ import susdIcon from "../assets/tokens/susd.svg";
 import sushiIcon from "../assets/tokens/sushi.png";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
+import cvpIcon from "../assets/tokens/cvp.png";
 
 import { SablierNetworks } from "../types";
 
@@ -51,6 +52,7 @@ const tokens: TokenMap = {
     SUSHI: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
     WBTC: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    CVP: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1",
   },
   rinkeby: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
@@ -200,6 +202,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: ethIcon,
       id: "WETH",
       label: "WETH",
+    },
+    {
+      address: tokensByNetwork.CVP,
+      decimals: 18,
+      iconUrl: cvpIcon,
+      id: "CVP",
+      label: "CVP",
     },
   ];
   return tokenList.filter(token => token.address !== undefined);
