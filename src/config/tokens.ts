@@ -8,6 +8,7 @@ import ethIcon from "../assets/tokens/eth.svg";
 import kmplIcon from "../assets/tokens/kmpl.png";
 import linkIcon from "../assets/tokens/link.svg";
 import mkrIcon from "../assets/tokens/mkr.svg";
+import mplIcon from "../assets/tokens/mpl.svg";
 import mtaIcon from "../assets/tokens/mta.svg";
 import musdIcon from "../assets/tokens/musd.svg";
 import rlyIcon from "../assets/tokens/rly.svg";
@@ -15,7 +16,6 @@ import susdIcon from "../assets/tokens/susd.svg";
 import sushiIcon from "../assets/tokens/sushi.png";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
-
 import { SablierNetworks } from "../types";
 
 export type TokenItem = {
@@ -45,9 +45,10 @@ const tokens: TokenMap = {
     // Volatile assets
     CVP: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1",
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
-    kMPL: "0xc463f34040ad6222C1fFB03ACEbDFAAC032202d6",
+    kMPL: "0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2",
     LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
     MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
+    MPL: "0x33349B282065b0284d756F0577FB39c158F935e6",
     MTA: "0xa3bed4e1c75d00fa6f4e5e6922db7261b5e9acd2",
     RLY: "0xf1f955016EcbCd7321c7266BccFB96c68ea5E49b",
     SUSHI: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
@@ -174,6 +175,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: mkrIcon,
       id: "MKR",
       label: "MKR",
+    },
+    {
+      address: tokensByNetwork.MPL,
+      decimals: 18,
+      iconUrl: mplIcon,
+      id: "MPL",
+      label: "MPL",
     },
     {
       address: tokensByNetwork.MTA,
