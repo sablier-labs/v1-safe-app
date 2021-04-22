@@ -1,25 +1,24 @@
 module.exports = {
-  webpack: function (config, env) {
+  webpack: (config, _env) => {
     return config;
   },
-  jest: function (config) {
+  jest: config => {
     return config;
   },
-  devServer: function (configFunction) {
-    return function (proxy, allowedHost) {
+  devServer(configFunction) {
+    return (proxy, allowedHost) => {
       const config = configFunction(proxy, allowedHost);
 
       config.headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, content-type, Authorization",
+        "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization",
       };
 
       return config;
     };
   },
-  paths: function (paths, env) {
+  paths(paths, _env) {
     return paths;
   },
 };

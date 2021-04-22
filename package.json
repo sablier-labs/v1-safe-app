@@ -100,7 +100,7 @@
     "build": "react-app-rewired build",
     "clean": "shx rm -rf ./build",
     "eject": "react-scripts eject",
-    "lint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore src/**/*.{ts,tsx}",
+    "lint": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore src/**/*.{ts,tsx}",
     "lint:styles": "stylelint --config ./.stylelintrc.js './src/**/*.{css,ts,tsx,scss}'",
     "prettier": "prettier --config .prettierrc --write '**/*.{js,json,jsx,md,ts,tsx}'",
     "prettier:list-different": "prettier --config .prettierrc --list-different '**/*.{js,json,jsx,md,ts,tsx}'",
