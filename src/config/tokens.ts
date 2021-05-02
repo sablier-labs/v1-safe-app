@@ -7,6 +7,7 @@ import dhtIcon from "../assets/tokens/dht.png";
 import ethIcon from "../assets/tokens/eth.svg";
 import kmplIcon from "../assets/tokens/kmpl.png";
 import linkIcon from "../assets/tokens/link.svg";
+import mfiIcon from "../assets/tokens/mfi.png";
 import mkrIcon from "../assets/tokens/mkr.svg";
 import mplIcon from "../assets/tokens/mpl.svg";
 import mtaIcon from "../assets/tokens/mta.svg";
@@ -47,6 +48,7 @@ const tokens: TokenMap = {
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
     kMPL: "0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2",
     LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+    MFI: "0xAa4e3edb11AFa93c41db59842b29de64b72E355B",
     MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
     MPL: "0x33349B282065b0284d756F0577FB39c158F935e6",
     MTA: "0xa3bed4e1c75d00fa6f4e5e6922db7261b5e9acd2",
@@ -168,6 +170,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: linkIcon,
       id: "LINK",
       label: "LINK",
+    },
+    {
+      address: tokensByNetwork.MFI,
+      decimals: 18,
+      iconUrl: mfiIcon,
+      id: "MFI",
+      label: "MFI",
     },
     {
       address: tokensByNetwork.MKR,
