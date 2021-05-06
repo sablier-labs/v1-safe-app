@@ -15,6 +15,7 @@ import musdIcon from "../assets/tokens/musd.svg";
 import rlyIcon from "../assets/tokens/rly.svg";
 import susdIcon from "../assets/tokens/susd.svg";
 import sushiIcon from "../assets/tokens/sushi.png";
+import udtIcon from "../assets/tokens/udt.png";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
 import { SablierNetworks } from "../types";
@@ -54,27 +55,28 @@ const tokens: TokenMap = {
     MTA: "0xa3bed4e1c75d00fa6f4e5e6922db7261b5e9acd2",
     RLY: "0xf1f955016EcbCd7321c7266BccFB96c68ea5E49b",
     SUSHI: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
+    UDT: "0x90DE74265a416e1393A450752175AED98fe11517",
     WBTC: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   rinkeby: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-    DAI: "0xc3dbf84abb494ce5199d5d4d815b10ec29529ff8",
+    DAI: "0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C",
     WETH: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
   },
   ropsten: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-    DAI: "0x2D69aD895797C880abce92437788047BA0Eb7fF6",
+    DAI: "0x3ac1c6ff50007ee705f36e40F7Dc6f393b1bc5e7",
     WETH: "0x0a180a76e4466bf68a7f86fb029bed3cccfaaac5",
   },
   kovan: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-    DAI: "0x7d669a64deb8a4a51eea755bb0e19fd39ce25ae9",
+    DAI: "0x79dfab686Ef87cd2c871D5182F08538589234189",
     WETH: "0x5eca15b12d959dfcf9c71c59f8b467eb8c6efd0b",
   },
   goerli: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-    DAI: "0xF2D1F94310823FE26cFa9c9B6fD152834b8E7849",
+    DAI: "0x97cb342Cf2F6EcF48c1285Fb8668f5a4237BF862",
     WETH: "0xef03ef2d709c2e9cc40d72f72eb357928f34acd5",
   },
 };
@@ -212,6 +214,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: sushiIcon,
       id: "SUSHI",
       label: "SUSHI",
+    },
+    {
+      address: tokensByNetwork.UDT,
+      decimals: 18,
+      iconUrl: udtIcon,
+      id: "UDT",
+      label: "UDT",
     },
     {
       address: tokensByNetwork.WBTC,
