@@ -6,6 +6,7 @@ import daiIcon from "../assets/tokens/dai.svg";
 import dhtIcon from "../assets/tokens/dht.png";
 import ethIcon from "../assets/tokens/eth.svg";
 import foxIcon from "../assets/tokens/fox.png";
+import iagIcon from "../assets/tokens/iag.png";
 import kmplIcon from "../assets/tokens/kmpl.png";
 import linkIcon from "../assets/tokens/link.svg";
 import mfiIcon from "../assets/tokens/mfi.png";
@@ -51,6 +52,7 @@ const tokens: TokenMap = {
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
     FOX: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d",
     kMPL: "0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2",
+    IAG: "0x527150D4De83A1F73041dA53384C407424eBb080",
     LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
     MFI: "0xAa4e3edb11AFa93c41db59842b29de64b72E355B",
     MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
@@ -176,6 +178,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: kmplIcon,
       id: "kMPL",
       label: "kMPL",
+    },
+    {
+      address: tokensByNetwork.IAG,
+      decimals: 18,
+      iconUrl: iagIcon,
+      id: "IAG",
+      label: "IAG",
     },
     {
       address: tokensByNetwork.LINK,
