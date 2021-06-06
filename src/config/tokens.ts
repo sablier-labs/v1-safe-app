@@ -17,7 +17,8 @@ import musdIcon from "../assets/tokens/musd.svg";
 import museIcon from "../assets/tokens/muse.png";
 import rlyIcon from "../assets/tokens/rly.svg";
 import susdIcon from "../assets/tokens/susd.svg";
-import sushiIcon from "../assets/tokens/sushi.png";
+import sushiIcon from "../assets/tokens/sushi.jpg";
+import xsushiIcon from "../assets/tokens/xsushi.jpg";
 import udtIcon from "../assets/tokens/udt.png";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
@@ -61,6 +62,7 @@ const tokens: TokenMap = {
     MUSE: "0xB6Ca7399B4F9CA56FC27cBfF44F4d2e4Eef1fc81",
     RLY: "0xf1f955016EcbCd7321c7266BccFB96c68ea5E49b",
     SUSHI: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
+    XSUSHI: "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272",
     UDT: "0x90DE74265a416e1393A450752175AED98fe11517",
     WBTC: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
@@ -241,6 +243,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: sushiIcon,
       id: "SUSHI",
       label: "SUSHI",
+    },
+    {
+      address: tokensByNetwork.XSUSHI,
+      decimals: 18,
+      iconUrl: xsushiIcon,
+      id: "XSUSHI",
+      label: "XSUSHI",
     },
     {
       address: tokensByNetwork.UDT,
