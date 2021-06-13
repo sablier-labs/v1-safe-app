@@ -15,6 +15,7 @@ import mplIcon from "../assets/tokens/mpl.svg";
 import mtaIcon from "../assets/tokens/mta.svg";
 import musdIcon from "../assets/tokens/musd.svg";
 import museIcon from "../assets/tokens/muse.png";
+import plaIcon from "../assets/tokens/pla.png";
 import rlyIcon from "../assets/tokens/rly.svg";
 import susdIcon from "../assets/tokens/susd.svg";
 import sushiIcon from "../assets/tokens/sushi.png";
@@ -52,13 +53,14 @@ const tokens: TokenMap = {
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
     FOX: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d",
     kMPL: "0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2",
-    IAG: "0x527150D4De83A1F73041dA53384C407424eBb080",
+    IAG: "0x40EB746DEE876aC1E78697b7Ca85142D178A1Fc8",
     LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
     MFI: "0xAa4e3edb11AFa93c41db59842b29de64b72E355B",
     MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
     MPL: "0x33349B282065b0284d756F0577FB39c158F935e6",
     MTA: "0xa3bed4e1c75d00fa6f4e5e6922db7261b5e9acd2",
     MUSE: "0xB6Ca7399B4F9CA56FC27cBfF44F4d2e4Eef1fc81",
+    PLA: "0x0198f46f520F33cd4329bd4bE380a25a90536CD5",
     RLY: "0xf1f955016EcbCd7321c7266BccFB96c68ea5E49b",
     SUSHI: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
     UDT: "0x90DE74265a416e1393A450752175AED98fe11517",
@@ -227,6 +229,13 @@ export const getTokenList = (network: SablierNetworks): TokenItem[] => {
       iconUrl: museIcon,
       id: "MUSE",
       label: "MUSE",
+    },
+    {
+      address: tokensByNetwork.PLA,
+      decimals: 18,
+      iconUrl: plaIcon,
+      id: "PLA",
+      label: "PLA",
     },
     {
       address: tokensByNetwork.RLY,
