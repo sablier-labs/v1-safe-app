@@ -1,7 +1,7 @@
 {
   "name": "@sablier/safe-app",
   "description": "Safe App for interacting with the Sablier protocol",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "browserslist": {
     "production": [
       ">0.2%",
