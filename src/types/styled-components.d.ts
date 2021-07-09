@@ -1,9 +1,5 @@
 import "styled-components";
 
-/**
- * TODO: delete this file when Gnosis merges this PR:
- * https://github.com/gnosis/safe-react-components/pull/8
- */
 declare module "styled-components" {
   export interface Buttons {
     size: ButtonsSize;

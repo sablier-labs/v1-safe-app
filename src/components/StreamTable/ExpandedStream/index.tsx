@@ -1,12 +1,10 @@
-import React, { ReactElement } from "react";
+import { BigNumberish } from "@ethersproject/bignumber";
+import React from "react";
 import styled from "styled-components";
 
-import { Networks } from "@gnosis.pm/safe-apps-sdk";
-
-import { BigNumberish } from "@ethersproject/bignumber";
 import { ProxyStream } from "../../../types";
-import StreamInfo from "./StreamInfo";
 import StreamActions from "./StreamActions";
+import StreamInfo from "./StreamInfo";
 
 const border = "#e8e7e6";
 
@@ -18,20 +16,17 @@ const ExpandedStreamContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const ExpandedStream = ({
-  cancelStream,
-  withdrawStream,
-  network,
-  proxyStream,
-}: {
+type ExpandedStreamProps = {
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  withdrawStream: (amount: BigNumberish) => void;
-  network: Networks;
+  chainId: number;
   proxyStream: ProxyStream;
-}): ReactElement => (
+  withdrawStream: (amount: BigNumberish) => void;
+};
+
+const ExpandedStream = ({ chainId, cancelStream, proxyStream, withdrawStream }: ExpandedStreamProps): JSX.Element => (
   <ExpandedStreamContainer>
-    <StreamInfo proxyStream={proxyStream} network={network} />
-    <StreamActions proxyStream={proxyStream} cancelStream={cancelStream} withdrawStream={withdrawStream} />
+    <StreamInfo chainId={chainId} proxyStream={proxyStream} />
+    <StreamActions cancelStream={cancelStream} proxyStream={proxyStream} withdrawStream={withdrawStream} />
   </ExpandedStreamContainer>
 );
 

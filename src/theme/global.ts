@@ -1,9 +1,8 @@
-import avertaFont from "@gnosis.pm/safe-react-components/dist/fonts/averta-normal.woff2";
 import avertaBoldFont from "@gnosis.pm/safe-react-components/dist/fonts/averta-bold.woff2";
-
+import avertaFont from "@gnosis.pm/safe-react-components/dist/fonts/averta-normal.woff2";
 import { DefaultTheme, GlobalStyleComponent, createGlobalStyle } from "styled-components";
 
-const GlobalStyle: GlobalStyleComponent<{}, DefaultTheme> = createGlobalStyle`
+const GlobalStyle: GlobalStyleComponent<Record<string, unknown>, DefaultTheme> = createGlobalStyle`
   html {
     height: 100%
   }

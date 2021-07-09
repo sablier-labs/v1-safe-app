@@ -6,18 +6,19 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "outDir": "dist",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es5",
-    "noEmit": true
+    "target": "es5"
   },
   "exclude": ["./node_modules"],
   "include": ["./src"]

@@ -1,43 +1,35 @@
 import { Interface } from "@ethersproject/abi";
-import { Transaction } from "@gnosis.pm/safe-apps-sdk";
+import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 
-import erc20Abi from "../abis/erc20";
-import payrollAbi from "../abis/payroll";
+import ERC20_ABI from "../abis/erc20";
+import PAYROLL_ABI from "../abis/payroll";
+import { getPayrollContractAddress } from "../config/sablier";
 
-import { getSablierAddress } from "../config/sablier";
-import { SablierNetworks } from "../types";
-
-const createStreamTxs = (
-  network: SablierNetworks,
+function createStreamTxs(
+  chainId: number,
   recipient: string,
   deposit: string,
   tokenAddress: string,
   startTime: string,
   stopTime: string,
-): Transaction[] => {
-  const sablierProxyAddress: string = getSablierAddress(network);
-  const erc20Interface: Interface = new Interface(erc20Abi);
-  const sablierProxyInterface: Interface = new Interface(payrollAbi);
+): BaseTransaction[] {
+  const payrollContractAddress: string = getPayrollContractAddress(chainId);
+  const erc20Interface: Interface = new Interface(ERC20_ABI);
+  const payrollInterface: Interface = new Interface(PAYROLL_ABI);
 
   const approvalTx = {
-    data: erc20Interface.encodeFunctionData("approve", [sablierProxyAddress, deposit]),
+    data: erc20Interface.encodeFunctionData("approve", [payrollContractAddress, deposit]),
     to: tokenAddress,
     value: "0",
   };
 
   const streamTx = {
-    data: sablierProxyInterface.encodeFunctionData("createSalary", [
-      recipient,
-      deposit,
-      tokenAddress,
-      startTime,
-      stopTime,
-    ]),
-    to: sablierProxyAddress,
+    data: payrollInterface.encodeFunctionData("createSalary", [recipient, deposit, tokenAddress, startTime, stopTime]),
+    to: payrollContractAddress,
     value: "0",
   };
 
   return [approvalTx, streamTx];
-};
+}
 
 export default createStreamTxs;

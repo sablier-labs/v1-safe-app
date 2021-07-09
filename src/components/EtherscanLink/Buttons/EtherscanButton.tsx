@@ -1,39 +1,37 @@
-import React from "react";
-
-import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import EtherscanOpenIcon from "./etherscan-open.svg";
+import ExternalLinkIcon from "../../../assets/external-link.svg";
+import { CHAIN_LABELS, MAINNET_ID } from "../../../constants";
 import { LinkContainer, StyledTooltip } from "./components";
 
-const getEtherScanLink = (network: Networks, type: string, value: string): string => {
-  return `https://${
-    network.toLowerCase() === "mainnet" ? "" : `${network.toLowerCase()}.`
-  }etherscan.io/${type}/${value}`;
+const getEtherscanLink = (chainId: number, type: string, value: string): string => {
+  return `https://${chainId === MAINNET_ID ? "" : `${CHAIN_LABELS[chainId]}.`}etherscan.io/${type}/${value}`;
 };
 
-const EtherscanBtn = ({
-  className = "",
-  increaseZindex = false,
-  network,
-  type,
-  value,
-}: {
+type EtherscanButtonProps = {
+  chainId: number;
   className?: string;
   increaseZindex?: boolean;
-  network: Networks;
   type: string;
   value: string;
-}) => {
+};
+
+function EtherscanButton({
+  chainId,
+  className = "",
+  increaseZindex = false,
+  type,
+  value,
+}: EtherscanButtonProps): JSX.Element {
   return (
     <StyledTooltip increaseZindex={increaseZindex} placement="top" title="Show details on Etherscan">
       <LinkContainer
         aria-label="Show details on Etherscan"
         className={className}
-        href={getEtherScanLink(network, type, value)}
+        href={getEtherscanLink(chainId, type, value)}
       >
-        <img alt="Show on Etherscan" height={20} src={EtherscanOpenIcon} />
+        <img alt="Show on Etherscan" height={20} src={ExternalLinkIcon} />
       </LinkContainer>
     </StyledTooltip>
   );
-};
+}
 
-export default EtherscanBtn;
+export default EtherscanButton;

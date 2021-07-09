@@ -1,28 +1,26 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useState } from "react";
+import { useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
-import CopyIcon from "./copy.svg";
+import CopyIcon from "../../../assets/copy.svg";
 import { LinkContainer, StyledTooltip } from "./components";
 
-const CopyBtn = ({
-  content,
-  className = "",
-  increaseZindex = false,
-}: {
+type CopyButtonProps = {
   content: string;
   className?: string;
   increaseZindex?: boolean;
-}) => {
-  const [clicked, setClicked] = useState(false);
+};
+
+function CopyButton({ content, className = "", increaseZindex = false }: CopyButtonProps): JSX.Element {
+  const [clicked, setClicked] = useState<boolean>(false);
 
   return (
     <StyledTooltip
       increaseZindex={increaseZindex}
       onClose={() => {
-        // this is fired before tooltip is closed
-        // added setTimeout so the user doesn't see the text changing/jumping
+        // This is fired before tooltip is closed.
+        // Added setTimeout so the user doesn't see the text changing/jumping.
         setTimeout(() => {
           if (clicked) {
             setClicked(false);
@@ -39,6 +37,6 @@ const CopyBtn = ({
       </LinkContainer>
     </StyledTooltip>
   );
-};
+}
 
-export default CopyBtn;
+export default CopyButton;

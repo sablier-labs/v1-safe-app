@@ -1,13 +1,12 @@
-import React from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
-import theme from "./theme";
 import HomePage from "./pages/HomePage";
 import IncomingStreamsPage from "./pages/IncomingStreamsPage";
 import OutgoingStreamsPage from "./pages/OutgoingStreamsPage";
+import theme from "./theme";
 
-function SablierWidget() {
+function App(): JSX.Element {
   return (
     <ThemeProvider theme={theme}>
       <HashRouter>
@@ -27,4 +26,4 @@ function SablierWidget() {
   );
 }
 
-export default SablierWidget;
+export default App;

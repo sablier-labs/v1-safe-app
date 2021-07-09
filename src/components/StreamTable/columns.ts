@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export const STREAM_TABLE_ID = "id";
 export const STREAM_TABLE_SENDER_ID = "humanSender";
 export const STREAM_TABLE_RECIPIENT_ID = "humanRecipient";
@@ -8,18 +10,18 @@ export const STREAM_TABLE_STATUS_ID = "status";
 export const STREAM_TABLE_EXPAND_ICON = "expand";
 
 export type Column = {
-  id: string;
-  order: boolean;
-  disablePadding: boolean;
-  label: string;
-  custom: boolean;
   align?: "right" | "inherit" | "left" | "center" | "justify" | undefined;
-  width?: number;
-  style?: any;
+  custom: boolean;
+  disablePadding: boolean;
+  id: string;
+  label: string;
+  order: boolean;
+  style?: CSSProperties;
   static?: boolean;
+  width?: number;
 };
 
-export const generateColumns = () => {
+export function generateColumns(): Column[] {
   const nonceColumn: Column = {
     id: STREAM_TABLE_ID,
     disablePadding: false,
@@ -102,4 +104,4 @@ export const generateColumns = () => {
     statusColumn,
     expandIconColumn,
   ];
-};
+}

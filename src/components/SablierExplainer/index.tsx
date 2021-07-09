@@ -1,4 +1,3 @@
-import React from "react";
 import styled, { css } from "styled-components";
 
 import SablierLogo from "../../assets/sablier-logo.png";
@@ -40,7 +39,7 @@ const BottomWrapper = styled.div`
   margin-top: 16px;
 `;
 
-function SablierExplainer() {
+function SablierExplainer(): JSX.Element {
   return (
     <OuterWrapper>
       <StyledLogo alt="Sablier Logo" height={60} src={SablierLogo} width={200} />
@@ -49,16 +48,16 @@ function SablierExplainer() {
         streaming&quot;.
       </Text>
       <ListWrapper>
-        <ListItem>1. Select an ERC20 token you want to use.</ListItem>
+        <ListItem>1. Select the ERC-20 token you want to use.</ListItem>
         <ListItem>2. Type an amount.</ListItem>
-        <ListItem>3. Type the Ethereum address of the recipient - maybe an employee or a contractor.</ListItem>
+        <ListItem>3. Type the Ethereum address of the recipient - possibly an employee or an investor. </ListItem>
         <ListItem>4. Choose the times at which you want the stream to start and end.</ListItem>
         <ListItem>
           5. Submit the transaction and the minimum number of Safe approvals before the specified start of the stream.
         </ListItem>
       </ListWrapper>
       <BottomWrapper>
-        <Text>You can cancel the stream at any time, should you need to do this.</Text>
+        <Text>You can cancel the stream at any time, should you ever need to do this.</Text>
       </BottomWrapper>
     </OuterWrapper>
   );

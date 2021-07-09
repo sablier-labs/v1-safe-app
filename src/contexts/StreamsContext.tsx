@@ -1,46 +1,50 @@
-import React, { useState, createContext, ReactElement, useContext, useEffect, useCallback } from "react";
+import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-import { ProxyStream } from "../types";
-import { useSafeAddress, useSafeNetwork } from "./SafeContext";
 import { getIncomingStreams, getOutgoingStreams } from "../graphql/proxyStreams";
+import { ProxyStream } from "../types";
 
-interface Props {
-  children: ReactElement | ReactElement[];
-}
+type StreamsProviderProps = {
+  children: JSX.Element | JSX.Element[];
+};
 
-interface State {
+type StreamsProviderState = {
   incomingProxyStreams: ProxyStream[];
   outgoingProxyStreams: ProxyStream[];
-}
+};
 
-export const StreamsContext = createContext({} as State);
+export const StreamsContext = createContext({} as StreamsProviderState);
 
-export function useStreamsContext(): State {
+export function useStreamsContext(): StreamsProviderState {
   return useContext(StreamsContext);
 }
 
-function StreamsProvider({ children }: Props) {
-  const safeAddress = useSafeAddress();
-  const network = useSafeNetwork();
+function StreamsProvider({ children }: StreamsProviderProps): JSX.Element {
+  const { safe } = useSafeAppsSDK();
 
-  /** State Variables **/
+  /// STATE ///
+
   const [incomingProxyStreams, setIncomingProxyStreams] = useState<ProxyStream[]>([]);
   const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
 
-  const refreshStreams = useCallback(async () => {
-    if (!network || !safeAddress) {
+  /// CALLBACKS ///
+
+  const refreshStreams = useCallback(async (): Promise<void> => {
+    if (!safe.chainId || !safe.safeAddress) {
       return;
     }
 
-    const newIncomingProxyStreams = await getIncomingStreams(network, safeAddress);
+    const newIncomingProxyStreams = await getIncomingStreams(safe.chainId, safe.safeAddress);
     setIncomingProxyStreams(newIncomingProxyStreams);
 
-    const newOutgoingProxyStreams = await getOutgoingStreams(network, safeAddress);
+    const newOutgoingProxyStreams = await getOutgoingStreams(safe.chainId, safe.safeAddress);
     setOutgoingProxyStreams(newOutgoingProxyStreams);
-  }, [network, safeAddress]);
+  }, [safe.chainId, safe.safeAddress]);
+
+  /// SIDE EFFECTS ///
 
   useEffect(() => {
-    refreshStreams();
+    void refreshStreams();
     const intervalId = setInterval(refreshStreams, 10 * 1000);
     return () => clearInterval(intervalId);
   }, [refreshStreams]);

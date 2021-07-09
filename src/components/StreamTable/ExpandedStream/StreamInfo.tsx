@@ -1,16 +1,15 @@
-import React, { ReactElement, useMemo } from "react";
+import { getAddress } from "@ethersproject/address";
+import { Zero } from "@ethersproject/constants";
 import { Text } from "@gnosis.pm/safe-react-components";
+import { formatDistanceToNow, isPast } from "date-fns";
+import { useMemo } from "react";
 import styled from "styled-components";
 
-import { getAddress } from "@ethersproject/address";
-import { Networks } from "@gnosis.pm/safe-apps-sdk";
-import { Zero } from "@ethersproject/constants";
-import { formatDistanceToNow, isPast } from "date-fns";
+import useRefreshWithPeriod from "../../../hooks/useRefreshWithPeriod";
 import { ProxyStream } from "../../../types";
-import { BigNumberToRoundedHumanFormat } from "../../../utils";
-import useRefreshwithPeriod from "../../../hooks/useRefreshWithPeriod";
-import EtherscanLink from "../../EtherscanLink";
+import { bigNumberToRoundedHumanFormat } from "../../../utils";
 import { percentageProgress, recipientShare, senderShare } from "../../../utils/stream";
+import EtherscanLink from "../../EtherscanLink";
 
 const lg = "24px";
 const md = "16px";
@@ -29,31 +28,38 @@ const StyledText = styled(Text)`
   margin: 8px 0px;
 `;
 
-const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; network: Networks }): ReactElement => {
-  useRefreshwithPeriod(1000);
+type StreamInfoProps = { chainId: number; proxyStream: ProxyStream };
+
+const StreamInfo = ({ chainId, proxyStream }: StreamInfoProps): JSX.Element => {
+  useRefreshWithPeriod(1000);
   const { recipient, sender } = proxyStream;
   const { cancellation, deposit, startTime, stopTime, token, withdrawals } = proxyStream.stream;
 
-  /** Memoized Variables **/
+  /// MEMOIZED VALUES ///
 
-  const recipientAddress = useMemo(() => getAddress(recipient), [recipient]);
-  const senderAddress = useMemo(() => getAddress(sender), [sender]);
-  /* These variables are purposefully not memoised as they depend on the current time */
+  const recipientAddress = useMemo(() => {
+    return getAddress(recipient);
+  }, [recipient]);
 
-  const senderBalance = BigNumberToRoundedHumanFormat(
+  const senderAddress = useMemo(() => {
+    return getAddress(sender);
+  }, [sender]);
+
+  // These variables are purposefully not memoised as they depend on the current time.
+  const senderBalance = bigNumberToRoundedHumanFormat(
     senderShare(deposit, startTime, stopTime, cancellation?.timestamp),
     token.decimals,
     3,
   );
 
-  const recipientBalance = BigNumberToRoundedHumanFormat(
+  const recipientBalance = bigNumberToRoundedHumanFormat(
     recipientShare(deposit, startTime, stopTime, cancellation?.timestamp),
     token.decimals,
     3,
   );
 
   const withdrawnBalance = withdrawals.reduce((accumulator, { amount }) => accumulator.add(amount), Zero);
-  const availableBalance = BigNumberToRoundedHumanFormat(
+  const availableBalance = bigNumberToRoundedHumanFormat(
     cancellation === null ? recipientShare(deposit, startTime, stopTime).sub(withdrawnBalance) : Zero,
     token.decimals,
     3,
@@ -62,10 +68,10 @@ const StreamInfo = ({ proxyStream, network }: { proxyStream: ProxyStream; networ
   return (
     <StreamDataContainer>
       <StyledText size="md">
-        Sender: <EtherscanLink network={network} type="address" value={senderAddress} />
+        Sender: <EtherscanLink chainId={chainId} type="address" value={senderAddress} />
       </StyledText>
       <StyledText size="md">
-        Recipient: <EtherscanLink network={network} type="address" value={recipientAddress} />
+        Recipient: <EtherscanLink chainId={chainId} type="address" value={recipientAddress} />
       </StyledText>
       <StyledText size="md">{`Stream Progress: ${
         isPast(new Date(startTime * 1000))

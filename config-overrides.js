@@ -1,10 +1,4 @@
 module.exports = {
-  webpack: (config, _env) => {
-    return config;
-  },
-  jest: config => {
-    return config;
-  },
   devServer(configFunction) {
     return (proxy, allowedHost) => {
       const config = configFunction(proxy, allowedHost);
@@ -18,7 +12,13 @@ module.exports = {
       return config;
     };
   },
+  jest: config => {
+    return config;
+  },
   paths(paths, _env) {
     return paths;
+  },
+  webpack: (config, _env) => {
+    return config;
   },
 };

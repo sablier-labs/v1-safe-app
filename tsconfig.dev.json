@@ -1,3 +1,0 @@
-{
-  "include": ["./.eslintrc.js", "./config-overrides.js"]
-}

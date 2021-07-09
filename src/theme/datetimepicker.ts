@@ -1,4 +1,5 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core/styles";
+
 import theme from ".";
 
 const { primary, primaryLight, primaryHover, secondary, secondaryLight, secondaryHover } = theme.colors;

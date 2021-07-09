@@ -1,7 +1,6 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 
-export const sablierNetworks = ["mainnet", "rinkeby", "ropsten", "kovan", "goerli"] as const;
-export type SablierNetworks = typeof sablierNetworks[number];
+import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants";
 
 export type Cancellation = {
   id: number;
@@ -14,6 +13,13 @@ export type Cancellation = {
   token: Token;
   txhash: string;
 };
+
+export type SablierChainId =
+  | typeof GOERLI_ID
+  | typeof KOVAN_ID
+  | typeof MAINNET_ID
+  | typeof RINKEBY_ID
+  | typeof ROPSTEN_ID;
 
 export type Stream = {
   id: number;
@@ -29,11 +35,9 @@ export type Stream = {
   }[];
 };
 
-/**
- * The truthful sender of a stream is stored in a proxy stream (defined below)
- * instead of a vanilla stream (defined above). The sender stored in the latter
- * object is the Payroll.sol contract itself.
- */
+/// The truthful sender of a stream is stored in a proxy stream (defined below)
+/// instead of a vanilla stream (defined above). The sender stored in the latter
+/// object is the Payroll.sol contract itself.
 export type ProxyStream = {
   id: number;
   recipient: string;

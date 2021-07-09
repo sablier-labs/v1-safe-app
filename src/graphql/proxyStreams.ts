@@ -1,17 +1,18 @@
 import ApolloClient, { DocumentNode, gql } from "apollo-boost";
 
-import { ProxyStream, SablierNetworks } from "../types";
+import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants";
+import { ProxyStream, SablierChainId } from "../types";
 
 type Response = {
   data: { proxyStreams: ProxyStream[] };
 };
 
-const subgraphUri: { [key in SablierNetworks]: string } = {
-  mainnet: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
-  rinkeby: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
-  ropsten: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-ropsten",
-  kovan: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-kovan",
-  goerli: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-goerli",
+const subgraphUri: { [key in SablierChainId]: string } = {
+  [GOERLI_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-goerli",
+  [KOVAN_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-kovan",
+  [MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
+  [RINKEBY_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
+  [ROPSTEN_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-ropsten",
 };
 
 const streamQuery: string = `
@@ -61,7 +62,7 @@ const paginatedIncomingStreamsQuery: DocumentNode = gql`
 `;
 
 async function getPaginatedOutgoingStreams(
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: ApolloClient<any>,
   first: number,
   safeAddress: string,
@@ -78,7 +79,7 @@ async function getPaginatedOutgoingStreams(
 }
 
 async function getPaginatedIncomingStreams(
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: ApolloClient<any>,
   first: number,
   safeAddress: string,
@@ -97,11 +98,11 @@ async function getPaginatedIncomingStreams(
 async function getProxyStreams(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   query: (client: ApolloClient<any>, first: number, safeAddress: string, skip: number) => Promise<Response>,
-  network: SablierNetworks,
+  chainId: SablierChainId,
   safeAddress: string,
 ): Promise<ProxyStream[]> {
   const client = new ApolloClient({
-    uri: subgraphUri[network],
+    uri: subgraphUri[chainId],
   });
 
   let ended: boolean = false;
@@ -111,7 +112,7 @@ async function getProxyStreams(
 
   while (!ended) {
     try {
-      /* eslint-disable-next-line no-await-in-loop */
+      // eslint-disable-next-line no-await-in-loop
       const res: Response = await query(client, first, safeAddress, skip);
       skip += first;
 
@@ -128,7 +129,10 @@ async function getProxyStreams(
   return proxyStreams;
 }
 
-export const getOutgoingStreams = (network: SablierNetworks, safeAddress: string) =>
-  getProxyStreams(getPaginatedOutgoingStreams, network, safeAddress);
-export const getIncomingStreams = (network: SablierNetworks, safeAddress: string) =>
-  getProxyStreams(getPaginatedIncomingStreams, network, safeAddress);
+export async function getOutgoingStreams(chainId: SablierChainId, safeAddress: string): Promise<ProxyStream[]> {
+  return getProxyStreams(getPaginatedOutgoingStreams, chainId, safeAddress);
+}
+
+export async function getIncomingStreams(chainId: SablierChainId, safeAddress: string): Promise<ProxyStream[]> {
+  return getProxyStreams(getPaginatedIncomingStreams, chainId, safeAddress);
+}

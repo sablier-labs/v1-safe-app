@@ -1,8 +1,6 @@
-import React from "react";
+import { Button, Title } from "@gnosis.pm/safe-react-components";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-
-import { Button, Title } from "@gnosis.pm/safe-react-components";
 
 import StreamTable from "../components/StreamTable";
 import { useOutgoingStreams } from "../contexts/StreamsContext";
@@ -40,7 +38,7 @@ const StyledButton = styled(Button).attrs({
   padding: 0px !important;
 `;
 
-function OutgoingStreamsPage() {
+function OutgoingStreamsPage(): JSX.Element {
   const history = useHistory();
   const outgoingProxyStreams = useOutgoingStreams();
 

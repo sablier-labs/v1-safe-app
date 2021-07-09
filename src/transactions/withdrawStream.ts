@@ -1,23 +1,22 @@
 import { Interface } from "@ethersproject/abi";
-import { Transaction } from "@gnosis.pm/safe-apps-sdk";
-
 import { BigNumberish } from "@ethersproject/bignumber";
-import payrollAbi from "../abis/payroll";
+import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 
-import { SablierNetworks } from "../types";
-import { getSablierAddress } from "../config/sablier";
+import PAYROLL_ABI from "../abis/payroll";
+import { getPayrollContractAddress } from "../config/sablier";
+import { SablierChainId } from "../types";
 
-const withdrawStreamTxs = (network: SablierNetworks, streamId: number, amount: BigNumberish): Transaction[] => {
-  const sablierProxyAddress: string = getSablierAddress(network);
-  const sablierProxyInterface: Interface = new Interface(payrollAbi);
+function withdrawStreamTx(chainId: SablierChainId, streamId: number, amount: BigNumberish): BaseTransaction[] {
+  const payrollContractAddress: string = getPayrollContractAddress(chainId);
+  const payrollInterface: Interface = new Interface(PAYROLL_ABI);
 
   const withdrawalTx = {
-    data: sablierProxyInterface.encodeFunctionData("withdrawFromSalary", [streamId, amount]),
-    to: sablierProxyAddress,
+    data: payrollInterface.encodeFunctionData("withdrawFromSalary", [streamId, amount]),
+    to: payrollContractAddress,
     value: "0",
   };
 
   return [withdrawalTx];
-};
+}
 
-export default withdrawStreamTxs;
+export default withdrawStreamTx;

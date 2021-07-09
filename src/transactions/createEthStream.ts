@@ -1,21 +1,19 @@
 import { Interface } from "@ethersproject/abi";
-import { Transaction } from "@gnosis.pm/safe-apps-sdk";
+import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 
-import wethAbi from "../abis/weth";
-
+import WETH_ABI from "../abis/weth";
 import tokens from "../config/tokens";
-import { SablierNetworks } from "../types";
 import createStreamTxs from "./createStream";
 
-const createEthStreamTxs = (
-  network: SablierNetworks,
+function createEthStreamTxs(
+  chainId: number,
   recipient: string,
   deposit: string,
   startTime: string,
   stopTime: string,
-): Transaction[] => {
-  const wethAddress: string = tokens[network].WETH;
-  const wethInterface: Interface = new Interface(wethAbi);
+): BaseTransaction[] {
+  const wethAddress: string = tokens[chainId].WETH;
+  const wethInterface: Interface = new Interface(WETH_ABI);
 
   const wrappingTx = {
     data: wethInterface.encodeFunctionData("deposit"),
@@ -23,7 +21,7 @@ const createEthStreamTxs = (
     value: deposit,
   };
 
-  return [wrappingTx, ...createStreamTxs(network, recipient, deposit, wethAddress, startTime, stopTime)];
-};
+  return [wrappingTx, ...createStreamTxs(chainId, recipient, deposit, wethAddress, startTime, stopTime)];
+}
 
 export default createEthStreamTxs;

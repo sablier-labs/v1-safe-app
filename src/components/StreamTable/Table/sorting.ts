@@ -1,11 +1,11 @@
-export const FIXED = "fixed";
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
 
-export const buildOrderFieldFrom = (attr: string): string => `${attr}Order`;
+export const FIXED: string = "fixed";
 
 export type Order = "asc" | "desc";
 
-const desc = (a: any, b: any, orderBy: string, orderProp: boolean) => {
-  const order = orderProp ? buildOrderFieldFrom(orderBy) : orderBy;
+function desc(a: any, b: any, orderBy: string, orderProp: boolean): number {
+  const order = orderProp ? `${orderBy}Order` : orderBy;
 
   if (b[order] < a[order]) {
     return -1;
@@ -15,10 +15,15 @@ const desc = (a: any, b: any, orderBy: string, orderProp: boolean) => {
   }
 
   return 0;
-};
+}
 
-/* eslint-disable-next-line */
-export const stableSort = (dataArray: any, cmp: Function, fixed: any) => {
+export function getSorting(order: Order, orderBy: string, orderProp: boolean): any {
+  return order === "desc"
+    ? (a: any, b: any) => desc(a, b, orderBy, orderProp)
+    : (a: any, b: any) => -desc(a, b, orderBy, orderProp);
+}
+
+export function stableSort(dataArray: any, cmp: any, fixed: any): any[] {
   const fixedElems = fixed ? dataArray.filter((elem: any) => elem.fixed) : [];
   const data = fixed ? dataArray.filter((elem: any) => !elem[FIXED]) : dataArray;
   let stabilizedThis = data.map((el: any, index: number) => [el, index]);
@@ -36,9 +41,4 @@ export const stableSort = (dataArray: any, cmp: Function, fixed: any) => {
   const sortedElems = stabilizedThis.map((el: any) => el[0]);
 
   return fixedElems.concat(sortedElems);
-};
-
-export const getSorting = (order: Order, orderBy: string, orderProp: boolean): Function =>
-  order === "desc"
-    ? (a: any, b: any) => desc(a, b, orderBy, orderProp)
-    : (a: any, b: any) => -desc(a, b, orderBy, orderProp);
+}

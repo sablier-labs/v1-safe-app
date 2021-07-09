@@ -1,13 +1,11 @@
-import React from "react";
+import { Button, Title } from "@gnosis.pm/safe-react-components";
+import { useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-import { Button, Title } from "@gnosis.pm/safe-react-components";
-
-import { useIncomingStreams, useOutgoingStreams } from "../contexts/StreamsContext";
-
 import CreateStreamForm from "../components/CreateStreamForm";
 import SablierExplainer from "../components/SablierExplainer";
+import { useIncomingStreams, useOutgoingStreams } from "../contexts/StreamsContext";
 
 const HomeOuterWrapper = styled.div`
   display: flex;
@@ -51,12 +49,19 @@ const DashboardNavWrapper = styled.div`
   padding-left: 32px;
 `;
 
-function HomePage() {
+function HomePage(): JSX.Element {
   const history = useHistory();
   const incomingProxyStreams = useIncomingStreams();
   const outgoingProxyStreams = useOutgoingStreams();
-  const userHasNoIncomingStreams = incomingProxyStreams.length === 0;
-  const userHasNoOutgoingStreams = outgoingProxyStreams.length === 0;
+
+  /// MEMOIZED VALUES ///
+  const noIncomingStreams = useMemo((): boolean => {
+    return incomingProxyStreams.length === 0;
+  }, [incomingProxyStreams]);
+
+  const noOutgoingStreams = useMemo((): boolean => {
+    return outgoingProxyStreams.length === 0;
+  }, [outgoingProxyStreams]);
 
   return (
     <HomeOuterWrapper>
@@ -69,10 +74,10 @@ function HomePage() {
       <RightWrapper>
         <SablierExplainer />
         <DashboardNavWrapper>
-          <StyledButton disabled={userHasNoIncomingStreams} onClick={() => history.push("/incoming")}>
+          <StyledButton disabled={noIncomingStreams} onClick={() => history.push("/incoming")}>
             View incoming streams
           </StyledButton>
-          <StyledButton disabled={userHasNoOutgoingStreams} onClick={() => history.push("/outgoing")}>
+          <StyledButton disabled={noOutgoingStreams} onClick={() => history.push("/outgoing")}>
             View outgoing streams
           </StyledButton>
         </DashboardNavWrapper>

@@ -1,8 +1,5 @@
 import Tooltip from "@material-ui/core/Tooltip";
-
 import styled, { css } from "styled-components";
-
-const xs = "4px";
 
 export const LinkContainer = styled.a.attrs({
   rel: "noopener noreferrer",
@@ -12,18 +9,18 @@ export const LinkContainer = styled.a.attrs({
   border-radius: 50%;
   display: flex;
   justify-content: center;
-  margin: 0 ${xs};
+  margin: 0 4px;
   padding: 0;
-  transition: background-color .2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
   &:hover {
-    background-color: #F0EFEE;
-  },
+    background-color: #f0efee;
+  }
 `;
 
 export const StyledTooltip = styled(Tooltip)`
   ${({ increaseZindex }: { increaseZindex: boolean }) =>
     increaseZindex &&
     css`
-      zindex: 2001;
+      z-index: 2001;
     `}
 `;

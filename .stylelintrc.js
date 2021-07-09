@@ -5,7 +5,7 @@ module.exports = {
   plugins: ["stylelint-order"],
   processors: ["stylelint-processor-styled-components"],
   rules: {
-    /* See https://github.com/hudochenkov/stylelint-order/issues/63 */
+    // See https://github.com/hudochenkov/stylelint-order/issues/63
     "order/properties-order": ["-styled-mixin0", ...properties],
   },
 };

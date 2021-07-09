@@ -1,4 +1,4 @@
-import cdaiIcon from "../assets/tokens/cdai.svg";
+import cDaiIcon from "../assets/tokens/cdai.svg";
 import chaiIcon from "../assets/tokens/chai.png";
 import cusdcIcon from "../assets/tokens/cusdc.svg";
 import cvpIcon from "../assets/tokens/cvp.png";
@@ -13,19 +13,20 @@ import mfiIcon from "../assets/tokens/mfi.png";
 import mkrIcon from "../assets/tokens/mkr.svg";
 import mplIcon from "../assets/tokens/mpl.svg";
 import mtaIcon from "../assets/tokens/mta.svg";
-import musdIcon from "../assets/tokens/musd.svg";
+import mUsdIcon from "../assets/tokens/musd.svg";
 import museIcon from "../assets/tokens/muse.png";
 import plaIcon from "../assets/tokens/pla.png";
 import rlyIcon from "../assets/tokens/rly.svg";
 import rnbwIcon from "../assets/tokens/rnbw.png";
-import susdIcon from "../assets/tokens/susd.svg";
+import sUsdIcon from "../assets/tokens/susd.svg";
 import sushiIcon from "../assets/tokens/sushi.jpg";
 import udtIcon from "../assets/tokens/udt.png";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
 import xrnbwIcon from "../assets/tokens/xrnbw.png";
 import xsushiIcon from "../assets/tokens/xsushi.jpg";
-import { SablierNetworks } from "../types";
+import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants";
+import { SablierChainId } from "../types";
 
 export type TokenItem = {
   address: string;
@@ -35,10 +36,20 @@ export type TokenItem = {
   label: string;
 };
 
-export type TokenMap = { [key in SablierNetworks]: { [name: string]: string } };
+export type TokenMap = { [key in SablierChainId]: { [name: string]: string } };
 
 const tokens: TokenMap = {
-  mainnet: {
+  [GOERLI_ID]: {
+    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+    DAI: "0x97cb342Cf2F6EcF48c1285Fb8668f5a4237BF862",
+    WETH: "0xef03ef2d709c2e9cc40d72f72eb357928f34acd5",
+  },
+  [KOVAN_ID]: {
+    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+    DAI: "0x79dfab686Ef87cd2c871D5182F08538589234189",
+    WETH: "0x5eca15b12d959dfcf9c71c59f8b467eb8c6efd0b",
+  },
+  [MAINNET_ID]: {
     // Ether is money
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     // Stablecoins
@@ -73,234 +84,226 @@ const tokens: TokenMap = {
     XRNBW: "0x47BE779De87de6580d0548cde80710a93c502405",
     XSUSHI: "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272",
   },
-  rinkeby: {
+  [RINKEBY_ID]: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     DAI: "0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C",
     WETH: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
   },
-  ropsten: {
+  [ROPSTEN_ID]: {
     ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     DAI: "0x3ac1c6ff50007ee705f36e40F7Dc6f393b1bc5e7",
     WETH: "0x0a180a76e4466bf68a7f86fb029bed3cccfaaac5",
   },
-  kovan: {
-    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-    DAI: "0x79dfab686Ef87cd2c871D5182F08538589234189",
-    WETH: "0x5eca15b12d959dfcf9c71c59f8b467eb8c6efd0b",
-  },
-  goerli: {
-    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-    DAI: "0x97cb342Cf2F6EcF48c1285Fb8668f5a4237BF862",
-    WETH: "0xef03ef2d709c2e9cc40d72f72eb357928f34acd5",
-  },
 };
 
-export const getTokenList = (network: SablierNetworks): TokenItem[] => {
-  const tokensByNetwork: { [name: string]: string } = tokens[network];
-  if (!tokensByNetwork) {
-    throw Error(`No token configuration for ${network}`);
+export const getTokenList = (chainId: SablierChainId): TokenItem[] => {
+  const tokensByChainId: { [name: string]: string } = tokens[chainId];
+  if (!tokensByChainId) {
+    throw Error(`No token configuration for ${chainId}`);
   }
 
   // The order here should mirror the order in the mapping above.
   const tokenList: TokenItem[] = [
     {
-      address: tokensByNetwork.ETH,
+      address: tokensByChainId.ETH,
       decimals: 18,
       iconUrl: ethIcon,
       id: "ETH",
       label: "ETH",
     },
     {
-      address: tokensByNetwork.DAI,
+      address: tokensByChainId.DAI,
       decimals: 18,
       iconUrl: daiIcon,
       id: "DAI",
       label: "DAI",
     },
     {
-      address: tokensByNetwork.USDC,
+      address: tokensByChainId.USDC,
       decimals: 6,
       iconUrl: usdcIcon,
       id: "USDC",
       label: "USDC",
     },
     {
-      address: tokensByNetwork.mUSD,
+      address: tokensByChainId.mUSD,
       decimals: 18,
-      iconUrl: musdIcon,
+      iconUrl: mUsdIcon,
       id: "mUSD",
       label: "mUSD",
     },
     {
-      address: tokensByNetwork.sUSD,
+      address: tokensByChainId.sUSD,
       decimals: 18,
-      iconUrl: susdIcon,
+      iconUrl: sUsdIcon,
       id: "sUSD",
       label: "sUSD",
     },
     {
-      address: tokensByNetwork.CHAI,
+      address: tokensByChainId.CHAI,
       decimals: 18,
       iconUrl: chaiIcon,
       id: "CHAI",
       label: "CHAI",
     },
     {
-      address: tokensByNetwork.cDAI,
+      address: tokensByChainId.cDAI,
       decimals: 8,
-      iconUrl: cdaiIcon,
+      iconUrl: cDaiIcon,
       id: "cDAI",
       label: "cDAI",
     },
     {
-      address: tokensByNetwork.cUSDC,
+      address: tokensByChainId.cUSDC,
       decimals: 8,
       iconUrl: cusdcIcon,
       id: "cUSDC",
       label: "cUSDC",
     },
     {
-      address: tokensByNetwork.CVP,
+      address: tokensByChainId.CVP,
       decimals: 18,
       iconUrl: cvpIcon,
       id: "CVP",
       label: "CVP",
     },
     {
-      address: tokensByNetwork.DHT,
+      address: tokensByChainId.DHT,
       decimals: 18,
       iconUrl: dhtIcon,
       id: "DHT",
       label: "DHT",
     },
     {
-      address: tokensByNetwork.FOX,
+      address: tokensByChainId.FOX,
       decimals: 18,
       iconUrl: foxIcon,
       id: "FOX",
       label: "FOX",
     },
     {
-      address: tokensByNetwork.kMPL,
+      address: tokensByChainId.kMPL,
       decimals: 9,
       iconUrl: kmplIcon,
       id: "kMPL",
       label: "kMPL",
     },
     {
-      address: tokensByNetwork.IAG,
+      address: tokensByChainId.IAG,
       decimals: 18,
       iconUrl: iagIcon,
       id: "IAG",
       label: "IAG",
     },
     {
-      address: tokensByNetwork.LINK,
+      address: tokensByChainId.LINK,
       decimals: 18,
       iconUrl: linkIcon,
       id: "LINK",
       label: "LINK",
     },
     {
-      address: tokensByNetwork.MFI,
+      address: tokensByChainId.MFI,
       decimals: 18,
       iconUrl: mfiIcon,
       id: "MFI",
       label: "MFI",
     },
     {
-      address: tokensByNetwork.MKR,
+      address: tokensByChainId.MKR,
       decimals: 18,
       iconUrl: mkrIcon,
       id: "MKR",
       label: "MKR",
     },
     {
-      address: tokensByNetwork.MPL,
+      address: tokensByChainId.MPL,
       decimals: 18,
       iconUrl: mplIcon,
       id: "MPL",
       label: "MPL",
     },
     {
-      address: tokensByNetwork.MTA,
+      address: tokensByChainId.MTA,
       decimals: 18,
       iconUrl: mtaIcon,
       id: "MTA",
       label: "MTA",
     },
     {
-      address: tokensByNetwork.MUSE,
+      address: tokensByChainId.MUSE,
       decimals: 18,
       iconUrl: museIcon,
       id: "MUSE",
       label: "MUSE",
     },
     {
-      address: tokensByNetwork.PLA,
+      address: tokensByChainId.PLA,
       decimals: 18,
       iconUrl: plaIcon,
       id: "PLA",
       label: "PLA",
     },
     {
-      address: tokensByNetwork.RLY,
+      address: tokensByChainId.RLY,
       decimals: 18,
       iconUrl: rlyIcon,
       id: "RLY",
       label: "RLY",
     },
     {
-      address: tokensByNetwork.RNBW,
+      address: tokensByChainId.RNBW,
       decimals: 18,
       iconUrl: rnbwIcon,
       id: "RNBW",
       label: "RNBW",
     },
     {
-      address: tokensByNetwork.SUSHI,
+      address: tokensByChainId.SUSHI,
       decimals: 18,
       iconUrl: sushiIcon,
       id: "SUSHI",
       label: "SUSHI",
     },
     {
-      address: tokensByNetwork.UDT,
+      address: tokensByChainId.UDT,
       decimals: 18,
       iconUrl: udtIcon,
       id: "UDT",
       label: "UDT",
     },
     {
-      address: tokensByNetwork.WBTC,
+      address: tokensByChainId.WBTC,
       decimals: 8,
       iconUrl: wbtcIcon,
       id: "WBTC",
       label: "WBTC",
     },
     {
-      address: tokensByNetwork.WETH,
+      address: tokensByChainId.WETH,
       decimals: 18,
       iconUrl: ethIcon,
       id: "WETH",
       label: "WETH",
     },
     {
-      address: tokensByNetwork.XRNBW,
+      address: tokensByChainId.XRNBW,
       decimals: 18,
       iconUrl: xrnbwIcon,
       id: "XRNBW",
       label: "XRNBW",
     },
     {
-      address: tokensByNetwork.XSUSHI,
+      address: tokensByChainId.XSUSHI,
       decimals: 18,
       iconUrl: xsushiIcon,
       id: "XSUSHI",
       label: "XSUSHI",
     },
   ];
-  return tokenList.filter(token => token.address !== undefined);
+  return tokenList.filter(token => {
+    return token.address !== undefined;
+  });
 };
 
 export default tokens;

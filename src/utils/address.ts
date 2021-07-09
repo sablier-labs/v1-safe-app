@@ -1,6 +1,6 @@
 import { isAddress } from "@ethersproject/address";
 
-export function shortenAddress(address: string, digits: number = 4) {
+export function shortenAddress(address: string, digits: number = 4): string {
   if (!isAddress(address)) {
     throw new Error(`Invalid 'address' parameter '${address}'.`);
   }

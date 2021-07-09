@@ -1,14 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState, ReactElement } from "react";
+/* eslint-disable react/require-default-props */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { makeStyles } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TablePagination from "@material-ui/core/TablePagination";
-import { makeStyles } from "@material-ui/core";
-
+import { useCallback, useEffect, useMemo, useState } from "react";
 import styled, { css } from "styled-components";
-import TableHead from "./TableHead";
+
 import { Column } from "../columns";
-import { getSorting, stableSort, Order } from "./sorting";
+import { Order, getSorting, stableSort } from "./sorting";
+import TableHead from "./TableHead";
 
 const sm: string = "8px";
 const xl: string = "32px";
@@ -17,7 +19,6 @@ const xxl: string = "40px";
 const useStyles = makeStyles(() => ({
   paginationRoot: {
     backgroundColor: "white",
-    // boxShadow: "1px 2px 10px 0 rgba(212, 212, 211, 0.59)",
     borderBottomLeftRadius: sm,
     borderBottomRightRadius: sm,
     marginBottom: xl,
@@ -63,8 +64,8 @@ const nextProps = {
   "aria-label": "Next Page",
 };
 
-type Props = {
-  children: Function;
+type GnoTableProps = {
+  children(data: any[]): JSX.Element[];
   columns: Column[];
   data: any[];
   defaultFixed: boolean;
@@ -78,34 +79,48 @@ type Props = {
   size: number;
 };
 
-function GnoTable(props: Props): ReactElement {
+function GnoTable({
+  children,
+  columns,
+  data,
+  defaultFixed,
+  defaultOrder = "asc",
+  defaultOrderBy,
+  defaultRowsPerPage = 5,
+  disableLoadingOnEmptyTable = false,
+  disablePagination = false,
+  label,
+  noBorder,
+  size,
+}: GnoTableProps): JSX.Element {
   const classes = useStyles();
 
-  const {
-    children,
-    columns,
-    data,
-    defaultFixed,
-    defaultOrder = "asc",
-    defaultOrderBy,
-    defaultRowsPerPage = 5,
-    disableLoadingOnEmptyTable = false,
-    disablePagination = false,
-    label,
-    noBorder,
-    size,
-  }: Props = props;
-
-  /** State Variables */
+  /// STATE ///
 
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>();
-  const [order, setOrder] = useState<Order>();
+  const [order, setOrder] = useState<Order>(defaultOrder);
   const [orderBy, setOrderBy] = useState<string>();
   const [fixed, setFixed] = useState<boolean>();
   const [orderProp, setOrderProp] = useState<boolean>();
 
-  /** Memoized Variables */
+  /// MEMOIZED VALUES ///
+
+  const displayRows = useMemo((): number => {
+    return rowsPerPage || defaultRowsPerPage;
+  }, [defaultRowsPerPage, rowsPerPage]);
+
+  const emptyRows = useMemo((): number => {
+    return displayRows - Math.min(displayRows, data.length - page * displayRows);
+  }, [data, displayRows, page]);
+
+  const fixedParam = useMemo((): boolean => {
+    return typeof fixed !== "undefined" ? fixed : Boolean(defaultFixed);
+  }, [defaultFixed, fixed]);
+
+  const isEmpty = useMemo((): boolean => {
+    return size === 0 && !disableLoadingOnEmptyTable;
+  }, [disableLoadingOnEmptyTable, size]);
 
   const orderByParam = useMemo((): string => {
     return orderBy || defaultOrderBy;
@@ -114,14 +129,6 @@ function GnoTable(props: Props): ReactElement {
   const orderParam = useMemo((): Order => {
     return order || defaultOrder;
   }, [defaultOrder, order]);
-
-  const displayRows = useMemo((): number => {
-    return rowsPerPage || defaultRowsPerPage;
-  }, [defaultRowsPerPage, rowsPerPage]);
-
-  const fixedParam = useMemo((): boolean => {
-    return typeof fixed !== "undefined" ? fixed : Boolean(defaultFixed);
-  }, [defaultFixed, fixed]);
 
   const paginationClasses = useMemo(() => {
     return {
@@ -139,25 +146,17 @@ function GnoTable(props: Props): ReactElement {
     return sortedDataHookScope;
   }, [data, disablePagination, displayRows, fixedParam, orderByParam, orderParam, orderProp, page]);
 
-  const emptyRows = useMemo((): number => {
-    return displayRows - Math.min(displayRows, data.length - page * displayRows);
-  }, [data, displayRows, page]);
-
-  const isEmpty = useMemo((): boolean => {
-    return size === 0 && !disableLoadingOnEmptyTable;
-  }, [disableLoadingOnEmptyTable, size]);
-
-  /** Callbacks **/
+  /// CALLBACKS ///
 
   const onSort = useCallback(
     (newOrderBy: string, newOrderProp: boolean): void => {
       let newOrder: Order = "desc";
 
-      /* If table was previously sorted by the user */
+      // If table was previously sorted by the user.
       if (order && orderBy === newOrderBy && order === "desc") {
         newOrder = "asc";
       } else if (!order && defaultOrder === "desc") {
-        /* If it was not sorted and defaultOrder is used */
+        // If it was not sorted and defaultOrder is used.
         newOrder = "asc";
       }
 
@@ -169,14 +168,14 @@ function GnoTable(props: Props): ReactElement {
     [defaultOrder, order, orderBy],
   );
 
-  const handleChangePage = useCallback(
+  const handlePageChange = useCallback(
     (_e: any, newPage: number): void => {
       setPage(newPage);
     },
     [setPage],
   );
 
-  const handleChangeRowsPerPage = useCallback(
+  const handleRowsPerPageChange = useCallback(
     (e: any) => {
       const newRowsPerPage = Number(e.target.value);
       setRowsPerPage(newRowsPerPage);
@@ -184,7 +183,7 @@ function GnoTable(props: Props): ReactElement {
     [setRowsPerPage],
   );
 
-  /** Side Effects **/
+  /// SIDE EFFECTS ///
 
   useEffect(() => {
     if (defaultOrderBy && columns) {
@@ -218,8 +217,8 @@ function GnoTable(props: Props): ReactElement {
           component="div"
           count={size}
           nextIconButtonProps={nextProps}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onRowsPerPageChange={handleRowsPerPageChange}
+          onPageChange={handlePageChange}
           page={page}
           rowsPerPage={displayRows}
           rowsPerPageOptions={[displayRows]}

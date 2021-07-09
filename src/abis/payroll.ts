@@ -1,7 +1,3 @@
-/**
- * Forked from https://raw.githubusercontent.com/sablierhq/sablier-abis/v1/Payroll.json
- * Paul: I know, the nomenclature could've been better.
- */
 export default [
   {
     constant: true,

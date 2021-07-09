@@ -1,10 +1,8 @@
-import React, { ReactElement } from "react";
+import { isFuture, isPast } from "date-fns";
 import styled, { css } from "styled-components";
 
-import { isFuture, isPast } from "date-fns";
+import ClockGreyIcon from "../../../assets/clock-grey.svg";
 import ClockIcon from "../../../assets/clock.svg";
-import ClockGreyIcon from "../../../assets/clockGrey.svg";
-
 import ErrorIcon from "../../../assets/error.svg";
 import OkIcon from "../../../assets/ok.svg";
 import theme from "../../../theme";
@@ -19,7 +17,15 @@ export enum StreamStatus {
   Cancelled,
   Pending,
 }
-type streamStatusKey = keyof typeof StreamStatus;
+
+type StreamStatusKey = keyof typeof StreamStatus;
+
+const statusToIcon = {
+  [StreamStatus.Pending]: ClockGreyIcon,
+  [StreamStatus.Active]: ClockIcon,
+  [StreamStatus.Ended]: OkIcon,
+  [StreamStatus.Cancelled]: ErrorIcon,
+};
 
 const StatusContainer = styled.div`
   align-items: center;
@@ -73,13 +79,6 @@ const StatusText = styled.p`
   padding: 0px 7px;
 `;
 
-const statusToIcon = {
-  [StreamStatus.Pending]: ClockGreyIcon,
-  [StreamStatus.Active]: ClockIcon,
-  [StreamStatus.Ended]: OkIcon,
-  [StreamStatus.Cancelled]: ErrorIcon,
-};
-
 export const getStreamStatus = (proxyStream: ProxyStream): StreamStatus => {
   const { cancellation, startTime, stopTime } = proxyStream.stream;
   if (cancellation !== null) {
@@ -94,9 +93,9 @@ export const getStreamStatus = (proxyStream: ProxyStream): StreamStatus => {
   return StreamStatus.Active;
 };
 
-function Status({ status }: { status: StreamStatus }): ReactElement {
+function Status({ status }: { status: StreamStatus }): JSX.Element {
   const Icon = statusToIcon[status];
-  const statusText: streamStatusKey = StreamStatus[status] as streamStatusKey;
+  const statusText: StreamStatusKey = StreamStatus[status] as StreamStatusKey;
 
   return (
     <StatusContainer status={status}>

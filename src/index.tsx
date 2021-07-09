@@ -1,9 +1,9 @@
-import React from "react";
+import SafeProvider from "@gnosis.pm/safe-apps-react-sdk";
 import ReactDOM from "react-dom";
+
 import App from "./App";
-import GlobalStyles from "./theme/global";
-import SafeProvider from "./contexts/SafeContext";
 import StreamsProvider from "./contexts/StreamsContext";
+import GlobalStyles from "./theme/global";
 
 ReactDOM.render(
   <SafeProvider>

@@ -1,6 +1,8 @@
 {
   "name": "Sablier",
   "description": "Safe App for interacting with the Sablier protocol",
+  "background_color": "#ffffff",
+  "display": "standalone",
   "providedBy": {
     "name": "Sablier",
     "url": "https://sablier.finance"
@@ -13,8 +15,6 @@
     }
   ],
   "iconPath": "logo.svg",
-  "start_url": ".",
-  "display": "standalone",
   "theme_color": "#f77423",
-  "background_color": "#ffffff"
+  "start_url": "."
 }

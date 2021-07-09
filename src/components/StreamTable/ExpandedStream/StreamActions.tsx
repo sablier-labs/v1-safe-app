@@ -1,15 +1,14 @@
-import React, { ReactElement, useMemo } from "react";
+import { BigNumberish } from "@ethersproject/bignumber";
+import { Zero } from "@ethersproject/constants";
+import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
+import { Button } from "@gnosis.pm/safe-react-components";
+import React, { useCallback, useMemo } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
-import { Button } from "@gnosis.pm/safe-react-components";
-
-import { BigNumberish } from "@ethersproject/bignumber";
-import { Zero } from "@ethersproject/constants";
-import { StreamStatus, getStreamStatus } from "../Status";
 import { ProxyStream } from "../../../types";
-import { useSafeAddress } from "../../../contexts/SafeContext";
 import { streamAvailableBalance } from "../../../utils/stream";
+import { StreamStatus, getStreamStatus } from "../Status";
 
 const lg: string = "24px";
 const md: string = "16px";
@@ -39,29 +38,41 @@ const StyledAnchor = styled.a.attrs({
   text-decoration: none;
 `;
 
-const StreamActions = ({
-  cancelStream,
-  withdrawStream,
-  proxyStream,
-}: {
+type StreamActionsProps = {
   cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   withdrawStream: (amount: BigNumberish) => void;
   proxyStream: ProxyStream;
-}): ReactElement => {
-  const safeAddress = useSafeAddress();
-  const sablierStreamUrl = useMemo(() => `https://app.sablier.finance/stream/${proxyStream.id}`, [proxyStream]);
+};
 
-  const triggerWithdrawal = () => {
+const StreamActions = ({ cancelStream, proxyStream, withdrawStream }: StreamActionsProps): JSX.Element => {
+  const { safe } = useSafeAppsSDK();
+
+  /// MEMOIZED VALUES ///
+
+  const canCancelStream = useMemo(() => {
+    return (
+      getStreamStatus(proxyStream) === StreamStatus.Active || getStreamStatus(proxyStream) === StreamStatus.Pending
+    );
+  }, [getStreamStatus, proxyStream]);
+
+  const canWithdrawFromStream = useMemo(() => {
+    return (
+      proxyStream.recipient === safe.safeAddress?.toLowerCase() && // We are recipient
+      getStreamStatus(proxyStream) !== StreamStatus.Cancelled && // Stream hasn't been cancelled (and funds distributed)
+      streamAvailableBalance(proxyStream).gt(Zero) // There are funds in stream
+    );
+  }, [proxyStream, getStreamStatus, safe.safeAddress, streamAvailableBalance]);
+
+  const sablierStreamUrl = useMemo(() => {
+    return `https://app.sablier.finance/stream/${proxyStream.id}`;
+  }, [proxyStream]);
+
+  /// CALLBACKS ///
+
+  const triggerWithdrawal = useCallback(() => {
     withdrawStream(streamAvailableBalance(proxyStream));
-  };
+  }, [proxyStream, streamAvailableBalance, withdrawStream]);
 
-  const canWithdrawFromStream =
-    proxyStream.recipient === safeAddress?.toLowerCase() && // We are recipient
-    getStreamStatus(proxyStream) !== StreamStatus.Cancelled && // Stream hasn't been cancelled (and funds distributed)
-    streamAvailableBalance(proxyStream).gt(Zero); // There are funds in stream
-
-  const canCancelStream =
-    getStreamStatus(proxyStream) === StreamStatus.Active || getStreamStatus(proxyStream) === StreamStatus.Pending;
   return (
     <ActionsContainer>
       <CopyToClipboard text={sablierStreamUrl}>
