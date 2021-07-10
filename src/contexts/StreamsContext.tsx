@@ -1,16 +1,16 @@
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-import { getIncomingStreams, getOutgoingStreams } from "../graphql/proxyStreams";
-import { ProxyStream } from "../types";
+import { getIncomingStreams, getOutgoingStreams } from "../graphql/streams";
+import { Stream } from "../types";
 
 type StreamsProviderProps = {
   children: JSX.Element | JSX.Element[];
 };
 
 type StreamsProviderState = {
-  incomingProxyStreams: ProxyStream[];
-  outgoingProxyStreams: ProxyStream[];
+  incomingStreams: Stream[];
+  outgoingStreams: Stream[];
 };
 
 export const StreamsContext = createContext({} as StreamsProviderState);
@@ -24,8 +24,8 @@ function StreamsProvider({ children }: StreamsProviderProps): JSX.Element {
 
   /// STATE ///
 
-  const [incomingProxyStreams, setIncomingProxyStreams] = useState<ProxyStream[]>([]);
-  const [outgoingProxyStreams, setOutgoingProxyStreams] = useState<ProxyStream[]>([]);
+  const [incomingStreams, setIncomingStreams] = useState<Stream[]>([]);
+  const [outgoingStreams, setOutgoingStreams] = useState<Stream[]>([]);
 
   /// CALLBACKS ///
 
@@ -34,11 +34,11 @@ function StreamsProvider({ children }: StreamsProviderProps): JSX.Element {
       return;
     }
 
-    const newIncomingProxyStreams = await getIncomingStreams(safe.chainId, safe.safeAddress);
-    setIncomingProxyStreams(newIncomingProxyStreams);
+    const newIncomingStreams = await getIncomingStreams(safe.chainId, safe.safeAddress);
+    setIncomingStreams(newIncomingStreams);
 
-    const newOutgoingProxyStreams = await getOutgoingStreams(safe.chainId, safe.safeAddress);
-    setOutgoingProxyStreams(newOutgoingProxyStreams);
+    const newOutgoingStreams = await getOutgoingStreams(safe.chainId, safe.safeAddress);
+    setOutgoingStreams(newOutgoingStreams);
   }, [safe.chainId, safe.safeAddress]);
 
   /// SIDE EFFECTS ///
@@ -49,19 +49,17 @@ function StreamsProvider({ children }: StreamsProviderProps): JSX.Element {
     return () => clearInterval(intervalId);
   }, [refreshStreams]);
 
-  return (
-    <StreamsContext.Provider value={{ incomingProxyStreams, outgoingProxyStreams }}>{children}</StreamsContext.Provider>
-  );
+  return <StreamsContext.Provider value={{ incomingStreams, outgoingStreams }}>{children}</StreamsContext.Provider>;
 }
 
-export const useIncomingStreams = (): ProxyStream[] => {
-  const { incomingProxyStreams } = useStreamsContext();
-  return incomingProxyStreams;
+export const useIncomingStreams = (): Stream[] => {
+  const { incomingStreams } = useStreamsContext();
+  return incomingStreams;
 };
 
-export const useOutgoingStreams = (): ProxyStream[] => {
-  const { outgoingProxyStreams } = useStreamsContext();
-  return outgoingProxyStreams;
+export const useOutgoingStreams = (): Stream[] => {
+  const { outgoingStreams } = useStreamsContext();
+  return outgoingStreams;
 };
 
 export default StreamsProvider;

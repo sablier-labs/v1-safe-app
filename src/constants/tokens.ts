@@ -25,8 +25,8 @@ import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
 import xrnbwIcon from "../assets/tokens/xrnbw.png";
 import xsushiIcon from "../assets/tokens/xsushi.jpg";
-import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants";
 import { SablierChainId } from "../types";
+import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "./chains";
 
 export type TokenItem = {
   address: string;
@@ -38,20 +38,16 @@ export type TokenItem = {
 
 export type TokenMap = { [key in SablierChainId]: { [name: string]: string } };
 
-const tokens: TokenMap = {
+export const TOKENS: TokenMap = {
   [GOERLI_ID]: {
-    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     DAI: "0x97cb342Cf2F6EcF48c1285Fb8668f5a4237BF862",
     WETH: "0xef03ef2d709c2e9cc40d72f72eb357928f34acd5",
   },
   [KOVAN_ID]: {
-    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     DAI: "0x79dfab686Ef87cd2c871D5182F08538589234189",
     WETH: "0x5eca15b12d959dfcf9c71c59f8b467eb8c6efd0b",
   },
   [MAINNET_ID]: {
-    // Ether is money
-    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     // Stablecoins
     DAI: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
     TUSD: "0x0000000000085d4780B73119b644AE5ecd22b376",
@@ -85,32 +81,23 @@ const tokens: TokenMap = {
     XSUSHI: "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272",
   },
   [RINKEBY_ID]: {
-    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     DAI: "0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C",
     WETH: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
   },
   [ROPSTEN_ID]: {
-    ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     DAI: "0x3ac1c6ff50007ee705f36e40F7Dc6f393b1bc5e7",
     WETH: "0x0a180a76e4466bf68a7f86fb029bed3cccfaaac5",
   },
 };
 
-export const getTokenList = (chainId: SablierChainId): TokenItem[] => {
-  const tokensByChainId: { [name: string]: string } = tokens[chainId];
+export const getTokens = (chainId: SablierChainId): TokenItem[] => {
+  const tokensByChainId: { [name: string]: string } = TOKENS[chainId];
   if (!tokensByChainId) {
     throw Error(`No token configuration for ${chainId}`);
   }
 
   // The order here should mirror the order in the mapping above.
-  const tokenList: TokenItem[] = [
-    {
-      address: tokensByChainId.ETH,
-      decimals: 18,
-      iconUrl: ethIcon,
-      id: "ETH",
-      label: "ETH",
-    },
+  const tokens: TokenItem[] = [
     {
       address: tokensByChainId.DAI,
       decimals: 18,
@@ -301,9 +288,8 @@ export const getTokenList = (chainId: SablierChainId): TokenItem[] => {
       label: "XSUSHI",
     },
   ];
-  return tokenList.filter(token => {
+
+  return tokens.filter(token => {
     return token.address !== undefined;
   });
 };
-
-export default tokens;

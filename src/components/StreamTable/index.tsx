@@ -1,7 +1,6 @@
 import { getAddress } from "@ethersproject/address";
-import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import { BigNumberish } from "@ethersproject/bignumber";
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
-import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 import { Collapse, IconButton } from "@material-ui/core";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
@@ -10,17 +9,16 @@ import { format } from "date-fns";
 import { Fragment, useCallback, useMemo, useState } from "react";
 import styled, { css } from "styled-components";
 
-import { cancelStreamTxs, withdrawStreamTxs } from "../../transactions";
-import { ProxyStream } from "../../types";
-import { DATE_FORMAT, TIME_FORMAT } from "../../utils";
+import { DATE_FORMAT, TIME_FORMAT } from "../../constants/time";
+import { HumanReadableStream, Stream, StreamStatus } from "../../types";
 import { shortenAddress } from "../../utils/address";
 import { bigNumberToRoundedHumanFormat } from "../../utils/format";
+import { getStreamStatus } from "../../utils/stream";
 import { Column, STREAM_TABLE_ID, generateColumns } from "./columns";
 import ExpandedStream from "./ExpandedStream";
-import Status, { StreamStatus, getStreamStatus } from "./Status";
+import Status from "./Status";
 import Table from "./Table";
 import { cellWidth } from "./Table/TableHead";
-import { HumanReadableStream } from "./types";
 
 const StyledTableRow = styled(TableRow)`
   cursor: pointer;
@@ -50,9 +48,8 @@ const ExpandedStreamCell = styled(TableCell)`
   }
 `;
 
-const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
-  const { id, recipient, sender } = proxyStream;
-  const { deposit, startTime, stopTime, token } = proxyStream.stream;
+const humanReadableStream = (stream: Stream): HumanReadableStream => {
+  const { deposit, id, recipient, sender, startTime, stopTime, token } = stream;
   const humanRecipient: string = shortenAddress(getAddress(recipient));
   const humanSender: string = shortenAddress(getAddress(sender));
   const humanStartTime: BigNumberish = format(new Date(startTime * 1000), `${DATE_FORMAT} - ${TIME_FORMAT}`);
@@ -60,7 +57,7 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   const humanStartTimeOrder: BigNumberish = startTime;
   const humanStopTimeOrder: BigNumberish = stopTime;
   const humanDeposit: BigNumberish = bigNumberToRoundedHumanFormat(deposit, token.decimals, 3) + " " + token.symbol;
-  const status: StreamStatus = getStreamStatus(proxyStream);
+  const status: StreamStatus = getStreamStatus(stream);
 
   return {
     id,
@@ -76,8 +73,8 @@ const humanReadableStream = (proxyStream: ProxyStream): HumanReadableStream => {
   };
 };
 
-function StreamTable({ streams }: { streams: ProxyStream[] }): JSX.Element {
-  const { safe, sdk } = useSafeAppsSDK();
+function StreamTable({ streams }: { streams: Stream[] }): JSX.Element {
+  const { safe } = useSafeAppsSDK();
 
   /// STATE ///
 
@@ -90,47 +87,32 @@ function StreamTable({ streams }: { streams: ProxyStream[] }): JSX.Element {
   }, []);
 
   const autoColumns = useMemo(() => {
-    return columns.filter((column: Column) => !column.custom);
+    return columns.filter((column: Column) => {
+      return !column.custom;
+    });
   }, [columns]);
 
   const expandedStream = useMemo(() => {
-    return streams.find(({ id }) => expandedStreamId === id);
+    return streams.find(({ id }) => {
+      return expandedStreamId === id;
+    });
   }, [streams, expandedStreamId]);
 
   const tableContents: HumanReadableStream[] = useMemo(
-    () => streams.map(proxyStream => humanReadableStream(proxyStream)),
+    () =>
+      streams.map(stream => {
+        return humanReadableStream(stream);
+      }),
     [streams],
   );
 
   /// CALLBACKS ///
-
-  const cancelStream = useCallback(
-    (streamId: number): void => {
-      if (!safe.chainId) {
-        return;
-      }
-      const txs: BaseTransaction[] = cancelStreamTxs(safe.chainId, streamId);
-      void sdk.txs.send({ txs });
-    },
-    [safe.chainId, sdk],
-  );
 
   const handleStreamExpand = useCallback(
     (id: number): void => {
       setExpandedStreamId((prevId: number | null) => (prevId === id ? null : id));
     },
     [setExpandedStreamId],
-  );
-
-  const withdrawStream = useCallback(
-    (streamId: number, amount: BigNumberish): void => {
-      if (!safe.chainId || BigNumber.from(amount).isZero()) {
-        return;
-      }
-      const txs: BaseTransaction[] = withdrawStreamTxs(safe.chainId, streamId, amount);
-      void sdk.txs.send({ txs });
-    },
-    [safe.chainId, sdk],
   );
 
   /// SIDE EFFECTS ///
@@ -152,7 +134,7 @@ function StreamTable({ streams }: { streams: ProxyStream[] }): JSX.Element {
         sortedData.map((row: HumanReadableStream) => (
           <Fragment key={row.id}>
             <StyledTableRow
-              expanded={expandedStreamId === row.id}
+              $expanded={expandedStreamId === row.id}
               onClick={() => {
                 handleStreamExpand(row.id);
               }}
@@ -175,18 +157,7 @@ function StreamTable({ streams }: { streams: ProxyStream[] }): JSX.Element {
               <ExpandedStreamCell colSpan={columns.length} style={{ paddingBottom: 0, paddingTop: 0 }}>
                 <Collapse
                   component={() =>
-                    expandedStream ? (
-                      <ExpandedStream
-                        chainId={safe.chainId}
-                        cancelStream={(): void => cancelStream(row.id)}
-                        proxyStream={expandedStream}
-                        withdrawStream={(amount: BigNumberish): void => {
-                          withdrawStream(row.id, amount);
-                        }}
-                      />
-                    ) : (
-                      <div />
-                    )
+                    expandedStream ? <ExpandedStream chainId={safe.chainId} stream={expandedStream} /> : <div />
                   }
                   in={expandedStreamId === row.id}
                   unmountOnExit

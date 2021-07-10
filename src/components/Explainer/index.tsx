@@ -39,7 +39,7 @@ const BottomWrapper = styled.div`
   margin-top: 16px;
 `;
 
-function SablierExplainer(): JSX.Element {
+function Explainer(): JSX.Element {
   return (
     <OuterWrapper>
       <StyledLogo alt="Sablier Logo" height={60} src={SablierLogo} width={200} />
@@ -63,4 +63,4 @@ function SablierExplainer(): JSX.Element {
   );
 }
 
-export default SablierExplainer;
+export default Explainer;

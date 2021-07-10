@@ -4,7 +4,7 @@ import { useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 import CopyIcon from "../../../assets/copy.svg";
-import { LinkContainer, StyledTooltip } from "./components";
+import { LinkContainer, StyledTooltip } from "./common";
 
 type CopyButtonProps = {
   content: string;

@@ -1,8 +1,6 @@
-import { BigNumberish } from "@ethersproject/bignumber";
-import React from "react";
 import styled from "styled-components";
 
-import { ProxyStream } from "../../../types";
+import { Stream } from "../../../types";
 import StreamActions from "./StreamActions";
 import StreamInfo from "./StreamInfo";
 
@@ -17,16 +15,14 @@ const ExpandedStreamContainer = styled.div`
 `;
 
 type ExpandedStreamProps = {
-  cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   chainId: number;
-  proxyStream: ProxyStream;
-  withdrawStream: (amount: BigNumberish) => void;
+  stream: Stream;
 };
 
-const ExpandedStream = ({ chainId, cancelStream, proxyStream, withdrawStream }: ExpandedStreamProps): JSX.Element => (
+const ExpandedStream = ({ chainId, stream }: ExpandedStreamProps): JSX.Element => (
   <ExpandedStreamContainer>
-    <StreamInfo chainId={chainId} proxyStream={proxyStream} />
-    <StreamActions cancelStream={cancelStream} proxyStream={proxyStream} withdrawStream={withdrawStream} />
+    <StreamInfo chainId={chainId} stream={stream} />
+    <StreamActions stream={stream} />
   </ExpandedStreamContainer>
 );
 

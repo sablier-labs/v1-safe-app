@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const useRefreshwithPeriod = (period: number): void => {
+const useRefreshWithPeriod = (period: number): void => {
   const [, setTime] = useState(Date.now());
 
   useEffect(() => {
@@ -11,4 +11,4 @@ const useRefreshwithPeriod = (period: number): void => {
   }, [period]);
 };
 
-export default useRefreshwithPeriod;
+export default useRefreshWithPeriod;

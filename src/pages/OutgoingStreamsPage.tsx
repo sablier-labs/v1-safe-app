@@ -40,7 +40,7 @@ const StyledButton = styled(Button).attrs({
 
 function OutgoingStreamsPage(): JSX.Element {
   const history = useHistory();
-  const outgoingProxyStreams = useOutgoingStreams();
+  const outgoingStreams = useOutgoingStreams();
 
   return (
     <StreamsOuterWrapper>
@@ -49,7 +49,7 @@ function OutgoingStreamsPage(): JSX.Element {
         <StyledButton onClick={() => history.push("/")}>Return to main page</StyledButton>
       </TopLeftHorizontalWrapper>
       <TableWrapper>
-        <StreamTable streams={outgoingProxyStreams} />
+        <StreamTable streams={outgoingStreams} />
       </TableWrapper>
     </StreamsOuterWrapper>
   );

@@ -1,6 +1,6 @@
 import ExternalLinkIcon from "../../../assets/external-link.svg";
-import { CHAIN_LABELS, MAINNET_ID } from "../../../constants";
-import { LinkContainer, StyledTooltip } from "./components";
+import { CHAIN_LABELS, MAINNET_ID } from "../../../constants/chains";
+import { LinkContainer, StyledTooltip } from "./common";
 
 const getEtherscanLink = (chainId: number, type: string, value: string): string => {
   return `https://${chainId === MAINNET_ID ? "" : `${CHAIN_LABELS[chainId]}.`}etherscan.io/${type}/${value}`;
@@ -22,7 +22,7 @@ function EtherscanButton({
   value,
 }: EtherscanButtonProps): JSX.Element {
   return (
-    <StyledTooltip increaseZindex={increaseZindex} placement="top" title="Show details on Etherscan">
+    <StyledTooltip $increaseZindex={increaseZindex} placement="top" title="Show details on Etherscan">
       <LinkContainer
         aria-label="Show details on Etherscan"
         className={className}

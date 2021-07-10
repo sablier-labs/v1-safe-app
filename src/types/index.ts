@@ -1,6 +1,6 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 
-import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants";
+import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants/chains";
 
 export type Cancellation = {
   id: number;
@@ -12,6 +12,19 @@ export type Cancellation = {
   timestamp: BigNumberish;
   token: Token;
   txhash: string;
+};
+
+export type HumanReadableStream = {
+  humanDeposit: string;
+  humanStartTime: string;
+  humanStopTime: string;
+  humanStartTimeOrder: number;
+  humanStopTimeOrder: number;
+  id: number;
+  humanRecipient: string;
+  humanSender: string;
+  status: StreamStatus;
+  token: Token;
 };
 
 export type SablierChainId =
@@ -29,22 +42,19 @@ export type Stream = {
   sender: string;
   startTime: number;
   stopTime: number;
+  timestamp: number;
   token: Token;
   withdrawals: {
     amount: BigNumberish;
   }[];
 };
 
-/// The truthful sender of a stream is stored in a proxy stream (defined below)
-/// instead of a vanilla stream (defined above). The sender stored in the latter
-/// object is the Payroll.sol contract itself.
-export type ProxyStream = {
-  id: number;
-  recipient: string;
-  sender: string;
-  stream: Stream;
-  timestamp: number;
-};
+export enum StreamStatus {
+  Active = 0,
+  Ended,
+  Cancelled,
+  Pending,
+}
 
 export type Token = {
   id: number;

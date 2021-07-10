@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import CreateStreamForm from "../components/CreateStreamForm";
-import SablierExplainer from "../components/SablierExplainer";
+import Explainer from "../components/Explainer";
 import { useIncomingStreams, useOutgoingStreams } from "../contexts/StreamsContext";
 
 const HomeOuterWrapper = styled.div`
@@ -51,17 +51,17 @@ const DashboardNavWrapper = styled.div`
 
 function HomePage(): JSX.Element {
   const history = useHistory();
-  const incomingProxyStreams = useIncomingStreams();
-  const outgoingProxyStreams = useOutgoingStreams();
+  const incomingStreams = useIncomingStreams();
+  const outgoingStreams = useOutgoingStreams();
 
   /// MEMOIZED VALUES ///
   const noIncomingStreams = useMemo((): boolean => {
-    return incomingProxyStreams.length === 0;
-  }, [incomingProxyStreams]);
+    return incomingStreams.length === 0;
+  }, [incomingStreams]);
 
   const noOutgoingStreams = useMemo((): boolean => {
-    return outgoingProxyStreams.length === 0;
-  }, [outgoingProxyStreams]);
+    return outgoingStreams.length === 0;
+  }, [outgoingStreams]);
 
   return (
     <HomeOuterWrapper>
@@ -72,7 +72,7 @@ function HomePage(): JSX.Element {
         <CreateStreamForm />
       </LeftWrapper>
       <RightWrapper>
-        <SablierExplainer />
+        <Explainer />
         <DashboardNavWrapper>
           <StyledButton disabled={noIncomingStreams} onClick={() => history.push("/incoming")}>
             View incoming streams

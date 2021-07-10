@@ -6,9 +6,9 @@ import { useMemo } from "react";
 import styled from "styled-components";
 
 import useRefreshWithPeriod from "../../../hooks/useRefreshWithPeriod";
-import { ProxyStream } from "../../../types";
+import { Stream } from "../../../types";
 import { bigNumberToRoundedHumanFormat } from "../../../utils";
-import { percentageProgress, recipientShare, senderShare } from "../../../utils/stream";
+import { getProgressAsPercentage, getRecipientShare, getSenderShare } from "../../../utils/stream";
 import EtherscanLink from "../../EtherscanLink";
 
 const lg = "24px";
@@ -24,16 +24,16 @@ const StreamDataContainer = styled.div`
   padding: ${lg} ${md};
 `;
 
-const StyledText = styled(Text)`
+const AddressContainer = styled.div``;
+
+const StyledText = styled(Text).attrs({ size: "md" })`
   margin: 8px 0px;
 `;
 
-type StreamInfoProps = { chainId: number; proxyStream: ProxyStream };
+type StreamInfoProps = { chainId: number; stream: Stream };
 
-const StreamInfo = ({ chainId, proxyStream }: StreamInfoProps): JSX.Element => {
-  useRefreshWithPeriod(1000);
-  const { recipient, sender } = proxyStream;
-  const { cancellation, deposit, startTime, stopTime, token, withdrawals } = proxyStream.stream;
+const StreamInfo = ({ chainId, stream }: StreamInfoProps): JSX.Element => {
+  const { cancellation, deposit, recipient, sender, startTime, stopTime, token, withdrawals } = stream;
 
   /// MEMOIZED VALUES ///
 
@@ -45,41 +45,43 @@ const StreamInfo = ({ chainId, proxyStream }: StreamInfoProps): JSX.Element => {
     return getAddress(sender);
   }, [sender]);
 
-  // These variables are purposefully not memoised as they depend on the current time.
+  // These variables are purposefully not memoised as they actually need to be updated continuously.
+  useRefreshWithPeriod(1000);
+
   const senderBalance = bigNumberToRoundedHumanFormat(
-    senderShare(deposit, startTime, stopTime, cancellation?.timestamp),
+    getSenderShare(deposit, startTime, stopTime, cancellation?.timestamp),
     token.decimals,
     3,
   );
 
   const recipientBalance = bigNumberToRoundedHumanFormat(
-    recipientShare(deposit, startTime, stopTime, cancellation?.timestamp),
+    getRecipientShare(deposit, startTime, stopTime, cancellation?.timestamp),
     token.decimals,
     3,
   );
 
   const withdrawnBalance = withdrawals.reduce((accumulator, { amount }) => accumulator.add(amount), Zero);
   const availableBalance = bigNumberToRoundedHumanFormat(
-    cancellation === null ? recipientShare(deposit, startTime, stopTime).sub(withdrawnBalance) : Zero,
+    cancellation === null ? getRecipientShare(deposit, startTime, stopTime).sub(withdrawnBalance) : Zero,
     token.decimals,
     3,
   );
 
   return (
     <StreamDataContainer>
-      <StyledText size="md">
-        Sender: <EtherscanLink chainId={chainId} type="address" value={senderAddress} />
-      </StyledText>
-      <StyledText size="md">
-        Recipient: <EtherscanLink chainId={chainId} type="address" value={recipientAddress} />
-      </StyledText>
-      <StyledText size="md">{`Stream Progress: ${
+      <AddressContainer>
+        <EtherscanLink chainId={chainId} prefix="Sender:" type="address" value={senderAddress} />
+      </AddressContainer>
+      <AddressContainer>
+        <EtherscanLink chainId={chainId} prefix="Recipient:" type="address" value={recipientAddress} />
+      </AddressContainer>
+      <StyledText>{`Stream Progress: ${
         isPast(new Date(startTime * 1000))
-          ? `${percentageProgress(startTime, stopTime, cancellation?.timestamp)}%`
+          ? `${getProgressAsPercentage(startTime, stopTime, cancellation?.timestamp)}%`
           : `Starts ${formatDistanceToNow(new Date(startTime * 1000))}`
       }`}</StyledText>
-      <StyledText size="md">{`Sender Balance: ${senderBalance} ${token.symbol}`}</StyledText>
-      <StyledText size="md">{`Recipient Balance: ${recipientBalance} ${token.symbol} (${availableBalance} ${token.symbol} available to withdraw)`}</StyledText>
+      <StyledText>{`Sender Balance: ${senderBalance} ${token.symbol}`}</StyledText>
+      <StyledText>{`Recipient Balance: ${recipientBalance} ${token.symbol} (${availableBalance} ${token.symbol} available to withdraw)`}</StyledText>
     </StreamDataContainer>
   );
 };

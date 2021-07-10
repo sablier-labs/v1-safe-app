@@ -1,8 +1,8 @@
 import DateFnsUtils from "@date-io/date-fns";
 import { BigNumber } from "@ethersproject/bignumber";
+import { Zero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
-import { InfuraProvider } from "@ethersproject/providers";
-import { parseEther } from "@ethersproject/units";
+// import { Network } from "@ethersproject/networks";
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
 import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 import { Button, Loader, Select, Text, TextField } from "@gnosis.pm/safe-react-components";
@@ -13,13 +13,14 @@ import { isAfter, isDate, isFuture } from "date-fns";
 import { HTMLProps, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
-import ERC20_ABI from "../../abis/erc20";
-import { TokenItem, getTokenList } from "../../config/tokens";
-import useSafeEthBalance from "../../hooks/useSafeEthBalance";
+import { getSablierContractAddress } from "../../config/sablier";
+import { DATE_FORMAT, TIME_FORMAT } from "../../constants/time";
+import { TokenItem, getTokens } from "../../constants/tokens";
+import useTokenContract from "../../hooks/useTokenContract";
 import dateTimeTheme from "../../theme/datetimepicker";
-import { createEthStreamTxs, createStreamTxs } from "../../transactions";
+import { createStreamTxs } from "../../txs";
 import { SablierChainId } from "../../types";
-import { DATE_FORMAT, TIME_FORMAT, bigNumberToHumanFormat } from "../../utils";
+import { bigNumberToHumanFormat } from "../../utils";
 import { ButtonContainer, SelectContainer, TextFieldContainer } from "../index";
 
 const Wrapper = styled.div`
@@ -30,7 +31,6 @@ const Wrapper = styled.div`
 `;
 
 function CreateStreamForm(): JSX.Element {
-  const ethBalance = useSafeEthBalance();
   const { safe, sdk } = useSafeAppsSDK();
 
   /// STATE ///
@@ -38,12 +38,14 @@ function CreateStreamForm(): JSX.Element {
   const [amountError, setAmountError] = useState<string | undefined>();
   const [endDate, handleEndDateChange] = useState<Date | null>(null);
   const [recipient, setRecipient] = useState<string>("");
-  const [selectedToken, setSelectedToken] = useState<TokenItem>();
   const [startDate, handleStartDateChange] = useState<Date | null>(null);
   const [streamAmount, setStreamAmount] = useState<string>("");
+  const [tokenAllowance, setTokenAllowance] = useState<BigNumber>(Zero);
   const [tokenBalance, setTokenBalance] = useState<string>("0");
-  const [tokenInstance, setTokenInstance] = useState<Contract>();
-  const [tokenList, setTokenList] = useState<TokenItem[]>();
+  const [tokens, setTokens] = useState<TokenItem[]>([]);
+
+  const [selectedToken, setSelectedToken] = useState<TokenItem>();
+  const tokenContract: Contract = useTokenContract(selectedToken?.address);
 
   /// MEMOIZED VALUES ///
 
@@ -79,46 +81,47 @@ function CreateStreamForm(): JSX.Element {
   }, [humanTokenBalance, selectedToken, streamAmount, tokenBalance]);
 
   const createStream = useCallback((): void => {
-    // We call in this way to ensure all errors are displayed to user.
-    const amountValid = validateAmountValue();
-    if (!safe.chainId || !selectedToken || !amountValid || !startDate || !endDate) {
-      return;
-    }
+    async function sendTxs(): Promise<void> {
+      if (!safe.chainId || !selectedToken || !startDate || !endDate) {
+        return;
+      }
 
-    // TODO: Stream initiation must be approved by other owners within an hour.
-    const startTime: BigNumber = BigNumber.from(Math.floor(startDate.getTime() / 1000));
-    const stopTime: BigNumber = BigNumber.from(Math.floor(endDate.getTime() / 1000));
-    const totalSeconds = stopTime.sub(startTime);
+      // We call in this way to ensure all errors are displayed to the user.
+      const amountValid = validateAmountValue();
+      if (!amountValid) {
+        return;
+      }
 
-    const bnStreamAmount = BigNumber.from(streamAmount);
-    const safeStreamAmount = bnStreamAmount.sub(bnStreamAmount.mod(totalSeconds));
+      // TODO: Stream initiation must be approved by other owners within an hour.
+      const startTime: BigNumber = BigNumber.from(Math.floor(startDate.getTime() / 1000));
+      const stopTime: BigNumber = BigNumber.from(Math.floor(endDate.getTime() / 1000));
+      const totalSeconds: BigNumber = stopTime.sub(startTime);
 
-    let txs: BaseTransaction[];
-    if (selectedToken.id === "ETH") {
-      // If streaming ETH we need to wrap it first.
-      txs = createEthStreamTxs(
+      const streamAmountBn: BigNumber = BigNumber.from(streamAmount);
+      const safeStreamAmount: BigNumber = streamAmountBn.sub(streamAmountBn.mod(totalSeconds));
+
+      const txs: BaseTransaction[] = createStreamTxs(
         safe.chainId,
         recipient,
-        safeStreamAmount.toString(),
+        safeStreamAmount,
+        selectedToken.address,
+        tokenAllowance,
         startTime.toString(),
         stopTime.toString(),
       );
-    } else {
-      txs = createStreamTxs(
-        safe.chainId,
-        recipient,
-        safeStreamAmount.toString(),
-        tokenInstance?.address || "",
-        startTime.toString(),
-        stopTime.toString(),
-      );
+
+      try {
+        await sdk.txs.send({ txs });
+      } catch (error) {
+        console.error("Error while creating the stream", { error });
+      }
+
+      setStreamAmount("");
+      setRecipient("");
     }
 
-    void sdk.txs.send({ txs });
-
-    setStreamAmount("");
-    setRecipient("");
-  }, [endDate, recipient, safe, selectedToken, startDate, streamAmount, tokenInstance, validateAmountValue]);
+    void sendTxs();
+  }, [endDate, recipient, safe, selectedToken, startDate, streamAmount, tokenAllowance, validateAmountValue]);
 
   const onAmountChange = useCallback((value: string): void => {
     setAmountError(undefined);
@@ -127,10 +130,7 @@ function CreateStreamForm(): JSX.Element {
 
   const onSelectItem = useCallback(
     (id: string): void => {
-      if (!tokenList) {
-        return;
-      }
-      const newSelectedToken = tokenList.find(t => {
+      const newSelectedToken = tokens.find(t => {
         return t.id === id;
       });
       if (!newSelectedToken) {
@@ -138,64 +138,76 @@ function CreateStreamForm(): JSX.Element {
       }
       setSelectedToken(newSelectedToken);
     },
-    [setSelectedToken, tokenList],
+    [setSelectedToken, tokens],
   );
 
   /// SIDE EFFECTS ///
+
+  useEffect(() => {
+    const controller: AbortController = new AbortController();
+
+    async function getTokenInfo(): Promise<void> {
+      if (!safe.chainId || !safe.safeAddress || !selectedToken || !tokenContract) {
+        return;
+      }
+
+      // Wait until token is correctly updated.
+      if (selectedToken.address.toLowerCase() !== tokenContract.address.toLowerCase()) {
+        return;
+      }
+
+      try {
+        // Get the token balance.
+        const newTokenBalance: string = await tokenContract.balanceOf(safe.safeAddress);
+
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        // Update the token balance.
+        setTokenBalance(newTokenBalance);
+
+        // Get the token allowance.
+        const sablierContractAddress: string = getSablierContractAddress(safe.chainId);
+        const newTokenAllowance: BigNumber = await tokenContract.allowance(safe.safeAddress, sablierContractAddress);
+
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        // Update the token allowance.
+        setTokenAllowance(newTokenAllowance);
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error("Error while reading token info", error);
+        }
+      }
+    }
+
+    void getTokenInfo();
+
+    return () => {
+      controller.abort();
+    };
+  }, [safe.safeAddress, selectedToken, setTokenBalance, tokens, tokenContract]);
 
   // Load tokens list and initialize with DAI.
   useEffect(() => {
     if (!safe.chainId) {
       return;
     }
-    const loadedTokenList: TokenItem[] = getTokenList(safe.chainId as SablierChainId);
-    setTokenList(loadedTokenList);
 
-    const dai: TokenItem | undefined = loadedTokenList.find(token => {
-      return token.id === "DAI";
+    const loadedTokens: TokenItem[] = getTokens(safe.chainId as SablierChainId);
+    setTokens(loadedTokens);
+
+    const dai: TokenItem | undefined = loadedTokens.find(t => {
+      return t.id === "DAI";
     });
-    setSelectedToken(dai);
-  }, [safe.chainId]);
 
-  // Clear the form every time the user changes the token.
-  useEffect(() => {
-    if (!safe.chainId || !selectedToken) {
-      return;
+    if (dai) {
+      setSelectedToken(dai);
     }
-
-    setTokenBalance("0");
-    setStreamAmount("");
-    setAmountError(undefined);
-
-    const provider = new InfuraProvider(safe.chainId, process.env.REACT_APP_INFURA_KEY);
-    setTokenInstance(new Contract(selectedToken.address, ERC20_ABI, provider));
-  }, [safe.chainId, selectedToken, setTokenBalance]);
-
-  useEffect(() => {
-    const getData = async (): Promise<void> => {
-      if (!safe.safeAddress || !ethBalance || !selectedToken || !tokenInstance) {
-        return;
-      }
-
-      // Wait until token is correctly updated.
-      if (selectedToken?.address.toLocaleLowerCase() !== tokenInstance?.address.toLocaleLowerCase()) {
-        return;
-      }
-
-      // Get token balance.
-      let newTokenBalance: string;
-      if (selectedToken.id === "ETH") {
-        newTokenBalance = parseEther(ethBalance).toString();
-      } else {
-        newTokenBalance = await tokenInstance.balanceOf(safe.safeAddress);
-      }
-
-      // Update all the values in a row to avoid UI flickers.
-      setTokenBalance(newTokenBalance);
-    };
-
-    void getData();
-  }, [ethBalance, safe.safeAddress, selectedToken, setTokenBalance, tokenInstance]);
+  }, [safe.chainId, setSelectedToken, setTokens]);
 
   if (!selectedToken) {
     return <Loader size="md" />;
@@ -206,7 +218,7 @@ function CreateStreamForm(): JSX.Element {
       <Text size="lg">What token do you want to use?</Text>
 
       <SelectContainer>
-        <Select items={tokenList || []} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
+        <Select items={tokens} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
         <Text size="lg">{humanTokenBalance()}</Text>
       </SelectContainer>
 

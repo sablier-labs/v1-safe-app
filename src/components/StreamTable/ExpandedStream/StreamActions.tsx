@@ -1,14 +1,14 @@
-import { BigNumberish } from "@ethersproject/bignumber";
-import { Zero } from "@ethersproject/constants";
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
+import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 import { Button } from "@gnosis.pm/safe-react-components";
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
-import { ProxyStream } from "../../../types";
-import { streamAvailableBalance } from "../../../utils/stream";
-import { StreamStatus, getStreamStatus } from "../Status";
+import useWithdrawableAmount from "../../../hooks/useWithdrawableAmount";
+import { cancelStreamTx, withdrawStreamTx } from "../../../txs";
+import { Stream, StreamStatus } from "../../../types";
+import { getStreamStatus } from "../../../utils/stream";
 
 const lg: string = "24px";
 const md: string = "16px";
@@ -39,39 +39,65 @@ const StyledAnchor = styled.a.attrs({
 `;
 
 type StreamActionsProps = {
-  cancelStream: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  withdrawStream: (amount: BigNumberish) => void;
-  proxyStream: ProxyStream;
+  stream: Stream;
 };
 
-const StreamActions = ({ cancelStream, proxyStream, withdrawStream }: StreamActionsProps): JSX.Element => {
-  const { safe } = useSafeAppsSDK();
+const StreamActions = ({ stream }: StreamActionsProps): JSX.Element => {
+  const withdrawableAmount = useWithdrawableAmount(stream.id, stream.recipient);
+  const { safe, sdk } = useSafeAppsSDK();
 
   /// MEMOIZED VALUES ///
 
-  const canCancelStream = useMemo(() => {
-    return (
-      getStreamStatus(proxyStream) === StreamStatus.Active || getStreamStatus(proxyStream) === StreamStatus.Pending
-    );
-  }, [getStreamStatus, proxyStream]);
+  const isCancelStreamDisabled = useMemo(() => {
+    return getStreamStatus(stream) !== StreamStatus.Active && getStreamStatus(stream) !== StreamStatus.Pending;
+  }, [stream]);
 
-  const canWithdrawFromStream = useMemo(() => {
+  const isWithdrawFromStreamDisabled = useMemo(() => {
     return (
-      proxyStream.recipient === safe.safeAddress?.toLowerCase() && // We are recipient
-      getStreamStatus(proxyStream) !== StreamStatus.Cancelled && // Stream hasn't been cancelled (and funds distributed)
-      streamAvailableBalance(proxyStream).gt(Zero) // There are funds in stream
+      stream.recipient !== safe.safeAddress?.toLowerCase() || // Not recipient
+      getStreamStatus(stream) === StreamStatus.Cancelled // Stream cancelled (and funds distributed
     );
-  }, [proxyStream, getStreamStatus, safe.safeAddress, streamAvailableBalance]);
+  }, [stream, safe.safeAddress]);
 
   const sablierStreamUrl = useMemo(() => {
-    return `https://app.sablier.finance/stream/${proxyStream.id}`;
-  }, [proxyStream]);
+    return `https://app.sablier.finance/stream/${stream.id}`;
+  }, [stream]);
 
   /// CALLBACKS ///
 
-  const triggerWithdrawal = useCallback(() => {
-    withdrawStream(streamAvailableBalance(proxyStream));
-  }, [proxyStream, streamAvailableBalance, withdrawStream]);
+  const cancelStream = useCallback((): void => {
+    async function sendTx(): Promise<void> {
+      if (!safe.chainId) {
+        return;
+      }
+
+      const txs: BaseTransaction[] = cancelStreamTx(safe.chainId, stream.id);
+      try {
+        await sdk.txs.send({ txs });
+      } catch (error) {
+        console.error("Error while cancelling the stream", error);
+      }
+    }
+
+    void sendTx();
+  }, [safe.chainId, sdk, stream]);
+
+  const withdrawStream = useCallback((): void => {
+    async function sendTx(): Promise<void> {
+      if (!safe.chainId || withdrawableAmount.isZero()) {
+        return;
+      }
+
+      try {
+        const txs: BaseTransaction[] = withdrawStreamTx(safe.chainId, stream.id, withdrawableAmount.toString());
+        await sdk.txs.send({ txs });
+      } catch (error) {
+        console.error("Error while withdrawing from the stream", error);
+      }
+    }
+
+    void sendTx();
+  }, [safe.chainId, sdk, stream, withdrawableAmount]);
 
   return (
     <ActionsContainer>
@@ -81,10 +107,10 @@ const StreamActions = ({ cancelStream, proxyStream, withdrawStream }: StreamActi
       <StyledButton>
         <StyledAnchor href={sablierStreamUrl}>View Stream</StyledAnchor>
       </StyledButton>
-      <StyledButton disabled={!canWithdrawFromStream} onClick={triggerWithdrawal}>
+      <StyledButton disabled={isWithdrawFromStreamDisabled} onClick={withdrawStream}>
         Withdraw
       </StyledButton>
-      <StyledButton disabled={!canCancelStream} onClick={cancelStream}>
+      <StyledButton disabled={isCancelStreamDisabled} onClick={cancelStream}>
         Cancel
       </StyledButton>
     </ActionsContainer>

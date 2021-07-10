@@ -1,3 +1,4 @@
+import { Text } from "@gnosis.pm/safe-react-components";
 import styled, { css } from "styled-components";
 
 import { shortenAddress } from "../../utils/address";
@@ -13,6 +14,14 @@ const EtherscanLinkContainer = styled.div`
     fill: ${secondaryText};
   }
 `;
+
+const StyledText = styled(Text).attrs({ size: "md" })`
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 8px 0px;
+`;
+
+const PrefixSpan = styled.span``;
 
 const Address = styled.span`
   display: block;
@@ -46,15 +55,27 @@ type EtherscanLinkProps = {
   chainId: number;
   cut?: number;
   knownAddress?: boolean;
+  prefix: string;
   type: "tx" | "address";
   value: string;
 };
 
-function EtherscanLink({ chainId, cut = 0, knownAddress = false, type, value }: EtherscanLinkProps): JSX.Element {
+function EtherscanLink({
+  chainId,
+  cut = 0,
+  knownAddress = false,
+  prefix,
+  type,
+  value,
+}: EtherscanLinkProps): JSX.Element {
   return (
     <EtherscanLinkContainer>
-      <Address knownAddress={knownAddress as boolean}>{cut ? shortenAddress(value, cut) : value}</Address>
-      <StyledCopyButton firstButton content={value} />
+      <StyledText>
+        <PrefixSpan>{prefix}</PrefixSpan>
+        &nbsp;
+        <Address knownAddress={knownAddress}>{cut ? shortenAddress(value, cut) : value}</Address>
+      </StyledText>
+      <StyledCopyButton content={value} firstButton />
       <StyledEtherscanButton chainId={chainId} type={type} value={value} />
     </EtherscanLinkContainer>
   );

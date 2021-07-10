@@ -90,7 +90,7 @@ function GnoTable({
   disableLoadingOnEmptyTable = false,
   disablePagination = false,
   label,
-  noBorder,
+  noBorder = false,
   size,
 }: GnoTableProps): JSX.Element {
   const classes = useStyles();
@@ -168,14 +168,14 @@ function GnoTable({
     [defaultOrder, order, orderBy],
   );
 
-  const handlePageChange = useCallback(
+  const handleChangePage = useCallback(
     (_e: any, newPage: number): void => {
       setPage(newPage);
     },
     [setPage],
   );
 
-  const handleRowsPerPageChange = useCallback(
+  const handleChangeRowsPerPage = useCallback(
     (e: any) => {
       const newRowsPerPage = Number(e.target.value);
       setRowsPerPage(newRowsPerPage);
@@ -200,7 +200,7 @@ function GnoTable({
   return (
     <>
       {!isEmpty && (
-        <StyledTable aria-labelledby={label} size="small" noBorder={noBorder}>
+        <StyledTable aria-labelledby={label} $noBorder={noBorder} size="small">
           <TableHead columns={columns} onSort={onSort} order={order} orderBy={orderByParam} />
           <TableBody>{children(sortedData)}</TableBody>
         </StyledTable>
@@ -217,8 +217,8 @@ function GnoTable({
           component="div"
           count={size}
           nextIconButtonProps={nextProps}
-          onRowsPerPageChange={handleRowsPerPageChange}
-          onPageChange={handlePageChange}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onChangePage={handleChangePage}
           page={page}
           rowsPerPage={displayRows}
           rowsPerPageOptions={[displayRows]}
