@@ -46,20 +46,22 @@ function StreamsProvider({ children }: StreamsProviderProps): JSX.Element {
   useEffect(() => {
     void refreshStreams();
     const intervalId = setInterval(refreshStreams, 10 * 1000);
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [refreshStreams]);
 
   return <StreamsContext.Provider value={{ incomingStreams, outgoingStreams }}>{children}</StreamsContext.Provider>;
 }
 
-export const useIncomingStreams = (): Stream[] => {
+export function useIncomingStreams(): Stream[] {
   const { incomingStreams } = useStreamsContext();
   return incomingStreams;
-};
+}
 
-export const useOutgoingStreams = (): Stream[] => {
+export function useOutgoingStreams(): Stream[] {
   const { outgoingStreams } = useStreamsContext();
   return outgoingStreams;
-};
+}
 
 export default StreamsProvider;

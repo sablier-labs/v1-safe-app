@@ -43,7 +43,7 @@ type StreamActionsProps = {
 };
 
 const StreamActions = ({ stream }: StreamActionsProps): JSX.Element => {
-  const withdrawableAmount = useWithdrawableAmount(stream.id, stream.recipient);
+  const withdrawableAmount = useWithdrawableAmount(stream);
   const { safe, sdk } = useSafeAppsSDK();
 
   /// MEMOIZED VALUES ///

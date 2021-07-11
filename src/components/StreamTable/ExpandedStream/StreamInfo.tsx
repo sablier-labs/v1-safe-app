@@ -8,7 +8,7 @@ import styled from "styled-components";
 import useRefreshWithPeriod from "../../../hooks/useRefreshWithPeriod";
 import { Stream } from "../../../types";
 import { bigNumberToRoundedHumanFormat } from "../../../utils";
-import { getProgressAsPercentage, getRecipientShare, getSenderShare } from "../../../utils/stream";
+import { getRecipientShare, getRecipientShareAsPercentage, getSenderShare } from "../../../utils/stream";
 import EtherscanLink from "../../EtherscanLink";
 
 const lg = "24px";
@@ -77,7 +77,7 @@ const StreamInfo = ({ chainId, stream }: StreamInfoProps): JSX.Element => {
       </AddressContainer>
       <StyledText>{`Stream Progress: ${
         isPast(new Date(startTime * 1000))
-          ? `${getProgressAsPercentage(startTime, stopTime, cancellation?.timestamp)}%`
+          ? `${getRecipientShareAsPercentage(startTime, stopTime, cancellation?.timestamp)}%`
           : `Starts ${formatDistanceToNow(new Date(startTime * 1000))}`
       }`}</StyledText>
       <StyledText>{`Sender Balance: ${senderBalance} ${token.symbol}`}</StyledText>

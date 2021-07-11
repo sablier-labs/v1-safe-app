@@ -4,11 +4,12 @@ import { isFuture, isPast } from "date-fns";
 
 import { Stream, StreamStatus } from "../types";
 
+/// Subtract 15 seconds so that the app doesn't get ahead of the blockchain.
 function currentUnixTimestamp() {
-  return Math.trunc(Date.now() / 1000);
+  return Math.trunc(Date.now() / 1000) - 15;
 }
 
-function getUserShare(value: BigNumberish, streamDuration: BigNumberish, ownedDuration: BigNumberish): BigNumber {
+function getShare(value: BigNumberish, streamDuration: BigNumberish, ownedDuration: BigNumberish): BigNumber {
   if (BigNumber.from(ownedDuration).lte(Zero)) {
     return Zero;
   }
@@ -26,10 +27,10 @@ export function getRecipientShare(
 ): BigNumber {
   const streamDuration = BigNumber.from(endTime).sub(startTime);
   const elapsedDuration = BigNumber.from(cancellationTime || currentUnixTimestamp()).sub(startTime);
-  return getUserShare(value, streamDuration, elapsedDuration);
+  return getShare(value, streamDuration, elapsedDuration);
 }
 
-export function getProgressAsPercentage(
+export function getRecipientShareAsPercentage(
   startTime: BigNumberish,
   endTime: BigNumberish,
   cancellationTime?: BigNumberish,
@@ -45,10 +46,10 @@ export function getSenderShare(
 ): BigNumber {
   const streamDuration = BigNumber.from(endTime).sub(startTime);
   const remainingDuration = BigNumber.from(endTime).sub(cancellationTime || currentUnixTimestamp());
-  return getUserShare(value, streamDuration, remainingDuration);
+  return getShare(value, streamDuration, remainingDuration);
 }
 
-export const getStreamStatus = (stream: Stream): StreamStatus => {
+export function getStreamStatus(stream: Stream): StreamStatus {
   const { cancellation, startTime, stopTime } = stream;
   if (cancellation !== null) {
     return StreamStatus.Cancelled;
@@ -60,4 +61,12 @@ export const getStreamStatus = (stream: Stream): StreamStatus => {
     return StreamStatus.Ended;
   }
   return StreamStatus.Active;
-};
+}
+
+export function getStreamWithdrawableAmount(stream: Stream): BigNumber {
+  const { deposit, startTime, stopTime, withdrawals } = stream;
+  const withdrawnBalance = withdrawals.reduce((accumulator, { amount }) => {
+    return accumulator.add(amount);
+  }, Zero);
+  return getRecipientShare(deposit, startTime, stopTime).sub(withdrawnBalance);
+}

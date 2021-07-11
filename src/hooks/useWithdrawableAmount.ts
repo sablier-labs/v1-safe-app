@@ -4,9 +4,11 @@ import { Contract } from "@ethersproject/contracts";
 import { useEffect, useState } from "react";
 
 import { CUTOFF_STREAM_ID } from "../constants";
+import { Stream } from "../types";
+import { getStreamWithdrawableAmount } from "../utils/stream";
 import useSablierContract from "./useSablierContract";
 
-export default function useWithdrawableAmount(streamId: number, recipient: string): BigNumber {
+export default function useWithdrawableAmount(stream: Stream): BigNumber {
   const sablierContract: Contract = useSablierContract();
   const [withdrawableAmount, setWithdrawableAmount] = useState<BigNumber>(Zero);
 
@@ -21,11 +23,11 @@ export default function useWithdrawableAmount(streamId: number, recipient: strin
       try {
         let newWithdrawableAmount: BigNumber;
 
-        if (BigNumber.from(streamId).gte(CUTOFF_STREAM_ID)) {
-          newWithdrawableAmount = await sablierContract.balanceOf(streamId, recipient);
+        if (BigNumber.from(stream.id).gte(CUTOFF_STREAM_ID)) {
+          newWithdrawableAmount = await sablierContract.balanceOf(stream.id, stream.recipient);
         } else {
-          newWithdrawableAmount = Zero;
-          // TODO: figure out how to calculate this ...
+          // The Payroll.sol contract doesn't have a "balanceOf" method.
+          newWithdrawableAmount = getStreamWithdrawableAmount(stream);
         }
 
         if (!controller.signal.aborted) {
@@ -43,7 +45,7 @@ export default function useWithdrawableAmount(streamId: number, recipient: strin
     return () => {
       controller.abort();
     };
-  }, [recipient, sablierContract, setWithdrawableAmount, streamId]);
+  }, [sablierContract, setWithdrawableAmount, stream]);
 
   return withdrawableAmount;
 }
