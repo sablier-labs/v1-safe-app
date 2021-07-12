@@ -43,21 +43,31 @@ type StreamActionsProps = {
 };
 
 const StreamActions = ({ stream }: StreamActionsProps): JSX.Element => {
-  const withdrawableAmount = useWithdrawableAmount(stream);
   const { safe, sdk } = useSafeAppsSDK();
 
   /// MEMOIZED VALUES ///
 
   const isCancelStreamDisabled = useMemo(() => {
-    return getStreamStatus(stream) !== StreamStatus.Active && getStreamStatus(stream) !== StreamStatus.Pending;
-  }, [stream]);
+    if (!safe.safeAddress) {
+      return true;
+    }
+    return (
+      stream.sender !== safe.safeAddress.toLowerCase() || // Not sender
+      getStreamStatus(stream) === StreamStatus.Cancelled || // Stream cancelled
+      getStreamStatus(stream) === StreamStatus.Ended // Stream ended
+    );
+  }, [safe.safeAddress, stream]);
 
   const isWithdrawFromStreamDisabled = useMemo(() => {
+    if (!safe.safeAddress) {
+      return true;
+    }
     return (
-      stream.recipient !== safe.safeAddress?.toLowerCase() || // Not recipient
-      getStreamStatus(stream) === StreamStatus.Cancelled // Stream cancelled (and funds distributed
+      stream.recipient !== safe.safeAddress.toLowerCase() || // Not recipient
+      getStreamStatus(stream) === StreamStatus.Cancelled // Stream cancelled (and funds distributed)
     );
   }, [stream, safe.safeAddress]);
+  const withdrawableAmount = useWithdrawableAmount(stream, isWithdrawFromStreamDisabled);
 
   const sablierStreamUrl = useMemo(() => {
     return `https://app.sablier.finance/stream/${stream.id}`;

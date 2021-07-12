@@ -55,12 +55,12 @@ export function getStreamStatus(stream: Stream): StreamStatus {
     return StreamStatus.Cancelled;
   }
   if (isFuture(new Date(startTime * 1000))) {
-    return StreamStatus.Pending;
+    return StreamStatus.Created;
   }
   if (isPast(new Date(stopTime * 1000))) {
     return StreamStatus.Ended;
   }
-  return StreamStatus.Active;
+  return StreamStatus.Streaming;
 }
 
 export function getStreamWithdrawableAmount(stream: Stream): BigNumber {

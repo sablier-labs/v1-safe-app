@@ -11,10 +11,10 @@ const sm: string = "8px";
 const lg: string = "24px";
 
 const statusToIcon = {
-  [StreamStatus.Pending]: ClockGreyIcon,
-  [StreamStatus.Active]: ClockIcon,
-  [StreamStatus.Ended]: OkIcon,
+  [StreamStatus.Streaming]: ClockIcon,
   [StreamStatus.Cancelled]: ErrorIcon,
+  [StreamStatus.Ended]: OkIcon,
+  [StreamStatus.Created]: ClockGreyIcon,
 };
 
 const StatusContainer = styled.div`
@@ -31,17 +31,10 @@ const StatusContainer = styled.div`
   padding: ${sm};
 
   ${({ status }: { status: StreamStatus }) =>
-    status === StreamStatus.Active &&
+    status === StreamStatus.Streaming &&
     css`
       background-color: #a1d2ca;
       color: #008c73;
-    `}
-
-  ${({ status }: { status: StreamStatus }) =>
-    status === StreamStatus.Ended &&
-    css`
-      background-color: #d4d5d3;
-      color: #5d6d6d74;
     `}
 
   ${({ status }: { status: StreamStatus }) =>
@@ -53,7 +46,14 @@ const StatusContainer = styled.div`
     `}
 
   ${({ status }: { status: StreamStatus }) =>
-    status === StreamStatus.Pending &&
+    status === StreamStatus.Ended &&
+    css`
+      background-color: #d4d5d3;
+      color: #5d6d6d74;
+    `}
+
+  ${({ status }: { status: StreamStatus }) =>
+    status === StreamStatus.Created &&
     css`
       background-color: #d4d5d3;
       color: #5d6d6d74;

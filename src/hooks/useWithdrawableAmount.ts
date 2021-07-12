@@ -8,7 +8,7 @@ import { Stream } from "../types";
 import { getStreamWithdrawableAmount } from "../utils/stream";
 import useSablierContract from "./useSablierContract";
 
-export default function useWithdrawableAmount(stream: Stream): BigNumber {
+export default function useWithdrawableAmount(stream: Stream, isWithdrawFromStreamDisabled: boolean): BigNumber {
   const sablierContract: Contract = useSablierContract();
   const [withdrawableAmount, setWithdrawableAmount] = useState<BigNumber>(Zero);
 
@@ -16,6 +16,10 @@ export default function useWithdrawableAmount(stream: Stream): BigNumber {
     const controller: AbortController = new AbortController();
 
     async function getWithdrawableAmount(): Promise<void> {
+      if (isWithdrawFromStreamDisabled) {
+        return;
+      }
+
       if (sablierContract.address === AddressZero) {
         return;
       }

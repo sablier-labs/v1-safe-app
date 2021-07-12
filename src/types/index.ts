@@ -50,10 +50,10 @@ export type Stream = {
 };
 
 export enum StreamStatus {
-  Active = 0,
-  Ended,
-  Cancelled,
-  Pending,
+  Created = 1,
+  Streaming = 2,
+  Cancelled = 3,
+  Ended = 4,
 }
 
 export type Token = {
