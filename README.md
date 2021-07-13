@@ -49,7 +49,7 @@ contributing or have any questions, ping us on [Discord](https://discord.gg/KXaj
 To start developing on the Sablier Safe App, first clone this repository and enter the new directory.
 
 ```bash
-git clone https://github.com/TomAFrench/sablier-safe-app.git
+git clone https://github.com/paulrberg/sablier-safe-app.git
 cd sablier-safe-app
 ```
 
@@ -59,20 +59,20 @@ You will need to create a `.env` file. We have provided `.env.example` as a temp
 cp .env.example .env
 ```
 
-Now install the node dependencies and start the dev server:
+Now, install the node dependencies and start the dev server:
 
 ```bash
 yarn install
 yarn start
 ```
 
-The app will then be hosted on `http://localhost:3000`.
+The app will be hosted on `http://localhost:3000`.
 
 ### React App Rewired
 
 In order to allow the Gnosis Safe UI to access the app while it's running on localhost, we need to edit the headers on the dev server (`node_modules/react-scripts/config/webpackDevServer.config.js`) to avoid CORS issues:
 
-```
+```json
 headers: {
     "Access-Control-Allow-Origin": "\*",
     "Access-Control-Allow-Methods": "GET",
