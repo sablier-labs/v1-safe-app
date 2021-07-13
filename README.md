@@ -1,7 +1,7 @@
 # Sablier Safe App
 
 This Safe App brings real-time finance to [Gnosis Safe](https://gnosis-safe.io/) users by allowing them to use
-the [Sablier](https://sablier.finance) platform. Read more about Safe Apps [here](https://docs.gnosis.io/safe/docs/sdks_safe_apps/).
+the [Sablier](https://sablier.finance) platform. Learn more about Safe Apps [here](https://docs.gnosis.io/safe/docs/sdks_safe_apps/).
 
 Sablier opens up the opportunity for organisations to pay and interact with each other in new ways without having to give custody of funds to a single member:
 
