@@ -1,13 +1,13 @@
 # Sablier Safe App
 
-The Sablier Safe App brings real-time finance to [Gnosis Safe](https://gnosis-safe.io/) users by allowing them to use
+This Safe App brings real-time finance to [Gnosis Safe](https://gnosis-safe.io/) users by allowing them to use
 the [Sablier](https://sablier.finance) platform. Read more about Safe Apps [here](https://docs.gnosis.io/safe/docs/sdks_safe_apps/).
 
-This opens up the opportunity for organisations to pay and interact with each other in new ways without having to give custody of funds to a single member:
+Sablier opens up the opportunity for organisations to pay and interact with each other in new ways without having to give custody of funds to a single member:
 
-1. "Continuous" payroll or freelancing
-2. Vesting, imagine streaming governance tokens to early investors
-3. Subscriptions, paying for a product or a service in real-time
+1. Vesting; streaming governance tokens to early investors.
+2. "Continuous" payroll or freelancing
+3. Subscriptions, paying for a product or a service in real-time.
 
 ## Usage :money_with_wings:
 
@@ -17,32 +17,34 @@ This opens up the opportunity for organisations to pay and interact with each ot
 
 Using the Sablier Safe App you can:
 
-- Create new streams
-- View details on your outgoing streams
-- Cancel streams in progress
+- Create new streams.
+- View details on your incoming and outgoing streams.
+- Cancel streams as a sender.
+- Withdraw from streams as a recipient.
 
 ## Deployments :earth_africa:
 
-There are multiple ways to access the Safe App, you may use either of the below URLs:
+There are multiple ways to access the Safe App:
 
+- On Gnosis Safe: https://gnosis-safe.io
 - Vercel deployment: https://sablier-safe-app.now.sh/
-- IPFS deployment: https://ipfs.io/ipfs/QmeHa5CS6eAMRvQfTBwWfcXKrXZ7itZTpWSM6625ZZ522N/
 
-The Vercel deployment will automatically update to the newest version of the Sablier safe app, however for additional security you may also access the app using IPFS.
+The Vercel deployment will automatically update to the newest version of the Sablier safe app, however for additional
+security you may want to use the production-ready version on the Gnosis UI.
 
-We strongly recommend that you use the IPFS version.
+### Alternatives
 
-## Other ways to use Sablier :hammer_and_pick:
+If you don't have a Gnosis Safe but would like to use Sablier, you can use the original interfaces:
 
-If you don't have a Gnosis Safe but would like to use Sablier, there is [pay.sablier.finance](https://pay.sablier.finance) for creating streams and
-[app.sablier.finance](https://app.sablier.finance) for withdrawing from streams.
+- [pay.sablier.finance](https://pay.sablier.finance) for creating and cancelling streams.
+- [app.sablier.finance](https://app.sablier.finance) for withdrawing from streams.
 
 ## Contributing :raising_hand_woman:
 
 We highly encourage participation from the community to help shape the development of Sablier. If you are interested in
 contributing or have any questions, ping us on [Discord](https://discord.gg/KXajCXC).
 
-### Getting set up
+### Contributing
 
 To start developing on the Sablier Safe App, first clone this repository and enter the new directory.
 
@@ -51,24 +53,24 @@ git clone https://github.com/TomAFrench/sablier-safe-app.git
 cd sablier-safe-app
 ```
 
-Before getting started you will need to create a `.env` file. We have provided `.env.example` as a template.
+You will need to create a `.env` file. We have provided `.env.example` as a template.
 
 ```bash
 cp .env.example .env
 ```
 
-Finally install any dependencies and start the dev server
+Now install the node dependencies and start the dev server:
 
 ```bash
 yarn install
 yarn start
 ```
 
-The app will then be hosted on `http://localhost:3002`. By default the app will expect an injected web3 provider such as metamask; if you want to interact with the app through the Gnosis UI you'll need to set the `REACT_APP_LOCAL_WEB3_PROVIDER` environment variable to `false`.
+The app will then be hosted on `http://localhost:3000`.
 
-### react-app-rewired
+### React App Rewired
 
-In order to allow the Gnosis Safe UI to access the app while it's running on localhost we need to edit the headers on the dev server (`node_modules/react-scripts/config/webpackDevServer.config.js`) to avoid CORS issues:
+In order to allow the Gnosis Safe UI to access the app while it's running on localhost, we need to edit the headers on the dev server (`node_modules/react-scripts/config/webpackDevServer.config.js`) to avoid CORS issues:
 
 ```
 headers: {
