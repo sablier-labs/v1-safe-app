@@ -8,11 +8,11 @@ type Response = {
 };
 
 const subgraphUri: { [key in SablierChainId]: string } = {
-  [GOERLI_ID]: "https://api.thegraph.com/subgraphs/name/paulrberg/secours-goerli",
-  [KOVAN_ID]: "https://api.thegraph.com/subgraphs/name/paulrberg/secours-kovan",
-  [MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/paulrberg/secours",
-  [RINKEBY_ID]: "https://api.thegraph.com/subgraphs/name/paulrberg/secours-rinkeby",
-  [ROPSTEN_ID]: "https://api.thegraph.com/subgraphs/name/paulrberg/secours-ropsten",
+  [GOERLI_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-goerli",
+  [KOVAN_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-kovan",
+  [MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
+  [RINKEBY_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
+  [ROPSTEN_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-ropsten",
 };
 
 const STREAM_QUERY: string = `
