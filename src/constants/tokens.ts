@@ -6,6 +6,7 @@ import daiIcon from "../assets/tokens/dai.svg";
 import dhtIcon from "../assets/tokens/dht.png";
 import ethIcon from "../assets/tokens/eth.svg";
 import foxIcon from "../assets/tokens/fox.png";
+import hotcrossIcon from "../assets/tokens/hotcross.png";
 import iagIcon from "../assets/tokens/iag.png";
 import kmplIcon from "../assets/tokens/kmpl.png";
 import linkIcon from "../assets/tokens/link.svg";
@@ -63,8 +64,9 @@ export const TOKENS: TokenMap = {
     CVP: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1",
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
     FOX: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d",
-    kMPL: "0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2",
+    HOTCROSS: "0x4297394c20800E8a38A619A243E9BbE7681Ff24E",
     IAG: "0x40EB746DEE876aC1E78697b7Ca85142D178A1Fc8",
+    kMPL: "0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2",
     LINK: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
     MFI: "0xAa4e3edb11AFa93c41db59842b29de64b72E355B",
     MKR: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
@@ -171,11 +173,11 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       label: "FOX",
     },
     {
-      address: tokensByChainId.kMPL,
-      decimals: 9,
-      iconUrl: kmplIcon,
-      id: "kMPL",
-      label: "kMPL",
+      address: tokensByChainId.HOTCROSS,
+      decimals: 18,
+      iconUrl: hotcrossIcon,
+      id: "HOTCROSS",
+      label: "HOTCROSS",
     },
     {
       address: tokensByChainId.IAG,
@@ -183,6 +185,13 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: iagIcon,
       id: "IAG",
       label: "IAG",
+    },
+    {
+      address: tokensByChainId.kMPL,
+      decimals: 9,
+      iconUrl: kmplIcon,
+      id: "kMPL",
+      label: "kMPL",
     },
     {
       address: tokensByChainId.LINK,
