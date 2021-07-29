@@ -5,7 +5,7 @@ import { isFuture, isPast } from "date-fns";
 import { Stream, StreamStatus } from "../types";
 
 /// Subtract 15 seconds so that the app doesn't get ahead of the blockchain.
-function currentUnixTimestamp() {
+function getNow() {
   return Math.trunc(Date.now() / 1000) - 15;
 }
 
@@ -26,7 +26,7 @@ export function getRecipientShare(
   cancellationTime?: BigNumberish,
 ): BigNumber {
   const streamDuration = BigNumber.from(endTime).sub(startTime);
-  const elapsedDuration = BigNumber.from(cancellationTime || currentUnixTimestamp()).sub(startTime);
+  const elapsedDuration = BigNumber.from(cancellationTime || getNow()).sub(startTime);
   return getShare(value, streamDuration, elapsedDuration);
 }
 
@@ -45,7 +45,7 @@ export function getSenderShare(
   cancellationTime?: BigNumberish,
 ): BigNumber {
   const streamDuration = BigNumber.from(endTime).sub(startTime);
-  const remainingDuration = BigNumber.from(endTime).sub(cancellationTime || currentUnixTimestamp());
+  const remainingDuration = BigNumber.from(endTime).sub(cancellationTime || getNow());
   return getShare(value, streamDuration, remainingDuration);
 }
 
