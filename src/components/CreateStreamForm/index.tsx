@@ -121,7 +121,7 @@ function CreateStreamForm(): JSX.Element {
     }
 
     void sendTxs();
-  }, [endDate, recipient, safe, selectedToken, startDate, streamAmount, tokenAllowance, validateAmountValue]);
+  }, [endDate, recipient, safe, sdk.txs, selectedToken, startDate, streamAmount, tokenAllowance, validateAmountValue]);
 
   const onAmountChange = useCallback((value: string): void => {
     setAmountError(undefined);
@@ -189,7 +189,7 @@ function CreateStreamForm(): JSX.Element {
     return () => {
       controller.abort();
     };
-  }, [safe.safeAddress, selectedToken, setTokenBalance, tokens, tokenContract]);
+  }, [safe.safeAddress, safe.chainId, selectedToken, setTokenBalance, tokens, tokenContract]);
 
   // Load tokens list and initialize with DAI.
   useEffect(() => {

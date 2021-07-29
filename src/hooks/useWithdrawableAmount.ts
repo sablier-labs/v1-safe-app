@@ -49,7 +49,7 @@ export default function useWithdrawableAmount(stream: Stream, isWithdrawFromStre
     return () => {
       controller.abort();
     };
-  }, [sablierContract, setWithdrawableAmount, stream]);
+  }, [isWithdrawFromStreamDisabled, sablierContract, setWithdrawableAmount, stream]);
 
   return withdrawableAmount;
 }
