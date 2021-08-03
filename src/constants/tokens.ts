@@ -26,7 +26,7 @@ import usdcIcon from "../assets/tokens/usdc.svg";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
 import xrnbwIcon from "../assets/tokens/xrnbw.png";
 import xsushiIcon from "../assets/tokens/xsushi.jpg";
-import yusdcIcon from "../assets/tokens/yusdc.png";
+import yUsdcIcon from "../assets/tokens/yusdc.png";
 import zeumIcon from "../assets/tokens/zeum.png";
 import { SablierChainId } from "../types";
 import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "./chains";
@@ -57,6 +57,7 @@ export const TOKENS: TokenMap = {
     USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
     mUSD: "0xe2f2a5C287993345a840Db3B0845fbC70f5935a5",
     sUSD: "0x57Ab1E02fEE23774580C119740129eAC7081e9D3",
+    yUSDC: "0x597ad1e0c13bfe8025993d9e79c69e1c0233522e",
     // Interest-bearing stablecoins
     CHAI: "0x06AF07097C9Eeb7fD685c692751D5C66dB49c215",
     cDAI: "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
@@ -83,7 +84,6 @@ export const TOKENS: TokenMap = {
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     XRNBW: "0x47BE779De87de6580d0548cde80710a93c502405",
     XSUSHI: "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272",
-    YUSDC: "0x597ad1e0c13bfe8025993d9e79c69e1c0233522e",
     ZEUM: "0x436dA116249044E8B4464F0Cf21Dd93311d88190",
   },
   [RINKEBY_ID]: {
@@ -301,11 +301,11 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       label: "XSUSHI",
     },
     {
-      address: tokensByChainId.YUSDC,
+      address: tokensByChainId.yUSDC,
       decimals: 6,
-      iconUrl: yusdcIcon,
-      id: "YUSDC",
-      label: "YUSDC",
+      iconUrl: yUsdcIcon,
+      id: "yUSDC",
+      label: "yUSDC",
     },
     {
       address: tokensByChainId.ZEUM,
