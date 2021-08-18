@@ -1,3 +1,4 @@
+import bzrxIcon from "../assets/tokens/bzrx.png";
 import cDaiIcon from "../assets/tokens/cdai.svg";
 import chaiIcon from "../assets/tokens/chai.png";
 import cusdcIcon from "../assets/tokens/cusdc.svg";
@@ -63,6 +64,7 @@ export const TOKENS: TokenMap = {
     cDAI: "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
     cUSDC: "0x39AA39c021dfbaE8faC545936693aC917d5E7563",
     // Miscellaneous
+    BZRX: "0x56d811088235F11C8920698a204A5010a788f4b3",
     CVP: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1",
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
     FOX: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d",
@@ -131,6 +133,13 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: sUsdIcon,
       id: "sUSD",
       label: "sUSD",
+    },
+    {
+      address: tokensByChainId.BZRX,
+      decimals: 18,
+      iconUrl: bzrxIcon,
+      id: "BZRX",
+      label: "BZRX",
     },
     {
       address: tokensByChainId.CHAI,
