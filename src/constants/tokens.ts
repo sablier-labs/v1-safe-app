@@ -22,8 +22,10 @@ import rlyIcon from "../assets/tokens/rly.svg";
 import rnbwIcon from "../assets/tokens/rnbw.png";
 import sUsdIcon from "../assets/tokens/susd.svg";
 import sushiIcon from "../assets/tokens/sushi.jpg";
+import tusdIcon from "../assets/tokens/tusd.png";
 import udtIcon from "../assets/tokens/udt.png";
 import usdcIcon from "../assets/tokens/usdc.svg";
+import ustIcon from "../assets/tokens/ust.png";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
 import xrnbwIcon from "../assets/tokens/xrnbw.png";
 import xsushiIcon from "../assets/tokens/xsushi.jpg";
@@ -56,6 +58,7 @@ export const TOKENS: TokenMap = {
     DAI: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
     TUSD: "0x0000000000085d4780B73119b644AE5ecd22b376",
     USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    UST: "0xa47c8bf37f92aBed4A126BDA807A7b7498661acD",
     mUSD: "0xe2f2a5C287993345a840Db3B0845fbC70f5935a5",
     sUSD: "0x57Ab1E02fEE23774580C119740129eAC7081e9D3",
     yUSDC: "0x597ad1e0c13bfe8025993d9e79c69e1c0233522e",
@@ -114,11 +117,25 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       label: "DAI",
     },
     {
+      address: tokensByChainId.TUSD,
+      decimals: 18,
+      iconUrl: tusdIcon,
+      id: "TUSD",
+      label: "TUSD",
+    },
+    {
       address: tokensByChainId.USDC,
       decimals: 6,
       iconUrl: usdcIcon,
       id: "USDC",
       label: "USDC",
+    },
+    {
+      address: tokensByChainId.UST,
+      decimals: 18,
+      iconUrl: ustIcon,
+      id: "UST",
+      label: "UST",
     },
     {
       address: tokensByChainId.mUSD,
