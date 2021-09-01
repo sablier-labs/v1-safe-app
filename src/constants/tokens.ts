@@ -1,3 +1,4 @@
+import balIcon from "../assets/tokens/bal.png";
 import bzrxIcon from "../assets/tokens/bzrx.png";
 import cDaiIcon from "../assets/tokens/cdai.svg";
 import chaiIcon from "../assets/tokens/chai.png";
@@ -5,7 +6,9 @@ import cusdcIcon from "../assets/tokens/cusdc.svg";
 import cvpIcon from "../assets/tokens/cvp.png";
 import daiIcon from "../assets/tokens/dai.svg";
 import dhtIcon from "../assets/tokens/dht.png";
+import dsuIcon from "../assets/tokens/dsu.png";
 import ethIcon from "../assets/tokens/eth.svg";
+import farmIcon from "../assets/tokens/farm.png";
 import foxIcon from "../assets/tokens/fox.png";
 import hotcrossIcon from "../assets/tokens/hotcross.png";
 import iagIcon from "../assets/tokens/iag.png";
@@ -152,6 +155,13 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       label: "sUSD",
     },
     {
+      address: tokensByChainId.BAL,
+      decimals: 18,
+      iconUrl: balIcon,
+      id: "BAL",
+      label: "BAL",
+    },
+    {
       address: tokensByChainId.BZRX,
       decimals: 18,
       iconUrl: bzrxIcon,
@@ -192,6 +202,20 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: dhtIcon,
       id: "DHT",
       label: "DHT",
+    },
+    {
+      address: tokensByChainId.DSU,
+      decimals: 18,
+      iconUrl: dsuIcon,
+      id: "DSU",
+      label: "DSU",
+    },
+    {
+      address: tokensByChainId.FARM,
+      decimals: 18,
+      iconUrl: farmIcon,
+      id: "FARM",
+      label: "FARM",
     },
     {
       address: tokensByChainId.FOX,
