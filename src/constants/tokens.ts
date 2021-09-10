@@ -23,6 +23,8 @@ import museIcon from "../assets/tokens/muse.png";
 import plaIcon from "../assets/tokens/pla.png";
 import rlyIcon from "../assets/tokens/rly.svg";
 import rnbwIcon from "../assets/tokens/rnbw.png";
+import floatBankIcon from "../assets/tokens/floatbank.png";
+import floatIcon from "../assets/tokens/float.png";
 import sUsdIcon from "../assets/tokens/susd.svg";
 import sushiIcon from "../assets/tokens/sushi.jpg";
 import tusdIcon from "../assets/tokens/tusd.png";
@@ -73,6 +75,8 @@ export const TOKENS: TokenMap = {
     BZRX: "0x56d811088235F11C8920698a204A5010a788f4b3",
     CVP: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1",
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
+    FLOAT: "0xb05097849BCA421A3f51B249BA6CCa4aF4b97cb9",
+    FLOATBANK: "0x24A6A37576377F63f194Caa5F518a60f45b42921",
     FOX: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d",
     HOTCROSS: "0x4297394c20800E8a38A619A243E9BbE7681Ff24E",
     IAG: "0x40EB746DEE876aC1E78697b7Ca85142D178A1Fc8",
@@ -216,6 +220,20 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: farmIcon,
       id: "FARM",
       label: "FARM",
+    },
+    {
+      address: tokensByChainId.FLOAT,
+      decimals: 18,
+      iconUrl: floatIcon,
+      id: "FLOAT",
+      label: "FLOAT",
+    },
+    {
+      address: tokensByChainId.FLOATBANK,
+      decimals: 18,
+      iconUrl: floatBankIcon,
+      id: "FLOATBANK",
+      label: "FLOAT-BANK",
     },
     {
       address: tokensByChainId.FOX,
