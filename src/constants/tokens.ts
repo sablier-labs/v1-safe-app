@@ -6,9 +6,12 @@ import cusdcIcon from "../assets/tokens/cusdc.svg";
 import cvpIcon from "../assets/tokens/cvp.png";
 import daiIcon from "../assets/tokens/dai.svg";
 import dhtIcon from "../assets/tokens/dht.png";
+import doughIcon from "../assets/tokens/dough.png";
 import dsuIcon from "../assets/tokens/dsu.png";
 import ethIcon from "../assets/tokens/eth.svg";
 import farmIcon from "../assets/tokens/farm.png";
+import floatIcon from "../assets/tokens/float.png";
+import floatBankIcon from "../assets/tokens/floatbank.png";
 import foxIcon from "../assets/tokens/fox.png";
 import hotcrossIcon from "../assets/tokens/hotcross.png";
 import iagIcon from "../assets/tokens/iag.png";
@@ -23,8 +26,6 @@ import museIcon from "../assets/tokens/muse.png";
 import plaIcon from "../assets/tokens/pla.png";
 import rlyIcon from "../assets/tokens/rly.svg";
 import rnbwIcon from "../assets/tokens/rnbw.png";
-import floatBankIcon from "../assets/tokens/floatbank.png";
-import floatIcon from "../assets/tokens/float.png";
 import sUsdIcon from "../assets/tokens/susd.svg";
 import sushiIcon from "../assets/tokens/sushi.jpg";
 import tusdIcon from "../assets/tokens/tusd.png";
@@ -75,6 +76,7 @@ export const TOKENS: TokenMap = {
     BZRX: "0x56d811088235F11C8920698a204A5010a788f4b3",
     CVP: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1",
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
+    DOUGH: "0xad32A8e6220741182940c5aBF610bDE99E737b2D",
     FLOAT: "0xb05097849BCA421A3f51B249BA6CCa4aF4b97cb9",
     FLOATBANK: "0x24A6A37576377F63f194Caa5F518a60f45b42921",
     FOX: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d",
@@ -206,6 +208,13 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: dhtIcon,
       id: "DHT",
       label: "DHT",
+    },
+    {
+      address: tokensByChainId.DOUGH,
+      decimals: 18,
+      iconUrl: doughIcon,
+      id: "DOUGH",
+      label: "DOUGH",
     },
     {
       address: tokensByChainId.DSU,
