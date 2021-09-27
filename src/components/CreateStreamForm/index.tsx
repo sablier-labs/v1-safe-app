@@ -14,8 +14,8 @@ import { HTMLProps, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import { getSablierContractAddress } from "../../config/sablier";
+import { TokenItem, getTokens } from "../../config/tokens";
 import { DATE_FORMAT, TIME_FORMAT } from "../../constants/time";
-import { TokenItem, getTokens } from "../../constants/tokens";
 import useTokenContract from "../../hooks/useTokenContract";
 import dateTimeTheme from "../../theme/datetimepicker";
 import { createStreamTxs } from "../../txs";
