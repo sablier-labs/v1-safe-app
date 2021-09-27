@@ -98,7 +98,6 @@
   "keywords": [
     "blockchain",
     "ethereum",
-    "gnosis",
     "gnosis-safe",
     "react",
     "sablier",
@@ -115,14 +114,13 @@
     "clean": "shx rm -rf ./build",
     "commit": "git-cz",
     "eject": "react-scripts eject",
-    "lint": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore src/**/*.{ts,tsx}",
+    "lint": "yarn lint:ts && yarn lint:styles && yarn prettier:check",
     "lint:styles": "stylelint --config ./.stylelintrc.js './src/**/*.{css,ts,tsx,scss}'",
+    "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore src/**/*.{ts,tsx}",
     "postinstall": "husky install",
-    "postpublish": "pinst --enable",
     "precommit": "lint-staged",
-    "prepublishOnly": "pinst --disable",
-    "prettier": "prettier --check --config .prettierrc --write '**/*.{js,json,jsx,md,ts,tsx}'",
-    "prettier:check": "prettier --config .prettierrc '**/*.{js,json,jsx,md,ts,tsx}'",
+    "prettier": "prettier --config .prettierrc.yaml --write '**/*.{js,json,jsx,md,ts,tsx,yaml,yml}'",
+    "prettier:check": "prettier --check --config .prettierrc.yaml '**/*.{js,json,jsx,md,ts,tsx,yaml,yml}'",
     "start": "react-app-rewired start"
   }
 }

@@ -7,9 +7,10 @@ import { CopyButton, EtherscanButton } from "./Buttons";
 const secondaryText = "#B2B5B2";
 
 const EtherscanLinkContainer = styled.div`
-  display: inline-flex;
   align-items: center;
+  display: inline-flex;
 
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
   &:svg {
     fill: ${secondaryText};
   }
