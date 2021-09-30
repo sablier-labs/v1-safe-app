@@ -42,6 +42,7 @@ import udtIcon from "../assets/tokens/udt.png";
 import usdcIcon from "../assets/tokens/usdc.svg";
 import ustIcon from "../assets/tokens/ust.png";
 import wbtcIcon from "../assets/tokens/wbtc.svg";
+import wnxmIcon from "../assets/tokens/wnxm.png";
 import xrnbwIcon from "../assets/tokens/xrnbw.png";
 import xsushiIcon from "../assets/tokens/xsushi.jpg";
 import yUsdcIcon from "../assets/tokens/yusdc.png";
@@ -114,6 +115,7 @@ export const TOKENS: TokenMap = {
     uAR: "0x5894cFEbFdEdBe61d01F20140f41c5c49AedAe97",
     WBTC: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    wNXM: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     XRNBW: "0x47BE779De87de6580d0548cde80710a93c502405",
     XSUSHI: "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272",
     ZEUM: "0x436dA116249044E8B4464F0Cf21Dd93311d88190",
@@ -446,6 +448,13 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: ethIcon,
       id: "WETH",
       label: "WETH",
+    },
+    {
+      address: tokensByChainId.wNXM,
+      decimals: 18,
+      iconUrl: wnxmIcon,
+      id: "wNXM",
+      label: "wNXM",
     },
     {
       address: tokensByChainId.XRNBW,
