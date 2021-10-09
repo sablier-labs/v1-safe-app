@@ -28,6 +28,7 @@ import mtaIcon from "../assets/tokens/mta.svg";
 import mUsdIcon from "../assets/tokens/musd.svg";
 import museIcon from "../assets/tokens/muse.png";
 import occIcon from "../assets/tokens/occ.png";
+import percsIcon from "../assets/tokens/percs.png";
 import plaIcon from "../assets/tokens/pla.png";
 import rlyIcon from "../assets/tokens/rly.svg";
 import rnbwIcon from "../assets/tokens/rnbw.png";
@@ -104,6 +105,7 @@ export const TOKENS: TokenMap = {
     MTA: "0xa3bed4e1c75d00fa6f4e5e6922db7261b5e9acd2",
     MUSE: "0xB6Ca7399B4F9CA56FC27cBfF44F4d2e4Eef1fc81",
     OCC: "0x2F109021aFe75B949429fe30523Ee7C0D5B27207",
+    PERCS: "0xf4A2fd9EC3923558bCA92FC8DdD9CDCAad373068",
     PLA: "0x0198f46f520F33cd4329bd4bE380a25a90536CD5",
     RLY: "0xf1f955016EcbCd7321c7266BccFB96c68ea5E49b",
     RNBW: "0xE94B97b6b43639E238c851A7e693F50033EfD75C",
@@ -371,6 +373,13 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: occIcon,
       id: "OCC",
       label: "OCC",
+    },
+    {
+      address: tokensByChainId.PERCS,
+      decimals: 18,
+      iconUrl: percsIcon,
+      id: "PERCS",
+      label: "PERCS",
     },
     {
       address: tokensByChainId.PLA,
