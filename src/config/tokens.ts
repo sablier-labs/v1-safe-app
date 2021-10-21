@@ -5,6 +5,7 @@ import bzrxIcon from "../assets/tokens/bzrx.png";
 import cDaiIcon from "../assets/tokens/cdai.svg";
 import chaiIcon from "../assets/tokens/chai.png";
 import cirusIcon from "../assets/tokens/cirus.png";
+import cre8rIcon from "../assets/tokens/cre8r.png";
 import cusdcIcon from "../assets/tokens/cusdc.svg";
 import cvpIcon from "../assets/tokens/cvp.png";
 import cwIcon from "../assets/tokens/cw.png";
@@ -89,6 +90,7 @@ export const TOKENS: TokenMap = {
     BZRX: "0x56d811088235F11C8920698a204A5010a788f4b3",
     CIRUS: "0xA01199c61841Fce3b3daFB83FeFC1899715c8756",
     CVP: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1",
+    CRE8R: "0xaa61D5dec73971CD4a026ef2820bB87b4a4Ed8d6",
     CW: "0xd55236D48606c295adEbF129dAD04Fc74BFaA708",
     CWAP: "0xE74dC43867E0cbEB208F1a012fc60DcBbF0E3044",
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
@@ -240,6 +242,13 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: cirusIcon,
       id: "CIRUS",
       label: "CIRUS",
+    },
+    {
+      address: tokensByChainId.CRE8R,
+      decimals: 18,
+      iconUrl: cre8rIcon,
+      id: "CRE8R",
+      label: "CRE8R",
     },
     {
       address: tokensByChainId.CVP,
