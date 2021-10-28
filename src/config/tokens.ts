@@ -12,6 +12,7 @@ import cwIcon from "../assets/tokens/cw.png";
 import cwapIcon from "../assets/tokens/cwap.png";
 import daiIcon from "../assets/tokens/dai.svg";
 import dhtIcon from "../assets/tokens/dht.png";
+import dogIcon from "../assets/tokens/dog.png";
 import doughIcon from "../assets/tokens/dough.png";
 import dsuIcon from "../assets/tokens/dsu.png";
 import ethIcon from "../assets/tokens/eth.svg";
@@ -94,6 +95,7 @@ export const TOKENS: TokenMap = {
     CW: "0xd55236D48606c295adEbF129dAD04Fc74BFaA708",
     CWAP: "0xE74dC43867E0cbEB208F1a012fc60DcBbF0E3044",
     DHT: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
+    DOG: "0xBAac2B4491727D78D2b78815144570b9f2Fe8899",
     DOUGH: "0xad32A8e6220741182940c5aBF610bDE99E737b2D",
     FLOAT: "0xb05097849BCA421A3f51B249BA6CCa4aF4b97cb9",
     FOX: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d",
@@ -284,6 +286,13 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
       iconUrl: doughIcon,
       id: "DOUGH",
       label: "DOUGH",
+    },
+    {
+      address: tokensByChainId.DOG,
+      decimals: 18,
+      iconUrl: dogIcon,
+      id: "DOG",
+      label: "DOG",
     },
     {
       address: tokensByChainId.DSU,
