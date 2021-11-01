@@ -1,4 +1,5 @@
 extends:
+  - "airbnb"
   - "airbnb-typescript"
   - "plugin:@typescript-eslint/eslint-recommended"
   - "plugin:@typescript-eslint/recommended"
@@ -14,12 +15,12 @@ plugins:
 root: true
 rules:
   "@typescript-eslint/no-floating-promises":
-    - error
+    - "error"
     - ignoreIIFE: true
       ignoreVoid: true
   "@typescript-eslint/no-inferrable-types": "off"
   "@typescript-eslint/no-unused-vars":
-    - warn
+    - "warn"
     - argsIgnorePattern: _
       varsIgnorePattern: _
   arrow-body-style: "off"
@@ -33,8 +34,8 @@ rules:
   react/react-in-jsx-scope: "off"
   react/require-default-props: "off"
   spaced-comment:
-    - error
-    - always
+    - "error"
+    - "always"
     - markers:
         - "/"
         - "**"

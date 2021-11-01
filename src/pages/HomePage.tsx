@@ -31,7 +31,7 @@ const TopLeftHorizontalWrapper = styled.div`
 
 const StyledTitle = styled(Title)`
   display: inline-block;
-  margin-top: 0px;
+  margin-top: 0rem;
   padding-right: 30px;
 `;
 

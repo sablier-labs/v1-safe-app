@@ -18,7 +18,7 @@ const textStyles = css`
 `;
 
 const Text = styled.span`
-  ${textStyles};
+  ${textStyles}
   font-size: 14px;
 `;
 
@@ -29,7 +29,7 @@ const ListWrapper = styled.div`
 `;
 
 const ListItem = styled.span`
-  ${textStyles};
+  ${textStyles}
   font-size: 12px;
   line-height: 14px;
   margin-top: 4px;

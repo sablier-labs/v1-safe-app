@@ -32,7 +32,7 @@ const Address = styled.span`
   ${({ knownAddress }: { knownAddress: boolean }) =>
     knownAddress &&
     css`
-      fontsize: 13px;
+      font-size: 13px;
     `}
 `;
 

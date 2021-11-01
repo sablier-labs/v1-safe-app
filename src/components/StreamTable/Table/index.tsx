@@ -37,9 +37,9 @@ const StyledTable = styled(Table)`
     !noBorder &&
     css`
       background-color: white;
-      box-shadow: 1px 2px 10px 0 rgba(212, 212, 211, 0.59);
       border-top-left-radius: ${sm};
-      border-top-rightrradius: ${sm};
+      border-top-right-radius: ${sm};
+      box-shadow: 1px 2px 10px 0 rgba(212, 212, 211, 0.59);
     `}
 `;
 

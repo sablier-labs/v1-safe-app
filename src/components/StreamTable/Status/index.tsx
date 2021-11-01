@@ -41,8 +41,8 @@ const StatusContainer = styled.div`
     status === StreamStatus.Cancelled &&
     css`
       background-color: transparent;
-      color: ${theme.colors.error};
       border: 1px solid ${theme.colors.error};
+      color: ${theme.colors.error};
     `}
 
   ${({ status }: { status: StreamStatus }) =>

@@ -1,4 +1,5 @@
-import ApolloClient, { DocumentNode, gql } from "apollo-boost";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import type { DocumentNode } from "@apollo/client";
 
 import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants/chains";
 import { SablierChainId, Stream } from "../types";
@@ -95,6 +96,7 @@ async function getStreams(
   safeAddress: string,
 ): Promise<Stream[]> {
   const client = new ApolloClient({
+    cache: new InMemoryCache(),
     uri: subgraphUri[chainId],
   });
 
