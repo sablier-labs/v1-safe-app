@@ -122,5 +122,6 @@
     "prettier": "prettier --config .prettierrc.yaml --write '**/*.{js,json,jsx,md,ts,tsx,yaml,yml}'",
     "prettier:check": "prettier --check --config .prettierrc.yaml '**/*.{js,json,jsx,md,ts,tsx,yaml,yml}'",
     "start": "react-app-rewired start"
-  }
+  },
+  "packageManager": "yarn@3.1.0"
 }
