@@ -93,7 +93,7 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-order": "^5.0.0",
     "stylelint-prettier": "^1.2.0",
-    "typescript": "^4.4.4"
+    "typescript": "4.3.5"
   },
   "homepage": "./",
   "keywords": [
@@ -114,12 +114,13 @@
     "build": "react-app-rewired build",
     "clean": "shx rm -rf ./build",
     "eject": "react-scripts eject",
-    "lint": "yarn lint:ts && yarn lint:styles && yarn prettier:check",
+    "lint": "yarn lint:ts && yarn lint:styles && yarn prettier:check && yarn:typecheck",
     "lint:styles": "stylelint --config ./.stylelintrc.js \"./src/**/*.{css,ts,tsx,scss}\"",
     "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore \"src/**/*.{ts,tsx}\"",
     "postinstall": "husky install",
     "prettier": "prettier --config ./.prettierrc.yaml --write \"**/*.{js,json,jsx,md,ts,tsx,yaml,yml}\"",
     "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,jsx,md,ts,tsx,yaml,yml}\"",
-    "start": "react-app-rewired start"
+    "start": "react-app-rewired start",
+    "typecheck": "tsc --noEmit"
   }
 }

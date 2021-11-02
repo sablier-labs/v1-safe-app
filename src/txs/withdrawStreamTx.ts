@@ -1,14 +1,15 @@
 import { Interface } from "@ethersproject/abi";
-import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
-import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
+import { BigNumber } from "@ethersproject/bignumber";
+import type { BigNumberish } from "@ethersproject/bignumber";
+import type { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 
 import PAYROLL_ABI from "../abis/payroll";
 import SABLIER_ABI from "../abis/sablier";
 import { getPayrollContractAddress, getSablierContractAddress } from "../config/sablier";
 import { CUTOFF_STREAM_ID } from "../constants";
-import { SablierChainId } from "../types";
+import type { SablierChainId } from "../types";
 
-function withdrawStreamTx(chainId: SablierChainId, streamId: number, amount: BigNumberish): BaseTransaction[] {
+export function withdrawStreamTx(chainId: SablierChainId, streamId: number, amount: BigNumberish): BaseTransaction[] {
   const withdrawalTx: BaseTransaction = {
     data: "",
     to: "",
@@ -30,5 +31,3 @@ function withdrawStreamTx(chainId: SablierChainId, streamId: number, amount: Big
 
   return [withdrawalTx];
 }
-
-export default withdrawStreamTx;

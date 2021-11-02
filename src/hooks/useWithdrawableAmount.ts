@@ -1,10 +1,10 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero, Zero } from "@ethersproject/constants";
-import { Contract } from "@ethersproject/contracts";
+import type { Contract } from "@ethersproject/contracts";
 import { useEffect, useState } from "react";
 
 import { CUTOFF_STREAM_ID } from "../constants";
-import { Stream } from "../types";
+import type { Stream } from "../types";
 import { getStreamWithdrawableAmount } from "../utils/stream";
 import useSablierContract from "./useSablierContract";
 

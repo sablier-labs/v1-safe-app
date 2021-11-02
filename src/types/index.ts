@@ -1,6 +1,6 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 
-import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants/chains";
+import { ETHEREUM_MAINNET_ID, GOERLI_ID, KOVAN_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants/chains";
 
 export type Cancellation = {
   id: number;
@@ -30,7 +30,7 @@ export type HumanReadableStream = {
 export type SablierChainId =
   | typeof GOERLI_ID
   | typeof KOVAN_ID
-  | typeof MAINNET_ID
+  | typeof ETHEREUM_MAINNET_ID
   | typeof RINKEBY_ID
   | typeof ROPSTEN_ID;
 

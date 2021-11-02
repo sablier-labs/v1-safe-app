@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 import useWithdrawableAmount from "../../../hooks/useWithdrawableAmount";
 import { cancelStreamTx, withdrawStreamTx } from "../../../txs";
-import { Stream, StreamStatus } from "../../../types";
+import type { Stream, StreamStatus } from "../../../types";
 import { getStreamStatus } from "../../../utils/stream";
 
 const lg: string = "24px";

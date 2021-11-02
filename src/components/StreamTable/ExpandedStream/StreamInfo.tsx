@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import styled from "styled-components";
 
 import useRefreshWithPeriod from "../../../hooks/useRefreshWithPeriod";
-import { Stream } from "../../../types";
+import type { Stream } from "../../../types";
 import { bigNumberToRoundedHumanFormat } from "../../../utils";
 import { getRecipientShare, getRecipientShareAsPercentage, getSenderShare } from "../../../utils/stream";
 import EtherscanLink from "../../EtherscanLink";

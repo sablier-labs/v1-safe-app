@@ -1,4 +1,4 @@
-import { Contract } from "@ethersproject/contracts";
+import type { Contract } from "@ethersproject/contracts";
 
 import ERC20_ABI from "../abis/erc20";
 import useContract from "./useContract";

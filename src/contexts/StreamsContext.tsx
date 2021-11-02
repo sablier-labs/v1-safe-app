@@ -2,7 +2,7 @@ import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 import { getIncomingStreams, getOutgoingStreams } from "../graphql/streams";
-import { Stream } from "../types";
+import type { Stream } from "../types";
 
 type StreamsProviderProps = {
   children: JSX.Element | JSX.Element[];

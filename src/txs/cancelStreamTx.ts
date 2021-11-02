@@ -6,9 +6,9 @@ import PAYROLL_ABI from "../abis/payroll";
 import SABLIER_ABI from "../abis/sablier";
 import { getPayrollContractAddress, getSablierContractAddress } from "../config/sablier";
 import { CUTOFF_STREAM_ID } from "../constants";
-import { SablierChainId } from "../types";
+import type { SablierChainId } from "../types";
 
-function cancelStreamTx(chainId: SablierChainId, streamId: number): BaseTransaction[] {
+export function cancelStreamTx(chainId: SablierChainId, streamId: number): BaseTransaction[] {
   const cancellationTx: BaseTransaction = {
     data: "",
     to: "",
@@ -30,5 +30,3 @@ function cancelStreamTx(chainId: SablierChainId, streamId: number): BaseTransact
 
   return [cancellationTx];
 }
-
-export default cancelStreamTx;

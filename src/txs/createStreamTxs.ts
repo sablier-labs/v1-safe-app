@@ -7,7 +7,7 @@ import ERC20_ABI from "../abis/erc20";
 import SABLIER_ABI from "../abis/sablier";
 import { getSablierContractAddress } from "../config/sablier";
 
-function createStreamTxs(
+export function createStreamTxs(
   chainId: number,
   recipient: string,
   deposit: BigNumber,
@@ -47,5 +47,3 @@ function createStreamTxs(
 
   return txs;
 }
-
-export default createStreamTxs;

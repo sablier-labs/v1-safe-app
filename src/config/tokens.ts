@@ -50,8 +50,8 @@ import xrnbwIcon from "../assets/tokens/xrnbw.png";
 import xsushiIcon from "../assets/tokens/xsushi.jpg";
 import yUsdcIcon from "../assets/tokens/yusdc.png";
 import zeumIcon from "../assets/tokens/zeum.png";
-import { GOERLI_ID, KOVAN_ID, MAINNET_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants/chains";
-import { SablierChainId } from "../types";
+import { ETHEREUM_MAINNET_ID, GOERLI_ID, KOVAN_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants/chains";
+import type { SablierChainId } from "../types";
 
 export type TokenItem = {
   address: string;
@@ -72,7 +72,7 @@ export const TOKENS: TokenMap = {
     DAI: "0x79dfab686Ef87cd2c871D5182F08538589234189",
     WETH: "0x5eca15b12d959dfcf9c71c59f8b467eb8c6efd0b",
   },
-  [MAINNET_ID]: {
+  [ETHEREUM_MAINNET_ID]: {
     // Stablecoins
     DAI: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
     TUSD: "0x0000000000085d4780B73119b644AE5ecd22b376",
@@ -136,7 +136,7 @@ export const TOKENS: TokenMap = {
   },
 };
 
-export const getTokens = (chainId: SablierChainId): TokenItem[] => {
+export function getTokens(chainId: SablierChainId): TokenItem[] {
   const tokensByChainId: { [name: string]: string } = TOKENS[chainId];
   if (!tokensByChainId) {
     throw Error(`No token configuration for ${chainId}`);
@@ -516,4 +516,4 @@ export const getTokens = (chainId: SablierChainId): TokenItem[] => {
   return tokens.filter(token => {
     return token.address !== undefined;
   });
-};
+}

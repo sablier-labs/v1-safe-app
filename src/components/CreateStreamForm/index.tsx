@@ -1,8 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Zero } from "@ethersproject/constants";
-import { Contract } from "@ethersproject/contracts";
-// import { Network } from "@ethersproject/networks";
+import type { Contract } from "@ethersproject/contracts";
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
 import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 import { Button, Loader, Select, Text, TextField } from "@gnosis.pm/safe-react-components";
@@ -10,7 +9,7 @@ import { ThemeProvider } from "@material-ui/core";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { BigNumberInput } from "big-number-input";
 import { isAfter, isDate, isFuture } from "date-fns";
-import { HTMLProps, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEventHandler, HTMLProps, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import { getSablierContractAddress } from "../../config/sablier";
@@ -19,7 +18,7 @@ import { DATE_FORMAT, TIME_FORMAT } from "../../constants/time";
 import useTokenContract from "../../hooks/useTokenContract";
 import dateTimeTheme from "../../theme/datetimepicker";
 import { createStreamTxs } from "../../txs";
-import { SablierChainId } from "../../types";
+import type { SablierChainId } from "../../types";
 import { bigNumberToHumanFormat } from "../../utils";
 import { ButtonContainer, SelectContainer, TextFieldContainer } from "../index";
 
@@ -232,7 +231,7 @@ function CreateStreamForm(): JSX.Element {
             <TextField
               label="Amount"
               meta={{ error: amountError }}
-              onChange={props.onChange}
+              onChange={props.onChange as ChangeEventHandler<HTMLInputElement>}
               value={String(props.value)}
             />
           )}

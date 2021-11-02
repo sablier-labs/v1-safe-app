@@ -1,10 +1,40 @@
 import ExternalLinkIcon from "../../../assets/external-link.svg";
-import { CHAIN_LABELS, MAINNET_ID } from "../../../constants/chains";
+import { ETHEREUM_MAINNET_ID, GOERLI_ID, KOVAN_ID, RINKEBY_ID, ROPSTEN_ID } from "../../../constants/chains";
 import { LinkContainer, StyledTooltip } from "./common";
 
-const getEtherscanLink = (chainId: number, type: string, value: string): string => {
-  return `https://${chainId === MAINNET_ID ? "" : `${CHAIN_LABELS[chainId]}.`}etherscan.io/${type}/${value}`;
-};
+function getEtherscanLink(chainId: number, type: string, data: string): string {
+  let base;
+
+  switch (chainId) {
+    case ETHEREUM_MAINNET_ID:
+      base = "https://ethersscan.io";
+      break;
+    case GOERLI_ID:
+      base = "https://goerli.etherscan.io";
+      break;
+    case KOVAN_ID:
+      base = "https://kovan.etherscan.io";
+      break;
+    case RINKEBY_ID:
+      base = "https://rinkeby.etherscan.io";
+      break;
+    case ROPSTEN_ID:
+      base = "https://ropsten.etherscan.io";
+      break;
+    default:
+      base = "https://etherscan.io";
+  }
+
+  switch (type) {
+    case "transaction": {
+      return `${base}/tx/${data}`;
+    }
+    case "address":
+    default: {
+      return `${base}/address/${data}`;
+    }
+  }
+}
 
 type EtherscanButtonProps = {
   chainId: number;
@@ -22,7 +52,7 @@ function EtherscanButton({
   value,
 }: EtherscanButtonProps): JSX.Element {
   return (
-    <StyledTooltip $increaseZindex={increaseZindex} placement="top" title="Show details on Etherscan">
+    <StyledTooltip increaseZindex={increaseZindex} placement="top" title="Show details on Etherscan">
       <LinkContainer
         aria-label="Show details on Etherscan"
         className={className}

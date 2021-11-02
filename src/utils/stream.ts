@@ -1,8 +1,9 @@
-import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import { BigNumber } from "@ethersproject/bignumber";
+import type { BigNumberish } from "@ethersproject/bignumber";
 import { Zero } from "@ethersproject/constants";
 import { isFuture, isPast } from "date-fns";
 
-import { Stream, StreamStatus } from "../types";
+import type { Stream, StreamStatus } from "../types";
 
 /// Subtract 15 seconds so that the app doesn't get ahead of the blockchain.
 function getNow() {

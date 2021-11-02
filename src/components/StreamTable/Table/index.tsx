@@ -168,14 +168,14 @@ function GnoTable({
     [defaultOrder, order, orderBy],
   );
 
-  const handleChangePage = useCallback(
+  const onPageChange = useCallback(
     (_e: any, newPage: number): void => {
       setPage(newPage);
     },
     [setPage],
   );
 
-  const handleChangeRowsPerPage = useCallback(
+  const onRowsPerPageChange = useCallback(
     (e: any) => {
       const newRowsPerPage = Number(e.target.value);
       setRowsPerPage(newRowsPerPage);
@@ -200,7 +200,7 @@ function GnoTable({
   return (
     <>
       {!isEmpty && (
-        <StyledTable aria-labelledby={label} $noBorder={noBorder} size="small">
+        <StyledTable aria-labelledby={label} noBorder={noBorder} size="small">
           <TableHead columns={columns} onSort={onSort} order={order} orderBy={orderByParam} />
           <TableBody>{children(sortedData)}</TableBody>
         </StyledTable>
@@ -217,8 +217,8 @@ function GnoTable({
           component="div"
           count={size}
           nextIconButtonProps={nextProps}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-          onChangePage={handleChangePage}
+          onRowsPerPageChange={onRowsPerPageChange}
+          onPageChange={onPageChange}
           page={page}
           rowsPerPage={displayRows}
           rowsPerPageOptions={[displayRows]}

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Stream } from "../../../types";
+import type { Stream } from "../../../types";
 import StreamActions from "./StreamActions";
 import StreamInfo from "./StreamInfo";
 

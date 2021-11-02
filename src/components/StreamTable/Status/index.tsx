@@ -5,7 +5,7 @@ import ClockIcon from "../../../assets/clock.svg";
 import ErrorIcon from "../../../assets/error.svg";
 import OkIcon from "../../../assets/ok.svg";
 import theme from "../../../theme";
-import { StreamStatus } from "../../../types";
+import type { StreamStatus } from "../../../types";
 
 const sm: string = "8px";
 const lg: string = "24px";

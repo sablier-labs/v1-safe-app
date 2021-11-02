@@ -1,5 +1,5 @@
 import { AddressZero } from "@ethersproject/constants";
-import { Contract } from "@ethersproject/contracts";
+import type { Contract } from "@ethersproject/contracts";
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
 import { useMemo } from "react";
 

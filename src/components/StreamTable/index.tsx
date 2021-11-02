@@ -10,7 +10,7 @@ import { Fragment, useCallback, useMemo, useState } from "react";
 import styled, { css } from "styled-components";
 
 import { DATE_FORMAT, TIME_FORMAT } from "../../constants/time";
-import { HumanReadableStream, Stream, StreamStatus } from "../../types";
+import type { HumanReadableStream, Stream, StreamStatus } from "../../types";
 import { shortenAddress } from "../../utils/address";
 import { bigNumberToRoundedHumanFormat } from "../../utils/format";
 import { getStreamStatus } from "../../utils/stream";
@@ -134,7 +134,7 @@ function StreamTable({ streams }: { streams: Stream[] }): JSX.Element {
         sortedData.map((row: HumanReadableStream) => (
           <Fragment key={row.id}>
             <StyledTableRow
-              $expanded={expandedStreamId === row.id}
+              expanded={expandedStreamId === row.id}
               onClick={() => {
                 handleStreamExpand(row.id);
               }}
