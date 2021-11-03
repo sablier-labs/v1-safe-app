@@ -72,12 +72,12 @@ The app will be hosted on `http://localhost:3000`.
 
 In order to allow the Gnosis Safe UI to access the app while it's running on localhost, we need to edit the headers on the dev server (`node_modules/react-scripts/config/webpackDevServer.config.js`) to avoid CORS issues:
 
-```json
+```js
 headers: {
     "Access-Control-Allow-Origin": "\*",
     "Access-Control-Allow-Methods": "GET",
     "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-},
+}
 ```
 
 We automate injecting these headers in to the server config through [react-app-rewired](https://github.com/timarney/react-app-rewired).

@@ -1,9 +1,9 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 
 import theme from ".";
 
 const { primary, primaryLight, primaryHover, secondary, secondaryLight, secondaryHover } = theme.colors;
-const dateTimeTheme = createMuiTheme({
+const dateTimeTheme = createTheme({
   palette: {
     primary: {
       light: primaryLight,

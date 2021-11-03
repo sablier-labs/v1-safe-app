@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import type { DocumentNode } from "@apollo/client";
 
-import { ETHEREUM_MAINNET_ID, GOERLI_ID, KOVAN_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants/chains";
+import { BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../constants/chains";
 import type { SablierChainId, Stream } from "../types";
 
 type Response = {
@@ -9,11 +9,10 @@ type Response = {
 };
 
 const subgraphUri: { [key in SablierChainId]: string } = {
-  [GOERLI_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-goerli",
-  [KOVAN_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-kovan",
+  [BSC_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-bsc",
   [ETHEREUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
+  [POLYGON_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-matic",
   [RINKEBY_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
-  [ROPSTEN_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-ropsten",
 };
 
 const STREAM_QUERY: string = `

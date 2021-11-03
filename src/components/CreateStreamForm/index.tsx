@@ -13,12 +13,12 @@ import { ChangeEventHandler, HTMLProps, useCallback, useEffect, useMemo, useStat
 import styled from "styled-components";
 
 import { getSablierContractAddress } from "../../config/sablier";
-import { TokenItem, getTokens } from "../../config/tokens";
+import { getTokens } from "../../config/tokens";
 import { DATE_FORMAT, TIME_FORMAT } from "../../constants/time";
 import useTokenContract from "../../hooks/useTokenContract";
 import dateTimeTheme from "../../theme/datetimepicker";
 import { createStreamTxs } from "../../txs";
-import type { SablierChainId } from "../../types";
+import type { SablierChainId, TokenItem } from "../../types";
 import { bigNumberToHumanFormat } from "../../utils";
 import { ButtonContainer, SelectContainer, TextFieldContainer } from "../index";
 
@@ -217,7 +217,7 @@ function CreateStreamForm(): JSX.Element {
       <Text size="lg">What token do you want to use?</Text>
 
       <SelectContainer>
-        <Select items={tokens} activeItemId={selectedToken.id} onItemClick={onSelectItem} />
+        <Select activeItemId={selectedToken.id} items={tokens} onItemClick={onSelectItem} />
         <Text size="lg">{humanTokenBalance()}</Text>
       </SelectContainer>
 

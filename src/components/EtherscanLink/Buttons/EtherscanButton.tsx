@@ -1,13 +1,5 @@
 import ExternalLinkIcon from "../../../assets/external-link.svg";
-import {
-  BSC_MAINNET_ID,
-  ETHEREUM_MAINNET_ID,
-  GOERLI_ID,
-  KOVAN_ID,
-  POLYGON_MAINNET_ID,
-  RINKEBY_ID,
-  ROPSTEN_ID,
-} from "../../../constants/chains";
+import { BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../../../constants/chains";
 import { LinkContainer, StyledTooltip } from "./common";
 
 function getEtherscanLink(chainId: number, type: string, data: string): string {
@@ -20,20 +12,11 @@ function getEtherscanLink(chainId: number, type: string, data: string): string {
     case ETHEREUM_MAINNET_ID:
       base = "https://ethersscan.io";
       break;
-    case GOERLI_ID:
-      base = "https://goerli.etherscan.io";
-      break;
-    case KOVAN_ID:
-      base = "https://kovan.etherscan.io";
-      break;
     case POLYGON_MAINNET_ID:
       base = "https://polygonscan.com";
       break;
     case RINKEBY_ID:
       base = "https://rinkeby.etherscan.io";
-      break;
-    case ROPSTEN_ID:
-      base = "https://ropsten.etherscan.io";
       break;
     default:
       base = "https://etherscan.io";
