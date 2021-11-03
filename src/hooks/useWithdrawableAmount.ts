@@ -3,7 +3,7 @@ import { AddressZero, Zero } from "@ethersproject/constants";
 import type { Contract } from "@ethersproject/contracts";
 import { useEffect, useState } from "react";
 
-import { CUTOFF_STREAM_ID } from "../constants";
+import { CUTOFF_STREAM_ID } from "../constants/streams";
 import type { Stream } from "../types";
 import { getStreamWithdrawableAmount } from "../utils/stream";
 import useSablierContract from "./useSablierContract";

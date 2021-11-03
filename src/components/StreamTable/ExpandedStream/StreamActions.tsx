@@ -5,9 +5,10 @@ import { useCallback, useMemo } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
+import { StreamStatus } from "../../../constants/streams";
 import useWithdrawableAmount from "../../../hooks/useWithdrawableAmount";
 import { cancelStreamTx, withdrawStreamTx } from "../../../txs";
-import type { Stream, StreamStatus } from "../../../types";
+import type { Stream } from "../../../types";
 import { getStreamStatus } from "../../../utils/stream";
 
 const lg: string = "24px";

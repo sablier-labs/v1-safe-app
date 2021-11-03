@@ -9,8 +9,9 @@ import { format } from "date-fns";
 import { Fragment, useCallback, useMemo, useState } from "react";
 import styled, { css } from "styled-components";
 
+import { StreamStatus } from "../../constants/streams";
 import { DATE_FORMAT, TIME_FORMAT } from "../../constants/time";
-import type { HumanReadableStream, Stream, StreamStatus } from "../../types";
+import type { HumanReadableStream, Stream } from "../../types";
 import { shortenAddress } from "../../utils/address";
 import { bigNumberToRoundedHumanFormat } from "../../utils/format";
 import { getStreamStatus } from "../../utils/stream";

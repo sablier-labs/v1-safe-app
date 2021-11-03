@@ -4,8 +4,8 @@ import ClockGreyIcon from "../../../assets/clock-grey.svg";
 import ClockIcon from "../../../assets/clock.svg";
 import ErrorIcon from "../../../assets/error.svg";
 import OkIcon from "../../../assets/ok.svg";
+import { StreamStatus } from "../../../constants/streams";
 import theme from "../../../theme";
-import type { StreamStatus } from "../../../types";
 
 const sm: string = "8px";
 const lg: string = "24px";

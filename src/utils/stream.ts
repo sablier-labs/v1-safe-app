@@ -3,7 +3,8 @@ import type { BigNumberish } from "@ethersproject/bignumber";
 import { Zero } from "@ethersproject/constants";
 import { isFuture, isPast } from "date-fns";
 
-import type { Stream, StreamStatus } from "../types";
+import { StreamStatus } from "../constants/streams";
+import type { Stream } from "../types";
 
 /// Subtract 15 seconds so that the app doesn't get ahead of the blockchain.
 function getNow() {

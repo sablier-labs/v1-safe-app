@@ -114,7 +114,7 @@
     "build": "react-app-rewired build",
     "clean": "shx rm -rf ./build",
     "eject": "react-scripts eject",
-    "lint": "yarn lint:ts && yarn lint:styles && yarn prettier:check && yarn:typecheck",
+    "lint": "yarn lint:ts && yarn lint:styles && yarn prettier:check && yarn typecheck",
     "lint:styles": "stylelint --config ./.stylelintrc.js \"./src/**/*.{css,ts,tsx,scss}\"",
     "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore \"src/**/*.{ts,tsx}\"",
     "postinstall": "husky install",

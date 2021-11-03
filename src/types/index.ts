@@ -1,6 +1,15 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 
-import { ETHEREUM_MAINNET_ID, GOERLI_ID, KOVAN_ID, RINKEBY_ID, ROPSTEN_ID } from "../constants/chains";
+import {
+  BSC_MAINNET_ID,
+  ETHEREUM_MAINNET_ID,
+  GOERLI_ID,
+  KOVAN_ID,
+  POLYGON_MAINNET_ID,
+  RINKEBY_ID,
+  ROPSTEN_ID,
+} from "../constants/chains";
+import { StreamStatus } from "../constants/streams";
 
 export type Cancellation = {
   id: number;
@@ -28,9 +37,11 @@ export type HumanReadableStream = {
 };
 
 export type SablierChainId =
+  | typeof BSC_MAINNET_ID
   | typeof GOERLI_ID
   | typeof KOVAN_ID
   | typeof ETHEREUM_MAINNET_ID
+  | typeof POLYGON_MAINNET_ID
   | typeof RINKEBY_ID
   | typeof ROPSTEN_ID;
 
@@ -48,13 +59,6 @@ export type Stream = {
     amount: BigNumberish;
   }[];
 };
-
-export enum StreamStatus {
-  Created = 1,
-  Streaming = 2,
-  Cancelled = 3,
-  Ended = 4,
-}
 
 export type Token = {
   id: number;

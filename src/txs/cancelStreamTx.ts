@@ -5,7 +5,7 @@ import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 import PAYROLL_ABI from "../abis/payroll";
 import SABLIER_ABI from "../abis/sablier";
 import { getPayrollContractAddress, getSablierContractAddress } from "../config/sablier";
-import { CUTOFF_STREAM_ID } from "../constants";
+import { CUTOFF_STREAM_ID } from "../constants/streams";
 import type { SablierChainId } from "../types";
 
 export function cancelStreamTx(chainId: SablierChainId, streamId: number): BaseTransaction[] {
