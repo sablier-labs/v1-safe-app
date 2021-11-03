@@ -15,7 +15,7 @@ export function cancelStreamTx(chainId: SablierChainId, streamId: number): BaseT
     value: "0",
   };
 
-  // Sablier v1.0.0 is used before the cutoff stream id, while Sablier v1.1.0 is used afterwards.
+  // Sablier v1.0.0 is used before the cutoff stream id. Sablier v1.1.0 is used afterward.
   if (BigNumber.from(streamId).gte(CUTOFF_STREAM_ID)) {
     const sablierInterface: Interface = new Interface(SABLIER_ABI);
     cancellationTx.data = sablierInterface.encodeFunctionData("cancelStream", [streamId]);

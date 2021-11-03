@@ -16,7 +16,7 @@ export function withdrawStreamTx(chainId: SablierChainId, streamId: number, amou
     value: "0",
   };
 
-  // Sablier v1.0.0 is used before the cutoff stream id, while Sablier v1.1.0 is used afterwards.
+  // Sablier v1.0.0 is used before the cutoff stream id. v1.1.0 is used afterward.
   if (BigNumber.from(streamId).gte(CUTOFF_STREAM_ID)) {
     const sablierInterface: Interface = new Interface(SABLIER_ABI);
     withdrawalTx.data = sablierInterface.encodeFunctionData("withdrawFromStream", [streamId, amount]);

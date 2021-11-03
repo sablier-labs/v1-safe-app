@@ -36,7 +36,7 @@ function GnoTableHead({ columns, order, orderBy, onSort }: GnoTableHeadProps): J
           <TableCell
             align={column.align}
             key={column.id}
-            padding={column.disablePadding ? "none" : "default"}
+            padding={column.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === column.id ? order : false}
           >
             {column.static ? (

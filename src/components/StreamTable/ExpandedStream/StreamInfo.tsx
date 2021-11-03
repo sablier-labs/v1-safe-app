@@ -45,7 +45,7 @@ const StreamInfo = ({ chainId, stream }: StreamInfoProps): JSX.Element => {
     return getAddress(sender);
   }, [sender]);
 
-  // These variables are purposefully not memoised as they actually need to be updated continuously.
+  // The following variables are not memoized because they have to be updated continuously.
   useRefreshWithPeriod(1000);
 
   const senderBalance = bigNumberToRoundedHumanFormat(

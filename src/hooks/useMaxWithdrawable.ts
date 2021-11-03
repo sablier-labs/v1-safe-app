@@ -8,7 +8,7 @@ import type { Stream } from "../types";
 import { getStreamWithdrawableAmount } from "../utils/stream";
 import useSablierContract from "./useSablierContract";
 
-export default function useWithdrawableAmount(stream: Stream, isWithdrawFromStreamDisabled: boolean): BigNumber {
+export default function useMaxWithdrawable(stream: Stream, isWithdrawFromStreamDisabled: boolean): BigNumber {
   const sablierContract: Contract = useSablierContract();
   const [withdrawableAmount, setWithdrawableAmount] = useState<BigNumber>(Zero);
 
@@ -20,7 +20,13 @@ export default function useWithdrawableAmount(stream: Stream, isWithdrawFromStre
         return;
       }
 
+      // If the Sablier contract is not loaded, stop.
       if (sablierContract.address === AddressZero) {
+        return;
+      }
+
+      // If the stream was cancelled, stop.
+      if (stream.cancellation !== null) {
         return;
       }
 

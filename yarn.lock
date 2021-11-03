@@ -2772,31 +2772,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-io/core@npm:1.x":
+"@date-io/core@npm:1.x, @date-io/core@npm:^1.3.13":
   version: 1.3.13
   resolution: "@date-io/core@npm:1.3.13"
   checksum: 5a9e9d1de20f0346a3c7d2d5946190caef4bfb0b64d82ba1f4c566657a9192667c94ebe7f438d11d4286d9c190974daad4fb2159294225cd8af4d9a140239879
   languageName: node
   linkType: hard
 
-"@date-io/core@npm:^2.11.0":
-  version: 2.11.0
-  resolution: "@date-io/core@npm:2.11.0"
-  checksum: ad26af280b0fb08bf4a272fbd5d41fb9bdb5b5aa3fcc4930ea5ae92a691c6b1adad8d54aa4172cc164b260aa5ee7994d5d1fcee00609f2e12efda8556fa32ba2
-  languageName: node
-  linkType: hard
-
-"@date-io/date-fns@npm:^2.11.0":
-  version: 2.11.0
-  resolution: "@date-io/date-fns@npm:2.11.0"
+"@date-io/date-fns@npm:1.3.13":
+  version: 1.3.13
+  resolution: "@date-io/date-fns@npm:1.3.13"
   dependencies:
-    "@date-io/core": ^2.11.0
+    "@date-io/core": ^1.3.13
   peerDependencies:
     date-fns: ^2.0.0
-  peerDependenciesMeta:
-    date-fns:
-      optional: true
-  checksum: cdab6e3836c69b3d81a43afb6fe082feb29edd55923422f821c4bf7aa8dbdcee890fa5b7e85a133403196f942e0ca5eb14707413e768a0abb05d7a819dbbfd95
+  checksum: 0026c0e538ea4add57a11936ff6bdb07e99f25275f8bb28c4702bbb7e82c3a41b3e8124132aa719180d462c01a26a3b4801e41b7349cdb73813749d4bf5e8fbd
   languageName: node
   linkType: hard
 
@@ -3960,7 +3950,7 @@ __metadata:
     "@apollo/client": ^3.4.16
     "@commitlint/cli": ^14.1.0
     "@commitlint/config-conventional": ^14.1.0
-    "@date-io/date-fns": ^2.11.0
+    "@date-io/date-fns": 1.3.13
     "@ethersproject/abi": ^5.5.0
     "@ethersproject/address": ^5.5.0
     "@ethersproject/bignumber": ^5.5.0

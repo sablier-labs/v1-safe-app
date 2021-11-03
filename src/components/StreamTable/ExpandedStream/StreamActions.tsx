@@ -6,7 +6,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
 import { StreamStatus } from "../../../constants/streams";
-import useWithdrawableAmount from "../../../hooks/useWithdrawableAmount";
+import useMaxWithdrawable from "../../../hooks/useMaxWithdrawable";
 import { cancelStreamTx, withdrawStreamTx } from "../../../txs";
 import type { Stream } from "../../../types";
 import { getStreamStatus } from "../../../utils/stream";
@@ -68,7 +68,7 @@ const StreamActions = ({ stream }: StreamActionsProps): JSX.Element => {
       getStreamStatus(stream) === StreamStatus.Cancelled // Stream cancelled (and funds distributed)
     );
   }, [stream, safe.safeAddress]);
-  const withdrawableAmount = useWithdrawableAmount(stream, isWithdrawFromStreamDisabled);
+  const withdrawableAmount = useMaxWithdrawable(stream, isWithdrawFromStreamDisabled);
 
   const sablierStreamUrl = useMemo(() => {
     return `https://app.sablier.finance/stream/${stream.id}`;
