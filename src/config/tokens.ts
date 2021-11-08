@@ -6,6 +6,7 @@ type TokenMap = { [key in SablierChainId]: TokenItem[] };
 const CUSTOM_TOKEN_ICONS: string[] = [
   "BTP",
   "BUSD",
+  "CENT",
   "CIRUS",
   "CRE8R",
   "CW",
@@ -161,6 +162,13 @@ const TOKENS: TokenMap = {
       iconUrl: "",
       id: "BZRX",
       label: "BZRX",
+    },
+    {
+      address: "0xf9667c0F703C57A1D1b250c1888d8Ee6f3A43E3f",
+      decimals: 9,
+      iconUrl: "",
+      id: "CENT",
+      label: "CENT",
     },
     {
       address: "0xA01199c61841Fce3b3daFB83FeFC1899715c8756",
