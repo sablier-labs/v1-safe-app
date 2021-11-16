@@ -21,14 +21,14 @@ import Status from "./Status";
 import Table from "./Table";
 import { cellWidth } from "./Table/TableHead";
 
-const StyledTableRow = styled(TableRow)`
+const StyledTableRow = styled(TableRow)<{ $expanded: boolean }>`
   cursor: pointer;
   &:hover {
     background-color: #fff3e2;
   }
 
-  ${({ expanded }: { expanded: boolean }) =>
-    expanded &&
+  ${props =>
+    props.$expanded &&
     css`
       background-color: #fff3e2;
     `}
@@ -83,17 +83,17 @@ function StreamTable({ streams }: { streams: Stream[] }): JSX.Element {
 
   /// MEMOIZED VALUES ///
 
-  const columns = useMemo(() => {
+  const columns: Column[] = useMemo(() => {
     return generateColumns();
   }, []);
 
-  const autoColumns = useMemo(() => {
+  const autoColumns: Column[] = useMemo(() => {
     return columns.filter((column: Column) => {
       return !column.custom;
     });
   }, [columns]);
 
-  const expandedStream = useMemo(() => {
+  const expandedStream: Stream | undefined = useMemo(() => {
     return streams.find(({ id }) => {
       return expandedStreamId === id;
     });
@@ -135,7 +135,7 @@ function StreamTable({ streams }: { streams: Stream[] }): JSX.Element {
         sortedData.map((row: HumanReadableStream) => (
           <Fragment key={row.id}>
             <StyledTableRow
-              expanded={expandedStreamId === row.id}
+              $expanded={expandedStreamId === row.id}
               onClick={() => {
                 handleStreamExpand(row.id);
               }}

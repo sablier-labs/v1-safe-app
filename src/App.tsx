@@ -1,4 +1,4 @@
-import { HashRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
 import HomePage from "./pages/HomePage";
@@ -10,17 +10,11 @@ function App(): JSX.Element {
   return (
     <ThemeProvider theme={theme}>
       <HashRouter>
-        <Switch>
-          <Route path="/incoming">
-            <IncomingStreamsPage />
-          </Route>
-          <Route path="/outgoing">
-            <OutgoingStreamsPage />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/incoming" element={<IncomingStreamsPage />} />
+          <Route path="/outgoing" element={<OutgoingStreamsPage />} />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
       </HashRouter>
     </ThemeProvider>
   );

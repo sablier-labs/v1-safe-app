@@ -43,7 +43,7 @@ type StreamActionsProps = {
   stream: Stream;
 };
 
-const StreamActions = ({ stream }: StreamActionsProps): JSX.Element => {
+function StreamActions({ stream }: StreamActionsProps): JSX.Element {
   const { safe, sdk } = useSafeAppsSDK();
 
   /// MEMOIZED VALUES ///
@@ -126,6 +126,6 @@ const StreamActions = ({ stream }: StreamActionsProps): JSX.Element => {
       </StyledButton>
     </ActionsContainer>
   );
-};
+}
 
 export default StreamActions;

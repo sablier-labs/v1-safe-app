@@ -32,9 +32,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const StyledTable = styled(Table)`
-  ${({ noBorder }: { noBorder?: boolean }) =>
-    !noBorder &&
+const StyledTable = styled(Table)<{ $noBorder: boolean }>`
+  ${props =>
+    !props.$noBorder &&
     css`
       background-color: white;
       border-top-left-radius: ${sm};
@@ -200,7 +200,7 @@ function GnoTable({
   return (
     <>
       {!isEmpty && (
-        <StyledTable aria-labelledby={label} noBorder={noBorder} size="small">
+        <StyledTable aria-labelledby={label} $noBorder={noBorder} size="small">
           <TableHead columns={columns} onSort={onSort} order={order} orderBy={orderByParam} />
           <TableBody>{children(sortedData)}</TableBody>
         </StyledTable>

@@ -1,6 +1,6 @@
 import { Button, Title } from "@gnosis.pm/safe-react-components";
 import { useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import CreateStreamForm from "../components/CreateStreamForm";
@@ -50,7 +50,7 @@ const DashboardNavWrapper = styled.div`
 `;
 
 function HomePage(): JSX.Element {
-  const history = useHistory();
+  const navigate = useNavigate();
   const incomingStreams = useIncomingStreams();
   const outgoingStreams = useOutgoingStreams();
 
@@ -74,10 +74,10 @@ function HomePage(): JSX.Element {
       <RightWrapper>
         <Explainer />
         <DashboardNavWrapper>
-          <StyledButton disabled={noIncomingStreams} onClick={() => history.push("/incoming")}>
+          <StyledButton disabled={noIncomingStreams} onClick={() => navigate("/incoming")}>
             View incoming streams
           </StyledButton>
-          <StyledButton disabled={noOutgoingStreams} onClick={() => history.push("/outgoing")}>
+          <StyledButton disabled={noOutgoingStreams} onClick={() => navigate("/outgoing")}>
             View outgoing streams
           </StyledButton>
         </DashboardNavWrapper>

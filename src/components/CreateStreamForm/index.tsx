@@ -14,6 +14,7 @@ import styled from "styled-components";
 
 import { getSablierContractAddress } from "../../config/sablier";
 import { getTokens } from "../../config/tokens";
+import { BSC_MAINNET_ID } from "../../constants/chains";
 import { DATE_FORMAT, TIME_FORMAT } from "../../constants/time";
 import useTokenContract from "../../hooks/useTokenContract";
 import dateTimeTheme from "../../theme/datetimepicker";
@@ -68,10 +69,10 @@ function CreateStreamForm(): JSX.Element {
   const validateAmountValue = useCallback((): boolean => {
     setAmountError(undefined);
 
-    const currentValueBN: BigNumber = BigNumber.from(streamAmount);
-    const comparisonValueBN: BigNumber = BigNumber.from(tokenBalance);
+    const currentValueBn: BigNumber = BigNumber.from(streamAmount);
+    const comparisonValueBn: BigNumber = BigNumber.from(tokenBalance);
 
-    if (currentValueBN.gt(comparisonValueBN)) {
+    if (currentValueBn.gt(comparisonValueBn)) {
       setAmountError(`You only have ${humanTokenBalance()} ${selectedToken && selectedToken.label} in your Safe`);
       return false;
     }
@@ -190,7 +191,7 @@ function CreateStreamForm(): JSX.Element {
     };
   }, [safe.safeAddress, safe.chainId, selectedToken, setTokenBalance, tokens, tokenContract]);
 
-  // Load tokens list and initialize with DAI.
+  // Load tokens list and initialize with DAI or USDT.
   useEffect(() => {
     if (!safe.chainId) {
       return;
@@ -199,8 +200,9 @@ function CreateStreamForm(): JSX.Element {
     const loadedTokens: TokenItem[] = getTokens(safe.chainId as SablierChainId);
     setTokens(loadedTokens);
 
+    const id = safe.chainId === BSC_MAINNET_ID ? "USDT" : "DAI";
     const dai: TokenItem | undefined = loadedTokens.find(t => {
-      return t.id === "DAI";
+      return t.id === id;
     });
 
     if (dai) {

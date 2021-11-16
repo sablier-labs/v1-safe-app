@@ -1,5 +1,5 @@
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 import { getIncomingStreams, getOutgoingStreams } from "../graphql/streams";
 import type { Stream } from "../types";
@@ -27,6 +27,12 @@ function StreamsProvider({ children }: StreamsProviderProps): JSX.Element {
   const [incomingStreams, setIncomingStreams] = useState<Stream[]>([]);
   const [outgoingStreams, setOutgoingStreams] = useState<Stream[]>([]);
 
+  /// MEMOIZED VALUES ///
+
+  const value = useMemo(() => {
+    return { incomingStreams, outgoingStreams };
+  }, [incomingStreams, outgoingStreams]);
+
   /// CALLBACKS ///
 
   const refreshStreams = useCallback(async (): Promise<void> => {
@@ -51,7 +57,7 @@ function StreamsProvider({ children }: StreamsProviderProps): JSX.Element {
     };
   }, [refreshStreams]);
 
-  return <StreamsContext.Provider value={{ incomingStreams, outgoingStreams }}>{children}</StreamsContext.Provider>;
+  return <StreamsContext.Provider value={value}>{children}</StreamsContext.Provider>;
 }
 
 export function useIncomingStreams(): Stream[] {

@@ -32,7 +32,7 @@ const StyledText = styled(Text).attrs({ size: "md" })`
 
 type StreamInfoProps = { chainId: number; stream: Stream };
 
-const StreamInfo = ({ chainId, stream }: StreamInfoProps): JSX.Element => {
+function StreamInfo({ chainId, stream }: StreamInfoProps): JSX.Element {
   const { cancellation, deposit, recipient, sender, startTime, stopTime, token, withdrawals } = stream;
 
   /// MEMOIZED VALUES ///
@@ -84,6 +84,6 @@ const StreamInfo = ({ chainId, stream }: StreamInfoProps): JSX.Element => {
       <StyledText>{`Recipient Balance: ${recipientBalance} ${token.symbol} (${availableBalance} ${token.symbol} available to withdraw)`}</StyledText>
     </StreamDataContainer>
   );
-};
+}
 
 export default StreamInfo;

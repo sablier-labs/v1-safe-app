@@ -1,5 +1,5 @@
 import { Button, Title } from "@gnosis.pm/safe-react-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import StreamTable from "../components/StreamTable";
@@ -39,14 +39,14 @@ const StyledButton = styled(Button).attrs({
 `;
 
 function OutgoingStreamsPage(): JSX.Element {
-  const history = useHistory();
+  const navigate = useNavigate();
   const outgoingStreams = useOutgoingStreams();
 
   return (
     <StreamsOuterWrapper>
       <TopLeftHorizontalWrapper>
         <StyledTitle size="xs">Manage Outgoing Streams</StyledTitle>
-        <StyledButton onClick={() => history.push("/")}>Return to main page</StyledButton>
+        <StyledButton onClick={() => navigate("/")}>Return to main page</StyledButton>
       </TopLeftHorizontalWrapper>
       <TableWrapper>
         <StreamTable streams={outgoingStreams} />

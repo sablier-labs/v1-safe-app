@@ -19,11 +19,13 @@ type ExpandedStreamProps = {
   stream: Stream;
 };
 
-const ExpandedStream = ({ chainId, stream }: ExpandedStreamProps): JSX.Element => (
-  <ExpandedStreamContainer>
-    <StreamInfo chainId={chainId} stream={stream} />
-    <StreamActions stream={stream} />
-  </ExpandedStreamContainer>
-);
+function ExpandedStream({ chainId, stream }: ExpandedStreamProps): JSX.Element {
+  return (
+    <ExpandedStreamContainer>
+      <StreamInfo chainId={chainId} stream={stream} />
+      <StreamActions stream={stream} />
+    </ExpandedStreamContainer>
+  );
+}
 
 export default ExpandedStream;

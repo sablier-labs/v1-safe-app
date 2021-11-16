@@ -3,6 +3,7 @@ extends:
   - "airbnb-typescript"
   - "plugin:@typescript-eslint/eslint-recommended"
   - "plugin:@typescript-eslint/recommended"
+  - "plugin:react/recommended"
   - "plugin:react-hooks/recommended"
   - "prettier"
 parser: "@typescript-eslint/parser"
@@ -30,6 +31,13 @@ rules:
   prefer-destructuring: "off"
   prefer-template: "off"
   react/destructuring-assignment: "off"
+  react/function-component-definition:
+    - "error"
+    - namedComponents: "function-declaration"
+      unnamedComponents: "function-expression"
+  react/no-unstable-nested-components:
+    - "error"
+    - allowAsProps: true
   react/prop-types: "off"
   react/react-in-jsx-scope: "off"
   react/require-default-props: "off"
