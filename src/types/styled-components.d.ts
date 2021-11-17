@@ -16,27 +16,27 @@ declare module "styled-components" {
   }
 
   export interface Colors {
+    background: string;
+    disabled: Disabled;
+    error: string;
+    errorHover: string;
     primary: string;
     primaryLight: string;
     primaryHover: string;
+    icon: string;
+    inputField: string;
+    overlay: Overlay;
+    pendingTagHover: string;
+    placeHolder: string;
+    rinkeby: string;
     secondary: string;
     secondaryLight: string;
     secondaryHover: string;
-    error: string;
-    errorHover: string;
-    text: string;
-    icon: string;
-    placeHolder: string;
-    inputField: string;
     separator: string;
-    rinkeby: string;
-    pendingTagHover: string;
     tag: string;
-    background: string;
-    white: string;
-    disabled: Disabled;
-    overlay: Overlay;
+    text: string;
     shadow: Shadow;
+    white: string;
   }
 
   export interface Disabled {
@@ -44,14 +44,14 @@ declare module "styled-components" {
   }
 
   export interface Overlay {
-    opacity: number;
     color: string;
+    opacity: number;
   }
 
   export interface Shadow {
     blur: string;
-    opacity: number;
     color: string;
+    opacity: number;
   }
 
   export interface Fonts {
@@ -97,13 +97,13 @@ declare module "styled-components" {
   }
 
   export interface DefaultTheme {
-    fonts: Fonts;
-    colors: Colors;
     buttons: Buttons;
-    text: Text;
-    iconText: Icon;
-    title: Text;
-    loader: Loader;
+    colors: Colors;
+    fonts: Fonts;
     icons: Icon;
+    iconText: Icon;
+    loader: Loader;
+    text: Text;
+    title: Text;
   }
 }

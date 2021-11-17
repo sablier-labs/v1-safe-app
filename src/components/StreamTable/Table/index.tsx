@@ -17,6 +17,9 @@ const xl: string = "32px";
 const xxl: string = "40px";
 
 const useStyles = makeStyles(() => ({
+  input: {
+    backgroundColor: "white",
+  },
   paginationRoot: {
     backgroundColor: "white",
     borderBottomLeftRadius: sm,
@@ -26,9 +29,6 @@ const useStyles = makeStyles(() => ({
   selectRoot: {
     backgroundColor: "black",
     lineHeight: xxl,
-  },
-  white: {
-    backgroundColor: "white",
   },
 }));
 
@@ -132,7 +132,7 @@ function GnoTable({
 
   const paginationClasses = useMemo(() => {
     return {
-      input: classes.white,
+      input: classes.input,
       root: !noBorder ? classes.paginationRoot : undefined,
       selectRoot: classes.selectRoot,
     };

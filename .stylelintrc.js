@@ -7,5 +7,6 @@ module.exports = {
   rules: {
     // See https://github.com/hudochenkov/stylelint-order/issues/63
     "order/properties-order": ["-styled-mixin0", ...properties],
+    "selector-type-no-unknown": [true, { ignoreTypes: ["paginationRoot", "selectRoot"] }],
   },
 };
