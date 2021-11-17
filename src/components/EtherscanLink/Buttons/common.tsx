@@ -1,4 +1,4 @@
-import Tooltip from "@material-ui/core/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import styled, { css } from "styled-components";
 
 export const LinkContainer = styled.a.attrs({

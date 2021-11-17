@@ -4,8 +4,12 @@
   "version": "1.0.7",
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.5%",
+      "last 2 versions",
+      "Firefox ESR",
+      "maintained node versions",
       "not dead",
+      "not IE 11",
       "not op_mini all"
     ],
     "development": [
@@ -40,9 +44,12 @@
     "@gnosis.pm/safe-apps-react-sdk": "^4.0.6",
     "@gnosis.pm/safe-apps-sdk": "^6.0.0",
     "@gnosis.pm/safe-react-components": "^0.8.6",
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/pickers": "^3.3.10",
+    "@mui/icons-material": "^5.1.1",
+    "@mui/lab": "^5.0.0-alpha.55",
+    "@mui/material": "^5.1.1",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
+    "@mui/styled-engine-sc": "^5.1.0",
+    "@mui/styles": "^5.1.1",
     "big-number-input": "^1.0.3",
     "date-fns": "^2.25.0",
     "graphql": "^16.0.1",
@@ -109,6 +116,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/paulrberg/sablier-safe-app"
+  },
+  "resolutions": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
   },
   "scripts": {
     "build": "react-app-rewired build",

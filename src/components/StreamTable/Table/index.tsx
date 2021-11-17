@@ -1,10 +1,10 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { makeStyles } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TablePagination from "@material-ui/core/TablePagination";
+import CircularProgress from "@mui/material/CircularProgress";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TablePagination from "@mui/material/TablePagination";
+import { makeStyles } from "@mui/styles";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import styled, { css } from "styled-components";
 

@@ -1,10 +1,11 @@
 import { getAddress } from "@ethersproject/address";
 import { BigNumberish } from "@ethersproject/bignumber";
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
-import { Collapse, IconButton } from "@material-ui/core";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
 import { format } from "date-fns";
 import { Fragment, useCallback, useMemo, useState } from "react";
 import styled, { css } from "styled-components";

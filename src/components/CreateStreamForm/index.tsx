@@ -1,15 +1,17 @@
-import DateFnsUtils from "@date-io/date-fns";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Zero } from "@ethersproject/constants";
 import type { Contract } from "@ethersproject/contracts";
 import { useSafeAppsSDK } from "@gnosis.pm/safe-apps-react-sdk";
 import { BaseTransaction } from "@gnosis.pm/safe-apps-sdk";
 import { Button, Loader, Select, Text, TextField } from "@gnosis.pm/safe-react-components";
-import { ThemeProvider } from "@material-ui/core";
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import DatePicker from "@mui/lab/DatePicker";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { ThemeProvider } from "@mui/material/styles";
 import { BigNumberInput } from "big-number-input";
 import { isAfter, isDate, isFuture } from "date-fns";
-import { ChangeEventHandler, HTMLProps, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { ChangeEvent, ChangeEventHandler, HTMLProps } from "react";
 import styled from "styled-components";
 
 import { getSablierContractAddress } from "../../config/sablier";
@@ -245,51 +247,54 @@ function CreateStreamForm(): JSX.Element {
       <TextFieldContainer>
         <TextField
           label="Recipient"
-          onChange={(event): void => {
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => {
             setRecipient(event.target.value);
           }}
           value={recipient}
         />
       </TextFieldContainer>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <ThemeProvider theme={dateTimeTheme}>
-          <Text size="lg">When should the stream start?</Text>
-          <TextFieldContainer>
-            <DateTimePicker
-              ampm={false}
-              clearable
-              disablePast
-              format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
-              fullWidth
-              inputVariant="filled"
-              label="Start time"
-              onChange={date => {
-                handleStartDateChange(!isDate(date) || isFuture(date as Date) ? date : null);
-              }}
-              onError={console.log}
-              value={startDate}
-            />
-          </TextFieldContainer>
 
-          <Text size="lg">When should the stream end?</Text>
-          <TextFieldContainer>
-            <DateTimePicker
-              ampm={false}
-              clearable
-              disablePast
-              format={`${DATE_FORMAT} - ${TIME_FORMAT}`}
-              fullWidth
-              inputVariant="filled"
-              label="End time"
-              onChange={date => {
-                handleEndDateChange(!isDate(date) || isFuture(date as Date) ? date : null);
-              }}
-              onError={console.log}
-              value={endDate}
-            />
-          </TextFieldContainer>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <ThemeProvider theme={dateTimeTheme}>
+          <DatePicker
+            clearable
+            disablePast
+            inputFormat={`${DATE_FORMAT} - ${TIME_FORMAT}`}
+            label="Start time"
+            onChange={date => {
+              handleStartDateChange(!isDate(date) || isFuture(date as Date) ? date : null);
+            }}
+            onError={console.log}
+            renderInput={() => {
+              return (
+                <TextFieldContainer>
+                  <Text size="lg">When should the stream start?</Text>
+                </TextFieldContainer>
+              );
+            }}
+            value={startDate}
+          />
+
+          <DatePicker
+            clearable
+            disablePast
+            inputFormat={`${DATE_FORMAT} - ${TIME_FORMAT}`}
+            label="End time"
+            onChange={date => {
+              handleEndDateChange(!isDate(date) || isFuture(date as Date) ? date : null);
+            }}
+            onError={console.log}
+            renderInput={() => {
+              return (
+                <TextFieldContainer>
+                  <Text size="lg">When should the stream end?</Text>
+                </TextFieldContainer>
+              );
+            }}
+            value={endDate}
+          />
         </ThemeProvider>
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
 
       <ButtonContainer>
         <Button color="primary" disabled={isButtonDisabled} onClick={createStream} size="lg" variant="contained">
