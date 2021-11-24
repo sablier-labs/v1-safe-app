@@ -21,7 +21,7 @@ export default function useContract(abi: ContractInterface, address?: string): C
           name: "ethereum",
         });
       case POLYGON_MAINNET_ID:
-        return new JsonRpcProvider("https://polygon-mainnet.infura.io/v3/", {
+        return new JsonRpcProvider("https://polygon-mainnet.infura.io/v3/" + infuraKey, {
           chainId: safe.chainId,
           name: "polygon-mainnet",
         });
