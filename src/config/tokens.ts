@@ -10,6 +10,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "CENT",
   "CIRUS",
   "COMBO",
+  "COMP",
   "CRE8R",
   "CW",
   "CWAP",
