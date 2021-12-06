@@ -18,7 +18,13 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "DOUGH",
   "DSU",
   "IAG",
+  "jCAD",
+  "jCHF",
   "JELLY",
+  "jEUR",
+  "jJPY",
+  "jGBP",
+  "jSGD",
   "kMPL",
   "MFI",
   "MKR",
@@ -398,6 +404,27 @@ const TOKENS: TokenMap = {
       label: "IAG",
     },
     {
+      address: "0x0f17BC9a994b87b5225cFb6a2Cd4D667ADb4F20B",
+      decimals: 18,
+      iconUrl: "",
+      id: "jEUR",
+      label: "jEUR"
+    },
+    {
+      address: "0x53dfEa0A8CC2A2A2e425E1C174Bc162999723ea0",
+      decimals: 18,
+      iconUrl: "",
+      id: "jCHF",
+      label: "jCHF"
+    },
+    {
+      address: "0x7409856CAE628f5d578B285B45669b36E7005283",
+      decimals: 18,
+      iconUrl: "",
+      id: "jGBP",
+      label: "jGBP"
+    },
+    {
       address: "0xf5f06fFa53Ad7F5914F493F16E57B56C8dd2eA80",
       decimals: 18,
       iconUrl: "",
@@ -636,6 +663,41 @@ const TOKENS: TokenMap = {
       iconUrl: "",
       id: "COMP",
       label: "COMP",
+    },
+    {
+      address: "0x8ca194A3b22077359b5732DE53373D4afC11DeE3",
+      decimals: 18,
+      iconUrl: "",
+      id: "jCAD",
+      label: "jCAD"
+    },
+    {
+      address: "0xbD1463F02f61676d53fd183C2B19282BFF93D099",
+      decimals: 18,
+      iconUrl: "",
+      id: "jCHF",
+      label: "jCHF"
+    },
+    {
+      address: "0x4e3Decbb3645551B8A19f0eA1678079FCB33fB4c",
+      decimals: 18,
+      iconUrl: "",
+      id: "jEUR",
+      label: "jEUR"
+    },
+    {
+      address: "0x767058F11800FBA6A682E73A6e79ec5eB74Fac8c",
+      decimals: 18,
+      iconUrl: "",
+      id: "jGBP",
+      label: "jGBP"
+    },
+    {
+      address: "0xa926db7a4CC0cb1736D5ac60495ca8Eb7214B503",
+      decimals: 18,
+      iconUrl: "",
+      id: "jSGD",
+      label: "jSGD"
     },
     {
       address: "0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0",
