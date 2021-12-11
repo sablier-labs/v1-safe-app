@@ -17,6 +17,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "DOG",
   "DOUGH",
   "DSU",
+  "ETHA",
   "IAG",
   "jCAD",
   "jCHF",
@@ -34,6 +35,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "MUSE",
   "PERCS",
   "RNBW",
+  "ROOK",
   "THEOS",
   "TUSD",
   "uAD",
@@ -376,6 +378,13 @@ const TOKENS: TokenMap = {
       label: "DSU",
     },
     {
+      address: "0x59E9261255644c411AfDd00bD89162d09D862e38",
+      decimals: 18,
+      iconUrl: "",
+      id: "ETHA",
+      label: "ETHA",
+    },
+    {
       address: "0xa0246c9032bC3A600820415aE600c6388619A14D",
       decimals: 18,
       iconUrl: "",
@@ -521,6 +530,13 @@ const TOKENS: TokenMap = {
       iconUrl: "",
       id: "RNBW",
       label: "RNBW",
+    },
+    {
+      address: "0xfA5047c9c78B8877af97BDcb85Db743fD7313d4a",
+      decimals: 18,
+      iconUrl: "",
+      id: "ROOK",
+      label: "ROOK",
     },
     {
       address: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
@@ -670,6 +686,13 @@ const TOKENS: TokenMap = {
       iconUrl: "",
       id: "COMP",
       label: "COMP",
+    },
+    {
+      address: "0x59E9261255644c411AfDd00bD89162d09D862e38",
+      decimals: 18,
+      iconUrl: "",
+      id: "ETHA",
+      label: "ETHA",
     },
     {
       address: "0x8ca194A3b22077359b5732DE53373D4afC11DeE3",
