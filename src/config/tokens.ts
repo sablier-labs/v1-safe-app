@@ -341,6 +341,13 @@ const TOKENS: TokenMap = {
       label: "CWAP",
     },
     {
+      address: "0x43D4A3cd90ddD2F8f4f693170C9c8098163502ad",
+      decimals: 18,
+      iconUrl: "",
+      id: "D2D",
+      label: "D2D",
+    },
+    {
       address: "0xca1207647Ff814039530D7d35df0e1Dd2e91Fa84",
       decimals: 18,
       iconUrl: "",
