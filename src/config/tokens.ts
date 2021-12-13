@@ -14,6 +14,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "CRE8R",
   "CW",
   "CWAP",
+  "D2D",
   "DOG",
   "DOUGH",
   "DSU",
