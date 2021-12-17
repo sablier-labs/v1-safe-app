@@ -19,6 +19,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "DOUGH",
   "DSU",
   "ETHA",
+  "HOTCROSS",
   "IAG",
   "jCAD",
   "jCHF",
@@ -35,6 +36,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "mUSD",
   "MUSE",
   "PERCS",
+  "RAI",
   "RNBW",
   "ROOK",
   "THEOS",
@@ -155,6 +157,13 @@ const TOKENS: TokenMap = {
       iconUrl: "",
       id: "ETH",
       label: "ETH",
+    },
+    {
+      address: "0x4FA7163E153419E0E1064e418dd7A99314Ed27b6",
+      decimals: 18,
+      iconUrl: "",
+      id: "HOTCROSS",
+      label: "HOTCROSS",
     },
     {
       address: "0x5f0Da599BB2ccCfcf6Fdfd7D81743B6020864350",
@@ -400,6 +409,13 @@ const TOKENS: TokenMap = {
       label: "FLOAT",
     },
     {
+      address: "0x6243d8CEA23066d098a15582d81a598b4e8391F4",
+      decimals: 18,
+      iconUrl: "",
+      id: "FLX",
+      label: "FLX",
+    },
+    {
       address: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d",
       decimals: 18,
       iconUrl: "",
@@ -517,6 +533,13 @@ const TOKENS: TokenMap = {
       iconUrl: "",
       id: "PLA",
       label: "PLA",
+    },
+    {
+      address: "0x03ab458634910AaD20eF5f1C8ee96F1D6ac54919",
+      decimals: 18,
+      iconUrl: "",
+      id: "RAI",
+      label: "RAI",
     },
     {
       address: "0xf1f955016EcbCd7321c7266BccFB96c68ea5E49b",
