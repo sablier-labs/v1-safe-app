@@ -276,6 +276,13 @@ const TOKENS: TokenMap = {
     },
     // All others
     {
+      address: "0xa117000000f279D81A1D3cc75430fAA017FA5A2e",
+      decimals: 18,
+      iconUrl: "",
+      id: "ANT",
+      label: "ANT"
+    },
+    {
       address: "0xba100000625a3754423978a60c9317c58a424e3D",
       decimals: 18,
       iconUrl: "",
