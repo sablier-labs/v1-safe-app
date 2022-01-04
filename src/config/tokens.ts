@@ -35,7 +35,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "MTA",
   "mUSD",
   "MUSE",
-  "PERCS",
+  "PERC",
   "RAI",
   "RNBW",
   "ROOK",
@@ -280,7 +280,7 @@ const TOKENS: TokenMap = {
       decimals: 18,
       iconUrl: "",
       id: "ANT",
-      label: "ANT"
+      label: "ANT",
     },
     {
       address: "0xba100000625a3754423978a60c9317c58a424e3D",
@@ -448,21 +448,21 @@ const TOKENS: TokenMap = {
       decimals: 18,
       iconUrl: "",
       id: "jEUR",
-      label: "jEUR"
+      label: "jEUR",
     },
     {
       address: "0x53dfEa0A8CC2A2A2e425E1C174Bc162999723ea0",
       decimals: 18,
       iconUrl: "",
       id: "jCHF",
-      label: "jCHF"
+      label: "jCHF",
     },
     {
       address: "0x7409856CAE628f5d578B285B45669b36E7005283",
       decimals: 18,
       iconUrl: "",
       id: "jGBP",
-      label: "jGBP"
+      label: "jGBP",
     },
     {
       address: "0xf5f06fFa53Ad7F5914F493F16E57B56C8dd2eA80",
@@ -528,11 +528,11 @@ const TOKENS: TokenMap = {
       label: "OCC",
     },
     {
-      address: "0xf4A2fd9EC3923558bCA92FC8DdD9CDCAad373068",
+      address: "0x60bE1e1fE41c1370ADaF5d8e66f07Cf1C2Df2268",
       decimals: 18,
       iconUrl: "",
-      id: "PERCS",
-      label: "PERCS",
+      id: "PERC",
+      label: "PERC",
     },
     {
       address: "0x0198f46f520F33cd4329bd4bE380a25a90536CD5",
@@ -730,35 +730,35 @@ const TOKENS: TokenMap = {
       decimals: 18,
       iconUrl: "",
       id: "jCAD",
-      label: "jCAD"
+      label: "jCAD",
     },
     {
       address: "0xbD1463F02f61676d53fd183C2B19282BFF93D099",
       decimals: 18,
       iconUrl: "",
       id: "jCHF",
-      label: "jCHF"
+      label: "jCHF",
     },
     {
       address: "0x4e3Decbb3645551B8A19f0eA1678079FCB33fB4c",
       decimals: 18,
       iconUrl: "",
       id: "jEUR",
-      label: "jEUR"
+      label: "jEUR",
     },
     {
       address: "0x767058F11800FBA6A682E73A6e79ec5eB74Fac8c",
       decimals: 18,
       iconUrl: "",
       id: "jGBP",
-      label: "jGBP"
+      label: "jGBP",
     },
     {
       address: "0xa926db7a4CC0cb1736D5ac60495ca8Eb7214B503",
       decimals: 18,
       iconUrl: "",
       id: "jSGD",
-      label: "jSGD"
+      label: "jSGD",
     },
     {
       address: "0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0",
