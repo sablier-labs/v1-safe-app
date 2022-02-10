@@ -19,6 +19,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "DOG",
   "DOUGH",
   "DSU",
+  "DUSD",
   "ETHA",
   "HOTCROSS",
   "IAG",
@@ -725,6 +726,13 @@ const TOKENS: TokenMap = {
       iconUrl: "",
       id: "DHT",
       label: "DHT",
+    },
+    {
+      address: "0xbAe28251B2a4E621aA7e20538c06DEe010Bc06DE",
+      decimals: 18,
+      iconUrl: "",
+      id: "DUSD",
+      label: "DUSD",
     },
     {
       address: "0x59E9261255644c411AfDd00bD89162d09D862e38",
