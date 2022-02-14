@@ -614,6 +614,13 @@ const TOKENS: TokenMap = {
       label: "uAR",
     },
     {
+      address: "0x77777FeDdddFfC19Ff86DB637967013e6C6A116C",
+      decimals: 18,
+      iconUrl: "",
+      id: "TORN",
+      label: "TORN",
+    },
+    {
       address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
       decimals: 8,
       iconUrl: "",
