@@ -3976,6 +3976,7 @@ __metadata:
     "@stylelint/postcss-css-in-js": ^0.37.2
     "@types/big.js": ^6.1.2
     "@types/jest": ^27.0.2
+    "@types/lodash.sortby": ^4.7.6
     "@types/node": ^16.11.7
     "@types/react": ^17.0.35
     "@types/react-copy-to-clipboard": ^5.0.2
@@ -4000,6 +4001,7 @@ __metadata:
     husky: ^7.0.4
     known-css-properties: ^0.23.0
     lint-staged: ^12.1.1
+    lodash.sortby: ^4.7.0
     pinst: ^2.1.6
     postcss: ^8.3.11
     postcss-syntax: ^0.36.2
@@ -4400,6 +4402,22 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
+  languageName: node
+  linkType: hard
+
+"@types/lodash.sortby@npm:^4.7.6":
+  version: 4.7.6
+  resolution: "@types/lodash.sortby@npm:4.7.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: d7ec1aad2de3cf839c2572f331859e229b6aae25da198bf8452c544aae4c8756e1aa5af293e878e6ff4d7504a336b0ccf208cab7ff0ef6fd6fc236a101370b09
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.178
+  resolution: "@types/lodash@npm:4.14.178"
+  checksum: a69a04a60bfc5257c3130a554b4efa0c383f0141b7b3db8ab7cf07ad2a46ea085fce66d0242da41da7e5647b133d5dfb2c15add9cbed8d7fef955e4a1e5b3128
   languageName: node
   linkType: hard
 
@@ -13562,6 +13580,13 @@ fsevents@^1.2.7:
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: ad580b4bdbb7ca1f7abf7e1bce63a9a0b98e370cf40194b03380a46b4ed799c9573029599caebc1b14e3f24b111aef72b96674a56cfa105e0f5ac70546cdc005
+  languageName: node
+  linkType: hard
+
+"lodash.sortby@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "lodash.sortby@npm:4.7.0"
+  checksum: db170c9396d29d11fe9a9f25668c4993e0c1331bcb941ddbd48fb76f492e732add7f2a47cfdf8e9d740fa59ac41bbfaf931d268bc72aab3ab49e9f89354d718c
   languageName: node
   linkType: hard
 
