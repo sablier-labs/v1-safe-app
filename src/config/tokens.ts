@@ -1,4 +1,5 @@
 import sortBy from "lodash.sortby";
+
 import { BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../constants/chains";
 import type { SablierChainId, TokenItem } from "../types";
 
@@ -23,6 +24,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "DUSD",
   "ETHA",
   "HOTCROSS",
+  "FRAK",
   "IAG",
   "jCAD",
   "jCHF",
@@ -133,6 +135,7 @@ const TOKENS: TokenMap = {
     { address: "0xb05097849BCA421A3f51B249BA6CCa4aF4b97cb9", decimals: 18, iconUrl: "", id: "FLOAT", label: "FLOAT" },
     { address: "0x6243d8CEA23066d098a15582d81a598b4e8391F4", decimals: 18, iconUrl: "", id: "FLX", label: "FLX" },
     { address: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d", decimals: 18, iconUrl: "", id: "FOX", label: "FOX" },
+    { address: "0x1f81f8f262714cc932141c7C79495B481eF27258", decimals: 18, iconUrl: "", id: "FRAK", label: "FRAK" },
     {
       address: "0x4297394c20800E8a38A619A243E9BbE7681Ff24E",
       decimals: 18,
