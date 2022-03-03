@@ -26,6 +26,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "ETHA",
   "HOTCROSS",
   "FRAK",
+  "GCR",
   "IAG",
   "jCAD",
   "jCHF",
@@ -138,6 +139,7 @@ const TOKENS: TokenMap = {
     { address: "0x6243d8CEA23066d098a15582d81a598b4e8391F4", decimals: 18, iconUrl: "", id: "FLX", label: "FLX" },
     { address: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d", decimals: 18, iconUrl: "", id: "FOX", label: "FOX" },
     { address: "0x1f81f8f262714cc932141c7C79495B481eF27258", decimals: 18, iconUrl: "", id: "FRAK", label: "FRAK" },
+    { address: "0x6307b25a665efc992ec1c1bc403c38f3ddd7c661", decimals: 4, iconUrl: "", id: "GCR", label: "GCR" },
     {
       address: "0x4297394c20800E8a38A619A243E9BbE7681Ff24E",
       decimals: 18,
@@ -197,6 +199,7 @@ const TOKENS: TokenMap = {
     { address: "0x8C92e38eCA8210f4fcBf17F0951b198Dd7668292", decimals: 18, iconUrl: "", id: "DHT", label: "DHT" },
     { address: "0xbAe28251B2a4E621aA7e20538c06DEe010Bc06DE", decimals: 18, iconUrl: "", id: "DUSD", label: "DUSD" },
     { address: "0x59E9261255644c411AfDd00bD89162d09D862e38", decimals: 18, iconUrl: "", id: "ETHA", label: "ETHA" },
+    { address: "0xa69d14d6369E414a32a5C7E729B7afbAfd285965", decimals: 4, iconUrl: "", id: "GCR", label: "GCR" },
     { address: "0x6f7C932e7684666C9fd1d44527765433e01fF61d", decimals: 18, iconUrl: "", id: "MKR", label: "MKR" },
     { address: "0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0", decimals: 18, iconUrl: "", id: "MTA", label: "MTA" },
     { address: "0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a", decimals: 18, iconUrl: "", id: "SUSHI", label: "SUSHI" },
