@@ -113,6 +113,7 @@ const TOKENS: TokenMap = {
     { address: "0x88f1A5ae2A3BF98AEAF342D26B30a79438c9142e", decimals: 18, iconUrl: "", id: "YFI", label: "YFI" },
   ],
   [ETHEREUM_MAINNET_ID]: [
+    { address: "0x3301Ee63Fb29F863f2333Bd4466acb46CD8323E6", decimals: 18, iconUrl: "", id: "AKITA", label: "AKITA" },
     { address: "0xa117000000f279D81A1D3cc75430fAA017FA5A2e", decimals: 18, iconUrl: "", id: "ANT", label: "ANT" },
     { address: "0xba100000625a3754423978a60c9317c58a424e3D", decimals: 18, iconUrl: "", id: "BAL", label: "BAL" },
     { address: "0x24A6A37576377F63f194Caa5F518a60f45b42921", decimals: 18, iconUrl: "", id: "BANK", label: "BANK" },
