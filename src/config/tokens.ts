@@ -134,6 +134,7 @@ const TOKENS: TokenMap = {
     { address: "0xad32A8e6220741182940c5aBF610bDE99E737b2D", decimals: 18, iconUrl: "", id: "DOUGH", label: "DOUGH" },
     { address: "0x605D26FBd5be761089281d5cec2Ce86eeA667109", decimals: 18, iconUrl: "", id: "DSU", label: "DSU" },
     { address: "0x92915c346287DdFbcEc8f86c8EB52280eD05b3A3", decimals: 18, iconUrl: "", id: "EEFI", label: "EEFI" },
+    { address: "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72", decimals: 18, iconUrl: "", id: "ENS", label: "ENS" },
     { address: "0x59E9261255644c411AfDd00bD89162d09D862e38", decimals: 18, iconUrl: "", id: "ETHA", label: "ETHA" },
     { address: "0xa0246c9032bC3A600820415aE600c6388619A14D", decimals: 18, iconUrl: "", id: "FARM", label: "FARM" },
     { address: "0xb05097849BCA421A3f51B249BA6CCa4aF4b97cb9", decimals: 18, iconUrl: "", id: "FLOAT", label: "FLOAT" },
