@@ -11,7 +11,7 @@ export default function useContract(abi: ContractInterface, address?: string): C
   const { safe } = useSafeAppsSDK();
 
   const provider: Provider = useMemo(() => {
-    const infuraKey: string = getEnvVar("REACT_APP_INFURA_KEY");
+    const infuraKey: string = getEnvVar("REACT_APP_INFURA_API_KEY");
     switch (safe.chainId) {
       case BSC_MAINNET_ID:
         return new JsonRpcProvider("https://bsc-dataseed1.ninicoin.io", { chainId: safe.chainId, name: "bsc-mainnet" });
