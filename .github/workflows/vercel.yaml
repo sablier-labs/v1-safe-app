@@ -1,0 +1,44 @@
+name: "Deploy the app to Vercel"
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "main"
+
+env:
+  REACT_APP_INFURA_API_KEY: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
+  REACT_APP_NODE_ENV: "${{ secrets.REACT_APP_NODE_ENV }}"
+
+jobs:
+  build_and_deploy:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v2"
+
+      - name: "Install Node.js"
+        uses: "actions/setup-node@v2"
+        with:
+          cache: "yarn"
+          node-version: "16"
+
+      - name: "Install the dependencies"
+        run: "yarn install --immutable"
+
+      - name: "Lint the code"
+        run: "yarn lint"
+
+      - name: "Build and deploy the app to Vercel"
+        uses: "amondnet/vercel-action@v20"
+        with:
+          github-comment: false
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          scope: "${{ secrets.VERCEL_ORG_ID }}"
+          vercel-token: "${{ secrets.VERCEL_TOKEN }}"
+          vercel-args: "--confirm --prod"
+          vercel-org-id: "${{ secrets.VERCEL_ORG_ID }}"
+          vercel-project-id: "${{ secrets.VERCEL_PROJECT_ID }}"
+          working-directory: "."
