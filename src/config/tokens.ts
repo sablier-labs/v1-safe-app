@@ -5,87 +5,6 @@ import type { SablierChainId, TokenItem } from "../types";
 
 type TokenMap = { [key in SablierChainId]: TokenItem[] };
 
-const CUSTOM_TOKEN_ICONS: string[] = [
-  "BTP",
-  "BUSD",
-  "CBL",
-  "CENT",
-  "CIRUS",
-  "COMBO",
-  "COMP",
-  "CRE8R",
-  "CW",
-  "CWAP",
-  "D2D",
-  "DHT",
-  "DOG",
-  "DOUGH",
-  "DSU",
-  "DUSD",
-  "EEFI",
-  "ETHA",
-  "HOTCROSS",
-  "FRAK",
-  "GCR",
-  "IAG",
-  "jCAD",
-  "jCHF",
-  "JELLY",
-  "jEUR",
-  "jJPY",
-  "jGBP",
-  "jSGD",
-  "kMPL",
-  "MFI",
-  "MKR",
-  "MPL",
-  "MTA",
-  "mUSD",
-  "MUSE",
-  "PERC",
-  "RAI",
-  "RNBW",
-  "ROOK",
-  "THEOS",
-  "TUSD",
-  "uAD",
-  "uAR",
-  "UBQ",
-  "UDT",
-  "USDP",
-  "xRNBW",
-  "WBTC",
-  "yUSDC",
-  "ZEUM",
-];
-
-function getIconUrl(chainId: SablierChainId, address: string, symbol: string): string {
-  // Some tokens are not part of the "trustwallet/assets" repository, we load them from "sablierhq/assets".
-  if (CUSTOM_TOKEN_ICONS.includes(symbol)) {
-    return "https://raw.githubusercontent.com/sablierhq/assets/main/tokens/" + symbol + ".png";
-  }
-
-  let chain = "";
-  switch (chainId) {
-    case BSC_MAINNET_ID:
-      chain = "smartchain";
-      break;
-    case POLYGON_MAINNET_ID:
-      chain = "polygon";
-      break;
-    default:
-      chain = "ethereum";
-  }
-
-  return (
-    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/" +
-    chain +
-    "/assets/" +
-    address +
-    "/logo.png"
-  );
-}
-
 // It's okay to leave the "iconUrl" property empty at this step
 const TOKENS: TokenMap = {
   [BSC_MAINNET_ID]: [
@@ -138,7 +57,8 @@ const TOKENS: TokenMap = {
     { address: "0x59E9261255644c411AfDd00bD89162d09D862e38", decimals: 18, iconUrl: "", id: "ETHA", label: "ETHA" },
     { address: "0xa0246c9032bC3A600820415aE600c6388619A14D", decimals: 18, iconUrl: "", id: "FARM", label: "FARM" },
     { address: "0xb05097849BCA421A3f51B249BA6CCa4aF4b97cb9", decimals: 18, iconUrl: "", id: "FLOAT", label: "FLOAT" },
-    { address: "0x6243d8CEA23066d098a15582d81a598b4e8391F4", decimals: 18, iconUrl: "", id: "FLX", label: "FLX" },
+    { address: "0x6243d8CEA23066d098a15582d81a598b4e8391F4", decimals: 18, iconUrl: "", id: "FLX-1", label: "FLX" },
+    { address: "0x3Ea8ea4237344C9931214796d9417Af1A1180770", decimals: 18, iconUrl: "", id: "FLX-2", label: "FLX" },
     { address: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d", decimals: 18, iconUrl: "", id: "FOX", label: "FOX" },
     { address: "0x1f81f8f262714cc932141c7C79495B481eF27258", decimals: 18, iconUrl: "", id: "FRAK", label: "FRAK" },
     { address: "0x6307b25a665efc992ec1c1bc403c38f3ddd7c661", decimals: 4, iconUrl: "", id: "GCR", label: "GCR" },
@@ -224,6 +144,102 @@ const TOKENS: TokenMap = {
     { address: "0xc778417E063141139Fce010982780140Aa0cD5Ab", decimals: 18, iconUrl: "", id: "WETH", label: "WETH" },
   ],
 };
+
+const CUSTOM_TOKEN_ICONS: string[] = [
+  "BTP",
+  "BUSD",
+  "CBL",
+  "CENT",
+  "CIRUS",
+  "COMBO",
+  "COMP",
+  "CRE8R",
+  "CW",
+  "CWAP",
+  "D2D",
+  "DHT",
+  "DOG",
+  "DOUGH",
+  "DSU",
+  "DUSD",
+  "EEFI",
+  "ETHA",
+  "HOTCROSS",
+  "FLX-1",
+  "FLX-2",
+  "FRAK",
+  "GCR",
+  "IAG",
+  "jCAD",
+  "jCHF",
+  "JELLY",
+  "jEUR",
+  "jJPY",
+  "jGBP",
+  "jSGD",
+  "kMPL",
+  "MFI",
+  "MKR",
+  "MPL",
+  "MTA",
+  "mUSD",
+  "MUSE",
+  "PERC",
+  "RAI",
+  "RNBW",
+  "ROOK",
+  "THEOS",
+  "TUSD",
+  "uAD",
+  "uAR",
+  "UBQ",
+  "UDT",
+  "USDP",
+  "xRNBW",
+  "WBTC",
+  "yUSDC",
+  "ZEUM",
+];
+
+const SYMBOL_COLLISIONS: { [chainId: number]: { [address: string]: string } } = {
+  [ETHEREUM_MAINNET_ID]: {
+    "0x6243d8CEA23066d098a15582d81a598b4e8391F4": "FLX-1",
+    "0x3Ea8ea4237344C9931214796d9417Af1A1180770": "FLX-2",
+  },
+};
+
+function getIconUrl(chainId: SablierChainId, address: string, symbol: string): string {
+  // Some tokens share the same symbol, e.g. Flex Ungovernance Token and Flux Token.
+  let untangledSymbol = symbol;
+  if (SYMBOL_COLLISIONS[chainId][address]) {
+    untangledSymbol = SYMBOL_COLLISIONS[chainId][address];
+  }
+
+  // Some tokens are not part of the "trustwallet/assets" repository, we load them from "sablierhq/assets".
+  if (CUSTOM_TOKEN_ICONS.includes(untangledSymbol)) {
+    return "https://raw.githubusercontent.com/sablierhq/assets/main/tokens/" + untangledSymbol + ".png";
+  }
+
+  let chain = "";
+  switch (chainId) {
+    case BSC_MAINNET_ID:
+      chain = "smartchain";
+      break;
+    case POLYGON_MAINNET_ID:
+      chain = "polygon";
+      break;
+    default:
+      chain = "ethereum";
+  }
+
+  return (
+    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/" +
+    chain +
+    "/assets/" +
+    address +
+    "/logo.png"
+  );
+}
 
 export function getTokens(chainId: SablierChainId): TokenItem[] {
   const tokensByChainId: TokenItem[] = TOKENS[chainId];
