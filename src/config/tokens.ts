@@ -1,6 +1,13 @@
 import sortBy from "lodash.sortby";
 
-import { ARBITRUM_MAINNET_ID, AVALANCHE_MAINNET_ID, BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../constants/chains";
+import {
+  ARBITRUM_MAINNET_ID,
+  AVALANCHE_MAINNET_ID,
+  BSC_MAINNET_ID,
+  ETHEREUM_MAINNET_ID,
+  POLYGON_MAINNET_ID,
+  RINKEBY_ID,
+} from "../constants/chains";
 import type { SablierChainId, TokenItem } from "../types";
 
 type TokenMap = { [key in SablierChainId]: TokenItem[] };
@@ -9,11 +16,23 @@ type TokenMap = { [key in SablierChainId]: TokenItem[] };
 const TOKENS: TokenMap = {
   [ARBITRUM_MAINNET_ID]: [
     { address: "0xb9c8f0d3254007ee4b98970b94544e473cd610ec", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
-    { address: "0x3F56e0c36d275367b8C502090EDF38289b3dEa0d", decimals: 18, iconUrl: "", id: "miMATIC", label: "miMATIC" },
+    {
+      address: "0x3F56e0c36d275367b8C502090EDF38289b3dEa0d",
+      decimals: 18,
+      iconUrl: "",
+      id: "miMATIC",
+      label: "miMATIC",
+    },
   ],
   [AVALANCHE_MAINNET_ID]: [
     { address: "0xA56F9A54880afBc30CF29bB66d2D9ADCdcaEaDD6", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
-    { address: "0x5c49b268c9841aff1cc3b0a418ff5c3442ee3f3b", decimals: 18, iconUrl: "", id: "miMATIC", label: "miMATIC" },
+    {
+      address: "0x5c49b268c9841aff1cc3b0a418ff5c3442ee3f3b",
+      decimals: 18,
+      iconUrl: "",
+      id: "miMATIC",
+      label: "miMATIC",
+    },
   ],
   [BSC_MAINNET_ID]: [
     { address: "0x111111111117dC0aa78b770fA6A738034120C302", decimals: 18, iconUrl: "", id: "1INCH", label: "1INCH" },
@@ -38,7 +57,13 @@ const TOKENS: TokenMap = {
     { address: "0x23396cF899Ca06c4472205fC903bDB4de249D6fC", decimals: 18, iconUrl: "", id: "UST", label: "UST" },
     { address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", decimals: 18, iconUrl: "", id: "WBNB", label: "WBNB" },
     { address: "0x88f1A5ae2A3BF98AEAF342D26B30a79438c9142e", decimals: 18, iconUrl: "", id: "YFI", label: "YFI" },
-    { address: "0x3F56e0c36d275367b8C502090EDF38289b3dEa0d", decimals: 18, iconUrl: "", id: "miMATIC", label: "miMATIC" },
+    {
+      address: "0x3F56e0c36d275367b8C502090EDF38289b3dEa0d",
+      decimals: 18,
+      iconUrl: "",
+      id: "miMATIC",
+      label: "miMATIC",
+    },
   ],
   [ETHEREUM_MAINNET_ID]: [
     { address: "0x3301Ee63Fb29F863f2333Bd4466acb46CD8323E6", decimals: 18, iconUrl: "", id: "AKITA", label: "AKITA" },
@@ -148,7 +173,13 @@ const TOKENS: TokenMap = {
     { address: "0x4e3Decbb3645551B8A19f0eA1678079FCB33fB4c", decimals: 18, iconUrl: "", id: "jEUR", label: "jEUR" },
     { address: "0x767058F11800FBA6A682E73A6e79ec5eB74Fac8c", decimals: 18, iconUrl: "", id: "jGBP", label: "jGBP" },
     { address: "0xa926db7a4CC0cb1736D5ac60495ca8Eb7214B503", decimals: 18, iconUrl: "", id: "jSGD", label: "jSGD" },
-    { address: "0xa3fa99a148fa48d14ed51d610c367c61876997f1", decimals: 18, iconUrl: "", id: "miMATIC", label: "miMATIC" },
+    {
+      address: "0xa3fa99a148fa48d14ed51d610c367c61876997f1",
+      decimals: 18,
+      iconUrl: "",
+      id: "miMATIC",
+      label: "miMATIC",
+    },
     { address: "0xE840B73E5287865EEc17d250bFb1536704B43B21", decimals: 18, iconUrl: "", id: "mUSD", label: "mUSD" },
   ],
   [RINKEBY_ID]: [
