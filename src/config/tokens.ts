@@ -7,6 +7,14 @@ type TokenMap = { [key in SablierChainId]: TokenItem[] };
 
 // It's okay to leave the "iconUrl" property empty at this step
 const TOKENS: TokenMap = {
+  [ARBITRUM_MAINNET_ID]: [
+    { address: "0xb9c8f0d3254007ee4b98970b94544e473cd610ec", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
+    { address: "0x3F56e0c36d275367b8C502090EDF38289b3dEa0d", decimals: 18, iconUrl: "", id: "miMATIC", label: "miMATIC" },
+  ],
+  [AVALANCHE_MAINNET_ID]: [
+    { address: "0xA56F9A54880afBc30CF29bB66d2D9ADCdcaEaDD6", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
+    { address: "0x5c49b268c9841aff1cc3b0a418ff5c3442ee3f3b", decimals: 18, iconUrl: "", id: "miMATIC", label: "miMATIC" },
+  ],
   [BSC_MAINNET_ID]: [
     { address: "0x111111111117dC0aa78b770fA6A738034120C302", decimals: 18, iconUrl: "", id: "1INCH", label: "1INCH" },
     { address: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", decimals: 18, iconUrl: "", id: "BUSD", label: "BUSD" },
@@ -30,6 +38,7 @@ const TOKENS: TokenMap = {
     { address: "0x23396cF899Ca06c4472205fC903bDB4de249D6fC", decimals: 18, iconUrl: "", id: "UST", label: "UST" },
     { address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", decimals: 18, iconUrl: "", id: "WBNB", label: "WBNB" },
     { address: "0x88f1A5ae2A3BF98AEAF342D26B30a79438c9142e", decimals: 18, iconUrl: "", id: "YFI", label: "YFI" },
+    { address: "0x3F56e0c36d275367b8C502090EDF38289b3dEa0d", decimals: 18, iconUrl: "", id: "miMATIC", label: "miMATIC" },
   ],
   [ETHEREUM_MAINNET_ID]: [
     { address: "0x3301Ee63Fb29F863f2333Bd4466acb46CD8323E6", decimals: 18, iconUrl: "", id: "AKITA", label: "AKITA" },
@@ -71,6 +80,7 @@ const TOKENS: TokenMap = {
     },
     { address: "0x40EB746DEE876aC1E78697b7Ca85142D178A1Fc8", decimals: 18, iconUrl: "", id: "IAG", label: "IAG" },
     { address: "0xf5f06fFa53Ad7F5914F493F16E57B56C8dd2eA80", decimals: 18, iconUrl: "", id: "JELLY", label: "JELLY" },
+    { address: "0xA6586E19EF681b1AC0ED3D46413D199a555dBB95", decimals: 18, iconUrl: "", id: "LETSGO", label: "LETSGO" },
     { address: "0x514910771AF9Ca656af840dff83E8264EcF986CA", decimals: 18, iconUrl: "", id: "LINK", label: "LINK" },
     { address: "0xAa4e3edb11AFa93c41db59842b29de64b72E355B", decimals: 18, iconUrl: "", id: "MFI", label: "MFI" },
     { address: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2", decimals: 18, iconUrl: "", id: "MKR", label: "MKR" },
@@ -124,6 +134,7 @@ const TOKENS: TokenMap = {
     { address: "0xa69d14d6369E414a32a5C7E729B7afbAfd285965", decimals: 4, iconUrl: "", id: "GCR", label: "GCR" },
     { address: "0x6f7C932e7684666C9fd1d44527765433e01fF61d", decimals: 18, iconUrl: "", id: "MKR", label: "MKR" },
     { address: "0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0", decimals: 18, iconUrl: "", id: "MTA", label: "MTA" },
+    { address: "0x580A84C73811E1839F75d86d75d88cCa0c241fF4", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
     { address: "0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a", decimals: 18, iconUrl: "", id: "SUSHI", label: "SUSHI" },
     { address: "0x2e1AD108fF1D8C782fcBbB89AAd783aC49586756", decimals: 18, iconUrl: "", id: "TUSD", label: "TUSD" },
     { address: "0xf7E78d9C4c74df889A83C8C8d6D05BF70fF75876", decimals: 18, iconUrl: "", id: "UDT", label: "UDT" },
@@ -137,6 +148,7 @@ const TOKENS: TokenMap = {
     { address: "0x4e3Decbb3645551B8A19f0eA1678079FCB33fB4c", decimals: 18, iconUrl: "", id: "jEUR", label: "jEUR" },
     { address: "0x767058F11800FBA6A682E73A6e79ec5eB74Fac8c", decimals: 18, iconUrl: "", id: "jGBP", label: "jGBP" },
     { address: "0xa926db7a4CC0cb1736D5ac60495ca8Eb7214B503", decimals: 18, iconUrl: "", id: "jSGD", label: "jSGD" },
+    { address: "0xa3fa99a148fa48d14ed51d610c367c61876997f1", decimals: 18, iconUrl: "", id: "miMATIC", label: "miMATIC" },
     { address: "0xE840B73E5287865EEc17d250bFb1536704B43B21", decimals: 18, iconUrl: "", id: "mUSD", label: "mUSD" },
   ],
   [RINKEBY_ID]: [
@@ -178,13 +190,16 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "jGBP",
   "jSGD",
   "kMPL",
+  "LETSGO",
   "MFI",
+  "miMATIC",
   "MKR",
   "MPL",
   "MTA",
   "mUSD",
   "MUSE",
   "PERC",
+  "QI",
   "RAI",
   "RNBW",
   "ROOK",
