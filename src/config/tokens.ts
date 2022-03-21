@@ -1,6 +1,6 @@
 import sortBy from "lodash.sortby";
 
-import { BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../constants/chains";
+import { ARBITRUM_MAINNET_ID, AVALANCHE_MAINNET_ID, BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../constants/chains";
 import type { SablierChainId, TokenItem } from "../types";
 
 type TokenMap = { [key in SablierChainId]: TokenItem[] };
