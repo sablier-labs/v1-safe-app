@@ -1,5 +1,5 @@
-import { DefaultTheme } from "styled-components";
 import { theme as gnosisTheme } from "@gnosis.pm/safe-react-components";
+import { DefaultTheme } from "styled-components";
 
 const theme: DefaultTheme = gnosisTheme;
 theme.colors = {

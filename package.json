@@ -57,6 +57,7 @@
     "@commitlint/cli": "^14.1.0",
     "@commitlint/config-conventional": "^14.1.0",
     "@stylelint/postcss-css-in-js": "^0.37.2",
+    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@types/big.js": "^6.1.2",
     "@types/jest": "^27.0.2",
     "@types/lodash.sortby": "^4.7.6",

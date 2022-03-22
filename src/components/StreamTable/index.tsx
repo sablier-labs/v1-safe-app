@@ -15,11 +15,11 @@ import type { HumanReadableStream, Stream } from "../../types";
 import { shortenAddress } from "../../utils/address";
 import { bigNumberToRoundedHumanFormat } from "../../utils/format";
 import { getStreamStatus } from "../../utils/stream";
-import { Column, STREAM_TABLE_ID, generateColumns } from "./columns";
 import ExpandedStream from "./ExpandedStream";
 import Status from "./Status";
 import Table from "./Table";
 import { cellWidth } from "./Table/TableHead";
+import { Column, STREAM_TABLE_ID, generateColumns } from "./columns";
 
 const StyledTableRow = styled(TableRow)<{ $expanded: boolean }>`
   cursor: pointer;

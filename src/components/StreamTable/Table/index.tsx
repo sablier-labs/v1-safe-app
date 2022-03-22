@@ -1,4 +1,5 @@
 /* eslint-disable react/require-default-props */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { makeStyles } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -9,8 +10,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import styled, { css } from "styled-components";
 
 import { Column } from "../columns";
-import { Order, getSorting, stableSort } from "./sorting";
 import TableHead from "./TableHead";
+import { Order, getSorting, stableSort } from "./sorting";
 
 const sm: string = "8px";
 const xl: string = "32px";
