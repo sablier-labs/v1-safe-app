@@ -263,7 +263,7 @@ const SYMBOL_COLLISIONS: { [chainId: number]: { [address: string]: string } } = 
 function getIconUrl(chainId: SablierChainId, address: string, symbol: string): string {
   // Some tokens share the same symbol, e.g. Flex Ungovernance Token and Flux Token.
   let untangledSymbol = symbol;
-  if (SYMBOL_COLLISIONS[chainId][address]) {
+  if (SYMBOL_COLLISIONS[chainId] && SYMBOL_COLLISIONS[chainId][address]) {
     untangledSymbol = SYMBOL_COLLISIONS[chainId][address];
   }
 
