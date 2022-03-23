@@ -116,6 +116,7 @@
   "scripts": {
     "build": "react-app-rewired build",
     "clean": "shx rm -rf ./build",
+    "dev": "react-app-rewired  --openssl-legacy-provider start",
     "eject": "react-scripts eject",
     "lint": "yarn lint:ts && yarn lint:styles && yarn prettier:check && yarn typecheck",
     "lint:styles": "stylelint --config ./.stylelintrc.js \"./src/**/*.{css,ts,tsx,scss}\"",
