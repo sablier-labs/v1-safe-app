@@ -1,6 +1,14 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 
-import { BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../constants/chains";
+import {
+  ARBITRUM_MAINNET_ID,
+  AVALANCHE_MAINNET_ID,
+  BSC_MAINNET_ID,
+  ETHEREUM_MAINNET_ID,
+  OPTIMISM_MAINNET_ID,
+  POLYGON_MAINNET_ID,
+  RINKEBY_ID,
+} from "../constants/chains";
 import { StreamStatus } from "../constants/streams";
 
 export type Cancellation = {
@@ -29,8 +37,11 @@ export type HumanReadableStream = {
 };
 
 export type SablierChainId =
+  | typeof ARBITRUM_MAINNET_ID
+  | typeof AVALANCHE_MAINNET_ID
   | typeof BSC_MAINNET_ID
   | typeof ETHEREUM_MAINNET_ID
+  | typeof OPTIMISM_MAINNET_ID
   | typeof POLYGON_MAINNET_ID
   | typeof RINKEBY_ID;
 

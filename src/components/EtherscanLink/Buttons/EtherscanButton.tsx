@@ -1,16 +1,33 @@
 import ExternalLinkIcon from "../../../assets/external-link.svg";
-import { BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../../../constants/chains";
+import {
+  ARBITRUM_MAINNET_ID,
+  AVALANCHE_MAINNET_ID,
+  BSC_MAINNET_ID,
+  ETHEREUM_MAINNET_ID,
+  OPTIMISM_MAINNET_ID,
+  POLYGON_MAINNET_ID,
+  RINKEBY_ID,
+} from "../../../constants/chains";
 import { LinkContainer, StyledTooltip } from "./common";
 
 function getEtherscanLink(chainId: number, type: string, data: string): string {
   let base;
 
   switch (chainId) {
+    case ARBITRUM_MAINNET_ID:
+      base = "https://arbiscan.io";
+      break;
+    case AVALANCHE_MAINNET_ID:
+      base = "https://snowtrace.io";
+      break;
     case BSC_MAINNET_ID:
       base = "https://bscscan.com";
       break;
     case ETHEREUM_MAINNET_ID:
       base = "https://ethersscan.io";
+      break;
+    case OPTIMISM_MAINNET_ID:
+      base = "https://optimistic.etherscan.io";
       break;
     case POLYGON_MAINNET_ID:
       base = "https://polygonscan.com";
