@@ -1,6 +1,14 @@
 import { AddressZero } from "@ethersproject/constants";
 
-import { BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../constants/chains";
+import {
+  ARBITRUM_MAINNET_ID,
+  AVALANCHE_MAINNET_ID,
+  BSC_MAINNET_ID,
+  ETHEREUM_MAINNET_ID,
+  OPTIMISM_MAINNET_ID,
+  POLYGON_MAINNET_ID,
+  RINKEBY_ID,
+} from "../constants/chains";
 import type { SablierChainId } from "../types";
 
 type PayrollContractsMap = { [chainId in SablierChainId]: string };
@@ -14,8 +22,11 @@ type SablierContractsMap = { [chainId in SablierChainId]: string };
 
 // This is the v1.1 release of the "Sablier.sol" contract.
 const SABLIER_CONTRACTS: SablierContractsMap = {
+  [ARBITRUM_MAINNET_ID]: "0xaDB944B478818d95659067E70D2e5Fc43Fa3eDe9",
+  [AVALANCHE_MAINNET_ID]: "0x73f503fad13203C87889c3D5c567550b2d41D7a4",
   [BSC_MAINNET_ID]: "0x05BC7f5fb7F248d44d38703e5C921A8c16825161",
   [ETHEREUM_MAINNET_ID]: "0xCD18eAa163733Da39c232722cBC4E8940b1D8888",
+  [OPTIMISM_MAINNET_ID]: "0x6C5927c0679e6d857E87367bb635decbcB20F31c",
   [POLYGON_MAINNET_ID]: "0xAC18EAB6592F5fF6F9aCf5E0DCE0Df8E49124C06",
   [RINKEBY_ID]: "0xC1f3af5DC05b0C51955804b2afc80eF8FeED67b9",
 };

@@ -5,6 +5,7 @@ import {
   AVALANCHE_MAINNET_ID,
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
+  OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
   RINKEBY_ID,
 } from "../constants/chains";
@@ -15,6 +16,7 @@ type TokenMap = { [key in SablierChainId]: TokenItem[] };
 // It's okay to leave the "iconUrl" property empty at this step
 const TOKENS: TokenMap = {
   [ARBITRUM_MAINNET_ID]: [
+    { address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
     { address: "0xb9c8f0d3254007ee4b98970b94544e473cd610ec", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
     {
       address: "0x3F56e0c36d275367b8C502090EDF38289b3dEa0d",
@@ -147,6 +149,9 @@ const TOKENS: TokenMap = {
     { address: "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272", decimals: 18, iconUrl: "", id: "xSUSHI", label: "xSUSHI" },
     { address: "0x597ad1e0c13bfe8025993d9e79c69e1c0233522e", decimals: 6, iconUrl: "", id: "yUSDC", label: "yUSDC" },
   ],
+  [OPTIMISM_MAINNET_ID]: [
+    { address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
+  ],
   [POLYGON_MAINNET_ID]: [
     { address: "0xD6DF932A45C0f255f85145f286eA0b292B21C90B", decimals: 18, iconUrl: "", id: "AAVE", label: "AAVE" },
     { address: "0xdAb529f40E671A1D4bF91361c21bf9f0C9712ab7", decimals: 18, iconUrl: "", id: "BUSD", label: "BUSD" },
@@ -199,6 +204,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "CRE8R",
   "CW",
   "CWAP",
+  "DAI",
   "D2D",
   "DHT",
   "DOG",
@@ -268,8 +274,17 @@ function getIconUrl(chainId: SablierChainId, address: string, symbol: string): s
 
   let chain = "";
   switch (chainId) {
+    case ARBITRUM_MAINNET_ID:
+      chain = "arbitrum";
+      break;
+    case AVALANCHE_MAINNET_ID:
+      chain = "avalanche";
+      break;
     case BSC_MAINNET_ID:
       chain = "smartchain";
+      break;
+    case OPTIMISM_MAINNET_ID:
+      chain = "optimism";
       break;
     case POLYGON_MAINNET_ID:
       chain = "polygon";

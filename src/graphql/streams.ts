@@ -1,7 +1,15 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import type { DocumentNode } from "@apollo/client";
 
-import { BSC_MAINNET_ID, ETHEREUM_MAINNET_ID, POLYGON_MAINNET_ID, RINKEBY_ID } from "../constants/chains";
+import {
+  ARBITRUM_MAINNET_ID,
+  AVALANCHE_MAINNET_ID,
+  BSC_MAINNET_ID,
+  ETHEREUM_MAINNET_ID,
+  OPTIMISM_MAINNET_ID,
+  POLYGON_MAINNET_ID,
+  RINKEBY_ID,
+} from "../constants/chains";
 import type { SablierChainId, Stream } from "../types";
 
 type Response = {
@@ -9,8 +17,11 @@ type Response = {
 };
 
 const subgraphUri: { [key in SablierChainId]: string } = {
+  [ARBITRUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-arbitrum",
+  [AVALANCHE_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-avalanche",
   [BSC_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-bsc",
   [ETHEREUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
+  [OPTIMISM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-optimism",
   [POLYGON_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-matic",
   [RINKEBY_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
 };
