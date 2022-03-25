@@ -17,7 +17,7 @@ type TokenMap = { [key in SablierChainId]: TokenItem[] };
 const TOKENS: TokenMap = {
   [ARBITRUM_MAINNET_ID]: [
     { address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
-    { address: "0xb9c8f0d3254007ee4b98970b94544e473cd610ec", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
+    { address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4", decimals: 18, iconUrl: "", id: "LINK", label: "LINK" },
     {
       address: "0x3F56e0c36d275367b8C502090EDF38289b3dEa0d",
       decimals: 18,
@@ -25,6 +25,11 @@ const TOKENS: TokenMap = {
       id: "MAI",
       label: "MAI",
     },
+    { address: "0xb9c8f0d3254007ee4b98970b94544e473cd610ec", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
+    { address: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8", decimals: 6, iconUrl: "", id: "USDC", label: "USDC" },
+    { address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9", decimals: 6, iconUrl: "", id: "USDT", label: "USDT" },
+    { address: "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f", decimals: 8, iconUrl: "", id: "WBTC", label: "WBTC" },
+    { address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", decimals: 18, iconUrl: "", id: "WETH", label: "WETH" },
   ],
   [AVALANCHE_MAINNET_ID]: [
     { address: "0xA56F9A54880afBc30CF29bB66d2D9ADCdcaEaDD6", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
