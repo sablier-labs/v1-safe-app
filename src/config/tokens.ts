@@ -32,7 +32,6 @@ const TOKENS: TokenMap = {
     { address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", decimals: 18, iconUrl: "", id: "WETH", label: "WETH" },
   ],
   [AVALANCHE_MAINNET_ID]: [
-    { address: "0xA56F9A54880afBc30CF29bB66d2D9ADCdcaEaDD6", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
     {
       address: "0x5c49b268c9841aff1cc3b0a418ff5c3442ee3f3b",
       decimals: 18,
@@ -40,6 +39,8 @@ const TOKENS: TokenMap = {
       id: "MAI",
       label: "MAI",
     },
+    { address: "0xA56F9A54880afBc30CF29bB66d2D9ADCdcaEaDD6", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
+    { address: "0x416494bD4FbEe227313b76a07A1e859928D7bA47", decimals: 18, iconUrl: "", id: "USDCe-TIC-SLP.e", label: "USDCe-TIC-SLP.e" },
   ],
   [BSC_MAINNET_ID]: [
     { address: "0x111111111117dC0aa78b770fA6A738034120C302", decimals: 18, iconUrl: "", id: "1INCH", label: "1INCH" },
@@ -112,6 +113,7 @@ const TOKENS: TokenMap = {
     },
     { address: "0x40EB746DEE876aC1E78697b7Ca85142D178A1Fc8", decimals: 18, iconUrl: "", id: "IAG", label: "IAG" },
     { address: "0xf5f06fFa53Ad7F5914F493F16E57B56C8dd2eA80", decimals: 18, iconUrl: "", id: "JELLY", label: "JELLY" },
+    { address: "0x3af33bEF05C2dCb3C7288b77fe1C8d2AeBA4d789", decimals: 18, iconUrl: "", id: "KROM", label: "KROM" },
     { address: "0xA6586E19EF681b1AC0ED3D46413D199a555dBB95", decimals: 18, iconUrl: "", id: "LETSGO", label: "LETSGO" },
     { address: "0x514910771AF9Ca656af840dff83E8264EcF986CA", decimals: 18, iconUrl: "", id: "LINK", label: "LINK" },
     { address: "0xAa4e3edb11AFa93c41db59842b29de64b72E355B", decimals: 18, iconUrl: "", id: "MFI", label: "MFI" },
@@ -231,6 +233,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "jJPY",
   "jGBP",
   "jSGD",
+  "KROM",
   "kMPL",
   "LETSGO",
   "MFI",
@@ -251,6 +254,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "uAR",
   "UBQ",
   "UDT",
+  "USDCe-TIC-SLP.e",
   "USDP",
   "xRNBW",
   "WBTC",
