@@ -40,7 +40,13 @@ const TOKENS: TokenMap = {
       label: "MAI",
     },
     { address: "0xA56F9A54880afBc30CF29bB66d2D9ADCdcaEaDD6", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
-    { address: "0x416494bD4FbEe227313b76a07A1e859928D7bA47", decimals: 18, iconUrl: "", id: "USDCe-TIC-SLP.e", label: "USDCe-TIC-SLP.e" },
+    {
+      address: "0x416494bD4FbEe227313b76a07A1e859928D7bA47",
+      decimals: 18,
+      iconUrl: "",
+      id: "USDCe-TIC-SLP.e",
+      label: "USDCe-TIC-SLP.e",
+    },
   ],
   [BSC_MAINNET_ID]: [
     { address: "0x111111111117dC0aa78b770fA6A738034120C302", decimals: 18, iconUrl: "", id: "1INCH", label: "1INCH" },
