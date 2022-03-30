@@ -244,6 +244,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "KROM",
   "kMPL",
   "LETSGO",
+  "LINK",
   "MFI",
   "MAI",
   "MKR",
