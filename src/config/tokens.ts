@@ -32,6 +32,7 @@ const TOKENS: TokenMap = {
     { address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", decimals: 18, iconUrl: "", id: "WETH", label: "WETH" },
   ],
   [AVALANCHE_MAINNET_ID]: [
+    { address: "0x9366d30FeBA284E62900f6295BC28c9906f33172", decimals: 6, iconUrl: "", id: "BioFi", label: "BioFi" },
     {
       address: "0x5c49b268c9841aff1cc3b0a418ff5c3442ee3f3b",
       decimals: 18,
@@ -209,6 +210,7 @@ const TOKENS: TokenMap = {
 
 const CUSTOM_TOKEN_ICONS: string[] = [
   "ALK",
+  "BioFi",
   "BTP",
   "BUSD",
   "CBL",
