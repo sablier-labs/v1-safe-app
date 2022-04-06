@@ -112,6 +112,7 @@ const TOKENS: TokenMap = {
     { address: "0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d", decimals: 18, iconUrl: "", id: "FOX", label: "FOX" },
     { address: "0x1f81f8f262714cc932141c7C79495B481eF27258", decimals: 18, iconUrl: "", id: "FRAK", label: "FRAK" },
     { address: "0x6307b25a665efc992ec1c1bc403c38f3ddd7c661", decimals: 4, iconUrl: "", id: "GCR", label: "GCR" },
+    { address: "0xDe30da39c46104798bB5aA3fe8B9e0e1F348163F", decimals: 18, iconUrl: "", id: "GTC", label: "GTC" },
     {
       address: "0x4297394c20800E8a38A619A243E9BbE7681Ff24E",
       decimals: 18,
@@ -237,6 +238,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "FLX-2",
   "FRAK",
   "GCR",
+  "GTC",
   "IAG",
   "jCAD",
   "jCHF",
