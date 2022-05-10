@@ -56,6 +56,7 @@ const TOKENS: TokenMap = {
     { address: "0x52CE071Bd9b1C4B00A0b92D298c512478CaD67e8", decimals: 18, iconUrl: "", id: "COMP", label: "COMP" },
     { address: "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
     { address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8", decimals: 18, iconUrl: "", id: "ETH", label: "ETH" },
+    { address: "0x1935C03bB7DbC3623bD992CE599bC26bD30A43EB", decimals: 18, iconUrl: "", id: "FS", label: "FS" },
     {
       address: "0x4FA7163E153419E0E1064e418dd7A99314Ed27b6",
       decimals: 18,
@@ -186,6 +187,7 @@ const TOKENS: TokenMap = {
     { address: "0x8C92e38eCA8210f4fcBf17F0951b198Dd7668292", decimals: 18, iconUrl: "", id: "DHT", label: "DHT" },
     { address: "0xbAe28251B2a4E621aA7e20538c06DEe010Bc06DE", decimals: 18, iconUrl: "", id: "DUSD", label: "DUSD" },
     { address: "0x59E9261255644c411AfDd00bD89162d09D862e38", decimals: 18, iconUrl: "", id: "ETHA", label: "ETHA" },
+    { address: "0x525b43A49bE2Ed530e3516C22bd7ECbcF1586AD4", decimals: 18, iconUrl: "", id: "FS", label: "FS" },
     { address: "0xa69d14d6369E414a32a5C7E729B7afbAfd285965", decimals: 4, iconUrl: "", id: "GCR", label: "GCR" },
     { address: "0x6f7C932e7684666C9fd1d44527765433e01fF61d", decimals: 18, iconUrl: "", id: "MKR", label: "MKR" },
     { address: "0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0", decimals: 18, iconUrl: "", id: "MTA", label: "MTA" },
@@ -247,6 +249,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "FLX-1",
   "FLX-2",
   "FRAK",
+  "FS",
   "GCR",
   "GTC",
   "IAG",
