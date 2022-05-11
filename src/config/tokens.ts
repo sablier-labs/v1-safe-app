@@ -86,6 +86,7 @@ const TOKENS: TokenMap = {
     { address: "0x3301Ee63Fb29F863f2333Bd4466acb46CD8323E6", decimals: 18, iconUrl: "", id: "AKITA", label: "AKITA" },
     { address: "0x6C16119B20fa52600230F074b349dA3cb861a7e3", decimals: 18, iconUrl: "", id: "ALK", label: "ALK" },
     { address: "0xa117000000f279D81A1D3cc75430fAA017FA5A2e", decimals: 18, iconUrl: "", id: "ANT", label: "ANT" },
+    { address: "0xAaAAAA20D9E0e2461697782ef11675f668207961", decimals: 18, iconUrl: "", id: "AURORA", label: "AURORA" },
     { address: "0xba100000625a3754423978a60c9317c58a424e3D", decimals: 18, iconUrl: "", id: "BAL", label: "BAL" },
     { address: "0x24A6A37576377F63f194Caa5F518a60f45b42921", decimals: 18, iconUrl: "", id: "BANK", label: "BANK" },
     { address: "0x4E672e34B6db16dD5307a6bFD4f343998Aac55E1", decimals: 18, iconUrl: "", id: "BTP", label: "BTP" },
@@ -223,6 +224,7 @@ const TOKENS: TokenMap = {
 
 const CUSTOM_TOKEN_ICONS: string[] = [
   "ALK",
+  "AURORA",
   "BioFi",
   "BTP",
   "BUSD",
