@@ -52,6 +52,7 @@ const TOKENS: TokenMap = {
   [BSC_MAINNET_ID]: [
     { address: "0x111111111117dC0aa78b770fA6A738034120C302", decimals: 18, iconUrl: "", id: "1INCH", label: "1INCH" },
     { address: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", decimals: 18, iconUrl: "", id: "BUSD", label: "BUSD" },
+    { address: "0xe20b9e246db5a0d21bf9209e4858bc9a3ff7a034", decimals: 18, iconUrl: "", id: "bWBAN", label: "bWBAN" },
     { address: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82", decimals: 18, iconUrl: "", id: "CAKE", label: "CAKE" },
     { address: "0x52CE071Bd9b1C4B00A0b92D298c512478CaD67e8", decimals: 18, iconUrl: "", id: "COMP", label: "COMP" },
     { address: "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
@@ -217,6 +218,7 @@ const TOKENS: TokenMap = {
       label: "MAI",
     },
     { address: "0xE840B73E5287865EEc17d250bFb1536704B43B21", decimals: 18, iconUrl: "", id: "mUSD", label: "mUSD" },
+    { address: "0xe20b9e246db5a0d21bf9209e4858bc9a3ff7a034", decimals: 18, iconUrl: "", id: "pWBAN", label: "pWBAN" },
   ],
   [RINKEBY_ID]: [
     { address: "0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
@@ -230,6 +232,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "BioFi",
   "BTP",
   "BUSD",
+  "bWBAN",
   "CBL",
   "CENT",
   "CIRUS",
@@ -281,6 +284,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "NATION",
   "PERC",
   "POLK",
+  "pWBAN",
   "QI",
   "RAI",
   "RNBW",
