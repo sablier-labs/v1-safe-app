@@ -184,6 +184,7 @@ const TOKENS: TokenMap = {
   ],
   [POLYGON_MAINNET_ID]: [
     { address: "0xD6DF932A45C0f255f85145f286eA0b292B21C90B", decimals: 18, iconUrl: "", id: "AAVE", label: "AAVE" },
+    { address: "0xD7F3aaC7557c213b035C19Bd89bd693396accCD6", decimals: 18, iconUrl: "", id: "ART", label: "ART" },
     { address: "0xdAb529f40E671A1D4bF91361c21bf9f0C9712ab7", decimals: 18, iconUrl: "", id: "BUSD", label: "BUSD" },
     { address: "0xf35a85C493c49f19bCC176E718865b148958a130", decimals: 18, iconUrl: "", id: "CBL", label: "CBL" },
     { address: "0x8505b9d2254A7Ae468c0E9dd10Ccea3A837aef5c", decimals: 18, iconUrl: "", id: "COMP", label: "COMP" },
@@ -229,6 +230,7 @@ const TOKENS: TokenMap = {
 const CUSTOM_TOKEN_ICONS: string[] = [
   "ALK",
   "AURORA",
+  "ART",
   "BioFi",
   "BTP",
   "BUSD",
