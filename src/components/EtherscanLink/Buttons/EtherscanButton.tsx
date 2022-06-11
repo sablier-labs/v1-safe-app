@@ -24,7 +24,7 @@ function getEtherscanLink(chainId: number, type: string, data: string): string {
       base = "https://bscscan.com";
       break;
     case ETHEREUM_MAINNET_ID:
-      base = "https://ethersscan.io";
+      base = "https://etherscan.io";
       break;
     case OPTIMISM_MAINNET_ID:
       base = "https://optimistic.etherscan.io";
