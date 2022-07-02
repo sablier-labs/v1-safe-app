@@ -41,6 +41,7 @@ const TOKENS: TokenMap = {
       label: "MAI",
     },
     { address: "0xA56F9A54880afBc30CF29bB66d2D9ADCdcaEaDD6", decimals: 18, iconUrl: "", id: "QI", label: "QI" },
+    { address: "0x237917E8a998b37759c8EE2fAa529D60c66c2927", decimals: 18, iconUrl: "", id: "SIFU", label: "SIFU" },
     {
       address: "0x416494bD4FbEe227313b76a07A1e859928D7bA47",
       decimals: 18,
@@ -152,6 +153,7 @@ const TOKENS: TokenMap = {
     { address: "0xE94B97b6b43639E238c851A7e693F50033EfD75C", decimals: 18, iconUrl: "", id: "RNBW", label: "RNBW" },
     { address: "0xfA5047c9c78B8877af97BDcb85Db743fD7313d4a", decimals: 18, iconUrl: "", id: "ROOK", label: "ROOK" },
     { address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE", decimals: 18, iconUrl: "", id: "SHIB", label: "SHIB" },
+    { address: "0x29127fE04ffa4c32AcAC0fFe17280ABD74eAC313", decimals: 18, iconUrl: "", id: "SIFU", label: "SIFU" },
     { address: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", decimals: 18, iconUrl: "", id: "SUSHI", label: "SUSHI" },
     { address: "0x9e10f61749c4952C320412A6B26901605Ff6Da1d", decimals: 18, iconUrl: "", id: "THEOS", label: "THEOS" },
     { address: "0x77777FeDdddFfC19Ff86DB637967013e6C6A116C", decimals: 18, iconUrl: "", id: "TORN", label: "TORN" },
@@ -303,6 +305,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "RNBW",
   "ROOK",
   "SHF",
+  "SIFU",
   "THEOS",
   "TUSD",
   "uAD",
