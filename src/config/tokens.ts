@@ -92,6 +92,7 @@ const TOKENS: TokenMap = {
     { address: "0xAaAAAA20D9E0e2461697782ef11675f668207961", decimals: 18, iconUrl: "", id: "AURORA", label: "AURORA" },
     { address: "0x1321f1f1aa541A56C31682c57b80ECfCCd9bB288", decimals: 18, iconUrl: "", id: "ARCX", label: "ARCX" },
     { address: "0xba100000625a3754423978a60c9317c58a424e3D", decimals: 18, iconUrl: "", id: "BAL", label: "BAL" },
+    { address: "0x2d94AA3e47d9D5024503Ca8491fcE9A2fB4DA198", decimals: 18, iconUrl: "", id: "BANK", label: "BANK" },
     { address: "0x24A6A37576377F63f194Caa5F518a60f45b42921", decimals: 18, iconUrl: "", id: "BANK", label: "BANK" },
     { address: "0x4E672e34B6db16dD5307a6bFD4f343998Aac55E1", decimals: 18, iconUrl: "", id: "BTP", label: "BTP" },
     { address: "0x56d811088235F11C8920698a204A5010a788f4b3", decimals: 18, iconUrl: "", id: "BZRX", label: "BZRX" },
@@ -191,6 +192,7 @@ const TOKENS: TokenMap = {
   [POLYGON_MAINNET_ID]: [
     { address: "0xD6DF932A45C0f255f85145f286eA0b292B21C90B", decimals: 18, iconUrl: "", id: "AAVE", label: "AAVE" },
     { address: "0xD7F3aaC7557c213b035C19Bd89bd693396accCD6", decimals: 18, iconUrl: "", id: "ART", label: "ART" },
+    { address: "0xDB7Cb471dd0b49b29CAB4a1C14d070f27216a0Ab", decimals: 18, iconUrl: "", id: "BANK", label: "BANK" },
     { address: "0xdAb529f40E671A1D4bF91361c21bf9f0C9712ab7", decimals: 18, iconUrl: "", id: "BUSD", label: "BUSD" },
     { address: "0xf35a85C493c49f19bCC176E718865b148958a130", decimals: 18, iconUrl: "", id: "CBL", label: "CBL" },
     { address: "0x8505b9d2254A7Ae468c0E9dd10Ccea3A837aef5c", decimals: 18, iconUrl: "", id: "COMP", label: "COMP" },
@@ -241,6 +243,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "AURORA",
   "ART",
   "ARCX",
+  "BANK",
   "BioFi",
   "BTP",
   "BUSD",
