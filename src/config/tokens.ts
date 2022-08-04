@@ -146,6 +146,7 @@ const TOKENS: TokenMap = {
     { address: "0xB6Ca7399B4F9CA56FC27cBfF44F4d2e4Eef1fc81", decimals: 18, iconUrl: "", id: "MUSE", label: "MUSE" },
     { address: "0x333A4823466879eeF910A04D473505da62142069", decimals: 18, iconUrl: "", id: "NATION", label: "NATION" },
     { address: "0x2F109021aFe75B949429fe30523Ee7C0D5B27207", decimals: 18, iconUrl: "", id: "OCC", label: "OCC" },
+    { address: "0x8207c1FfC5B6804F6024322CcF34F29c3541Ae26", decimals: 18, iconUrl: "", id: "OGN", label: "OGN" },
     { address: "0x9c354503C38481a7A7a51629142963F98eCC12D0", decimals: 18, iconUrl: "", id: "OGV", label: "OGV" },
     { address: "0x60bE1e1fE41c1370ADaF5d8e66f07Cf1C2Df2268", decimals: 18, iconUrl: "", id: "PERC", label: "PERC" },
     { address: "0x0198f46f520F33cd4329bd4bE380a25a90536CD5", decimals: 18, iconUrl: "", id: "PLA", label: "PLA" },
