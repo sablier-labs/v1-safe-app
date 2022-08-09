@@ -88,6 +88,7 @@ const TOKENS: TokenMap = {
   [ETHEREUM_MAINNET_ID]: [
     { address: "0x3301Ee63Fb29F863f2333Bd4466acb46CD8323E6", decimals: 18, iconUrl: "", id: "AKITA", label: "AKITA" },
     { address: "0x6C16119B20fa52600230F074b349dA3cb861a7e3", decimals: 18, iconUrl: "", id: "ALK", label: "ALK" },
+    { address: "0xdBdb4d16EdA451D0503b854CF79D55697F90c8DF", decimals: 18, iconUrl: "", id: "ALCX", label: "ALCX" },
     { address: "0xa117000000f279D81A1D3cc75430fAA017FA5A2e", decimals: 18, iconUrl: "", id: "ANT", label: "ANT" },
     { address: "0xAaAAAA20D9E0e2461697782ef11675f668207961", decimals: 18, iconUrl: "", id: "AURORA", label: "AURORA" },
     { address: "0x1321f1f1aa541A56C31682c57b80ECfCCd9bB288", decimals: 18, iconUrl: "", id: "ARCX", label: "ARCX" },
@@ -160,6 +161,7 @@ const TOKENS: TokenMap = {
     { address: "0x29127fE04ffa4c32AcAC0fFe17280ABD74eAC313", decimals: 18, iconUrl: "", id: "SIFU", label: "SIFU" },
     { address: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", decimals: 18, iconUrl: "", id: "SUSHI", label: "SUSHI" },
     { address: "0x9e10f61749c4952C320412A6B26901605Ff6Da1d", decimals: 18, iconUrl: "", id: "THEOS", label: "THEOS" },
+    { address: "0x869d1b8610c038A6C4F37bD757135d4C29ae8917", decimals: 18, iconUrl: "", id: "TIME", label: "TIME" },
     { address: "0x77777FeDdddFfC19Ff86DB637967013e6C6A116C", decimals: 18, iconUrl: "", id: "TORN", label: "TORN" },
     { address: "0x0000000000085d4780B73119b644AE5ecd22b376", decimals: 18, iconUrl: "", id: "TUSD", label: "TUSD" },
     { address: "0x4e38D89362f7e5db0096CE44ebD021c3962aA9a0", decimals: 18, iconUrl: "", id: "UBQ", label: "UBQ" },
@@ -244,6 +246,7 @@ const TOKENS: TokenMap = {
 
 const CUSTOM_TOKEN_ICONS: string[] = [
   "ALK",
+  "ALCX",
   "AURORA",
   "ART",
   "ARCX",
@@ -316,6 +319,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "SHF",
   "SIFU",
   "THEOS",
+  "TIME",
   "TUSD",
   "uAD",
   "uAR",
@@ -338,6 +342,7 @@ const SYMBOL_COLLISIONS: { [chainId: number]: { [address: string]: string } } = 
   [ETHEREUM_MAINNET_ID]: {
     "0x6243d8CEA23066d098a15582d81a598b4e8391F4": "FLX-1",
     "0x3Ea8ea4237344C9931214796d9417Af1A1180770": "FLX-2",
+    "0x869d1b8610c038A6C4F37bD757135d4C29ae8917": "TIME-2",
   },
 };
 
