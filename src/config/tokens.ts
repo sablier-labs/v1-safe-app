@@ -194,6 +194,7 @@ const TOKENS: TokenMap = {
     { address: "0x70e8de73ce538da2beed35d14187f6959a8eca96", decimals: 6, iconUrl: "", id: "XSGD", label: "XSGD" },
     { address: "0x47BE779De87de6580d0548cde80710a93c502405", decimals: 18, iconUrl: "", id: "xRNBW", label: "xRNBW" },
     { address: "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272", decimals: 18, iconUrl: "", id: "xSUSHI", label: "xSUSHI" },
+    { address: "0x0AaCfbeC6a24756c20D41914F2caba817C0d8521", decimals: 18, iconUrl: "", id: "YAM", label: "YAM" },
     { address: "0x597ad1e0c13bfe8025993d9e79c69e1c0233522e", decimals: 6, iconUrl: "", id: "yUSDC", label: "yUSDC" },
   ],
   [OPTIMISM_MAINNET_ID]: [
@@ -344,6 +345,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "xRNBW",
   "WBTC",
   "wOUSD",
+  "YAM",
   "yUSDC",
   "ZEUM",
 ];
