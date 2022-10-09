@@ -34,6 +34,7 @@ const TOKENS: TokenMap = {
   ],
   [AVALANCHE_MAINNET_ID]: [
     { address: "0x9366d30FeBA284E62900f6295BC28c9906f33172", decimals: 6, iconUrl: "", id: "BioFi", label: "BioFi" },
+    { address: "0x80B010450fDAf6a3f8dF033Ee296E92751D603B3", decimals: 18, iconUrl: "", id: "JADE", label: "JADE" },
     {
       address: "0x5c49b268c9841aff1cc3b0a418ff5c3442ee3f3b",
       decimals: 18,
@@ -67,6 +68,7 @@ const TOKENS: TokenMap = {
       id: "HOTCROSS",
       label: "HOTCROSS",
     },
+    { address: "0x7ad7242A99F21aa543F9650A56D141C57e4F6081", decimals: 18, iconUrl: "", id: "JADE", label: "JADE" },
     { address: "0x5f0Da599BB2ccCfcf6Fdfd7D81743B6020864350", decimals: 18, iconUrl: "", id: "MKR", label: "MKR" },
     { address: "0xb7F8Cd00C5A06c0537E2aBfF0b58033d02e5E094", decimals: 18, iconUrl: "", id: "PAX", label: "PAX" },
     { address: "0x595c8481c48894771CE8FaDE54ac6Bf59093F9E8", decimals: 18, iconUrl: "", id: "POLK", label: "POLK" },
@@ -304,6 +306,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "jGBP",
   "JPEG",
   "jSGD",
+  "JADE",
   "KROM",
   "kMPL",
   "LETSGO",
