@@ -171,7 +171,6 @@ const TOKENS: TokenMap = {
     { address: "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", decimals: 18, iconUrl: "", id: "SUSHI", label: "SUSHI" },
     { address: "0x9e10f61749c4952C320412A6B26901605Ff6Da1d", decimals: 18, iconUrl: "", id: "THEOS", label: "THEOS" },
     { address: "0x869d1b8610c038A6C4F37bD757135d4C29ae8917", decimals: 18, iconUrl: "", id: "TIME", label: "TIME" },
-    { address: "0x77777FeDdddFfC19Ff86DB637967013e6C6A116C", decimals: 18, iconUrl: "", id: "TORN", label: "TORN" },
     { address: "0x0000000000085d4780B73119b644AE5ecd22b376", decimals: 18, iconUrl: "", id: "TUSD", label: "TUSD" },
     { address: "0x4e38D89362f7e5db0096CE44ebD021c3962aA9a0", decimals: 18, iconUrl: "", id: "UBQ", label: "UBQ" },
     { address: "0x90DE74265a416e1393A450752175AED98fe11517", decimals: 18, iconUrl: "", id: "UDT", label: "UDT" },
