@@ -12,7 +12,7 @@ module.exports = {
       return config;
     };
   },
-  jest: config => {
+  jest: (config) => {
     return config;
   },
   paths(paths, _env) {

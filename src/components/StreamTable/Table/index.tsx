@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const StyledTable = styled(Table)<{ $noBorder: boolean }>`
-  ${props =>
+  ${(props) =>
     !props.$noBorder &&
     css`
       background-color: white;

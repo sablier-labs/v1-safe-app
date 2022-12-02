@@ -1,12 +1,14 @@
 # Sablier Safe App
 
-This Safe App brings real-time finance to [Gnosis Safe](https://gnosis-safe.io/) users by allowing them to use
-the [Sablier](https://sablier.finance) platform. Learn more about Safe Apps [here](https://docs.gnosis.io/safe/docs/sdks_safe_apps/).
+This app brings real-time finance to [Safe](https://gnosis-safe.io/) users by allowing them to use the
+[Sablier](https://sablier.finance) cryptoasset streaming protocol. You can read more about Safe Apps
+[here](https://help.gnosis-safe.io/en/articles/4022022-what-are-safe-apps).
 
-Sablier opens up the opportunity for organisations to pay and interact with each other in new ways without having to give custody of funds to a single member:
+Sablier opens up the opportunity for organizations to pay and interact with each other in new ways without having to
+give custody of funds to a single member:
 
 1. Vesting; streaming governance tokens to early investors.
-2. "Continuous" payroll or freelancing
+2. "Continuous" payroll or freelancing.
 3. Subscriptions, paying for a product or a service in real-time.
 
 ## Usage :money_with_wings:
@@ -26,17 +28,17 @@ Using the Sablier Safe App you can:
 
 There are multiple ways to access the Safe App:
 
-- On Gnosis Safe: https://gnosis-safe.io
-- Vercel deployment: https://sablier-safe-app.now.sh/
+- On Gnosis Safe: https://app.safe.global/
+- Vercel deployment: https://sablier-safe-app.vercel.app/
 
-The Vercel deployment will automatically update to the newest version of the Sablier safe app, however for additional
-security you may want to use the production-ready version on the Gnosis UI.
+The Vercel deployment will automatically update to the newest version of the Sablier Safe app, however for additional
+security you may want to use the production-ready version on the Safe UI.
 
 ### Alternatives
 
-If you don't have a Gnosis Safe but would like to use Sablier, you can use the original interfaces:
+If you don't have a Safe multisig but would like to use Sablier, you can use the original interfaces:
 
-- [pay.sablier.finance](https://pay.sablier.finance) for creating and cancelling streams.
+- [pay.sablier.finance](https://pay.sablier.finance) for creating and canceling streams.
 - [app.sablier.finance](https://app.sablier.finance) for withdrawing from streams.
 
 ## Contributing :raising_hand_woman:
@@ -48,20 +50,20 @@ contributing or have any questions, ping us on [Discord](https://discord.gg/KXaj
 
 To start developing on the Sablier Safe App, first clone this repository and enter the new directory.
 
-```bash
-git clone https://github.com/paulrberg/sablier-safe-app.git
+```sh
+git clone https://github.com/sablierhq/sablier-safe-app.git
 cd sablier-safe-app
 ```
 
 You will need to create a `.env` file. We have provided `.env.example` as a template.
 
-```bash
+```sh
 cp .env.example .env
 ```
 
 Now, install the node dependencies and start the dev server:
 
-```bash
+```sh
 yarn install
 yarn start
 ```
@@ -70,9 +72,10 @@ The app will be hosted on `http://localhost:3000`.
 
 ### React App Rewired
 
-In order to allow the Gnosis Safe UI to access the app while it's running on localhost, we need to edit the headers on the dev server (`node_modules/react-scripts/config/webpackDevServer.config.js`) to avoid CORS issues:
+In order to allow the Safe UI to access the app while it's running on localhost, we need to edit the headers on the dev
+server (`node_modules/react-scripts/config/webpackDevServer.config.js`) to avoid CORS issues:
 
-```js
+```javascript
 headers: {
     "Access-Control-Allow-Origin": "\*",
     "Access-Control-Allow-Methods": "GET",
@@ -80,4 +83,5 @@ headers: {
 }
 ```
 
-We automate injecting these headers in to the server config through [react-app-rewired](https://github.com/timarney/react-app-rewired).
+We automate injecting these headers in to the server config through
+[react-app-rewired](https://github.com/timarney/react-app-rewired).

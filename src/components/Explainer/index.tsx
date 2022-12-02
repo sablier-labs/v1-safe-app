@@ -14,7 +14,7 @@ const StyledLogo = styled.img`
 
 const textStyles = css`
   color: rgba(0, 0, 0, 0.87);
-  font-family: ${props => props.theme.fonts.fontFamily};
+  font-family: ${(props) => props.theme.fonts.fontFamily};
 `;
 
 const Text = styled.span`

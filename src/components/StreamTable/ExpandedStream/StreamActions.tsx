@@ -35,7 +35,7 @@ const StyledAnchor = styled.a.attrs({
   rel: "noopener noreferrer",
   target: "_blank",
 })`
-  color: ${props => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.white};
   text-decoration: none;
 `;
 

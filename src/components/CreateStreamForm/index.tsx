@@ -130,7 +130,7 @@ function CreateStreamForm(): JSX.Element {
 
   const onSelectItem = useCallback(
     (id: string): void => {
-      const newSelectedToken = tokens.find(t => {
+      const newSelectedToken = tokens.find((t) => {
         return t.id === id;
       });
       if (!newSelectedToken) {
@@ -201,7 +201,7 @@ function CreateStreamForm(): JSX.Element {
     setTokens(loadedTokens);
 
     const id = safe.chainId === BSC_MAINNET_ID ? "USDT" : "DAI";
-    const dai: TokenItem | undefined = loadedTokens.find(t => {
+    const dai: TokenItem | undefined = loadedTokens.find((t) => {
       return t.id === id;
     });
 
@@ -263,7 +263,7 @@ function CreateStreamForm(): JSX.Element {
               fullWidth
               inputVariant="filled"
               label="Start time"
-              onChange={date => {
+              onChange={(date) => {
                 handleStartDateChange(!isDate(date) || isFuture(date as Date) ? date : null);
               }}
               onError={console.log}
@@ -281,7 +281,7 @@ function CreateStreamForm(): JSX.Element {
               fullWidth
               inputVariant="filled"
               label="End time"
-              onChange={date => {
+              onChange={(date) => {
                 handleEndDateChange(!isDate(date) || isFuture(date as Date) ? date : null);
               }}
               onError={console.log}

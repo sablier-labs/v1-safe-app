@@ -424,7 +424,7 @@ export function getTokens(chainId: SablierChainId): TokenItem[] {
   }
 
   // Add the icon URL as a property to each token in the array.
-  const tokensWithIcons = tokensByChainId.map(token => {
+  const tokensWithIcons = tokensByChainId.map((token) => {
     const tokenWithIcon = token;
     tokenWithIcon.iconUrl = getIconUrl(chainId, token.address, token.label);
     return tokenWithIcon;

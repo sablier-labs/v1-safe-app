@@ -27,7 +27,7 @@ const StyledTableRow = styled(TableRow)<{ $expanded: boolean }>`
     background-color: #fff3e2;
   }
 
-  ${props =>
+  ${(props) =>
     props.$expanded &&
     css`
       background-color: #fff3e2;
@@ -101,7 +101,7 @@ function StreamTable({ streams }: { streams: Stream[] }): JSX.Element {
 
   const tableContents: HumanReadableStream[] = useMemo(
     () =>
-      streams.map(stream => {
+      streams.map((stream) => {
         return humanReadableStream(stream);
       }),
     [streams],
