@@ -126,5 +126,6 @@
     "prettier:write": "prettier --write \"**/*.{js,json,jsx,md,ts,tsx,yaml,yml}\"",
     "start": "react-app-rewired start",
     "typecheck": "tsc --noEmit"
-  }
+  },
+  "packageManager": "yarn@3.3.0"
 }
