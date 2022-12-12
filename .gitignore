@@ -6,7 +6,9 @@
 !.yarn/sdks
 !.yarn/versions
 **/build
+**/.next
 **/node_modules
+**/.vercel
 
 # files
 *.env
