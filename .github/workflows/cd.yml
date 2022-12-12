@@ -31,14 +31,11 @@ jobs:
       - name: "Lint the code"
         run: "yarn lint"
 
-      - name: "Build and deploy the app to Vercel"
-        uses: "amondnet/vercel-action@v20"
-        with:
-          github-comment: false
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          scope: "${{ secrets.VERCEL_ORG_ID }}"
-          vercel-token: "${{ secrets.VERCEL_TOKEN }}"
-          vercel-args: "--confirm --prod"
-          vercel-org-id: "${{ secrets.VERCEL_ORG_ID }}"
-          vercel-project-id: "${{ secrets.VERCEL_PROJECT_ID }}"
-          working-directory: "."
+      - name: "Pull Vercel Environment Information"
+        run: "yarn vercel pull --environment=production --token=${{ secrets.VERCEL_TOKEN }} --yes"
+
+      - name: "Build Project Artifacts"
+        run: "yarn vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}"
+
+      - name: "Deploy Project Artifacts to Vercel"
+        run: "yarn vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN}}"
