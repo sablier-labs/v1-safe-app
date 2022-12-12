@@ -1,5 +1,9 @@
 name: "Deploy the app to Vercel"
 
+env:
+  REACT_APP_INFURA_API_KEY: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
+  REACT_APP_NODE_ENV: "${{ secrets.REACT_APP_NODE_ENV }}"
+
 on:
   pull_request:
     branches:
@@ -8,12 +12,8 @@ on:
     branches:
       - "main"
 
-env:
-  REACT_APP_INFURA_API_KEY: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
-  REACT_APP_NODE_ENV: "${{ secrets.REACT_APP_NODE_ENV }}"
-
 jobs:
-  build_and_deploy:
+  deploy:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Check out the repo"

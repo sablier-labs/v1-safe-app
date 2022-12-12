@@ -1,0 +1,35 @@
+name: "Deploy the app to IPFS"
+
+env:
+  REACT_APP_NODE_ENV: "${{ secrets.REACT_APP_NODE_ENV }}"
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v2"
+
+      - name: "Install Node.js"
+        uses: "actions/setup-node@v2"
+        with:
+          cache: "yarn"
+          node-version: "lts/*"
+
+      - name: "Install the dependencies"
+        run: "yarn install --immutable"
+
+      - name: "Lint the code"
+        run: "yarn lint"
+
+      - name: "Build the app"
+        run: "yarn build"
+
+      - name: "Deploy the app to IPFS"
+        uses: "aquiladev/ipfs-action@master"
+        with:
+          path: "./build"
+          service: "infura"
+          infuraProjectId: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
