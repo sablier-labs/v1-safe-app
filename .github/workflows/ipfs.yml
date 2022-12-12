@@ -1,6 +1,7 @@
 name: "Deploy to IPFS"
 
 env:
+  REACT_APP_INFURA_API_KEY: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
   REACT_APP_NODE_ENV: "${{ secrets.REACT_APP_NODE_ENV }}"
 
 on: "workflow_dispatch"
