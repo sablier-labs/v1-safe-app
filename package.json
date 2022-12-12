@@ -109,6 +109,7 @@
     "typescript"
   ],
   "license": "LGPL-3.0-or-later",
+  "packageManager": "yarn@3.3.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -117,7 +118,7 @@
   "scripts": {
     "build": "react-app-rewired build",
     "clean": "shx rm -rf ./build",
-    "dev": "react-app-rewired  --openssl-legacy-provider start",
+    "dev": "react-app-rewired --openssl-legacy-provider start",
     "eject": "react-scripts eject",
     "lint": "yarn lint:ts && yarn lint:styles && yarn prettier:check && yarn typecheck",
     "lint:styles": "stylelint --config ./.stylelintrc.js \"./src/**/*.{css,ts,tsx,scss}\"",
@@ -127,6 +128,5 @@
     "prettier:write": "prettier --write \"**/*.{js,json,jsx,md,ts,tsx,yaml,yml}\"",
     "start": "react-app-rewired start",
     "typecheck": "tsc --noEmit"
-  },
-  "packageManager": "yarn@3.3.0"
+  }
 }

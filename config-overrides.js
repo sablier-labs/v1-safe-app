@@ -12,12 +12,6 @@ module.exports = {
       return config;
     };
   },
-  jest: (config) => {
-    return config;
-  },
-  paths(paths, _env) {
-    return paths;
-  },
   webpack: (config, _env) => {
     return config;
   },
