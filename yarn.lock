@@ -10984,11 +10984,9 @@ __metadata:
   linkType: hard
 
 "eventsource@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "eventsource@npm:1.0.7"
-  dependencies:
-    original: ^1.0.0
-  checksum: 26d6d9103ed11c4ed9cd2b69fb204176649c9686ee2440dcd08d82f741b9d38cc6e0e13e0974591ee1b7c0fc3b78f5d99f399630e46c776e797c8696469f53ac
+  version: 1.1.2
+  resolution: "eventsource@npm:1.1.2"
+  checksum: fe8f2ac3c70b1b63ee3cef5c0a28680cb00b5747bfda1d9835695fab3ed602be41c5c799b1fc997b34b02633573fead25b12b036bdf5212f23a6aa9f59212e9b
   languageName: node
   linkType: hard
 
@@ -16587,15 +16585,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"original@npm:^1.0.0":
-  version: 1.0.2
-  resolution: "original@npm:1.0.2"
-  dependencies:
-    url-parse: ^1.4.3
-  checksum: 8dca9311dab50c8953366127cb86b7c07bf547d6aa6dc6873a75964b7563825351440557e5724d9c652c5e99043b8295624f106af077f84bccf19592e421beb9
-  languageName: node
-  linkType: hard
-
 "os-browserify@npm:^0.3.0":
   version: 0.3.0
   resolution: "os-browserify@npm:0.3.0"
@@ -21944,16 +21933,6 @@ resolve@^2.0.0-next.3:
   dependencies:
     prepend-http: ^2.0.0
   checksum: 1040e357750451173132228036aff1fd04abbd43eac1fb3e4fca7495a078bcb8d33cb765fe71ad7e473d9c94d98fd67adca63bd2716c815a2da066198dd37217
-  languageName: node
-  linkType: hard
-
-"url-parse@npm:^1.4.3":
-  version: 1.4.7
-  resolution: "url-parse@npm:1.4.7"
-  dependencies:
-    querystringify: ^2.1.1
-    requires-port: ^1.0.0
-  checksum: 3ede937508436c9685a60c90634894aaf745d75160c0092c7f36335c79563effedf1a9fe0181f98e9c5165af73ba5f8fe1dc6e274c6556ae170be01f6e54c67f
   languageName: node
   linkType: hard
 
