@@ -24,8 +24,18 @@ jobs:
       - name: "Lint the code"
         run: "yarn lint"
 
+      - name: "Add lint summary"
+        run: |
+          echo "## Lint results" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
+
       - name: "Build the app"
         run: "yarn build"
+
+      - name: "Add build summary"
+        run: |
+          echo "## Build results" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
 
       - name: "Deploy the app to IPFS"
         uses: "aquiladev/ipfs-action@master"
@@ -33,3 +43,8 @@ jobs:
           path: "./build"
           service: "infura"
           infuraProjectId: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
+
+      - name: "Add deploy summary"
+        run: |
+          echo "## Deploy results" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
