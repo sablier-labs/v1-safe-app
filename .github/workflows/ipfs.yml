@@ -3,7 +3,7 @@ name: "Deploy the app to IPFS"
 env:
   REACT_APP_NODE_ENV: "${{ secrets.REACT_APP_NODE_ENV }}"
 
-on: workflow_dispatch
+on: "workflow_dispatch"
 
 jobs:
   deploy:
@@ -41,9 +41,9 @@ jobs:
         uses: "aquiladev/ipfs-action@master"
         with:
           path: "./build"
+          infuraProjectId: "${{ secrets.INFURA_IPFS_PROJECT_ID }}"
+          infuraProjectSecret: "${{ secrets.INFURA_IPFS_API_KEY_SECRET }}"
           service: "infura"
-          infuraProjectId: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
-          infuraProjectSecret: "${{ secrets.REACT_APP_INFURA_PROJECT_SECRET }}"
 
       - name: "Add deploy summary"
         run: |
