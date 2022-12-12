@@ -43,6 +43,7 @@ jobs:
           path: "./build"
           service: "infura"
           infuraProjectId: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
+          infuraProjectSecret: "${{ secrets.REACT_APP_INFURA_PROJECT_SECRET }}"
 
       - name: "Add deploy summary"
         run: |
