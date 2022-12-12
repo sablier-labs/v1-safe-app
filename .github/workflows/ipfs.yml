@@ -1,4 +1,4 @@
-name: "Deploy the app to IPFS"
+name: "Deploy to IPFS"
 
 env:
   REACT_APP_NODE_ENV: "${{ secrets.REACT_APP_NODE_ENV }}"
@@ -38,6 +38,7 @@ jobs:
           echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
 
       - name: "Deploy the app to IPFS"
+        id: "ipfs_action"
         uses: "aquiladev/ipfs-action@master"
         with:
           path: "./build"
@@ -48,4 +49,5 @@ jobs:
       - name: "Add deploy summary"
         run: |
           echo "## Deploy results" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Passed\n" >> $GITHUB_STEP_SUMMARY
+          echo "IPFS hash: ${{ steps.ipfs_action.outputs.ipfs }}" >> $GITHUB_STEP_SUMMARY

@@ -1,4 +1,4 @@
-name: "Deploy the app to Vercel"
+name: "Deploy to Vercel"
 
 env:
   REACT_APP_INFURA_API_KEY: "${{ secrets.REACT_APP_INFURA_API_KEY }}"
