@@ -54,6 +54,7 @@ const TOKENS: TokenMap = {
   ],
   [BSC_MAINNET_ID]: [
     { address: "0x111111111117dC0aa78b770fA6A738034120C302", decimals: 18, iconUrl: "", id: "1INCH", label: "1INCH" },
+    { address: "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B", decimals: 18, iconUrl: "", id: "BOB", label: "BOB" },
     { address: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", decimals: 18, iconUrl: "", id: "BUSD", label: "BUSD" },
     { address: "0xe20b9e246db5a0d21bf9209e4858bc9a3ff7a034", decimals: 18, iconUrl: "", id: "bWBAN", label: "bWBAN" },
     { address: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82", decimals: 18, iconUrl: "", id: "CAKE", label: "CAKE" },
@@ -98,6 +99,7 @@ const TOKENS: TokenMap = {
     { address: "0xba100000625a3754423978a60c9317c58a424e3D", decimals: 18, iconUrl: "", id: "BAL", label: "BAL" },
     { address: "0x24A6A37576377F63f194Caa5F518a60f45b42921", decimals: 18, iconUrl: "", id: "BANK-1", label: "BANK" },
     { address: "0x2d94AA3e47d9D5024503Ca8491fcE9A2fB4DA198", decimals: 18, iconUrl: "", id: "BANK-2", label: "BANK" },
+    { address: "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B", decimals: 18, iconUrl: "", id: "BOB", label: "BOB" },
     { address: "0x4E672e34B6db16dD5307a6bFD4f343998Aac55E1", decimals: 18, iconUrl: "", id: "BTP", label: "BTP" },
     { address: "0x56d811088235F11C8920698a204A5010a788f4b3", decimals: 18, iconUrl: "", id: "BZRX", label: "BZRX" },
     { address: "0x08ba718F288c3b12B01146816bef9FA03cC635bc", decimals: 18, iconUrl: "", id: "CENT", label: "CENT" },
@@ -202,11 +204,13 @@ const TOKENS: TokenMap = {
   ],
   [OPTIMISM_MAINNET_ID]: [
     { address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
+    { address: "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B", decimals: 18, iconUrl: "", id: "BOB", label: "BOB" },
   ],
   [POLYGON_MAINNET_ID]: [
     { address: "0xD6DF932A45C0f255f85145f286eA0b292B21C90B", decimals: 18, iconUrl: "", id: "AAVE", label: "AAVE" },
     { address: "0xD7F3aaC7557c213b035C19Bd89bd693396accCD6", decimals: 18, iconUrl: "", id: "ART", label: "ART" },
     { address: "0xDB7Cb471dd0b49b29CAB4a1C14d070f27216a0Ab", decimals: 18, iconUrl: "", id: "BANK-2", label: "BANK" },
+    { address: "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B", decimals: 18, iconUrl: "", id: "BOB", label: "BOB" },
     { address: "0xdAb529f40E671A1D4bF91361c21bf9f0C9712ab7", decimals: 18, iconUrl: "", id: "BUSD", label: "BUSD" },
     { address: "0xf35a85C493c49f19bCC176E718865b148958a130", decimals: 18, iconUrl: "", id: "CBL", label: "CBL" },
     { address: "0x8505b9d2254A7Ae468c0E9dd10Ccea3A837aef5c", decimals: 18, iconUrl: "", id: "COMP", label: "COMP" },
@@ -262,6 +266,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "BANK-1",
   "BANK-2",
   "BioFi",
+  "BOB",
   "BTP",
   "BUSD",
   "bWBAN",
