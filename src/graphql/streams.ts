@@ -6,9 +6,9 @@ import {
   AVALANCHE_MAINNET_ID,
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
+  GOERLI_ID,
   OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
-  RINKEBY_ID,
 } from "../constants/chains";
 import type { SablierChainId, Stream } from "../types";
 
@@ -20,10 +20,10 @@ const subgraphUri: { [key in SablierChainId]: string } = {
   [ARBITRUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-arbitrum",
   [AVALANCHE_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-avalanche",
   [BSC_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-bsc",
+  [GOERLI_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-goerli",
   [ETHEREUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
   [OPTIMISM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-optimism",
   [POLYGON_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-matic",
-  [RINKEBY_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-rinkeby",
 };
 
 const STREAM_QUERY: string = `

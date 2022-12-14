@@ -5,9 +5,9 @@ import {
   AVALANCHE_MAINNET_ID,
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
+  GOERLI_ID,
   OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
-  RINKEBY_ID,
 } from "../constants/chains";
 import type { SablierChainId } from "../types";
 
@@ -15,7 +15,6 @@ type PayrollContractsMap = { [chainId in SablierChainId]: string };
 
 const PAYROLL_CONTRACTS: PayrollContractsMap = {
   [ETHEREUM_MAINNET_ID]: "0xbd6a40Bb904aEa5a49c59050B5395f7484A4203d",
-  [RINKEBY_ID]: "0x7ee114C3628Ca90119fC699f03665bF9dB8f5faF",
 };
 
 type SablierContractsMap = { [chainId in SablierChainId]: string };
@@ -28,7 +27,7 @@ const SABLIER_CONTRACTS: SablierContractsMap = {
   [ETHEREUM_MAINNET_ID]: "0xCD18eAa163733Da39c232722cBC4E8940b1D8888",
   [OPTIMISM_MAINNET_ID]: "0x6C5927c0679e6d857E87367bb635decbcB20F31c",
   [POLYGON_MAINNET_ID]: "0xAC18EAB6592F5fF6F9aCf5E0DCE0Df8E49124C06",
-  [RINKEBY_ID]: "0xC1f3af5DC05b0C51955804b2afc80eF8FeED67b9",
+  [GOERLI_ID]: "0xFc7E3a3073F88B0f249151192812209117C2014b",
 };
 
 export function getPayrollContractAddress(chainId: SablierChainId): string {

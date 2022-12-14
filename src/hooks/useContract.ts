@@ -9,9 +9,9 @@ import {
   AVALANCHE_MAINNET_ID,
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
+  GOERLI_ID,
   OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
-  RINKEBY_ID,
 } from "../constants/chains";
 import { getEnvVar } from "../utils/env";
 
@@ -38,6 +38,11 @@ export default function useContract(abi: ContractInterface, address?: string): C
           chainId: safe.chainId,
           name: "ethereum",
         });
+      case GOERLI_ID:
+        return new JsonRpcProvider("https://goerli.infura.io/v3/" + infuraKey, {
+          chainId: safe.chainId,
+          name: "goerli",
+        });
       case OPTIMISM_MAINNET_ID:
         return new JsonRpcProvider("https://optimism-mainnet.infura.io/v3/" + infuraKey, {
           chainId: safe.chainId,
@@ -47,11 +52,6 @@ export default function useContract(abi: ContractInterface, address?: string): C
         return new JsonRpcProvider("https://polygon-mainnet.infura.io/v3/" + infuraKey, {
           chainId: safe.chainId,
           name: "polygon-mainnet",
-        });
-      case RINKEBY_ID:
-        return new JsonRpcProvider("https://rinkeby.infura.io/v3/" + infuraKey, {
-          chainId: safe.chainId,
-          name: "rinkeby",
         });
       default:
         return getDefaultProvider();

@@ -28,7 +28,6 @@ declare module "styled-components" {
     overlay: Overlay;
     pendingTagHover: string;
     placeHolder: string;
-    rinkeby: string;
     secondary: string;
     secondaryLight: string;
     secondaryHover: string;

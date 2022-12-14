@@ -5,9 +5,9 @@ import {
   AVALANCHE_MAINNET_ID,
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
+  GOERLI_ID,
   OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
-  RINKEBY_ID,
 } from "../constants/chains";
 import type { SablierChainId, TokenItem } from "../types";
 
@@ -203,6 +203,10 @@ const TOKENS: TokenMap = {
     { address: "0x69bBC3F8787d573F1BBDd0a5f40C7bA0Aee9BCC9", decimals: 18, iconUrl: "", id: "YUP", label: "YUP" },
     { address: "0x597ad1e0c13bfe8025993d9e79c69e1c0233522e", decimals: 6, iconUrl: "", id: "yUSDC", label: "yUSDC" },
   ],
+  [GOERLI_ID]: [
+    { address: "0x97cb342Cf2F6EcF48c1285Fb8668f5a4237BF862", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
+    { address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6", decimals: 18, iconUrl: "", id: "WETH", label: "WETH" },
+  ],
   [OPTIMISM_MAINNET_ID]: [
     { address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
     { address: "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B", decimals: 18, iconUrl: "", id: "BOB", label: "BOB" },
@@ -252,10 +256,6 @@ const TOKENS: TokenMap = {
     { address: "0xE840B73E5287865EEc17d250bFb1536704B43B21", decimals: 18, iconUrl: "", id: "mUSD", label: "mUSD" },
     { address: "0xe20b9e246db5a0d21bf9209e4858bc9a3ff7a034", decimals: 18, iconUrl: "", id: "pWBAN", label: "pWBAN" },
     { address: "0x086373fad3447f7f86252fb59d56107e9e0faafa", decimals: 18, iconUrl: "", id: "YUP", label: "YUP" },
-  ],
-  [RINKEBY_ID]: [
-    { address: "0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
-    { address: "0xc778417E063141139Fce010982780140Aa0cD5Ab", decimals: 18, iconUrl: "", id: "WETH", label: "WETH" },
   ],
 };
 

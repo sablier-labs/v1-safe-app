@@ -4,9 +4,9 @@ import {
   AVALANCHE_MAINNET_ID,
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
+  GOERLI_ID,
   OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
-  RINKEBY_ID,
 } from "../../../constants/chains";
 import { LinkContainer, StyledTooltip } from "./common";
 
@@ -26,15 +26,16 @@ function getEtherscanLink(chainId: number, type: string, data: string): string {
     case ETHEREUM_MAINNET_ID:
       base = "https://etherscan.io";
       break;
+    case GOERLI_ID:
+      base = "https://goerli.etherscan.io";
+      break;
     case OPTIMISM_MAINNET_ID:
       base = "https://optimistic.etherscan.io";
       break;
     case POLYGON_MAINNET_ID:
       base = "https://polygonscan.com";
       break;
-    case RINKEBY_ID:
-      base = "https://rinkeby.etherscan.io";
-      break;
+
     default:
       base = "https://etherscan.io";
   }
