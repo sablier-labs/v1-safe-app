@@ -50,5 +50,5 @@ jobs:
       - name: "Add deploy summary"
         run: |
           echo "## Deploy results" >> $GITHUB_STEP_SUMMARY
-          echo $"✅ Passed\n" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
           echo "IPFS hash: ${{ steps.ipfs_action.outputs.ipfs }}" >> $GITHUB_STEP_SUMMARY
