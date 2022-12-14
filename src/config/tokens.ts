@@ -200,6 +200,7 @@ const TOKENS: TokenMap = {
     { address: "0x47BE779De87de6580d0548cde80710a93c502405", decimals: 18, iconUrl: "", id: "xRNBW", label: "xRNBW" },
     { address: "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272", decimals: 18, iconUrl: "", id: "xSUSHI", label: "xSUSHI" },
     { address: "0x0AaCfbeC6a24756c20D41914F2caba817C0d8521", decimals: 18, iconUrl: "", id: "YAM", label: "YAM" },
+    { address: "0x69bBC3F8787d573F1BBDd0a5f40C7bA0Aee9BCC9", decimals: 18, iconUrl: "", id: "YUP", label: "YUP" },
     { address: "0x597ad1e0c13bfe8025993d9e79c69e1c0233522e", decimals: 6, iconUrl: "", id: "yUSDC", label: "yUSDC" },
   ],
   [OPTIMISM_MAINNET_ID]: [
@@ -250,6 +251,7 @@ const TOKENS: TokenMap = {
     },
     { address: "0xE840B73E5287865EEc17d250bFb1536704B43B21", decimals: 18, iconUrl: "", id: "mUSD", label: "mUSD" },
     { address: "0xe20b9e246db5a0d21bf9209e4858bc9a3ff7a034", decimals: 18, iconUrl: "", id: "pWBAN", label: "pWBAN" },
+    { address: "0x086373fad3447f7f86252fb59d56107e9e0faafa", decimals: 18, iconUrl: "", id: "YUP", label: "YUP" },
   ],
   [RINKEBY_ID]: [
     { address: "0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
@@ -360,6 +362,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "WBTC",
   "wOUSD",
   "YAM",
+  "YUP",
   "yUSDC",
   "ZEUM",
 ];
