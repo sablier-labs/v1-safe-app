@@ -257,6 +257,7 @@ const TOKENS: TokenMap = {
     { address: "0xE840B73E5287865EEc17d250bFb1536704B43B21", decimals: 18, iconUrl: "", id: "mUSD", label: "mUSD" },
     { address: "0xe20b9e246db5a0d21bf9209e4858bc9a3ff7a034", decimals: 18, iconUrl: "", id: "pWBAN", label: "pWBAN" },
     { address: "0x086373fad3447f7f86252fb59d56107e9e0faafa", decimals: 18, iconUrl: "", id: "YUP", label: "YUP" },
+    { address: "0x5eC03C1f7fA7FF05EC476d19e34A22eDDb48ACdc", decimals: 18, iconUrl: "", id: "ZED", label: "ZED" },
   ],
 };
 
@@ -367,6 +368,7 @@ const CUSTOM_TOKEN_ICONS: string[] = [
   "YUP",
   "yUSDC",
   "ZEUM",
+  "ZED",
 ];
 
 const SYMBOL_COLLISIONS: { [chainId: number]: { [address: string]: string } } = {
