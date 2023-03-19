@@ -227,7 +227,7 @@ const TOKENS: TokenMap = {
     { address: "0xDB7Cb471dd0b49b29CAB4a1C14d070f27216a0Ab", decimals: 18, iconUrl: "", id: "BANK-2", label: "BANK" },
     { address: "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B", decimals: 18, iconUrl: "", id: "BOB", label: "BOB" },
     { address: "0xdAb529f40E671A1D4bF91361c21bf9f0C9712ab7", decimals: 18, iconUrl: "", id: "BUSD", label: "BUSD" },
-    { address: "0xf35a85C493c49f19bCC176E718865b148958a130", decimals: 18, iconUrl: "", id: "CBL", label: "CBL" },
+    { address: "0x15818fEcC63980Df26D3a369bdD860d92A265b69", decimals: 18, iconUrl: "", id: "CBL", label: "CBL" },
     { address: "0x8505b9d2254A7Ae468c0E9dd10Ccea3A837aef5c", decimals: 18, iconUrl: "", id: "COMP", label: "COMP" },
     { address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", decimals: 18, iconUrl: "", id: "DAI", label: "DAI" },
     { address: "0xfdF80c001f182E76894DEA7dD10e52D9Fb0F9715", decimals: 18, iconUrl: "", id: "DANK", label: "DANK" },
