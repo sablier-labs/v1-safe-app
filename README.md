@@ -51,7 +51,7 @@ contributing or have any questions, ping us on [Discord](https://discord.gg/KXaj
 To start developing on the Sablier Safe App, first clone this repository and enter the new directory.
 
 ```sh
-git clone https://github.com/sablierhq/sablier-safe-app.git
+git clone https://github.com/sablier-labs/sablier-safe-app.git
 cd sablier-safe-app
 ```
 
