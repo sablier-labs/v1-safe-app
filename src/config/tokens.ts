@@ -406,9 +406,9 @@ function getIconUrl(chainId: SablierChainId, address: string, symbol: string): s
     untangledSymbol = SYMBOL_COLLISIONS[chainId][address];
   }
 
-  // Some tokens are not part of the "trustwallet/assets" repository, we load them from "sablierhq/assets".
+  // Some tokens are not part of the "trustwallet/assets" repository, we load them from "sablier-labs/assets".
   if (CUSTOM_TOKEN_ICONS.includes(untangledSymbol)) {
-    return "https://raw.githubusercontent.com/sablierhq/assets/main/tokens/" + untangledSymbol + ".png";
+    return "https://raw.githubusercontent.com/sablier-labs/assets/main/tokens/" + untangledSymbol + ".png";
   }
 
   let chain = "";

@@ -17,13 +17,13 @@ type Response = {
 };
 
 const subgraphUri: { [key in SablierChainId]: string } = {
-  [ARBITRUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-arbitrum",
-  [AVALANCHE_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-avalanche",
-  [BSC_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-bsc",
-  [GOERLI_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-goerli",
-  [ETHEREUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier",
-  [OPTIMISM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-optimism",
-  [POLYGON_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablierhq/sablier-matic",
+  [ARBITRUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablier-labs/sablier-arbitrum",
+  [AVALANCHE_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablier-labs/sablier-avalanche",
+  [BSC_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablier-labs/sablier-bsc",
+  [GOERLI_ID]: "https://api.thegraph.com/subgraphs/name/sablier-labs/sablier-goerli",
+  [ETHEREUM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablier-labs/sablier",
+  [OPTIMISM_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablier-labs/sablier-optimism",
+  [POLYGON_MAINNET_ID]: "https://api.thegraph.com/subgraphs/name/sablier-labs/sablier-matic",
 };
 
 const STREAM_QUERY: string = `
