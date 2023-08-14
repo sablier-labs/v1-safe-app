@@ -1,7 +1,7 @@
 {
   "name": "@sablier/v1-safe-app",
   "description": "Safe App for interacting with Sablier V1",
-  "version": "1.1.11",
+  "version": "1.2.0",
   "author": {
     "name": "Sablier",
     "url": "https://sablier.com"
