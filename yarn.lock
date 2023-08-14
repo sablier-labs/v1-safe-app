@@ -4521,9 +4521,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sablier/safe-app@workspace:.":
+"@sablier/v1-safe-app@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@sablier/safe-app@workspace:."
+  resolution: "@sablier/v1-safe-app@workspace:."
   dependencies:
     "@apollo/client": ^3.5.2
     "@commitlint/cli": ^14.1.0
