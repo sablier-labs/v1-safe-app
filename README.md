@@ -1,14 +1,17 @@
-# Sablier Safe App
+# Sablier V1 Safe App
 
-This app brings real-time finance to [Safe](https://gnosis-safe.io/) users by allowing them to use the
-[Sablier](https://sablier.finance) cryptoasset streaming protocol. You can read more about Safe Apps
-[here](https://help.gnosis-safe.io/en/articles/4022022-what-are-safe-apps).
+_This is the legacy app for Sablier V1. If you're looking for the Sablier V2 Safe App, just search for "Sablier" in the
+Safe Apps Explorer._
+
+This app brings real-time finance to [Safe](https://gnosis-safe.io/) users by allowing them to use the Sablier V1 token
+streaming protocol. You can read more about Safe Apps
+[here](https://help.safe.global/en/articles/40860-what-are-safe-apps).
 
 Sablier opens up the opportunity for organizations to pay and interact with each other in new ways without having to
 give custody of funds to a single member:
 
-1. Vesting; streaming governance tokens to early investors.
-2. "Continuous" payroll or freelancing.
+1. Vesting; stream governance tokens to early investors.
+2. Continuous payroll or freelancing.
 3. Subscriptions, paying for a product or a service in real-time.
 
 ## Usage :money_with_wings:
@@ -17,7 +20,7 @@ give custody of funds to a single member:
 | :----------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: |
 | <img width="1604" alt="Create Stream Page" src="https://user-images.githubusercontent.com/15848336/85229771-aecf7100-b3e3-11ea-9e7a-09e61d1cb4c9.png"> | <img width="1604" alt="Dashboard" src="https://user-images.githubusercontent.com/15848336/85229785-bf7fe700-b3e3-11ea-8f57-7a79a8dbffea.png"> |
 
-Using the Sablier Safe App you can:
+Using this Safe App, you can:
 
 - Create new streams.
 - View details on your incoming and outgoing streams.
@@ -28,18 +31,18 @@ Using the Sablier Safe App you can:
 
 There are multiple ways to access the Safe App:
 
-- On Gnosis Safe: https://app.safe.global/
+- Directly on Safe: https://app.safe.global/
 - Vercel deployment: https://sablier-safe-app.vercel.app/
 
-The Vercel deployment will automatically update to the newest version of the Sablier Safe app, however for additional
+The Vercel deployment will automatically update to the newest version of the Sablier V1 Safe app, however for additional
 security you may want to use the production-ready version on the Safe UI.
 
 ### Alternatives
 
-If you don't have a Safe multisig but would like to use Sablier, you can use the original interfaces:
+If you don't have a Safe multisig but would like to use Sablier V1, you can use the original interfaces:
 
-- [pay.sablier.finance](https://pay.sablier.finance) for creating and canceling streams.
-- [app.sablier.finance](https://app.sablier.finance) for withdrawing from streams.
+- [v1-pay.sablier.com](https://v1-pay.sablier.com) for creating and canceling streams.
+- [v1-app.sablier.com](https://v1-app.sablier.com) for withdrawing from streams.
 
 ## Contributing :raising_hand_woman:
 
@@ -48,10 +51,10 @@ contributing or have any questions, ping us on [Discord](https://discord.gg/KXaj
 
 ### Contributing
 
-To start developing on the Sablier Safe App, first clone this repository and enter the new directory.
+To start developing on the Sablier V1 Safe App, first clone this repository and enter the new directory.
 
 ```sh
-git clone https://github.com/sablier-labs/sablier-safe-app.git
+git clone https://github.com/sablier-labs/v1-safe-app.git
 cd sablier-safe-app
 ```
 

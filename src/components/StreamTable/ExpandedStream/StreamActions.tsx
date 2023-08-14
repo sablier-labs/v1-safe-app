@@ -71,7 +71,7 @@ function StreamActions({ stream }: StreamActionsProps): JSX.Element {
   const withdrawableAmount = useMaxWithdrawable(stream, isWithdrawFromStreamDisabled);
 
   const sablierStreamUrl = useMemo(() => {
-    return `https://app.sablier.finance/stream/${stream.id}`;
+    return `https://v1-app.sablier.com/stream/${stream.id}`;
   }, [stream]);
 
   /// CALLBACKS ///
