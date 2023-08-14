@@ -1,7 +1,11 @@
 {
-  "name": "@sablier/safe-app",
-  "description": "Safe App for interacting with the Sablier protocol",
+  "name": "@sablier/v1-safe-app",
+  "description": "Safe App for interacting with Sablier V1",
   "version": "1.1.11",
+  "author": {
+    "name": "Sablier",
+    "url": "https://sablier.com"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -15,18 +19,8 @@
     ]
   },
   "bugs": {
-    "url": "https://github.com/paulrberg/sablier-safe-app/issues"
+    "url": "https://github.com/sablier-labs/v1-safe-app/issues"
   },
-  "contributors": [
-    {
-      "name": "Paul Razvan Berg",
-      "url": "https://github.com/paulrberg"
-    },
-    {
-      "name": "Tom French",
-      "url": "https://github.com/tomafrench"
-    }
-  ],
   "dependencies": {
     "@apollo/client": "^3.5.2",
     "@date-io/date-fns": "1.x",
@@ -111,10 +105,7 @@
   "license": "LGPL-3.0-or-later",
   "packageManager": "yarn@3.3.0",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/paulrberg/sablier-safe-app"
-  },
+  "repository": "git:sablier-labs/sablier-safe-app",
   "scripts": {
     "build": "react-app-rewired build",
     "clean": "shx rm -rf ./build",
